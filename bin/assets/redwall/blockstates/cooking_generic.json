@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "redwall:cooking_generic", "y": 90 },
+        "facing=south": { "model": "redwall:cooking_generic", "y": 270 },
+        "facing=west":  { "model": "redwall:cooking_generic" },
+        "facing=east":  { "model": "redwall:cooking_generic", "y": 180 }
+    }
+}

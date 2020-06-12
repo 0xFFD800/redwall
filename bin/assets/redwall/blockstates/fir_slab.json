@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "bumbumbum=false,half=bottom": { "model": "redwall:half_slab_fir" },
+        "bumbumbum=false,half=top": { "model": "redwall:upper_slab_fir" },
+        "bumbumbum=true,half=bottom": { "model": "redwall:half_slab_fir" },
+        "bumbumbum=true,half=top": { "model": "redwall:upper_slab_fir" }
+    }
+}

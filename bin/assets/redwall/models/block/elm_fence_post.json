@@ -1,0 +1,6 @@
+{
+    "parent": "block/fence_post",
+    "textures": {
+        "texture": "redwall:blocks/planks_elm"
+    }
+}

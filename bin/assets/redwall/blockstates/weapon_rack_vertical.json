@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east": { "model": "redwall:weapon_rack_vertical", "y": 90 },
+        "facing=south": { "model": "redwall:weapon_rack_vertical" },
+        "facing=west": { "model": "redwall:weapon_rack_vertical", "y": 90 },
+        "facing=north": { "model": "redwall:weapon_rack_vertical" }
+    }
+}

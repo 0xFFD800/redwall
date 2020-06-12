@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_slab",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:larch_planks"
+    }
+  },
+  "result": {
+    "item": "redwall:larch_slab",
+    "count": 6
+  }
+}

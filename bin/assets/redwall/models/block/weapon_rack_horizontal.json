@@ -1,0 +1,48 @@
+{
+    "textures": {
+		"-1": "redwall:blocks/weapon_rack_vertical",
+		"0": "redwall:blocks/planks_alder",
+		"particle": "redwall:blocks/weapon_rack_vertical"
+    },
+    "elements": [
+        {
+            "name": "Base",
+            "from": [ 0.0, 6.0, 1.0 ], 
+            "to": [ 2.0, 10.0, 15.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 14.0, 4.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 14.0, 4.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 14.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 14.0 ] }
+            }
+        },
+        {
+            "name": "Holder 1",
+            "from": [ 2.0, 6.499999992549419, 2.0 ], 
+            "to": [ 4.0, 8.49999999254942, 4.0 ], 
+            "faces": {
+                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] }
+            }
+        },
+        {
+            "name": "Holder 2",
+            "from": [ 2.0, 6.499999992549419, 12.0 ], 
+            "to": [ 4.0, 8.49999999254942, 14.0 ], 
+            "faces": {
+                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "east": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "south": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "west": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "up": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] },
+                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 2.0 ] }
+            }
+        }
+    ]
+}

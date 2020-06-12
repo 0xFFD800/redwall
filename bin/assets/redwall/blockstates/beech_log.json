@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "redwall:beech_log" },
+        "axis=z":   { "model": "redwall:beech_log", "x": 90 },
+        "axis=x":   { "model": "redwall:beech_log", "x": 90, "y": 90 },
+        "axis=none": { "model": "redwall:beech_bark" }
+    }
+}

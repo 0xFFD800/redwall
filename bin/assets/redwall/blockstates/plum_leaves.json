@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "damson=false,growth=none,winter=false": { "model": "redwall:plum_leaves" },
+        "damson=false,growth=none,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=false,growth=early,winter=false": { "model": "redwall:plum_leaves_early" },
+        "damson=false,growth=early,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=false,growth=late,winter=false": { "model": "redwall:plum_leaves_late" },
+        "damson=false,growth=late,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=false,growth=full,winter=false": { "model": "redwall:plum_leaves_full" },
+        "damson=false,growth=full,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=true,growth=none,winter=false": { "model": "redwall:plum_leaves" },
+        "damson=true,growth=none,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=true,growth=early,winter=false": { "model": "redwall:plum_leaves_early" },
+        "damson=true,growth=early,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=true,growth=late,winter=false": { "model": "redwall:plum_leaves_late" },
+        "damson=true,growth=late,winter=true": { "model": "redwall:plum_leaves_winter" },
+        "damson=true,growth=full,winter=false": { "model": "redwall:damson_leaves_full" },
+        "damson=true,growth=full,winter=true": { "model": "redwall:plum_leaves_winter" }
+    }
+}

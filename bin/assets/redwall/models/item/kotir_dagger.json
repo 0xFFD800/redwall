@@ -1,0 +1,14 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "redwall:items/kotir_dagger"
+    },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "redwall:item/kotir_dagger_throwing"
+    }
+  ]
+}

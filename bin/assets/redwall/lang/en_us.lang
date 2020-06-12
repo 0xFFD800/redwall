@@ -1,0 +1,499 @@
+tile.basalt.name=Basalt
+
+tile.maple_log.name=Maple Wood
+tile.elm_log.name=Elm Wood
+tile.ash_log.name=Ash Wood
+tile.pine_log.name=Pine Wood
+tile.fir_log.name=Fir Wood
+tile.larch_log.name=Larch Wood
+tile.hornbeam_log.name=Hornbeam Wood
+tile.beech_log.name=Beech Wood
+tile.yew_log.name=Yew Wood
+tile.alder_log.name=Alder Wood
+tile.aspen_log.name=Aspen Wood
+tile.willow_log.name=Willow Wood
+tile.apple_log.name=Apple Wood
+tile.plum_log.name=Plum Wood
+
+tile.maple_leaves.name=Maple Leaves
+tile.elm_leaves.name=Elm Leaves
+tile.ash_leaves.name=Ash Leaves
+tile.pine_leaves.name=Pine Leaves
+tile.fir_leaves.name=Fir Leaves
+tile.larch_leaves.name=Larch Leaves
+tile.hornbeam_leaves.name=Hornbeam Leaves
+tile.beech_leaves.name=Beech Leaves
+tile.yew_leaves.name=Yew Leaves
+tile.alder_leaves.name=Alder Leaves
+tile.aspen_leaves.name=Aspen Leaves
+tile.willow_leaves.name=Willow Leaves
+tile.apple_leaves.name=Apple Leaves
+tile.plum_leaves.name=Plum Leaves
+
+tile.maple_planks.name=Maple Planks
+tile.elm_planks.name=Elm Planks
+tile.ash_planks.name=Ash Planks
+tile.pine_planks.name=Pine Planks
+tile.fir_planks.name=Fir Planks
+tile.larch_planks.name=Larch Planks
+tile.hornbeam_planks.name=Hornbeam Planks
+tile.beech_planks.name=Beech Planks
+tile.yew_planks.name=Yew Planks
+tile.alder_planks.name=Alder Planks
+tile.aspen_planks.name=Aspen Planks
+tile.willow_planks.name=Willow Planks
+tile.apple_planks.name=Apple Planks
+tile.plum_planks.name=Plum Planks
+
+tile.maple_stairs.name=Maple Stairs
+tile.elm_stairs.name=Elm Stairs
+tile.ash_stairs.name=Ash Stairs
+tile.pine_stairs.name=Pine Stairs
+tile.fir_stairs.name=Fir Stairs
+tile.larch_stairs.name=Larch Stairs
+tile.hornbeam_stairs.name=Hornbeam Stairs
+tile.beech_stairs.name=Beech Stairs
+tile.yew_stairs.name=Yew Stairs
+tile.alder_stairs.name=Alder Stairs
+tile.aspen_stairs.name=Aspen Stairs
+tile.willow_stairs.name=Willow Stairs
+tile.apple_stairs.name=Apple Stairs
+tile.plum_stairs.name=Plum Stairs
+
+tile.maple_slab.name=Maple Slab
+tile.elm_slab.name=Elm Slab
+tile.ash_slab.name=Ash Slab
+tile.pine_slab.name=Pine Slab
+tile.fir_slab.name=Fir Slab
+tile.larch_slab.name=Larch Slab
+tile.hornbeam_slab.name=Hornbeam Slab
+tile.beech_slab.name=Beech Slab
+tile.yew_slab.name=Yew Slab
+tile.alder_slab.name=Alder Slab
+tile.aspen_slab.name=Aspen Slab
+tile.willow_slab.name=Willow Slab
+tile.apple_slab.name=Apple Slab
+tile.plum_slab.name=Plum Slab
+
+tile.maple_sapling.name=Maple Sapling
+tile.elm_sapling.name=Elm Sapling
+tile.ash_sapling.name=Ash Sapling
+tile.pine_sapling.name=Pine Sapling
+tile.fir_sapling.name=Fir Sapling
+tile.larch_sapling.name=Larch Sapling
+tile.hornbeam_sapling.name=Hornbeam Sapling
+tile.beech_sapling.name=Beech Sapling
+tile.yew_sapling.name=Yew Sapling
+tile.alder_sapling.name=Alder Sapling
+tile.aspen_sapling.name=Aspen Sapling
+tile.willow_sapling.name=Willow Sapling
+tile.apple_sapling.name=Apple Sapling
+tile.plum_sapling.name=Plum Sapling
+
+tile.maple_fence.name=Maple Fence
+tile.elm_fence.name=Elm Fence
+tile.ash_fence.name=Ash Fence
+tile.pine_fence.name=Pine Fence
+tile.fir_fence.name=Fir Fence
+tile.larch_fence.name=Larch Fence
+tile.hornbeam_fence.name=Hornbeam Fence
+tile.beech_fence.name=Beech Fence
+tile.yew_fence.name=Yew Fence
+tile.alder_fence.name=Alder Fence
+tile.aspen_fence.name=Aspen Fence
+tile.willow_fence.name=Willow Fence
+tile.apple_fence.name=Apple Fence
+tile.plum_fence.name=Plum Fence
+
+tile.maple_fence_gate.name=Maple Fence Gate
+tile.elm_fence_gate.name=Elm Fence Gate
+tile.ash_fence_gate.name=Ash Fence Gate
+tile.pine_fence_gate.name=Pine Fence Gate
+tile.fir_fence_gate.name=Fir Fence Gate
+tile.larch_fence_gate.name=Larch Fence Gate
+tile.hornbeam_fence_gate.name=Hornbeam Fence Gate
+tile.beech_fence_gate.name=Beech Fence Gate
+tile.yew_fence_gate.name=Yew Fence Gate
+tile.alder_fence_gate.name=Alder Fence Gate
+tile.aspen_fence_gate.name=Aspen Fence Gate
+tile.willow_fence_gate.name=Willow Fence Gate
+tile.apple_fence_gate.name=Apple Fence Gate
+tile.plum_fence_gate.name=Plum Fence Gate
+
+tile.southsward_brick.default.name=Southsward Brick
+tile.southsward_brick.mossy.name=Mossy Southsward Brick
+tile.southsward_brick.cracked.name=Cracked Southsward Brick
+tile.southsward_brick.chiseled.name=Chiseled Southsward Brick
+tile.southsward_pillar.name=Southsward Pillar
+tile.southsward_stairs.name=Southsward Stairs
+tile.southsward_slab.name=Southsward Slab
+
+tile.redwall_brick.default.name=Redwall Brick
+tile.redwall_brick.mossy.name=Mossy Redwall Brick
+tile.redwall_brick.cracked.name=Cracked Redwall Brick
+tile.redwall_brick.chiseled.name=Chiseled Redwall Brick
+tile.redwall_pillar.name=Redwall Pillar
+tile.redwall_stairs.name=Redwall Stairs
+tile.redwall_slab.name=Redwall Slab
+
+tile.bronze_block.name=Bronze Block
+tile.copper_block.name=Copper Block
+tile.tin_block.name=Tin Block
+
+tile.copper_ore.name=Copper Ore
+tile.tin_ore.name=Tin Ore
+
+tile.modgrass.name=Wheatgrass
+tile.modgrass2.name=Short Grass
+
+tile.thatch.name=Thatch
+tile.thatch_stairs.name=Thatch Stairs
+tile.thatch_slab.name=Thatch Slab
+
+tile.candle.name=Candle
+
+item.weapon_rack.name=Weapon Rack
+
+tile.smithing_generic.name=Smithing Station
+tile.smeltery.name=Smeltery
+tile.cooking_generic.name=Cooking Station
+
+item.maple_door.name=Maple Door
+item.elm_door.name=Elm Door
+item.ash_door.name=Ash Door
+item.pine_door.name=Pine Door
+item.fir_door.name=Fir Door
+item.larch_door.name=Larch Door
+item.hornbeam_door.name=Hornbeam Door
+item.beech_door.name=Beech Door
+item.yew_door.name=Yew Door
+item.alder_door.name=Alder Door
+item.aspen_door.name=Aspen Door
+item.willow_door.name=Willow Door
+item.apple_door.name=Apple Door
+item.plum_door.name=Plum Door
+item.southsward_hidden_door.name=Southsward Brick Hidden Door
+
+item.sword_mtw.name=Sword of Martin the Warrior
+
+item.strawberry.name=Strawberry
+item.raspberry.name=Raspberry
+item.blackberry.name=Blackberry
+item.blueberry.name=Blueberry
+item.elderberry.name=Elderberry
+item.wildberry.name=Wildberry
+
+item.strawberry_seeds.name=Strawberry Seeds
+item.raspberry_seeds.name=Raspberry Seeds
+item.blackberry_seeds.name=Blackberry Seeds
+item.blueberry_seeds.name=Blueberry Seeds
+item.elderberry_seeds.name=Elderberry Seeds
+item.wildberry_seeds.name=Wildberry Seeds
+
+item.plum.name=Plum
+item.damson.name=Damson Plum
+
+item.corn.name=Corn
+item.turnip.name=Turnip
+item.onion.name=Onion
+item.peas.name=Peas
+item.rice.name=Rice
+item.beans.name=Beans
+item.yam.name=Yam
+
+item.cornstalk.name=Cornstalk
+
+item.water_reeds.name=Reeds
+item.water_reeds_dried.name=Dried Reeds
+
+item.copper_ingot.name=Copper Ingot
+item.tin_ingot.name=Tin Ingot
+item.bronze_ingot.name=Bronze Ingot
+
+item.copper_nugget.name=Copper Nugget
+item.tin_nugget.name=Tin Nugget
+item.bronze_nugget.name=Bronze Nugget
+
+item.trout.name=Raw Trout
+item.trout_cooked.name=Cooked Trout
+item.bass.name=Raw Bass
+item.bass_cooked.name=Cooked Bass
+item.perch.name=Raw Perch
+item.perch_cooked.name=Cooked Perch
+item.grayling.name=Raw Grayling
+item.grayling_cooked.name=Cooked Grayling
+
+item.stone_spear.name=Stone Spear
+item.stone_mace.name=Stone Mace
+item.stone_throwing_axe.name=Stone Throwing Axe
+
+item.iron_sword.name=Iron Sword
+item.iron_rapier.name=Iron Rapier
+item.iron_broadsword.name=Iron Broadsword
+item.iron_scimitar.name=Iron Scimitar
+item.iron_halberd.name=Iron Halberd
+item.iron_spear.name=Iron Spear
+item.iron_mace.name=Iron Mace
+item.iron_dagger.name=Iron Dagger
+item.iron_pike.name=Iron Pike
+item.iron_battleaxe.name=Iron Battleaxe
+item.iron_throwing_axe.name=Iron Throwing Axe
+item.iron_scythe.name=Iron Scythe
+
+item.iron_mixed_helmet.name=Iron Helmet
+item.iron_mixed_chestplate.name=Iron Breastplate
+item.iron_mixed_leggings.name=Iron Greaves
+item.iron_mixed_boots.name=Iron Boots
+
+item.helmetIron.name=Iron Plate Helmet
+item.chestplateIron.name=Iron Plate Breastplate
+item.leggingsIron.name=Iron Plate Greaves
+item.bootsIron.name=Iron Plate Boots
+
+item.helmetChain.name=Iron Mail Helmet
+item.chestplateChain.name=Iron Mail Breastplate
+item.leggingsChain.name=Iron Mail Greaves
+item.bootsChain.name=Iron Mail Boots
+
+item.golden_sword.name=Golden Sword
+item.golden_rapier.name=Golden Rapier
+item.golden_broadsword.name=Golden Broadsword
+item.golden_scimitar.name=Golden Scimitar
+item.golden_halberd.name=Golden Halberd
+item.golden_spear.name=Golden Spear
+item.golden_mace.name=Golden Mace
+item.golden_dagger.name=Golden Dagger
+item.golden_pike.name=Golden Pike
+item.golden_battleaxe.name=Golden Battleaxe
+item.golden_throwing_axe.name=Golden Throwing Axe
+item.golden_scythe.name=Golden Scythe
+
+item.helmetGold.name=Golden Plate Helmet
+item.chestplateGold.name=Golden Plate Breastplate
+item.leggingsGold.name=Golden Plate Greaves
+item.bootsGold.name=Golden Plate Boots
+
+item.golden_mixed_helmet.name=Golden Helmet
+item.golden_mixed_chestplate.name=Golden Breastplate
+item.golden_mixed_leggings.name=Golden Greaves
+item.golden_mixed_boots.name=Golden Boots
+
+item.golden_mail_helmet.name=Golden Mail Helmet
+item.golden_mail_chestplate.name=Golden Mail Breastplate
+item.golden_mail_leggings.name=Golden Mail Greaves
+item.golden_mail_boots.name=Golden Mail Boots
+
+item.bronze_halberd.name=Bronze Halberd
+item.bronze_spear.name=Bronze Spear
+item.bronze_mace.name=Bronze Mace
+item.bronze_dagger.name=Bronze Dagger
+item.bronze_pike.name=Bronze Pike
+item.bronze_battleaxe.name=Bronze Battleaxe
+item.bronze_throwing_axe.name=Bronze Throwing Axe
+item.bronze_axe.name=Bronze Axe
+item.bronze_pickaxe.name=Bronze Pickaxe
+item.bronze_spade.name=Bronze Shovel
+item.bronze_hoe.name=Bronze Hoe
+item.bronze_scythe.name=Bronze Scythe
+
+item.bronze_helmet.name=Bronze Plate Helmet
+item.bronze_chestplate.name=Bronze Plate Breastplate
+item.bronze_leggings.name=Bronze Plate Greaves
+item.bronze_boots.name=Bronze Plate Boots
+
+item.salamandastron_sword.name=Salamandastron Sword
+item.salamandastron_claymore.name=Salamandastron Claymore
+item.salamandastron_rapier.name=Salamandastron Rapier
+item.salamandastron_broadsword.name=Salamandastron Broadsword
+item.salamandastron_sabre.name=Salamandastron Sabre
+item.salamandastron_spear.name=Salamandastron Spear
+item.salamandastron_lance.name=Salamandastron Lance
+item.salamandastron_dagger.name=Salamandastron Dagger
+item.salamandastron_dirk.name=Salamandastron Dirk
+item.salamandastron_pike.name=Salamandastron Pike
+item.salamandastron_battleaxe.name=Salamandastron Battleaxe
+item.salamandastron_longbow.name=Salamandastron Longbow
+
+item.salamandastron_helmet.name=Salamandastron Helmet
+item.salamandastron_chestplate.name=Salamandastron Breastplate
+item.salamandastron_leggings.name=Salamandastron Greaves
+item.salamandastron_boots.name=Salamandastron Boots
+
+item.southsward_sword.name=Southsward Sword
+item.southsward_spear.name=Southsward Spear
+item.southsward_hammer.name=Southsward Hammer
+item.southsward_mace.name=Southsward Mace
+item.southsward_dagger.name=Southsward Dagger
+item.southsward_pike.name=Southsward Pike
+item.southsward_longbow.name=Southsward Longbow
+
+item.southsward_helmet.name=Southsward Helmet
+item.southsward_chestplate.name=Southsward Breastplate
+item.southsward_leggings.name=Southsward Greaves
+item.southsward_boots.name=Southsward Boots
+
+item.riftgard_sword.name=Riftgard Sword
+item.riftgard_rapier.name=Riftgard Rapier
+item.riftgard_broadsword.name=Riftgard Broadsword
+item.riftgard_sabre.name=Riftgard Sabre
+item.riftgard_spear.name=Riftgard Spear
+item.riftgard_dagger.name=Riftgard Dagger
+
+item.riftgard_helmet.name=Riftgard Helmet
+item.riftgard_chestplate.name=Riftgard Breastplate
+item.riftgard_leggings.name=Riftgard Greaves
+item.riftgard_boots.name=Riftgard Boots
+
+item.northlands_claymore.name=Northlands Claymore
+item.northlands_dirk.name=Northlands Dirk
+item.northlands_sgian_dhu.name=Northlands Sgian Dhu
+
+item.guosim_rapier.name=Guosim Rapier
+item.guosim_paddle.name=Guosim Paddle
+item.guosim_bow.name=Guosim Bow
+
+item.rogue_crew_sword.name=Rogue Crew Sword
+item.rogue_crew_battleaxe.name=Rogue Crew Battleaxe
+item.rogue_crew_throwing_axe.name=Rogue Crew Throwing Axe
+item.rogue_crew_longbow.name=Rogue Crew Longbow
+
+item.kotir_sword.name=Kotir Sword
+item.kotir_halberd.name=Kotir Halberd
+item.kotir_spear.name=Kotir Spear
+item.kotir_dagger.name=Kotir Dagger
+item.kotir_pike.name=Kotir Pike
+item.kotir_battleaxe.name=Kotir Battleaxe
+
+item.kotir_helmet.name=Kotir Helmet
+item.kotir_chestplate.name=Kotir Breastplate
+item.kotir_leggings.name=Kotir Greaves
+item.kotir_boots.name=Kotir Boots
+
+entity.redwall:spear.name=Spear
+entity.redwall:dagger.name=Dagger
+entity.redwall:throwing_axe.name=Throwing Axe
+
+entity.redwall:mouse_redwall.name=Redwall Mouse
+entity.redwall:mouse_woodlander.name=Woodlander Mouse
+entity.redwall:squirrel_redwall.name=Redwall Squirrel
+entity.redwall:squirrel_woodlander.name=Woodlander Squirrel
+entity.redwall:mole_redwall.name=Redwall Mole
+entity.redwall:mole_woodlander.name=Woodlander Mole
+
+death.attack.spear=%s was skewered by %d
+death.attack.spear.item=%s was skewered by %d using %u
+death.attack.dagger=%s was stabbed by %d
+death.attack.dagger.item=%s was stabbed by %d using %u
+death.attack.axe=%s was crushed by %d
+death.attack.axe.item=%s was crushed by %d using %u
+death.attack.poison=%s was poisoned
+
+protection.projectile=Projectile Protection
+attribute.digspeed=Digging Speed
+attribute.durability=Durability
+
+modifier.damage.add.1=Sharp
+modifier.damage.add.2=Keen
+modifier.damage.add.3=Biting
+modifier.damage.add.4=Formidable
+modifier.damage.add.5=Renowned
+
+modifier.damage.subtract.1=Dull
+modifier.damage.subtract.2=Blunt
+modifier.damage.subtract.3=Crooked
+
+modifier.protection.add.1=Strong
+modifier.protection.add.2=Robust
+modifier.protection.add.3=Unyielding
+
+modifier.protection.subtract.1=Flimsy
+modifier.protection.subtract.2=Feeble
+
+modifier.projectile_protection.1=Deflecting
+modifier.projectile_protection.2=Resilient
+modifier.projectile_protection.3=Impervious
+
+modifier.digspeed.add.1=Nifty
+modifier.digspeed.add.2=Hasty
+modifier.digspeed.add.3=Skillful
+modifier.digspeed.add.4=Deft
+modifier.digspeed.add.5=Dexterous
+
+modifier.digspeed.subtract.1=Sluggish
+modifier.digspeed.subtract.2=Clumsy
+modifier.digspeed.subtract.3=Blundering
+
+modifier.durability.add.1=Sturdy
+modifier.durability.add.2=Durable
+modifier.durability.add.3=Rugged
+modifier.durability.add.4=Solid
+modifier.durability.add.5=Lasting
+
+modifier.durability.subtract.1=Weak
+modifier.durability.subtract.2=Frail
+modifier.durability.subtract.3=Fragile
+
+potion.effect.fatal_poison=Poison
+splash_potion.effect.fatal_poison=Splash Poison
+lingering_potion.effect.fatal_poison=Lingering Poison
+
+itemGroup.food=Food
+itemGroup.blocks=Blocks
+itemGroup.combat=Combat
+itemGroup.misc=Miscellaneous
+
+key.open_factions.desc=Open Factions Menu
+key.redwall.category=Redwall Mod Keys
+
+fac.redwall.name=Redwall
+fac.salamandastron.name=Salamandastron
+fac.southsward.name=Southsward
+fac.guosim.name=Guosim Shrews
+fac.guosssom.name=Guosssom Shrews
+fac.guoraf.name=Guoraf Shrews
+fac.mossflowerOtters.name=Mossflower<br>Otter Clans
+fac.greenIsleOtters.name=Green Isle<br>Otter Clans
+fac.ruddaring.name=Ruddaring
+fac.mossflowerWoodlanders.name=Mossflower<br>Woodlanders
+fac.noonvale.name=Noonvale
+fac.rogueCrew.name=Rogue Crew
+fac.peaceIsle.name=Peace Isle
+fac.northlands.name=Northlands
+fac.mossflowerVermin.name=Mossflower<br>Vermin
+fac.northlandsVermin.name=Northlands<br>Vermin
+fac.searats.name=Searats
+fac.corsairs.name=Corsairs
+fac.sampetra.name=Sampetra
+fac.riftgard.name=Riftgard
+fac.irgash.name=Isle of<br>Irgash
+fac.greenIsleCats.name=Green Isle<br>Wildcats
+fac.marl.name=Castle Marl
+fac.iceAndSnow.name=Land of<br>Ice and Snow
+fac.rapscallions.name=Rapscallions
+fac.malkariss.name=Kingdom of<br>Malkariss
+fac.doomwyte.name=The Doomwyte
+fac.paintedOnes=name=Painted Ones
+fac.juska.name=Juska Clans
+fac.flitchaye.name=Flitchaye
+fac.ravagers.name=Ravagers
+fac.brownrats.name=Brownrats
+
+facstat.loyalty.name=Loyalty
+facstat.fightSkill.name=Fighting Skill
+facstat.smithSkill.name=Smithing Skill
+facstat.farmSkill.name=Farming Skill
+facstat.brewSkill.name=Brewing Skill
+facstat.cookSkill.name=Cooking Skill
+facstat.scoffSkill.name=Scoffing Skill
+
+facstat.level=: Lv. %s
+
+facstat.toast.title1:Level up!
+facstat.toast.title2:Level down!
+facstat.toast.subtitle1:Your %s %s skill leveled up!
+facstat.toast.subtitle2:Your %s %s skill leveld down!
+
+commands.factions.usage=/factions <player> <faction> <contact|stats> <contact?true|false|get:stat> [set|get|add|subtract|reset] [value]
+commands.factions.get=Player %s's %s for faction %s is %s
+commands.factions.getContact=Player %s's contact status for faction %s is %s
+commands.factions.used=Player %s's faction status has been updated

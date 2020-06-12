@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "redwall:blocks/log_apple_top",
+        "side": "redwall:blocks/log_apple"
+    }
+}

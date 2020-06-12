@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+	"##"
+  ],
+  "key": {
+    "#": [
+		{
+		  "item": "redwall:water_reeds_dried"
+		},
+		{
+		  "item": "redwall:cornstalk"
+		}
+	]
+  },
+  "result": {
+    "item": "redwall:thatch",
+	"count": 4
+  }
+}

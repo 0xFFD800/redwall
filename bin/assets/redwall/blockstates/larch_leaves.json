@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "check_decay=true,decayable=true,winter=false": { "model": "redwall:larch_leaves" },
+        "check_decay=false,decayable=true,winter=false": { "model": "redwall:larch_leaves" },
+        "check_decay=true,decayable=false,winter=false": { "model": "redwall:larch_leaves" },
+        "check_decay=false,decayable=false,winter=false": { "model": "redwall:larch_leaves" },
+        "check_decay=true,decayable=true,winter=true": { "model": "redwall:larch_leaves_winter" },
+        "check_decay=false,decayable=true,winter=true": { "model": "redwall:larch_leaves_winter" },
+        "check_decay=true,decayable=false,winter=true": { "model": "redwall:larch_leaves_winter" },
+        "check_decay=false,decayable=false,winter=true": { "model": "redwall:larch_leaves_winter" }
+    }
+}

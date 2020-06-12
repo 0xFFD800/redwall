@@ -1,0 +1,50 @@
+{
+  "parent": "item/handheld",
+	"overrides": [
+		{
+			"predicate": {
+				"pulling": 1
+			},
+			"model": "redwall:item/salamandastron_longbow_pulling_0"
+		},
+		{
+			"predicate": {
+				"pulling": 1,
+				"pull": 0.65
+			},
+			"model": "redwall:item/salamandastron_longbow_pulling_1"
+		},
+		{
+			"predicate": {
+				"pulling": 1,
+				"pull": 0.9
+			},
+			"model": "redwall:item/salamandastron_longbow_pulling_2"
+		}
+	],
+  "display": {
+	"thirdperson_righthand": {
+	  "rotation": [ 10, -90, 45 ],
+	  "translation": [ -2, -2.0, 3.5 ],
+	  "scale": [ 1.7, 1.7, 0.85 ]
+	},
+	"thirdperson_lefthand": {
+	  "rotation": [ 10, 90, -45 ],
+	  "translation": [ -2, -2.0, 3.5 ],
+	  "scale": [ 1.7, 1.7, 0.85 ]
+	},
+	"firstperson_righthand": {
+	  "rotation": [ 0, -90, 25 ],
+	  "translation": [ 1.13, 3.4, 1.13 ],
+	  "scale": [ 1.36, 1.36, 0.95 ]
+	},
+	"firstperson_lefthand": {
+	  "rotation": [ 0, 90, -25 ],
+	  "translation": [ 1.13, 3.4, 1.13 ],
+	  "scale": [ 1.36, 1.36, 0.95 ]
+	}
+  },
+  "textures": {
+	"layer0": "redwall:items/salamandastron_longbow_standby"
+  }
+}

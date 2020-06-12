@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "redwall:hornbeam_log" },
+        "axis=z":   { "model": "redwall:hornbeam_log", "x": 90 },
+        "axis=x":   { "model": "redwall:hornbeam_log", "x": 90, "y": 90 },
+        "axis=none": { "model": "redwall:hornbeam_bark" }
+    }
+}

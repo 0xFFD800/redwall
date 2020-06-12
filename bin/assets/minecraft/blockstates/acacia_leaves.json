@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "winter=false": { "model": "acacia_leaves" },
+        "winter=true": { "model": "redwall:acacia_leaves_winter" }
+    }
+}

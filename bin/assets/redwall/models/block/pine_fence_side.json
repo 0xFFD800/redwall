@@ -1,0 +1,6 @@
+{
+    "parent": "block/fence_side",
+    "textures": {
+        "texture": "redwall:blocks/planks_pine"
+    }
+}

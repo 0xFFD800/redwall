@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "redwall:alder_log" },
+        "axis=z":   { "model": "redwall:alder_log", "x": 90 },
+        "axis=x":   { "model": "redwall:alder_log", "x": 90, "y": 90 },
+        "axis=none": { "model": "redwall:alder_bark" }
+    }
+}

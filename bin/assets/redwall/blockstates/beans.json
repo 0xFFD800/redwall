@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "age=0": { "model": "redwall:beans_stage0" },
+        "age=1": { "model": "redwall:beans_stage0" },
+        "age=2": { "model": "redwall:beans_stage1" },
+        "age=3": { "model": "redwall:beans_stage1" },
+        "age=4": { "model": "redwall:beans_stage2" },
+        "age=5": { "model": "redwall:beans_stage2" },
+        "age=6": { "model": "redwall:beans_stage2" },
+        "age=7": { "model": "redwall:beans_stage3" }
+    }
+}

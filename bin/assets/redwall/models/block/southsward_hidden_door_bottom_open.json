@@ -1,0 +1,34 @@
+{
+    "textures": {
+		"particle": "redwall:blocks/southsward_brick",
+		"-1": "redwall:blocks/southsward_brick"
+    },
+    "elements": [
+        {
+            "name": "Left Side",
+            "from": [ 0.0, 0.0, 0.0 ], 
+            "to": [ 2.0, 16.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] },
+                "east": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "south": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] },
+                "west": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "up": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] },
+                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "Right Side",
+            "from": [ 14.0, 0.0, 0.0 ], 
+            "to": [ 16.0, 16.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] },
+                "east": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "south": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] },
+                "west": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+                "up": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] },
+                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 2.0, 16.0 ] }
+            }
+        }
+    ]
+}

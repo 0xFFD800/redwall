@@ -1,0 +1,28 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "redwall:items/kotir_halberd"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [ 0, -90, 55 ],
+      "translation": [ 0, 8.0, 0.5 ],
+      "scale": [ 1.7, 1.7, 1.7 ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [ 0, 90, -55 ],
+      "translation": [ 0, 8.0, 0.5 ],
+      "scale": [ 1.7, 1.7, 1.7 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [ 0, -90, 25 ],
+      "translation": [ 1.13, 6.4, 1.13 ],
+      "scale": [ 1.36, 1.36, 1.36 ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [ 0, 90, -25 ],
+      "translation": [ 1.13, 6.4, 1.13 ],
+      "scale": [ 1.36, 1.36, 1.36 ]
+    }
+  }
+}

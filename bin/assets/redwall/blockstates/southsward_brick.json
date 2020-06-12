@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "variant=_brick": { "model": "redwall:southsward_brick" },
+    "variant=_brick_chiseled": { "model": "redwall:southsward_brick_chiseled" },
+    "variant=_brick_cracked": { "model": "redwall:southsward_brick_cracked" },
+    "variant=_brick_mossy": { "model": "redwall:southsward_brick_mossy" }
+  }
+}

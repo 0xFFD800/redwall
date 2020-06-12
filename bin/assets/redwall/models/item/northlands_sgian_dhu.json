@@ -1,0 +1,14 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "redwall:items/northlands_sgian_dhu"
+    },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "redwall:item/northlands_sgian_dhu_throwing"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "redwall:larch_log" },
+        "axis=z":   { "model": "redwall:larch_log", "x": 90 },
+        "axis=x":   { "model": "redwall:larch_log", "x": 90, "y": 90 },
+        "axis=none": { "model": "redwall:larch_bark" }
+    }
+}

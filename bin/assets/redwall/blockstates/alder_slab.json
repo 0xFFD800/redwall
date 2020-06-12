@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "bumbumbum=true,half=bottom": { "model": "redwall:half_slab_alder" },
+        "bumbumbum=false,half=top": { "model": "redwall:upper_slab_alder" },
+        "bumbumbum=false,half=bottom": { "model": "redwall:half_slab_alder" },
+        "bumbumbum=true,half=top": { "model": "redwall:upper_slab_alder" }
+    }
+}

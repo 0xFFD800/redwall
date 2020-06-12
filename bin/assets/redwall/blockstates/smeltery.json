@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "redwall:smeltery", "y": 90 },
+        "facing=west": { "model": "redwall:smeltery", "y": 180 },
+        "facing=north": { "model": "redwall:smeltery", "y": 270 },
+        "facing=east": { "model": "redwall:smeltery" }
+    }
+}

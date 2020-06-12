@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "redwall:blocks/turnips_stage_2"
+    }
+}

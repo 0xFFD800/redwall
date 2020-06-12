@@ -1,0 +1,6 @@
+{
+    "parent": "redwall:item/guosim_bow",
+    "textures": {
+        "layer0": "redwall:items/guosim_bow_pulling_2"
+    }
+}

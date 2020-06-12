@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_stairs",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:larch_planks"
+    }
+  },
+  "result": {
+    "item": "redwall:larch_stairs",
+    "count": 4
+  }
+}

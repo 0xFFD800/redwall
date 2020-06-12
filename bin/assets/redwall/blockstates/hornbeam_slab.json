@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "bumbumbum=true,half=bottom": { "model": "redwall:half_slab_hornbeam" },
+        "bumbumbum=false,half=top": { "model": "redwall:upper_slab_hornbeam" },
+        "bumbumbum=false,half=bottom": { "model": "redwall:half_slab_hornbeam" },
+        "bumbumbum=true,half=top": { "model": "redwall:upper_slab_hornbeam" }
+    }
+}

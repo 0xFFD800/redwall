@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_slab",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:ash_planks"
+    }
+  },
+  "result": {
+    "item": "redwall:ash_slab",
+    "count": 6
+  }
+}

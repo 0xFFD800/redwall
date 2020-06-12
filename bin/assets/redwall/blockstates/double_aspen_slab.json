@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "bumbumbum=true,seamless=true": { "model": "redwall:aspen_planks" },
+        "bumbumbum=true,seamless=false": { "model": "redwall:aspen_planks" },
+        "bumbumbum=false,seamless=true": { "model": "redwall:aspen_planks" },
+        "bumbumbum=false,seamless=false": { "model": "redwall:aspen_planks" }
+    }
+}

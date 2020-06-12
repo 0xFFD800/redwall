@@ -1,0 +1,14 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "redwall:items/stone_throwing_axe"
+    },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "redwall:item/stone_throwing_axe_throwing"
+    }
+  ]
+}

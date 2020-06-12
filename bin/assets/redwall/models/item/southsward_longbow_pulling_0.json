@@ -1,0 +1,6 @@
+{
+    "parent": "redwall:item/southsward_longbow",
+    "textures": {
+        "layer0": "redwall:items/southsward_longbow_pulling_0"
+    }
+}

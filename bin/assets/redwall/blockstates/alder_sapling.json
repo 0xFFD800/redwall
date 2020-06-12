@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "stage=0": { "model": "redwall:alder_sapling" },
+        "stage=1": { "model": "redwall:alder_sapling" }
+    }
+}

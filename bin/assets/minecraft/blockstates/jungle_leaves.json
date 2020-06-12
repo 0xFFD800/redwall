@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "winter=false": { "model": "jungle_leaves" },
+        "winter=true": { "model": "redwall:jungle_leaves_winter" }
+    }
+}

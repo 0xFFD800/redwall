@@ -1,0 +1,6 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "cross": "redwall:blocks/cornstalk_stage_0"
+    }
+}

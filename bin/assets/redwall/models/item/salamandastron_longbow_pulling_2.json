@@ -1,0 +1,6 @@
+{
+    "parent": "redwall:item/salamandastron_longbow",
+    "textures": {
+        "layer0": "redwall:items/salamandastron_longbow_pulling_2"
+    }
+}

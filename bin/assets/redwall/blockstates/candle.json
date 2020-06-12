@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "facing=up": { "model": "redwall:candle" },
+        "facing=east": { "model": "redwall:candle_wall" },
+        "facing=south": { "model": "redwall:candle_wall", "y": 90 },
+        "facing=west": { "model": "redwall:candle_wall", "y": 180 },
+        "facing=north": { "model": "redwall:candle_wall", "y": 270 }
+    }
+}

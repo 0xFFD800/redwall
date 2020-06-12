@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "growth=none,winter=false": { "model": "redwall:apple_leaves" },
+        "growth=none,winter=true": { "model": "redwall:apple_leaves_winter" },
+        "growth=early,winter=false": { "model": "redwall:apple_leaves_early" },
+        "growth=early,winter=true": { "model": "redwall:apple_leaves_winter" },
+        "growth=late,winter=false": { "model": "redwall:apple_leaves_late" },
+        "growth=late,winter=true": { "model": "redwall:apple_leaves_winter" },
+        "growth=full,winter=false": { "model": "redwall:apple_leaves_full" },
+        "growth=full,winter=true": { "model": "redwall:apple_leaves_winter" }
+    }
+}

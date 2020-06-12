@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "planks",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:yew_log"
+    }
+  },
+  "result": {
+    "item": "redwall:yew_planks",
+    "count": 4
+  }
+}

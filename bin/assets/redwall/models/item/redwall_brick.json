@@ -1,0 +1,23 @@
+{
+    "parent": "redwall:block/redwall_brick",
+	"overrides": [
+		{
+			"predicate": {
+				"damage": 1
+			},
+			"model": "redwall:item/redwall_brick_mossy"
+		},
+		{
+			"predicate": {
+				"damage": 2
+			},
+			"model": "redwall:item/redwall_brick_cracked"
+		},
+		{
+			"predicate": {
+				"damage": 3
+			},
+			"model": "redwall:item/redwall_brick_chiseled"
+		}
+	]
+}

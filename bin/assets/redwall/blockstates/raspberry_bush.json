@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "age=0,berries=false": { "model": "redwall:raspberry_bush_stage0" },
+        "age=1,berries=false": { "model": "redwall:raspberry_bush_stage0" },
+        "age=2,berries=false": { "model": "redwall:raspberry_bush_stage1" },
+        "age=3,berries=false": { "model": "redwall:raspberry_bush_stage1" },
+        "age=4,berries=false": { "model": "redwall:raspberry_bush_stage2" },
+        "age=5,berries=false": { "model": "redwall:raspberry_bush_stage2" },
+        "age=6,berries=false": { "model": "redwall:raspberry_bush_stage3" },
+        "age=7,berries=false": { "model": "redwall:raspberry_bush_stage3" },
+        "age=0,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=1,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=2,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=3,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=4,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=5,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=6,berries=true": { "model": "redwall:raspberry_bush_berries" },
+        "age=7,berries=true": { "model": "redwall:raspberry_bush_berries" }
+    }
+}

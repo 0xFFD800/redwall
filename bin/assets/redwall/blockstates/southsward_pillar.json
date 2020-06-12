@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "redwall:southsward_pillar" },
+        "axis=z":   { "model": "redwall:southsward_pillar", "x": 90 },
+        "axis=x":   { "model": "redwall:southsward_pillar", "x": 90, "y": 90 },
+        "axis=none": { "model": "redwall:southsward_brick" }
+    }
+}

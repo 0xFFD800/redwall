@@ -1,0 +1,14 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "redwall:items/riftgard_dagger"
+    },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "redwall:item/riftgard_dagger_throwing"
+    }
+  ]
+}

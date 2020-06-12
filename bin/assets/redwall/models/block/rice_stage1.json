@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "redwall:blocks/rice_stage_1"
+    }
+}

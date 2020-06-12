@@ -1,0 +1,123 @@
+package com.bob.redwall.init;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.bob.redwall.Ref;
+import com.google.common.collect.Lists;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
+
+public class SpeechHandler {
+	public static final List<String> GENERIC_FRIENDLY = Lists.newArrayList();
+	public static final List<String> GENERIC_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> GENERIC_HOSTILE = Lists.newArrayList();
+	public static final List<String> GENERIC_NAMES_M = Lists.newArrayList();
+	public static final List<String> GENERIC_NAMES_F = Lists.newArrayList();
+
+	public static final List<String> REDWALL_MOUSE_FRIENDLY = Lists.newArrayList();
+	public static final List<String> REDWALL_MOUSE_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> REDWALL_MOUSE_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_REDWALL_MOUSE_M = Lists.newArrayList();
+	public static final List<String> NAMES_REDWALL_MOUSE_F = Lists.newArrayList();
+
+	public static final List<String> REDWALL_SQUIRREL_FRIENDLY = Lists.newArrayList();
+	public static final List<String> REDWALL_SQUIRREL_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> REDWALL_SQUIRREL_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_REDWALL_SQUIRREL_M = Lists.newArrayList();
+	public static final List<String> NAMES_REDWALL_SQUIRREL_F = Lists.newArrayList();
+
+	public static final List<String> REDWALL_MOLE_FRIENDLY = Lists.newArrayList();
+	public static final List<String> REDWALL_MOLE_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> REDWALL_MOLE_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_REDWALL_MOLE_M = Lists.newArrayList();
+	public static final List<String> NAMES_REDWALL_MOLE_F = Lists.newArrayList();
+
+	public static final List<String> WOODLANDER_MOUSE_FRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_MOUSE_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_MOUSE_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_MOUSE_M = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_MOUSE_F = Lists.newArrayList();
+
+	public static final List<String> WOODLANDER_SQUIRREL_FRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_SQUIRREL_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_SQUIRREL_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_SQUIRREL_M = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_SQUIRREL_F = Lists.newArrayList();
+
+	public static final List<String> WOODLANDER_MOLE_FRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_MOLE_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_MOLE_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_MOLE_M = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_MOLE_F = Lists.newArrayList();
+
+	public static void init() {
+		String path = "speech/" + Minecraft.getMinecraft().gameSettings.language;
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/generic/generic_friendly.speechbank"), GENERIC_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/generic/generic_unfriendly.speechbank"), GENERIC_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/generic/generic_hostile.speechbank"), GENERIC_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/generic/names_m.speechbank"), GENERIC_NAMES_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/generic/names_f.speechbank"), GENERIC_NAMES_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mouse/friendly.speechbank"), REDWALL_MOUSE_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mouse/unfriendly.speechbank"), REDWALL_MOUSE_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mouse/hostile.speechbank"), REDWALL_MOUSE_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mouse/names_m.speechbank"), NAMES_REDWALL_MOUSE_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mouse/names_f.speechbank"), NAMES_REDWALL_MOUSE_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/squirrel/friendly.speechbank"), REDWALL_SQUIRREL_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/squirrel/unfriendly.speechbank"), REDWALL_SQUIRREL_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/squirrel/hostile.speechbank"), REDWALL_SQUIRREL_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/squirrel/names_m.speechbank"), NAMES_REDWALL_SQUIRREL_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/squirrel/names_f.speechbank"), NAMES_REDWALL_SQUIRREL_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mole/friendly.speechbank"), REDWALL_MOLE_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mole/unfriendly.speechbank"), REDWALL_MOLE_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mole/hostile.speechbank"), REDWALL_MOLE_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mole/names_m.speechbank"), NAMES_REDWALL_MOLE_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/redwall/mole/names_f.speechbank"), NAMES_REDWALL_MOLE_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mouse/friendly.speechbank"), WOODLANDER_MOUSE_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mouse/unfriendly.speechbank"), WOODLANDER_MOUSE_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mouse/hostile.speechbank"), WOODLANDER_MOUSE_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mouse/names_m.speechbank"), NAMES_WOODLANDER_MOUSE_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mouse/names_f.speechbank"), NAMES_WOODLANDER_MOUSE_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/squirrel/friendly.speechbank"), WOODLANDER_SQUIRREL_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/squirrel/unfriendly.speechbank"), WOODLANDER_SQUIRREL_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/squirrel/hostile.speechbank"), WOODLANDER_SQUIRREL_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/squirrel/names_m.speechbank"), NAMES_WOODLANDER_SQUIRREL_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/squirrel/names_f.speechbank"), NAMES_WOODLANDER_SQUIRREL_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/friendly.speechbank"), WOODLANDER_MOLE_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/unfriendly.speechbank"), WOODLANDER_MOLE_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/hostile.speechbank"), WOODLANDER_MOLE_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/names_m.speechbank"), NAMES_WOODLANDER_MOLE_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/names_f.speechbank"), NAMES_WOODLANDER_MOLE_F);
+	}
+	
+	public static void initializeSpeechbank(ResourceLocation resourceLoc, List<String> speechbank) {
+		try {
+			BufferedReader file = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(resourceLoc).getInputStream()));
+			String line = file.readLine();
+			while(!StringUtils.isEmpty(line)) {
+				if(line.startsWith("#")) {
+					line = file.readLine();
+					continue;
+				}
+				
+				speechbank.add(line);
+				line = file.readLine();
+			}
+		} catch (IOException e) {
+			Logger.getLogger(SpeechHandler.class.getName()).log(Level.SEVERE, "Error initializing NPC Speechbank!", e);
+		}
+	}
+}

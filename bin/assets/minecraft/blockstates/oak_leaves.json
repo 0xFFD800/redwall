@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "winter=false": { "model": "oak_leaves" },
+        "winter=true": { "model": "redwall:oak_leaves_winter" }
+    }
+}

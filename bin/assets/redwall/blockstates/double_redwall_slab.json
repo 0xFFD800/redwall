@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "bumbumbum=true,seamless=true": { "model": "redwall:redwall_brick" },
+      "bumbumbum=true,seamless=false": { "model": "redwall:redwall_brick" },
+      "bumbumbum=false,seamless=true": { "model": "redwall:redwall_brick" },
+      "bumbumbum=false,seamless=false": { "model": "redwall:redwall_brick" }
+    }
+}

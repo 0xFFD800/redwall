@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "planks",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:plum_log"
+    }
+  },
+  "result": {
+    "item": "redwall:plum_planks",
+    "count": 4
+  }
+}

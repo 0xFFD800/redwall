@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "planks",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:alder_log"
+    }
+  },
+  "result": {
+    "item": "redwall:alder_planks",
+    "count": 4
+  }
+}

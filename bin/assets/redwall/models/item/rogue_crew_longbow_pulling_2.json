@@ -1,0 +1,6 @@
+{
+    "parent": "redwall:item/rogue_crew_longbow",
+    "textures": {
+        "layer0": "redwall:items/rogue_crew_longbow_pulling_2"
+    }
+}

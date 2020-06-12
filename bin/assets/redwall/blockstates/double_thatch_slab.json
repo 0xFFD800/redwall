@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "bumbumbum=true,seamless=true": { "model": "redwall:thatch" },
+        "bumbumbum=false,seamless=true": { "model": "redwall:thatch" },
+        "bumbumbum=true,seamless=false": { "model": "redwall:thatch" },
+        "bumbumbum=false,seamless=false": { "model": "redwall:thatch" }
+    }
+}
