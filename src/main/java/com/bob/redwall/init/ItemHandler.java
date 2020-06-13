@@ -239,15 +239,15 @@ public class ItemHandler {
 
 		weapon_rack = new ItemWeaponRack("weapon_rack", CreativeTabHandler.BLOCKS, 1);
 
-		strawberry = new ItemModFood("strawberry", CreativeTabHandler.FOOD, 3, 0.3F, false);
-		blueberry = new ItemModFood("blueberry", CreativeTabHandler.FOOD, 2, 0.3F, false);
-		blackberry = new ItemModFood("blackberry", CreativeTabHandler.FOOD, 2, 0.3F, false);
-		raspberry = new ItemModFood("raspberry", CreativeTabHandler.FOOD, 2, 0.3F, false);
-		elderberry = new ItemModFood("elderberry", CreativeTabHandler.FOOD, 1, 0.3F, false);
-		wildberry = ((ItemModFood) new ItemModFood("wildberry", CreativeTabHandler.FOOD, 1, 0.1F, false).addPotionEffect(new PotionEffect(StatusEffect.POISON, new Random().nextInt(200) + 200, 0, false, false), 0.2F)).addPotionEffect(new PotionEffect(MobEffects.HUNGER, new Random().nextInt(600) + 600, 0, false, false), 0.6F);
+		strawberry = new ItemModFood("strawberry", CreativeTabHandler.FOOD, 3, 0.3F, 0, 3, 2, 6);
+		blueberry = new ItemModFood("blueberry", CreativeTabHandler.FOOD, 2, 0.3F, 0, 2, 1, 4);
+		blackberry = new ItemModFood("blackberry", CreativeTabHandler.FOOD, 2, 0.3F, 0, 2, 1, 4);
+		raspberry = new ItemModFood("raspberry", CreativeTabHandler.FOOD, 2, 0.3F, 0, 2, 1, 4);
+		elderberry = new ItemModFood("elderberry", CreativeTabHandler.FOOD, 1, 0.3F, 0, 1, 0, 2);
+		wildberry = ((ItemModFood) new ItemModFood("wildberry", CreativeTabHandler.FOOD, 1, 0.1F, 0, 1, 0, 2).addPotionEffect(new PotionEffect(StatusEffect.POISON, new Random().nextInt(200) + 200, 0, false, false), 0.2F)).addPotionEffect(new PotionEffect(MobEffects.HUNGER, new Random().nextInt(600) + 600, 0, false, false), 0.6F);
 
-		plum = new ItemModFood("plum", CreativeTabHandler.FOOD, 5, 0.3F, false);
-		damson = new ItemModFood("damson", CreativeTabHandler.FOOD, 4, 0.3F, false);
+		plum = new ItemModFood("plum", CreativeTabHandler.FOOD, 5, 0.3F, 0, 5, 3, 10);
+		damson = new ItemModFood("damson", CreativeTabHandler.FOOD, 4, 0.3F, 0, 4, 2, 8);
 
 		strawberry_seeds = new ItemModSeeds("strawberry_seeds", CreativeTabHandler.FOOD, BlockHandler.strawberry_bush, Blocks.FARMLAND);
 		blueberry_seeds = new ItemModSeeds("blueberry_seeds", CreativeTabHandler.FOOD, BlockHandler.blueberry_bush, Blocks.FARMLAND);
@@ -256,23 +256,23 @@ public class ItemHandler {
 		elderberry_seeds = new ItemModSeeds("elderberry_seeds", CreativeTabHandler.FOOD, BlockHandler.elderberry_bush, Blocks.FARMLAND);
 		wildberry_seeds = new ItemModSeeds("wildberry_seeds", CreativeTabHandler.FOOD, BlockHandler.wildberry_bush, Blocks.FARMLAND);
 
-		trout = new ItemCustomFish(2, 0.1F, "trout", CreativeTabHandler.FOOD);
-		trout_cooked = new ItemCustomFish(8, 0.6F, "trout_cooked", CreativeTabHandler.FOOD);
-		bass = new ItemCustomFish(3, 0.1F, "bass", CreativeTabHandler.FOOD);
-		bass_cooked = new ItemCustomFish(9, 0.6F, "bass_cooked", CreativeTabHandler.FOOD);
-		perch = new ItemCustomFish(1, 0.1F, "perch", CreativeTabHandler.FOOD);
-		perch_cooked = new ItemCustomFish(5, 0.6F, "perch_cooked", CreativeTabHandler.FOOD);
-		grayling = new ItemCustomFish(4, 0.3F, "grayling", CreativeTabHandler.FOOD);
-		grayling_cooked = new ItemCustomFish(9, 0.8F, "grayling_cooked", CreativeTabHandler.FOOD);
+		trout = new ItemCustomFish(2, 0.1F, "trout", CreativeTabHandler.FOOD, 4, 0, 0, 0);
+		trout_cooked = new ItemCustomFish(8, 0.6F, "trout_cooked", CreativeTabHandler.FOOD, 16, 0, 0, 0);
+		bass = new ItemCustomFish(3, 0.1F, "bass", CreativeTabHandler.FOOD, 6, 0, 0, 0);
+		bass_cooked = new ItemCustomFish(9, 0.6F, "bass_cooked", CreativeTabHandler.FOOD, 18, 0, 0, 0);
+		perch = new ItemCustomFish(1, 0.1F, "perch", CreativeTabHandler.FOOD, 2, 0, 0, 0);
+		perch_cooked = new ItemCustomFish(5, 0.6F, "perch_cooked", CreativeTabHandler.FOOD, 10, 0, 0, 0);
+		grayling = new ItemCustomFish(4, 0.3F, "grayling", CreativeTabHandler.FOOD, 8, 0, 0, 0);
+		grayling_cooked = new ItemCustomFish(9, 0.8F, "grayling_cooked", CreativeTabHandler.FOOD, 18, 0, 0, 0);
 
-		corn = new ItemModSeedFood("corn", CreativeTabHandler.FOOD, 3, 0.3F, BlockHandler.cornstalk, Blocks.FARMLAND);
-		turnip = new ItemModSeedFood("turnip", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.turnips, Blocks.FARMLAND);
+		corn = new ItemModSeedFood("corn", CreativeTabHandler.FOOD, 3, 0.3F, BlockHandler.cornstalk, 1, 4, 6, 0);
+		turnip = new ItemModSeedFood("turnip", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.turnips, 0, 2, 4, 0);
 
-		onion = new ItemModSeedFood("onion", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.onions, Blocks.FARMLAND);
-		peas = new ItemModSeedFood("peas", CreativeTabHandler.FOOD, 1, 0.3F, BlockHandler.peas, Blocks.FARMLAND);
-		yam = new ItemModSeedFood("yam", CreativeTabHandler.FOOD, 2, 0.6F, BlockHandler.yams, Blocks.FARMLAND);
+		onion = new ItemModSeedFood("onion", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.onions, 0, 2, 4, 0);
+		peas = new ItemModSeedFood("peas", CreativeTabHandler.FOOD, 1, 0.3F, BlockHandler.peas, 0, 0, 2, 0);
+		yam = new ItemModSeedFood("yam", CreativeTabHandler.FOOD, 2, 0.6F, BlockHandler.yams, 2, 3, 4, 0);
 		rice = new ItemModSeeds("rice", CreativeTabHandler.FOOD, BlockHandler.rice, Blocks.FARMLAND);
-		beans = new ItemModSeedFood("beans", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.beans, Blocks.FARMLAND);
+		beans = new ItemModSeedFood("beans", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.beans, 2, 3, 4, 0);
 
 		cornstalk = new ModItem("cornstalk", CreativeTabHandler.MISC);
 

@@ -19,6 +19,10 @@ import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.FactionCapStorage;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
+import com.bob.redwall.entity.capabilities.nutrition.INutrition;
+import com.bob.redwall.entity.capabilities.nutrition.Nutrition;
+import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
+import com.bob.redwall.entity.capabilities.nutrition.NutritionStorage;
 import com.bob.redwall.entity.capabilities.season.ISeasonCap;
 import com.bob.redwall.entity.capabilities.season.SeasonCap;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
@@ -38,22 +42,24 @@ public class CapabilityHandler {
 	public static final ResourceLocation DEFENDING_CAP = new ResourceLocation(Ref.MODID, "defending");
 	public static final ResourceLocation ARMOR_WEIGHT_CAP = new ResourceLocation(Ref.MODID, "armor_weight");
 	public static final ResourceLocation FACTION_CAP = new ResourceLocation(Ref.MODID, "factions");
-	
+	public static final ResourceLocation NUTRITION_CAP = new ResourceLocation(Ref.MODID, "nutrition");
+
 	@SubscribeEvent
 	public void onAttachToEntity(AttachCapabilitiesEvent<Entity> event) {
 		event.addCapability(ATTACKING_CAP, new AttackingProvider());
 		event.addCapability(DEFENDING_CAP, new DefendingProvider());
-		if (!(event.getObject() instanceof EntityPlayer)) return;
-		//EntityPlayer entityplayer = (EntityPlayer)event.getObject();
 		event.addCapability(ARMOR_WEIGHT_CAP, new ArmorWeightProvider());
+		if (!(event.getObject() instanceof EntityPlayer)) return;
+		// EntityPlayer entityplayer = (EntityPlayer)event.getObject();
 		event.addCapability(FACTION_CAP, new FactionCapProvider());
+		event.addCapability(NUTRITION_CAP, new NutritionProvider());
 	}
-	
+
 	@SubscribeEvent
 	public void onAttachToWorld(AttachCapabilitiesEvent<World> event) {
 		event.addCapability(SEASON_CAP, new SeasonCapProvider());
 	}
-	
+
 	public static void register() {
 		CapabilityManager.INSTANCE.register(ISeasonCap.class, new SeasonCapStorage(), new Callable<ISeasonCap>() {
 			@Override
@@ -87,6 +93,13 @@ public class CapabilityHandler {
 			@Override
 			public IFactionCap call() throws Exception {
 				return new FactionCap();
+			}
+		});
+
+		CapabilityManager.INSTANCE.register(INutrition.class, new NutritionStorage(), new Callable<INutrition>() {
+			@Override
+			public INutrition call() throws Exception {
+				return new Nutrition();
 			}
 		});
 	}

@@ -19,6 +19,7 @@ import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
@@ -36,6 +37,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -53,6 +55,7 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
@@ -258,6 +261,8 @@ public class EventHandler {
 			if(event.player.isPotionActive(StatusEffect.POISON) && event.player.ticksExisted % (int)(20.0F / (float)(event.player.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0) {
 				event.player.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor(), 1.0F);
 			}
+			
+			event.player.getCapability(NutritionProvider.NUTRITION_CAP, null).update(event.player);
 	    } else if(event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
 	    	IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
 			if(defending.get() && !event.player.isSneaking()) RedwallControlHandler.handleDefenseEnd(defending.getMode());
@@ -299,6 +304,14 @@ public class EventHandler {
 					event.getToolTip().add(name);
 				}
 			}
+		}
+	}
+
+	
+	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	public void onEvent(LivingEntityUseItemEvent.Finish event) {
+		if(event.getEntity() instanceof EntityPlayer && event.getItem().getItem().getItemUseAction(event.getItem()) == EnumAction.EAT) {
+			((EntityPlayer)event.getEntity()).getCapability(NutritionProvider.NUTRITION_CAP, null).eatFood(event.getItem());
 		}
 	}
 }

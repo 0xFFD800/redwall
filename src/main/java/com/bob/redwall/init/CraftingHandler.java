@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.Ref;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.factions.Faction;
 import com.google.common.collect.Lists;
@@ -19,6 +21,7 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeRepairItem;
@@ -28,6 +31,7 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
 public class CraftingHandler {
@@ -74,6 +78,26 @@ public class CraftingHandler {
 		((IForgeRegistryModifiable<IRecipe>) event.getRegistry()).remove(Items.DIAMOND_BOOTS.getRegistryName());
 
 		((IForgeRegistryModifiable<IRecipe>) event.getRegistry()).remove(Items.BREAD.getRegistryName());
+
+		Map<ItemStack, ItemStack> furnaceRecipes = ReflectionHelper.getPrivateValue(FurnaceRecipes.class, FurnaceRecipes.instance(), "smeltingList", "field_77604_b", "b");
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Blocks.IRON_ORE));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Blocks.GOLD_ORE));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.POTATO));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.BEEF));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.CHICKEN));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.PORKCHOP));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.MUTTON));
+		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.RABBIT));
+	}
+
+	public static void removeSmeltingRecipe(Map<ItemStack, ItemStack> map, ItemStack input) {
+		for (Entry<ItemStack, ItemStack> entry : map.entrySet()) {
+			if (entry.getKey().getItem() == input.getItem() && (entry.getKey().getMetadata() == 32767 || input.getMetadata() == entry.getKey().getMetadata())) {
+				map.remove(entry.getKey());
+			}
+		}
+
+		Ref.LOGGER.warn("Could not remove smelting recipe for input " + input.getItem().getRegistryName() + "!");
 	}
 
 	public static class SmithingGeneric {
@@ -460,6 +484,13 @@ public class CraftingHandler {
 
 		private Cooking() {
 			this.addRecipe(0, true, new ItemStack(Items.BREAD), new Object[] { "###", " X ", '#', Items.WHEAT, 'X', PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER) });
+			this.addShapelessRecipe(0, true, new ItemStack(Items.BAKED_POTATO), new Object[] { Items.POTATO });
+			this.addShapelessRecipe(0, true, new ItemStack(Items.COOKED_FISH, 1, 0), new Object[] { new ItemStack(Items.FISH, 1, 0) });
+			this.addShapelessRecipe(0, true, new ItemStack(Items.COOKED_FISH, 1, 1), new Object[] { new ItemStack(Items.FISH, 1, 1) });
+			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.bass_cooked), new Object[] { ItemHandler.bass });
+			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.grayling_cooked), new Object[] { ItemHandler.grayling });
+			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.perch_cooked), new Object[] { ItemHandler.perch });
+			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.trout_cooked), new Object[] { ItemHandler.trout });
 
 			/*
 			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new
