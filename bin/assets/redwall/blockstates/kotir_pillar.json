@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "redwall:kotir_pillar" },
+        "axis=z":   { "model": "redwall:kotir_pillar", "x": 90 },
+        "axis=x":   { "model": "redwall:kotir_pillar", "x": 90, "y": 90 },
+        "axis=none": { "model": "redwall:kotir_brick" }
+    }
+}

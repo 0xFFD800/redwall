@@ -391,6 +391,16 @@ public class BlockHandler {
 	public static Block double_redwall_slab;
 	public static ItemBlock ib_redwall_slab;
 
+	public static Block kotir_brick;
+	public static ItemBlock ib_kotir_brick;
+	public static Block kotir_pillar;
+	public static ItemBlock ib_kotir_pillar;
+	public static Block kotir_stairs;
+	public static ItemBlock ib_kotir_stairs;
+	public static Block kotir_slab;
+	public static Block double_kotir_slab;
+	public static ItemBlock ib_kotir_slab;
+
 	public static Block bronze_block;
 	public static ItemBlock ib_bronze_block;
 	public static Block copper_block;
@@ -756,6 +766,28 @@ public class BlockHandler {
 		redwall_slab = new BlockModSlab(Material.WOOD, "redwall_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		double_redwall_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_redwall_slab", null, 2.0F, 5.0F, 0, "axe");
 		ib_redwall_slab = (ItemBlock) new ItemModSlab(redwall_slab, (BlockModSlab) redwall_slab, (BlockModSlab) double_redwall_slab, redwall_slab.getRegistryName());
+		
+		kotir_brick = new BlockModBrick("kotir_brick", CreativeTabHandler.BLOCKS, 2.5F, 15.0F, 0, "pickaxe");
+		ib_kotir_brick = (ItemBlock) (new ItemMultiTexture(BlockHandler.kotir_brick, BlockHandler.kotir_brick, new ItemMultiTexture.Mapper() {
+			@Override
+			public String apply(ItemStack p_apply_1_) {
+				return BlockModBrick.EnumType.byMetadata(p_apply_1_.getMetadata()).getUnlocalizedName();
+			}
+		})).setUnlocalizedName("kotir_brick").setRegistryName(kotir_brick.getRegistryName());
+		ib_kotir_brick.addPropertyOverride(new ResourceLocation("damage"), new IItemPropertyGetter() {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+				return stack.getMetadata();
+			}
+		});
+		kotir_pillar = new BlockModPillar("kotir_pillar", CreativeTabHandler.BLOCKS, 2.5F, 15.0F, 0, "pickaxe");
+		ib_kotir_pillar = (ItemBlock) new ItemModBlock(kotir_pillar, kotir_pillar.getRegistryName());
+		kotir_stairs = new BlockModStairs(BlockHandler.kotir_brick.getDefaultState(), "kotir_stairs", CreativeTabHandler.BLOCKS, 2.5F, 15.0F, 0, "pickaxe");
+		ib_kotir_stairs = (ItemBlock) new ItemModBlock(kotir_stairs, kotir_stairs.getRegistryName());
+		kotir_slab = new BlockModSlab(Material.WOOD, "kotir_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		double_kotir_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_kotir_slab", null, 2.0F, 5.0F, 0, "axe");
+		ib_kotir_slab = (ItemBlock) new ItemModSlab(kotir_slab, (BlockModSlab) kotir_slab, (BlockModSlab) double_kotir_slab, kotir_slab.getRegistryName());
 
 		bronze_block = new ModBlock(Material.ROCK, "bronze_block", CreativeTabHandler.BLOCKS, 5.0F, 10.0F, 0, "pickaxe");
 		ib_bronze_block = (ItemBlock) new ItemModBlock(bronze_block, bronze_block.getRegistryName());
@@ -976,6 +1008,12 @@ public class BlockHandler {
 		registerBlock(event, redwall_slab);
 		registerBlock(event, double_redwall_slab);
 
+		registerBlock(event, kotir_brick);
+		registerBlock(event, kotir_pillar);
+		registerBlock(event, kotir_stairs);
+		registerBlock(event, kotir_slab);
+		registerBlock(event, double_kotir_slab);
+
 		registerBlock(event, bronze_block);
 		registerBlock(event, copper_block);
 		registerBlock(event, tin_block);
@@ -1132,6 +1170,11 @@ public class BlockHandler {
 		registerItemBlock(event, ib_redwall_pillar);
 		registerItemBlock(event, ib_redwall_stairs);
 		registerItemBlock(event, ib_redwall_slab);
+
+		registerItemBlock(event, ib_kotir_brick);
+		registerItemBlock(event, ib_kotir_pillar);
+		registerItemBlock(event, ib_kotir_stairs);
+		registerItemBlock(event, ib_kotir_slab);
 
 		registerItemBlock(event, ib_bronze_block);
 		registerItemBlock(event, ib_copper_block);
@@ -1330,6 +1373,15 @@ public class BlockHandler {
 		registerRender(redwall_stairs);
 		registerRender(redwall_slab);
 		registerRender(double_redwall_slab);
+
+		registerRender(kotir_brick, 0, new ResourceLocation(Ref.MODID, "kotir_brick"));
+		registerRender(kotir_brick, 1, new ResourceLocation(Ref.MODID, "item/kotir_brick_mossy"));
+		registerRender(kotir_brick, 2, new ResourceLocation(Ref.MODID, "item/kotir_brick_cracked"));
+		registerRender(kotir_brick, 3, new ResourceLocation(Ref.MODID, "item/kotir_brick_chiseled"));
+		registerRender(kotir_pillar);
+		registerRender(kotir_stairs);
+		registerRender(kotir_slab);
+		registerRender(double_kotir_slab);
 
 		registerRender(bronze_block);
 		registerRender(copper_block);

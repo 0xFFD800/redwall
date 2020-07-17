@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "variant=_brick": { "model": "redwall:kotir_brick" },
+    "variant=_brick_chiseled": { "model": "redwall:kotir_brick_chiseled" },
+    "variant=_brick_cracked": { "model": "redwall:kotir_brick_cracked" },
+    "variant=_brick_mossy": { "model": "redwall:kotir_brick_mossy" }
+  }
+}

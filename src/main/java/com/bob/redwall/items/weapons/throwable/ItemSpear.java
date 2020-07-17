@@ -3,6 +3,7 @@ package com.bob.redwall.items.weapons.throwable;
 import javax.annotation.Nullable;
 
 import com.bob.redwall.entity.projectile.spear.EntitySpear;
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 
@@ -36,6 +37,17 @@ public class ItemSpear extends ModCustomWeapon {
         });
 	}
 	
+	public ItemSpear(String name, CreativeTabs tab, float spd, float dmg, float reach, Item.ToolMaterial material, Faction faction) {
+		super(name, tab, spd, dmg, reach, material, faction);
+		this.addPropertyOverride(new ResourceLocation("throwing"), new IItemPropertyGetter() {
+			@Override
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+                return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack && !entityIn.isSneaking() ? 1.0F : 0.0F;
+            }
+        });
+	}
+
 	@Override
 	public int getMaxItemUseDuration(ItemStack stack) {
         return 8;

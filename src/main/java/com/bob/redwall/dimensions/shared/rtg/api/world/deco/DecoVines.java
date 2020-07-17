@@ -11,9 +11,9 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.WorldGenVines
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockVine;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
@@ -21,171 +21,143 @@ import net.minecraftforge.event.terraingen.TerrainGen;
  * @author WhichOnesPink
  */
 public class DecoVines extends DecoBase {
+	private int loops;
+	private float strengthFactor;
+	private Block vineBlock;
+	private int minY;
+	private int maxY;
+	private PropertyBool propNorth;
+	private PropertyBool propEast;
+	private PropertyBool propSouth;
+	private PropertyBool propWest;
 
-    private int loops;
-    private float strengthFactor;
-    private Block vineBlock;
-    private int minY;
-    private int maxY;
-    private PropertyBool propNorth;
-    private PropertyBool propEast;
-    private PropertyBool propSouth;
-    private PropertyBool propWest;
+	protected WorldGenerator worldGenerator;
 
-    protected WorldGenerator worldGenerator;
+	public DecoVines() {
+		super();
 
-    public DecoVines() {
+		this.setLoops(1);
+		this.setStrengthFactor(0f);
+		this.setMinY(63);
+		this.setMaxY(200);
+		this.vineBlock = Blocks.VINE;
+		this.propNorth = BlockVine.NORTH;
+		this.propEast = BlockVine.EAST;
+		this.propSouth = BlockVine.SOUTH;
+		this.propWest = BlockVine.WEST;
 
-        super();
+		this.addDecoTypes(DecoType.VINE);
+	}
 
-        this.setLoops(1);
-        this.setStrengthFactor(0f);
-        this.setMinY(63);
-        this.setMaxY(200);
-        this.vineBlock = Blocks.VINE;
-        this.propNorth = BlockVine.NORTH;
-        this.propEast = BlockVine.EAST;
-        this.propSouth = BlockVine.SOUTH;
-        this.propWest = BlockVine.WEST;
+	@Override
+	public boolean properlyDefined() {
+		try {
+			this.vineBlock.getDefaultState().withProperty(this.propNorth, true).withProperty(this.propEast, false).withProperty(this.propSouth, false).withProperty(this.propWest, false);
+		} catch (Exception e) {
+			return false;
+		}
 
-        this.addDecoTypes(DecoType.VINE);
-    }
+		return true;
+	}
 
-    @Override
-    public boolean properlyDefined() {
+	@Override
+	public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
+		if (this.allowed) {
+			if (TerrainGen.decorate(rtgWorld.world(), rand, new ChunkPos(new BlockPos(worldX, 0, worldZ)), GRASS)) {
 
-        try {
-            IBlockState vineTest = this.vineBlock.getDefaultState()
-                .withProperty(this.propNorth, true)
-                .withProperty(this.propEast, false)
-                .withProperty(this.propSouth, false)
-                .withProperty(this.propWest, false);
-        }
-        catch (Exception e) {
-            return false;
-        }
+				this.worldGenerator = new WorldGenVinesRTG(this.vineBlock, this.maxY, this.propNorth, this.propEast, this.propSouth, this.propWest);
 
-        return true;
-    }
+				this.setLoops((this.strengthFactor > 0f) ? (int) (this.strengthFactor * strength) : this.loops);
+				for (int i = 0; i < this.loops; i++) {
 
-    @Override
-    public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
+					int intX = worldX + rand.nextInt(16);// + 8;
+					int intZ = worldZ + rand.nextInt(16);// + 8;
+					int intY = this.minY;
 
-        if (this.allowed) {
+					worldGenerator.generate(rtgWorld.world(), rand, new BlockPos(intX, intY, intZ));
+				}
+			}
+		}
+	}
 
-            if (TerrainGen.decorate(rtgWorld.world(), rand, new BlockPos(worldX, 0, worldZ), GRASS)) {
+	public int getLoops() {
+		return loops;
+	}
 
-                this.worldGenerator = new WorldGenVinesRTG(this.vineBlock, this.maxY, this.propNorth, this.propEast, this.propSouth, this.propWest);
+	public DecoVines setLoops(int loops) {
+		this.loops = loops;
+		return this;
+	}
 
-                this.setLoops((this.strengthFactor > 0f) ? (int) (this.strengthFactor * strength) : this.loops);
-                for (int i = 0; i < this.loops; i++) {
+	public float getStrengthFactor() {
+		return strengthFactor;
+	}
 
-                    int intX = worldX + rand.nextInt(16);// + 8;
-                    int intZ = worldZ + rand.nextInt(16);// + 8;
-                    int intY = this.minY;
+	public DecoVines setStrengthFactor(float strengthFactor) {
+		this.strengthFactor = strengthFactor;
+		return this;
+	}
 
-                    worldGenerator.generate(rtgWorld.world(), rand, new BlockPos(intX, intY, intZ));
-                }
-            }
-        }
-    }
+	public Block getVineBlock() {
+		return vineBlock;
+	}
 
-    public int getLoops() {
+	public DecoVines setVineBlock(Block vineBlock) {
+		this.vineBlock = vineBlock;
+		return this;
+	}
 
-        return loops;
-    }
+	public int getMinY() {
+		return minY;
+	}
 
-    public DecoVines setLoops(int loops) {
+	public DecoVines setMinY(int minY) {
+		this.minY = minY;
+		return this;
+	}
 
-        this.loops = loops;
-        return this;
-    }
+	public int getMaxY() {
+		return maxY;
+	}
 
-    public float getStrengthFactor() {
+	public DecoVines setMaxY(int maxY) {
+		this.maxY = maxY;
+		return this;
+	}
 
-        return strengthFactor;
-    }
+	public PropertyBool getPropNorth() {
+		return propNorth;
+	}
 
-    public DecoVines setStrengthFactor(float strengthFactor) {
+	public DecoVines setPropNorth(PropertyBool propNorth) {
+		this.propNorth = propNorth;
+		return this;
+	}
 
-        this.strengthFactor = strengthFactor;
-        return this;
-    }
+	public PropertyBool getPropEast() {
+		return propEast;
+	}
 
-    public Block getVineBlock() {
+	public DecoVines setPropEast(PropertyBool propEast) {
+		this.propEast = propEast;
+		return this;
+	}
 
-        return vineBlock;
-    }
+	public PropertyBool getPropSouth() {
+		return propSouth;
+	}
 
-    public DecoVines setVineBlock(Block vineBlock) {
+	public DecoVines setPropSouth(PropertyBool propSouth) {
+		this.propSouth = propSouth;
+		return this;
+	}
 
-        this.vineBlock = vineBlock;
-        return this;
-    }
+	public PropertyBool getPropWest() {
+		return propWest;
+	}
 
-    public int getMinY() {
-
-        return minY;
-    }
-
-    public DecoVines setMinY(int minY) {
-
-        this.minY = minY;
-        return this;
-    }
-
-    public int getMaxY() {
-
-        return maxY;
-    }
-
-    public DecoVines setMaxY(int maxY) {
-
-        this.maxY = maxY;
-        return this;
-    }
-
-    public PropertyBool getPropNorth() {
-
-        return propNorth;
-    }
-
-    public DecoVines setPropNorth(PropertyBool propNorth) {
-
-        this.propNorth = propNorth;
-        return this;
-    }
-
-    public PropertyBool getPropEast() {
-
-        return propEast;
-    }
-
-    public DecoVines setPropEast(PropertyBool propEast) {
-
-        this.propEast = propEast;
-        return this;
-    }
-
-    public PropertyBool getPropSouth() {
-
-        return propSouth;
-    }
-
-    public DecoVines setPropSouth(PropertyBool propSouth) {
-
-        this.propSouth = propSouth;
-        return this;
-    }
-
-    public PropertyBool getPropWest() {
-
-        return propWest;
-    }
-
-    public DecoVines setPropWest(PropertyBool propWest) {
-
-        this.propWest = propWest;
-        return this;
-    }
+	public DecoVines setPropWest(PropertyBool propWest) {
+		this.propWest = propWest;
+		return this;
+	}
 }

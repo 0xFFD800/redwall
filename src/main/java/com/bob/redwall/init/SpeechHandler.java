@@ -58,6 +58,12 @@ public class SpeechHandler {
 	public static final List<String> NAMES_WOODLANDER_MOLE_M = Lists.newArrayList();
 	public static final List<String> NAMES_WOODLANDER_MOLE_F = Lists.newArrayList();
 
+	public static final List<String> MOSSFLOWER_RAT_FRIENDLY = Lists.newArrayList();
+	public static final List<String> MOSSFLOWER_RAT_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> MOSSFLOWER_RAT_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_MOSSFLOWER_RAT_M = Lists.newArrayList();
+	public static final List<String> NAMES_MOSSFLOWER_RAT_F = Lists.newArrayList();
+
 	public static void init() {
 		String path = "speech/" + Minecraft.getMinecraft().gameSettings.language;
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/generic/generic_friendly.speechbank"), GENERIC_FRIENDLY);
@@ -101,6 +107,12 @@ public class SpeechHandler {
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/hostile.speechbank"), WOODLANDER_MOLE_HOSTILE);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/names_m.speechbank"), NAMES_WOODLANDER_MOLE_M);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/names_f.speechbank"), NAMES_WOODLANDER_MOLE_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/friendly.speechbank"), MOSSFLOWER_RAT_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/unfriendly.speechbank"), MOSSFLOWER_RAT_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/hostile.speechbank"), MOSSFLOWER_RAT_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/names_m.speechbank"), NAMES_MOSSFLOWER_RAT_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/names_f.speechbank"), NAMES_MOSSFLOWER_RAT_F);
 	}
 	
 	public static void initializeSpeechbank(ResourceLocation resourceLoc, List<String> speechbank) {

@@ -84,6 +84,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.setIsMale(male);
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
         ((PathNavigateGround)this.getNavigator()).setEnterDoors(true);
+        this.setSize(0.6F, 1.8F);
 	}
     
     @Override
@@ -399,7 +400,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	public static enum EnumNPCType {
 		MOUSE("mouse"),
 		SQUIRREL("squirrel"),
-		MOLE("mole");
+		MOLE("mole"),
+		RAT("rat");
 		
 		public final String type;
 		private EnumNPCType(String type) {

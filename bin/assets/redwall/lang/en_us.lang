@@ -136,6 +136,14 @@ tile.redwall_pillar.name=Redwall Pillar
 tile.redwall_stairs.name=Redwall Stairs
 tile.redwall_slab.name=Redwall Slab
 
+tile.kotir_brick.default.name=Kotir Brick
+tile.kotir_brick.mossy.name=Mossy Kotir Brick
+tile.kotir_brick.cracked.name=Cracked Kotir Brick
+tile.kotir_brick.chiseled.name=Chiseled Kotir Brick
+tile.kotir_pillar.name=Kotir Pillar
+tile.kotir_stairs.name=Kotir Stairs
+tile.kotir_slab.name=Kotir Slab
+
 tile.bronze_block.name=Bronze Block
 tile.copper_block.name=Copper Block
 tile.tin_block.name=Tin Block
@@ -379,6 +387,8 @@ entity.redwall:squirrel_redwall.name=Redwall Squirrel
 entity.redwall:squirrel_woodlander.name=Woodlander Squirrel
 entity.redwall:mole_redwall.name=Redwall Mole
 entity.redwall:mole_woodlander.name=Woodlander Mole
+
+entity.redwall:rat_mossflower.name=Mossflower Rat
 
 death.attack.spear=%s was skewered by %d
 death.attack.spear.item=%s was skewered by %d using %u

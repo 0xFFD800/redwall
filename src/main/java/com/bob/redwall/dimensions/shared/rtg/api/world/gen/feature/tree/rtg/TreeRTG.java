@@ -26,336 +26,320 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
  */
 public class TreeRTG extends WorldGenAbstractTree {
 
-    protected IBlockState logBlock;
-    protected IBlockState leavesBlock;
-    protected int trunkSize;
-    protected int crownSize;
-    protected boolean noLeaves;
+	protected IBlockState logBlock;
+	protected IBlockState leavesBlock;
+	protected int trunkSize;
+	protected int crownSize;
+	protected boolean noLeaves;
 
-    protected IBlockState saplingBlock;
+	protected IBlockState saplingBlock;
 
-    protected int generateFlag;
+	protected int generateFlag;
 
-    protected int minTrunkSize;
-    protected int maxTrunkSize;
-    protected int minCrownSize;
-    protected int maxCrownSize;
+	protected int minTrunkSize;
+	protected int maxTrunkSize;
+	protected int minCrownSize;
+	protected int maxCrownSize;
 
-    protected ArrayList<IBlockState> validGroundBlocks;
-    protected ArrayList<Material> canGrowIntoMaterials;
+	protected ArrayList<IBlockState> validGroundBlocks;
+	protected ArrayList<Material> canGrowIntoMaterials;
 
-    protected RTGConfig rtgConfig = RTGAPI.config();
-    private boolean allowBarkCoveredLogs;
+	protected RTGConfig rtgConfig = RTGAPI.config();
+	private boolean allowBarkCoveredLogs;
 
-    public TreeRTG(boolean notify) {
+	public TreeRTG(boolean notify) {
+		super(notify);
+	}
 
-        super(notify);
-    }
+	public TreeRTG() {
+		this(false);
 
-    public TreeRTG() {
+		this.setLogBlock(Blocks.LOG.getDefaultState());
+		this.setLeavesBlock(Blocks.LEAVES.getDefaultState());
+		this.trunkSize = 2;
+		this.crownSize = 4;
+		this.setNoLeaves(false);
 
-        this(false);
+		this.saplingBlock = Blocks.SAPLING.getDefaultState();
 
-        this.setLogBlock(Blocks.LOG.getDefaultState());
-        this.setLeavesBlock(Blocks.LEAVES.getDefaultState());
-        this.trunkSize = 2;
-        this.crownSize = 4;
-        this.setNoLeaves(false);
+		this.generateFlag = 2;
 
-        this.saplingBlock = Blocks.SAPLING.getDefaultState();
+		// These need to default to zero as they're only used when generating trees from
+		// saplings.
+		this.setMinTrunkSize(0);
+		this.setMaxTrunkSize(0);
+		this.setMinCrownSize(0);
+		this.setMaxCrownSize(0);
 
-        this.generateFlag = 2;
+		// Each tree sub-class is responsible for using (or not using) this list as part
+		// of its generation logic.
+		this.validGroundBlocks = new ArrayList<IBlockState>(Arrays.asList(Blocks.GRASS.getDefaultState(), Blocks.DIRT.getDefaultState(), BlockUtil.getStateDirt(2), Blocks.SAND.getDefaultState(), BlockUtil.getStateSand(1)));
 
-        // These need to default to zero as they're only used when generating trees from saplings.
-        this.setMinTrunkSize(0);
-        this.setMaxTrunkSize(0);
-        this.setMinCrownSize(0);
-        this.setMaxCrownSize(0);
+		this.canGrowIntoMaterials = RTGConfig.getTreeMaterialsFromConfigString(rtgConfig.MATERIALS_TREES_CAN_GROW_INTO.get());
 
-        // Each tree sub-class is responsible for using (or not using) this list as part of its generation logic.
-        this.validGroundBlocks = new ArrayList<IBlockState>(Arrays.asList(
-            Blocks.GRASS.getDefaultState(),
-            Blocks.DIRT.getDefaultState(),
-            BlockUtil.getStateDirt(2),
-            Blocks.SAND.getDefaultState(),
-            BlockUtil.getStateSand(1)
-        ));
+		this.allowBarkCoveredLogs = rtgConfig.ALLOW_BARK_COVERED_LOGS.get();
+	}
 
-        this.canGrowIntoMaterials = rtgConfig.getTreeMaterialsFromConfigString(rtgConfig.MATERIALS_TREES_CAN_GROW_INTO.get());
+	@Override
+	public boolean generate(World world, Random rand, BlockPos pos) {
 
-        this.allowBarkCoveredLogs = rtgConfig.ALLOW_BARK_COVERED_LOGS.get();
-    }
+		return false;
+	}
 
-    @Override
-    public boolean generate(World world, Random rand, BlockPos pos) {
+	public void buildTrunk(World world, Random rand, int x, int y, int z) {
 
-        return false;
-    }
+	}
 
-    public void buildTrunk(World world, Random rand, int x, int y, int z) {
+	public void buildBranch(World world, Random rand, int x, int y, int z, int dX, int dZ, int logLength, int leaveSize) {
 
-    }
+	}
 
-    public void buildBranch(World world, Random rand, int x, int y, int z, int dX, int dZ, int logLength, int leaveSize) {
+	public void buildLeaves(World world, int x, int y, int z) {
 
-    }
+		if (this.noLeaves) {
+			return;
+		}
+	}
 
-    public void buildLeaves(World world, int x, int y, int z) {
+	public void buildLeaves(World world, Random rand, int x, int y, int z, int size) {
 
-        if (this.noLeaves) {
-            return;
-        }
-    }
+	}
 
-    public void buildLeaves(World world, Random rand, int x, int y, int z, int size) {
+	protected boolean isGroundValid(World world, BlockPos trunkPos) {
 
-    }
+		return this.isGroundValid(world, trunkPos, rtgConfig.ALLOW_TREES_TO_GENERATE_ON_SAND.get());
+	}
 
-    protected boolean isGroundValid(World world, BlockPos trunkPos) {
+	protected boolean isGroundValid(World world, BlockPos trunkPos, boolean sandAllowed) {
 
-        return this.isGroundValid(world, trunkPos, rtgConfig.ALLOW_TREES_TO_GENERATE_ON_SAND.get());
-    }
+		IBlockState g = world.getBlockState(new BlockPos(trunkPos.getX(), trunkPos.getY() - 1, trunkPos.getZ()));
 
-    protected boolean isGroundValid(World world, BlockPos trunkPos, boolean sandAllowed) {
+		if (g.getBlock() == Blocks.SAND && !sandAllowed) {
+			return false;
+		}
 
-        IBlockState g = world.getBlockState(new BlockPos(trunkPos.getX(), trunkPos.getY() - 1, trunkPos.getZ()));
+		for (int i = 0; i < this.validGroundBlocks.size(); i++) {
+			if (g == this.validGroundBlocks.get(i)) {
+				return true;
+			}
+		}
 
-        if (g.getBlock() == Blocks.SAND && !sandAllowed) {
-            return false;
-        }
+		return false;
+	}
 
-        for (int i = 0; i < this.validGroundBlocks.size(); i++) {
-            if (g == this.validGroundBlocks.get(i)) {
-                return true;
-            }
-        }
+	protected boolean isGroundValid(World world, ArrayList<BlockPos> trunkPos) {
 
-        return false;
-    }
+		if (trunkPos.isEmpty()) {
+			throw new RuntimeException("Unable to determine if ground is valid. No trunks.");
+		}
 
-    protected boolean isGroundValid(World world, ArrayList<BlockPos> trunkPos) {
+		for (int i = 0; i < trunkPos.size(); i++) {
+			if (!this.isGroundValid(world, trunkPos.get(i))) {
+				return false;
+			}
+		}
 
-        if (trunkPos.isEmpty()) {
-            throw new RuntimeException("Unable to determine if ground is valid. No trunks.");
-        }
+		return true;
+	}
 
-        for (int i = 0; i < trunkPos.size(); i++) {
-            if (!this.isGroundValid(world, trunkPos.get(i))) {
-                return false;
-            }
-        }
+	protected void placeLogBlock(World world, BlockPos pos, IBlockState logBlock, int generateFlag) {
 
-        return true;
-    }
+		if (this.isReplaceable(world, pos)) {
+			world.setBlockState(pos, logBlock, generateFlag);
+		}
+	}
 
-    protected void placeLogBlock(World world, BlockPos pos, IBlockState logBlock, int generateFlag) {
+	protected void placeLeavesBlock(World world, BlockPos pos, IBlockState leavesBlock, int generateFlag) {
 
-        if (this.isReplaceable(world, pos)) {
-            world.setBlockState(pos, logBlock, generateFlag);
-        }
-    }
+		if (world.isAirBlock(pos)) {
+			world.setBlockState(pos, leavesBlock, generateFlag);
+		}
+	}
 
-    protected void placeLeavesBlock(World world, BlockPos pos, IBlockState leavesBlock, int generateFlag) {
+	@Override
+	public boolean isReplaceable(World world, BlockPos pos) {
 
-        if (world.isAirBlock(pos)) {
-            world.setBlockState(pos, leavesBlock, generateFlag);
-        }
-    }
+		IBlockState state = world.getBlockState(pos);
 
-    @Override
-    public boolean isReplaceable(World world, BlockPos pos) {
+		return state.getBlock().isAir(state, world, pos) || state.getBlock().isLeaves(state, world, pos) || state.getBlock().isWood(world, pos) || canGrowInto(state.getBlock());
+	}
 
-        IBlockState state = world.getBlockState(pos);
+	@Override
+	protected boolean canGrowInto(Block blockType) {
 
-        return state.getBlock().isAir(state, world, pos)
-            || state.getBlock().isLeaves(state, world, pos)
-            || state.getBlock().isWood(world, pos)
-            || canGrowInto(state.getBlock());
-    }
+		Material material = blockType.getDefaultState().getMaterial();
 
-    @Override
-    protected boolean canGrowInto(Block blockType) {
+		for (int i = 0; i < this.canGrowIntoMaterials.size(); i++) {
+			if (material == this.canGrowIntoMaterials.get(i)) {
+				// Logger.debug("Log has grown into %s (%s)",
+				// this.canGrowIntoMaterials.get(i).toString(), blockType.getLocalizedName());
+				return true;
+			}
+		}
 
-        Material material = blockType.getDefaultState().getMaterial();
+		return false;
+	}
 
-        for (int i = 0; i < this.canGrowIntoMaterials.size(); i++) {
-            if (material == this.canGrowIntoMaterials.get(i)) {
-                //Logger.debug("Log has grown into %s (%s)", this.canGrowIntoMaterials.get(i).toString(), blockType.getLocalizedName());
-                return true;
-            }
-        }
+	public boolean hasSpaceToGrow(World world, Random rand, BlockPos pos, int treeHeight) {
 
-        return false;
-    }
+		WorldUtil worldUtil = new WorldUtil(world);
+		if (!worldUtil.isSurroundedByBlock(Blocks.AIR.getDefaultState(), treeHeight, WorldUtil.SurroundCheckType.UP, rand, pos.getX(), pos.getY(), pos.getZ())) {
 
-    public boolean hasSpaceToGrow(World world, Random rand, BlockPos pos, int treeHeight) {
+			// Logger.debug("Unable to grow RTG tree with %d height. Something in the way.",
+			// treeHeight);
 
-        WorldUtil worldUtil = new WorldUtil(world);
-        if (!worldUtil.isSurroundedByBlock(
-            Blocks.AIR.getDefaultState(),
-            treeHeight,
-            WorldUtil.SurroundCheckType.UP,
-            rand,
-            pos.getX(),
-            pos.getY(),
-            pos.getZ()
-        )) {
+			return false;
+		}
 
-            //Logger.debug("Unable to grow RTG tree with %d height. Something in the way.", treeHeight);
+		return true;
+	}
 
-            return false;
-        }
+	public IBlockState getTrunkLog(IBlockState defaultLog) {
 
-        return true;
-    }
+		if (!this.allowBarkCoveredLogs) {
+			return defaultLog;
+		}
 
-    public IBlockState getTrunkLog(IBlockState defaultLog) {
+		IBlockState trunkLog;
 
-        if (!this.allowBarkCoveredLogs) {
-            return defaultLog;
-        }
+		try {
+			trunkLog = defaultLog.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE);
+		} catch (Exception e) {
+			trunkLog = defaultLog;
+		}
 
-        IBlockState trunkLog;
+		return trunkLog;
+	}
 
-        try {
-            trunkLog = defaultLog.withProperty(BlockLog.LOG_AXIS, BlockLog.EnumAxis.NONE);
-        }
-        catch (Exception e) {
-            trunkLog = defaultLog;
-        }
+	public IBlockState getLogBlock() {
 
-        return trunkLog;
-    }
+		return logBlock;
+	}
 
-    public IBlockState getLogBlock() {
+	public TreeRTG setLogBlock(IBlockState logBlock) {
 
-        return logBlock;
-    }
+		this.logBlock = logBlock;
+		return this;
+	}
 
-    public TreeRTG setLogBlock(IBlockState logBlock) {
+	public IBlockState getLeavesBlock() {
 
-        this.logBlock = logBlock;
-        return this;
-    }
+		return leavesBlock;
+	}
 
-    public IBlockState getLeavesBlock() {
+	public TreeRTG setLeavesBlock(IBlockState leavesBlock) {
 
-        return leavesBlock;
-    }
+		this.leavesBlock = leavesBlock;
+		return this;
+	}
 
-    public TreeRTG setLeavesBlock(IBlockState leavesBlock) {
+	public int getTrunkSize() {
 
-        this.leavesBlock = leavesBlock;
-        return this;
-    }
+		return trunkSize;
+	}
 
-    public int getTrunkSize() {
+	public TreeRTG setTrunkSize(int trunkSize) {
 
-        return trunkSize;
-    }
+		this.trunkSize = trunkSize;
+		return this;
+	}
 
-    public TreeRTG setTrunkSize(int trunkSize) {
+	public int getCrownSize() {
 
-        this.trunkSize = trunkSize;
-        return this;
-    }
+		return crownSize;
+	}
 
-    public int getCrownSize() {
+	public TreeRTG setCrownSize(int crownSize) {
 
-        return crownSize;
-    }
+		this.crownSize = crownSize;
+		return this;
+	}
 
-    public TreeRTG setCrownSize(int crownSize) {
+	public boolean getNoLeaves() {
 
-        this.crownSize = crownSize;
-        return this;
-    }
+		return noLeaves;
+	}
 
-    public boolean getNoLeaves() {
+	public TreeRTG setNoLeaves(boolean noLeaves) {
 
-        return noLeaves;
-    }
+		this.noLeaves = noLeaves;
+		return this;
+	}
 
-    public TreeRTG setNoLeaves(boolean noLeaves) {
+	public IBlockState getSaplingBlock() {
 
-        this.noLeaves = noLeaves;
-        return this;
-    }
+		return saplingBlock;
+	}
 
-    public IBlockState getSaplingBlock() {
+	public TreeRTG setSaplingBlock(IBlockState saplingBlock) {
 
-        return saplingBlock;
-    }
+		this.saplingBlock = saplingBlock;
+		return this;
+	}
 
-    public TreeRTG setSaplingBlock(IBlockState saplingBlock) {
+	public int getGenerateFlag() {
 
-        this.saplingBlock = saplingBlock;
-        return this;
-    }
+		return generateFlag;
+	}
 
-    public int getGenerateFlag() {
+	public TreeRTG setGenerateFlag(int generateFlag) {
 
-        return generateFlag;
-    }
+		this.generateFlag = generateFlag;
+		return this;
+	}
 
-    public TreeRTG setGenerateFlag(int generateFlag) {
+	public int getMinTrunkSize() {
 
-        this.generateFlag = generateFlag;
-        return this;
-    }
+		return minTrunkSize;
+	}
 
-    public int getMinTrunkSize() {
+	public TreeRTG setMinTrunkSize(int minTrunkSize) {
 
-        return minTrunkSize;
-    }
+		this.minTrunkSize = minTrunkSize;
+		return this;
+	}
 
-    public TreeRTG setMinTrunkSize(int minTrunkSize) {
+	public int getMaxTrunkSize() {
 
-        this.minTrunkSize = minTrunkSize;
-        return this;
-    }
+		return maxTrunkSize;
+	}
 
-    public int getMaxTrunkSize() {
+	public TreeRTG setMaxTrunkSize(int maxTrunkSize) {
 
-        return maxTrunkSize;
-    }
+		this.maxTrunkSize = maxTrunkSize;
+		return this;
+	}
 
-    public TreeRTG setMaxTrunkSize(int maxTrunkSize) {
+	public int getMinCrownSize() {
 
-        this.maxTrunkSize = maxTrunkSize;
-        return this;
-    }
+		return minCrownSize;
+	}
 
-    public int getMinCrownSize() {
+	public TreeRTG setMinCrownSize(int minCrownSize) {
 
-        return minCrownSize;
-    }
+		this.minCrownSize = minCrownSize;
+		return this;
+	}
 
-    public TreeRTG setMinCrownSize(int minCrownSize) {
+	public int getMaxCrownSize() {
 
-        this.minCrownSize = minCrownSize;
-        return this;
-    }
+		return maxCrownSize;
+	}
 
-    public int getMaxCrownSize() {
+	public TreeRTG setMaxCrownSize(int maxCrownSize) {
 
-        return maxCrownSize;
-    }
+		this.maxCrownSize = maxCrownSize;
+		return this;
+	}
 
-    public TreeRTG setMaxCrownSize(int maxCrownSize) {
+	public ArrayList<IBlockState> getValidGroundBlocks() {
 
-        this.maxCrownSize = maxCrownSize;
-        return this;
-    }
+		return validGroundBlocks;
+	}
 
-    public ArrayList<IBlockState> getValidGroundBlocks() {
+	public TreeRTG setValidGroundBlocks(ArrayList<IBlockState> validGroundBlocks) {
 
-        return validGroundBlocks;
-    }
-
-    public TreeRTG setValidGroundBlocks(ArrayList<IBlockState> validGroundBlocks) {
-
-        this.validGroundBlocks = validGroundBlocks;
-        return this;
-    }
+		this.validGroundBlocks = validGroundBlocks;
+		return this;
+	}
 }

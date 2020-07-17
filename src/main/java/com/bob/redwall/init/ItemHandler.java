@@ -5,6 +5,7 @@ import java.util.Random;
 import com.bob.redwall.blocks.multiuse.BlockHiddenDoor;
 import com.bob.redwall.blocks.multiuse.BlockModDoor;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.ModItem;
 import com.bob.redwall.items.blocks.ItemBlockSpecial;
 import com.bob.redwall.items.blocks.ItemHiddenDoor;
@@ -332,53 +333,53 @@ public class ItemHandler {
 		iron_throwing_axe = new ItemThrowingAxe("iron_throwing_axe", CreativeTabHandler.COMBAT, -3.3F, 6.0F, 0.0F, ToolMaterial.IRON);
 		iron_scythe = new ItemScythe("iron_scythe", CreativeTabHandler.COMBAT, -3.4F, 6.0F, 1.0F, ToolMaterial.IRON);
 
-		salamandastron_sword = new ItemCustomSword("salamandastron_sword", CreativeTabHandler.COMBAT, -3.1F, 7.0F, 0.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_claymore = new ItemCustomSword("salamandastron_claymore", CreativeTabHandler.COMBAT, -3.2F, 7.0F, 1.0F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_broadsword = new ItemCustomSword("salamandastron_broadsword", CreativeTabHandler.COMBAT, -3.2F, 7.5F, 0.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_rapier = new ItemCustomSword("salamandastron_rapier", CreativeTabHandler.COMBAT, -3.0F, 6.5F, 0.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_sabre = new ItemCustomSword("salamandastron_sabre", CreativeTabHandler.COMBAT, -2.9F, 6.5F, 0.0F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_spear = new ItemSpear("salamandastron_spear", CreativeTabHandler.COMBAT, -3.3F, 6.5F, 2.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_lance = new ItemLance("salamandastron_lance", CreativeTabHandler.COMBAT, -3.3F, 7.0F, 2.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_pike = new ItemPike("salamandastron_pike", CreativeTabHandler.COMBAT, -3.5F, 6.5F, 4.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_dagger = new ItemDagger("salamandastron_dagger", CreativeTabHandler.COMBAT, -2.6F, 4.5F, -1.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_dirk = new ItemCustomSword("salamandastron_dirk", CreativeTabHandler.COMBAT, -2.8F, 6.5F, -1.0F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_battleaxe = new ItemBattleAxe("salamandastron_battleaxe", CreativeTabHandler.COMBAT, -3.3F, 10.0F, 0.5F, MaterialHandler.SALAMANDASTRON);
-		salamandastron_longbow = new ItemModBow("salamandastron_longbow", CreativeTabHandler.COMBAT, 1, 3072, Items.ARROW.getClass(), 40.0F, 7.0F);
+		salamandastron_sword = new ItemCustomSword("salamandastron_sword", CreativeTabHandler.COMBAT, -3.1F, 7.0F, 0.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_claymore = new ItemCustomSword("salamandastron_claymore", CreativeTabHandler.COMBAT, -3.2F, 7.0F, 1.0F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_broadsword = new ItemCustomSword("salamandastron_broadsword", CreativeTabHandler.COMBAT, -3.2F, 7.5F, 0.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_rapier = new ItemCustomSword("salamandastron_rapier", CreativeTabHandler.COMBAT, -3.0F, 6.5F, 0.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_sabre = new ItemCustomSword("salamandastron_sabre", CreativeTabHandler.COMBAT, -2.9F, 6.5F, 0.0F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_spear = new ItemSpear("salamandastron_spear", CreativeTabHandler.COMBAT, -3.3F, 6.5F, 2.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_lance = new ItemLance("salamandastron_lance", CreativeTabHandler.COMBAT, -3.3F, 7.0F, 2.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_pike = new ItemPike("salamandastron_pike", CreativeTabHandler.COMBAT, -3.5F, 6.5F, 4.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_dagger = new ItemDagger("salamandastron_dagger", CreativeTabHandler.COMBAT, -2.6F, 4.5F, -1.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_dirk = new ItemCustomSword("salamandastron_dirk", CreativeTabHandler.COMBAT, -2.8F, 6.5F, -1.0F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_battleaxe = new ItemBattleAxe("salamandastron_battleaxe", CreativeTabHandler.COMBAT, -3.3F, 10.0F, 0.5F, MaterialHandler.SALAMANDASTRON, Faction.FacList.SALAMANDASTRON);
+		salamandastron_longbow = new ItemModBow("salamandastron_longbow", CreativeTabHandler.COMBAT, 1, 3072, Items.ARROW.getClass(), 40.0F, 7.0F, Faction.FacList.SALAMANDASTRON);
 
-		southsward_sword = new ItemCustomSword("southsward_sword", CreativeTabHandler.COMBAT, -3.3F, 7.5F, 0.0F, MaterialHandler.SOUTHSWARD);
-		southsward_spear = new ItemSpear("southsward_spear", CreativeTabHandler.COMBAT, -3.5F, 7.0F, 2.0F, MaterialHandler.SOUTHSWARD);
-		southsward_pike = new ItemPike("southsward_pike", CreativeTabHandler.COMBAT, -3.65F, 7.0F, 4.0F, MaterialHandler.SOUTHSWARD);
-		southsward_mace = new ItemMace("southsward_mace", CreativeTabHandler.COMBAT, -3.7F, 12.5F, 0.0F, MaterialHandler.SOUTHSWARD);
-		southsward_hammer = new ItemMace("southsward_hammer", CreativeTabHandler.COMBAT, -3.5F, 10.5F, 0.0F, MaterialHandler.SOUTHSWARD);
-		southsward_dagger = new ItemDagger("southsward_dagger", CreativeTabHandler.COMBAT, -2.9F, 5.0F, -2.0F, MaterialHandler.SOUTHSWARD);
-		southsward_longbow = new ItemModBow("southsward_longbow", CreativeTabHandler.COMBAT, 1, 1536, Items.ARROW.getClass(), 30.0F, 5.0F);
+		southsward_sword = new ItemCustomSword("southsward_sword", CreativeTabHandler.COMBAT, -3.3F, 7.5F, 0.0F, MaterialHandler.SOUTHSWARD, Faction.FacList.SOUTHSWARD);
+		southsward_spear = new ItemSpear("southsward_spear", CreativeTabHandler.COMBAT, -3.5F, 7.0F, 2.0F, MaterialHandler.SOUTHSWARD, Faction.FacList.SOUTHSWARD);
+		southsward_pike = new ItemPike("southsward_pike", CreativeTabHandler.COMBAT, -3.65F, 7.0F, 4.0F, MaterialHandler.SOUTHSWARD, Faction.FacList.SOUTHSWARD);
+		southsward_mace = new ItemMace("southsward_mace", CreativeTabHandler.COMBAT, -3.7F, 12.5F, 0.0F, MaterialHandler.SOUTHSWARD, Faction.FacList.SOUTHSWARD);
+		southsward_hammer = new ItemMace("southsward_hammer", CreativeTabHandler.COMBAT, -3.5F, 10.5F, 0.0F, MaterialHandler.SOUTHSWARD, Faction.FacList.SOUTHSWARD);
+		southsward_dagger = new ItemDagger("southsward_dagger", CreativeTabHandler.COMBAT, -2.9F, 5.0F, -2.0F, MaterialHandler.SOUTHSWARD, Faction.FacList.SOUTHSWARD);
+		southsward_longbow = new ItemModBow("southsward_longbow", CreativeTabHandler.COMBAT, 1, 1536, Items.ARROW.getClass(), 30.0F, 5.0F, Faction.FacList.SOUTHSWARD);
 
-		riftgard_sword = new ItemCustomSword("riftgard_sword", CreativeTabHandler.COMBAT, -3.2F, 7.0F, 0.0F, MaterialHandler.RIFTGARD);
-		riftgard_broadsword = new ItemCustomSword("riftgard_broadsword", CreativeTabHandler.COMBAT, -3.3F, 7.5F, 0.0F, MaterialHandler.RIFTGARD);
-		riftgard_rapier = new ItemCustomSword("riftgard_rapier", CreativeTabHandler.COMBAT, -3.1F, 6.5F, 0.0F, MaterialHandler.RIFTGARD);
-		riftgard_sabre = new ItemCustomSword("riftgard_sabre", CreativeTabHandler.COMBAT, -3.0F, 6.5F, -0.5F, MaterialHandler.RIFTGARD);
-		riftgard_spear = new ItemSpear("riftgard_spear", CreativeTabHandler.COMBAT, -3.4F, 6.5F, 2.0F, MaterialHandler.RIFTGARD);
-		riftgard_dagger = new ItemDagger("riftgard_dagger", CreativeTabHandler.COMBAT, -2.7F, 4.5F, -2.0F, MaterialHandler.RIFTGARD);
+		riftgard_sword = new ItemCustomSword("riftgard_sword", CreativeTabHandler.COMBAT, -3.2F, 7.0F, 0.0F, MaterialHandler.RIFTGARD, Faction.FacList.RIFTGARD);
+		riftgard_broadsword = new ItemCustomSword("riftgard_broadsword", CreativeTabHandler.COMBAT, -3.3F, 7.5F, 0.0F, MaterialHandler.RIFTGARD, Faction.FacList.RIFTGARD);
+		riftgard_rapier = new ItemCustomSword("riftgard_rapier", CreativeTabHandler.COMBAT, -3.1F, 6.5F, 0.0F, MaterialHandler.RIFTGARD, Faction.FacList.RIFTGARD);
+		riftgard_sabre = new ItemCustomSword("riftgard_sabre", CreativeTabHandler.COMBAT, -3.0F, 6.5F, -0.5F, MaterialHandler.RIFTGARD, Faction.FacList.RIFTGARD);
+		riftgard_spear = new ItemSpear("riftgard_spear", CreativeTabHandler.COMBAT, -3.4F, 6.5F, 2.0F, MaterialHandler.RIFTGARD, Faction.FacList.RIFTGARD);
+		riftgard_dagger = new ItemDagger("riftgard_dagger", CreativeTabHandler.COMBAT, -2.7F, 4.5F, -2.0F, MaterialHandler.RIFTGARD, Faction.FacList.RIFTGARD);
 
-		northlands_claymore = new ItemCustomSword("northlands_claymore", CreativeTabHandler.COMBAT, -3.3F, 7.0F, 0.5F, MaterialHandler.NORTHLANDS);
-		northlands_dirk = new ItemCustomSword("northlands_dirk", CreativeTabHandler.COMBAT, -2.9F, 6.0F, -1.5F, MaterialHandler.NORTHLANDS);
-		northlands_sgian_dhu = new ItemDagger("northlands_sgian_dhu", CreativeTabHandler.COMBAT, -2.5F, 5.0F, -2.5F, MaterialHandler.NORTHLANDS);
+		northlands_claymore = new ItemCustomSword("northlands_claymore", CreativeTabHandler.COMBAT, -3.3F, 7.0F, 0.5F, MaterialHandler.NORTHLANDS, Faction.FacList.NORTHLANDS);
+		northlands_dirk = new ItemCustomSword("northlands_dirk", CreativeTabHandler.COMBAT, -2.9F, 6.0F, -1.5F, MaterialHandler.NORTHLANDS, Faction.FacList.NORTHLANDS);
+		northlands_sgian_dhu = new ItemDagger("northlands_sgian_dhu", CreativeTabHandler.COMBAT, -2.5F, 5.0F, -2.5F, MaterialHandler.NORTHLANDS, Faction.FacList.NORTHLANDS);
 
-		guosim_rapier = new ItemCustomSword("guosim_rapier", CreativeTabHandler.COMBAT, -2.9F, 6.0F, -0.5F, MaterialHandler.GUOSIM);
-		guosim_paddle = new ItemMace("guosim_paddle", CreativeTabHandler.COMBAT, -3.5F, 7.5F, 2.0F, MaterialHandler.GUOSIM);
-		guosim_bow = new ItemModBow("guosim_bow", CreativeTabHandler.COMBAT, 1, 768, Items.ARROW.getClass(), 15.0F, 2.5F);
+		guosim_rapier = new ItemCustomSword("guosim_rapier", CreativeTabHandler.COMBAT, -2.9F, 6.0F, -0.5F, MaterialHandler.GUOSIM, Faction.FacList.GUOSIM);
+		guosim_paddle = new ItemMace("guosim_paddle", CreativeTabHandler.COMBAT, -3.5F, 7.5F, 2.0F, MaterialHandler.GUOSIM, Faction.FacList.GUOSIM);
+		guosim_bow = new ItemModBow("guosim_bow", CreativeTabHandler.COMBAT, 1, 768, Items.ARROW.getClass(), 15.0F, 2.5F, Faction.FacList.GUOSIM);
 
-		rogue_crew_sword = new ItemCustomSword("rogue_crew_sword", CreativeTabHandler.COMBAT, -3.2F, 7.0F, 0.0F, MaterialHandler.ROGUE_CREW);
-		rogue_crew_battleaxe = new ItemBattleAxe("rogue_crew_battleaxe", CreativeTabHandler.COMBAT, -3.4F, 10.5F, 0.0F, MaterialHandler.ROGUE_CREW);
-		rogue_crew_throwing_axe = new ItemThrowingAxe("rogue_crew_throwing_axe", CreativeTabHandler.COMBAT, -3.3F, 8.0F, 0.0F, MaterialHandler.ROGUE_CREW);
-		rogue_crew_longbow = new ItemModBow("rogue_crew_longbow", CreativeTabHandler.COMBAT, 1, 2304, Items.ARROW.getClass(), 35.0F, 6.0F);
+		rogue_crew_sword = new ItemCustomSword("rogue_crew_sword", CreativeTabHandler.COMBAT, -3.2F, 7.0F, 0.0F, MaterialHandler.ROGUE_CREW, Faction.FacList.ROGUE_CREW);
+		rogue_crew_battleaxe = new ItemBattleAxe("rogue_crew_battleaxe", CreativeTabHandler.COMBAT, -3.4F, 10.5F, 0.0F, MaterialHandler.ROGUE_CREW, Faction.FacList.ROGUE_CREW);
+		rogue_crew_throwing_axe = new ItemThrowingAxe("rogue_crew_throwing_axe", CreativeTabHandler.COMBAT, -3.3F, 8.0F, 0.0F, MaterialHandler.ROGUE_CREW, Faction.FacList.ROGUE_CREW);
+		rogue_crew_longbow = new ItemModBow("rogue_crew_longbow", CreativeTabHandler.COMBAT, 1, 2304, Items.ARROW.getClass(), 35.0F, 6.0F, Faction.FacList.ROGUE_CREW);
 
-		kotir_sword = new ItemCustomSword("kotir_sword", CreativeTabHandler.COMBAT, -3.3F, 7.5F, 0.0F, MaterialHandler.KOTIR);
-		kotir_battleaxe = new ItemBattleAxe("kotir_battleaxe", CreativeTabHandler.COMBAT, -3.5F, 10.5F, 0.0F, MaterialHandler.KOTIR);
-		kotir_dagger = new ItemDagger("kotir_dagger", CreativeTabHandler.COMBAT, -2.9F, 5.0F, -2.0F, MaterialHandler.KOTIR);
-		kotir_halberd = new ItemHalberd("kotir_halberd", CreativeTabHandler.COMBAT, -3.7F, 10.5F, 2.0F, MaterialHandler.KOTIR);
-		kotir_spear = new ItemSpear("kotir_spear", CreativeTabHandler.COMBAT, -3.5F, 7.5F, 2.0F, MaterialHandler.KOTIR);
-		kotir_pike = new ItemPike("kotir_pike", CreativeTabHandler.COMBAT, -3.65F, 7.5F, 4.0F, MaterialHandler.KOTIR);
+		kotir_sword = new ItemCustomSword("kotir_sword", CreativeTabHandler.COMBAT, -3.3F, 7.5F, 0.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
+		kotir_battleaxe = new ItemBattleAxe("kotir_battleaxe", CreativeTabHandler.COMBAT, -3.5F, 10.5F, 0.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
+		kotir_dagger = new ItemDagger("kotir_dagger", CreativeTabHandler.COMBAT, -2.9F, 5.0F, -2.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
+		kotir_halberd = new ItemHalberd("kotir_halberd", CreativeTabHandler.COMBAT, -3.7F, 10.5F, 2.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
+		kotir_spear = new ItemSpear("kotir_spear", CreativeTabHandler.COMBAT, -3.5F, 7.5F, 2.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
+		kotir_pike = new ItemPike("kotir_pike", CreativeTabHandler.COMBAT, -3.65F, 7.5F, 4.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
 	}
 
 	public static void register(RegistryEvent.Register<Item> event) {

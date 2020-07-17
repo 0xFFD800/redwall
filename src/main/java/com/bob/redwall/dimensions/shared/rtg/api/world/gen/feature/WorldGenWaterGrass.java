@@ -29,7 +29,8 @@ public class WorldGenWaterGrass extends WorldGenerator {
         return this.generate(world, rand, blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
 
-    public boolean generate(World world, Random rand, int x, int y, int z) {
+    @SuppressWarnings("deprecation")
+	public boolean generate(World world, Random rand, int x, int y, int z) {
 
         while (y > 0) {
             if (!world.isAirBlock(new BlockPos(x, y, z)) || world.getBlockState(new BlockPos(x, y, z)).getBlock().isLeaves(world.getBlockState(new BlockPos(x, y, z)), world, new BlockPos(x, y, z))) {

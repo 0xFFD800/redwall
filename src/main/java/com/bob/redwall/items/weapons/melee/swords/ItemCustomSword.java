@@ -1,5 +1,6 @@
 package com.bob.redwall.items.weapons.melee.swords;
 
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.crafting.ItemSwordHilt.EnumHandleType;
 import com.bob.redwall.items.crafting.ItemSwordHilt.EnumPommelStoneType;
 import com.bob.redwall.items.crafting.ItemSwordHilt.EnumPommelType;
@@ -23,6 +24,10 @@ public class ItemCustomSword extends ModCustomWeapon {
         this.maxStackSize = 1;
         this.setMaxDamage(material.getMaxUses());
         this.damage = dmg;
+	}
+	
+	public ItemCustomSword(String name, CreativeTabs tab, float spd, float dmg, float reach, ToolMaterial material, Faction faction) {
+		super(name, tab, spd, dmg, reach, material, faction);
 	}
 
 	@Override

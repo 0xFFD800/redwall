@@ -4,22 +4,23 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.bob.redwall.RedwallUtils;
-import com.bob.redwall.Ref;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.factions.Faction;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
@@ -31,7 +32,7 @@ import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
 public class CraftingHandler {
@@ -78,26 +79,65 @@ public class CraftingHandler {
 		((IForgeRegistryModifiable<IRecipe>) event.getRegistry()).remove(Items.DIAMOND_BOOTS.getRegistryName());
 
 		((IForgeRegistryModifiable<IRecipe>) event.getRegistry()).remove(Items.BREAD.getRegistryName());
+		
+		FurnaceRecipes.instance().getSmeltingList().clear();
+        GameRegistry.addSmelting(Blocks.SAND, new ItemStack(Blocks.GLASS), 0.1F);
+        GameRegistry.addSmelting(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.DEFAULT_META), new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.CRACKED_META), 0.1F);
+        GameRegistry.addSmelting(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
+        GameRegistry.addSmelting(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
+        GameRegistry.addSmelting(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()), 0.2F);
+        GameRegistry.addSmelting(Blocks.LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
+        GameRegistry.addSmelting(Blocks.LOG2, new ItemStack(Items.COAL, 1, 1), 0.15F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
+        GameRegistry.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
 
-		Map<ItemStack, ItemStack> furnaceRecipes = ReflectionHelper.getPrivateValue(FurnaceRecipes.class, FurnaceRecipes.instance(), "smeltingList", "field_77604_b", "b");
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Blocks.IRON_ORE));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Blocks.GOLD_ORE));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.POTATO));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.BEEF));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.CHICKEN));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.PORKCHOP));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.MUTTON));
-		CraftingHandler.removeSmeltingRecipe(furnaceRecipes, new ItemStack(Items.RABBIT));
-	}
+        for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
+            if (itemfishfood$fishtype.canCook()) {
+                GameRegistry.addSmelting(new ItemStack(Items.FISH, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
+            }
+        }
 
-	public static void removeSmeltingRecipe(Map<ItemStack, ItemStack> map, ItemStack input) {
-		for (Entry<ItemStack, ItemStack> entry : map.entrySet()) {
-			if (entry.getKey().getItem() == input.getItem() && (entry.getKey().getMetadata() == 32767 || input.getMetadata() == entry.getKey().getMetadata())) {
-				map.remove(entry.getKey());
-			}
-		}
-
-		Ref.LOGGER.warn("Could not remove smelting recipe for input " + input.getItem().getRegistryName() + "!");
+        GameRegistry.addSmelting(Items.CHAINMAIL_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.CHAINMAIL_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.CHAINMAIL_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.CHAINMAIL_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_PICKAXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_SHOVEL, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_AXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_HOE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_SWORD, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.IRON_HORSE_ARMOR, new ItemStack(Items.IRON_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_PICKAXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_SHOVEL, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_AXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_HOE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_SWORD, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_HELMET, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_CHESTPLATE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_LEGGINGS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_BOOTS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(Items.GOLDEN_HORSE_ARMOR, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.WHITE.getMetadata()), new ItemStack(Blocks.WHITE_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.ORANGE.getMetadata()), new ItemStack(Blocks.ORANGE_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.MAGENTA.getMetadata()), new ItemStack(Blocks.MAGENTA_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIGHT_BLUE.getMetadata()), new ItemStack(Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.YELLOW.getMetadata()), new ItemStack(Blocks.YELLOW_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIME.getMetadata()), new ItemStack(Blocks.LIME_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PINK.getMetadata()), new ItemStack(Blocks.PINK_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GRAY.getMetadata()), new ItemStack(Blocks.GRAY_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.SILVER.getMetadata()), new ItemStack(Blocks.SILVER_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.CYAN.getMetadata()), new ItemStack(Blocks.CYAN_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PURPLE.getMetadata()), new ItemStack(Blocks.PURPLE_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLUE.getMetadata()), new ItemStack(Blocks.BLUE_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BROWN.getMetadata()), new ItemStack(Blocks.BROWN_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GREEN.getMetadata()), new ItemStack(Blocks.GREEN_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.RED_GLAZED_TERRACOTTA), 0.1F);
+        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLACK.getMetadata()), new ItemStack(Blocks.BLACK_GLAZED_TERRACOTTA), 0.1F);
 	}
 
 	public static class SmithingGeneric {

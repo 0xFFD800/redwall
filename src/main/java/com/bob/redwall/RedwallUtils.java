@@ -16,6 +16,7 @@ import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
+import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.entity.capabilities.season.ISeasonCap;
@@ -179,37 +180,37 @@ public class RedwallUtils {
 		RedwallUtils.doAttack(player, targetEntity);
 	}
 
-	public static void doAttack(EntityLivingBase player, Entity targetEntity) {
-		DamageSource source = player instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) player) : DamageSource.causeMobDamage(player);
+	public static void doAttack(EntityLivingBase attacker, Entity targetEntity) {
+		DamageSource source = attacker instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) attacker) : DamageSource.causeMobDamage(attacker);
 		if (targetEntity.canBeAttackedWithItem()) {
-			if (!targetEntity.hitByEntity(player)) {
-				float f = (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+			if (!targetEntity.hitByEntity(attacker)) {
+				float f = (float) attacker.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 				float f1 = 0.0F;
 				float knockback = 0.0F;
 				float stun = 0.0F;
 				float health = 0.0F;
 				float aoe = 0.0F;
-				ItemStack weapon = player.getHeldItemMainhand();
+				ItemStack weapon = attacker.getHeldItemMainhand();
 
 				if (targetEntity instanceof EntityLivingBase) {
-					f1 = EquipmentModifierUtils.getAdditionalAttack(player, (EntityLivingBase) targetEntity);
+					f1 = EquipmentModifierUtils.getAdditionalAttack(attacker, (EntityLivingBase) targetEntity);
 					health = ((EntityLivingBase) targetEntity).getHealth();
 				}
 
 				f += f1;
 
 				boolean isWeapon = weapon.getItem() instanceof ModCustomWeapon;
-				boolean isBludgeon = isWeapon && ((ModCustomWeapon) weapon.getItem()).isBludgeon(weapon, player);
-				boolean isSweep = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isSweep(weapon, player);
-				boolean isStab = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isStab(weapon, player);
+				boolean isBludgeon = isWeapon && ((ModCustomWeapon) weapon.getItem()).isBludgeon(weapon, attacker);
+				boolean isSweep = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isSweep(weapon, attacker);
+				boolean isStab = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isStab(weapon, attacker);
 				if (!isBludgeon && !isSweep && !isStab) isBludgeon = true;
 
-				boolean doCriticalNonStab = player.fallDistance > 0.0F && !player.onGround && !player.isOnLadder() && !player.isInWater() && !player.isPotionActive(MobEffects.BLINDNESS) && !player.isRiding() && targetEntity instanceof EntityLivingBase;
-				doCriticalNonStab = doCriticalNonStab && !player.isSprinting();
+				boolean doCriticalNonStab = attacker.fallDistance > 0.0F && !attacker.onGround && !attacker.isOnLadder() && !attacker.isInWater() && !attacker.isPotionActive(MobEffects.BLINDNESS) && !attacker.isRiding() && targetEntity instanceof EntityLivingBase;
+				doCriticalNonStab = doCriticalNonStab && !attacker.isSprinting();
 				double mx = targetEntity.motionX;
 				double my = targetEntity.motionY;
 				double mz = targetEntity.motionZ;
-				boolean doCriticalStabSweep2 = player.isSprinting();
+				boolean doCriticalStabSweep2 = attacker.isSprinting();
 
 				boolean didDamage = false;
 
@@ -222,7 +223,7 @@ public class RedwallUtils {
 							didDamage = targetEntity.attackEntityFrom(source, f);
 						} else {
 							label1: {
-								IAttacking attacking = player.getCapability(AttackingProvider.ATTACKING_CAP, null);
+								IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
 								if (doCriticalNonStab && attacking.getMode() == 0) {
 									stun = f / 4.0F;
 									f *= 1.5F;
@@ -232,7 +233,7 @@ public class RedwallUtils {
 									if (attacking.getMode() == 2) attacking.setMode(0);
 									IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 									if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && ((defending.getMode() == 0 && attacking.getMode() == 1) || (defending.getMode() == 1 && attacking.getMode() == 0)) && RedwallUtils.canEntityBlockDamage(living, source)) {
-										player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ANVIL_PLACE, player.getSoundCategory(), 1.0F, 0.75F);
+										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
 										break label1;
 									}
 								}
@@ -244,8 +245,15 @@ public class RedwallUtils {
 							}
 						}
 					} else {
-						IAttacking attacking = player.getCapability(AttackingProvider.ATTACKING_CAP, null);
+						IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
 						boolean hasAttacked = false;
+						
+						if(isWeapon && ((ModCustomWeapon)weapon.getItem()).getFaction() != null && attacker instanceof EntityPlayer) {
+							float fightSkill = attacker.getCapability(FactionCapProvider.FACTION_CAP, null).get(((ModCustomWeapon)weapon.getItem()).getFaction(), FacStatType.FIGHT);
+							if(fightSkill > 0) {
+								f *= ((float)RedwallUtils.getFacStatLevel((EntityPlayer)attacker, ((ModCustomWeapon)weapon.getItem()).getFaction(), FacStatType.FIGHT) / 4.0F) + 1.0F;
+							}
+						}
 
 						switch (attacking.getMode()) {
 						case 0:
@@ -259,7 +267,7 @@ public class RedwallUtils {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
 										IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 										if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && defending.getMode() == 1 && RedwallUtils.canEntityBlockDamage(living, source)) {
-											player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ANVIL_PLACE, player.getSoundCategory(), 1.0F, 0.75F);
+											attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
 											break label1;
 										}
 									}
@@ -275,9 +283,9 @@ public class RedwallUtils {
 						case 1:
 							if (isSweep) {
 								if (doCriticalStabSweep2) {
-									aoe = (float) (player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() / 4.0F);
+									aoe = (float) (attacker.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() / 4.0F);
 									f *= 1.25F;
-									player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, attacker.getSoundCategory(), 1.0F, 1.0F);
 								}
 
 								label1: {
@@ -285,7 +293,7 @@ public class RedwallUtils {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
 										IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 										if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && defending.getMode() == 0 && RedwallUtils.canEntityBlockDamage(living, source)) {
-											player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ANVIL_PLACE, player.getSoundCategory(), 1.0F, 0.75F);
+											attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
 											break label1;
 										}
 									}
@@ -302,7 +310,7 @@ public class RedwallUtils {
 							if (isStab) {
 								if (doCriticalStabSweep2) {
 									knockback = 0.5F;
-									player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, player.getSoundCategory(), 1.0F, 1.0F);
+									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, attacker.getSoundCategory(), 1.0F, 1.0F);
 								} else f /= 1.5F;
 
 								mx = targetEntity.motionX;
@@ -321,7 +329,7 @@ public class RedwallUtils {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
 										IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 										if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && defending.getMode() == 0 && RedwallUtils.canEntityBlockDamage(living, source)) {
-											player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.BLOCK_ANVIL_PLACE, player.getSoundCategory(), 1.0F, 0.75F);
+											attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
 											break label1;
 										}
 									}
@@ -335,7 +343,7 @@ public class RedwallUtils {
 							} else {
 								if (doCriticalStabSweep2) {
 									knockback = 0.5F;
-									player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, player.getSoundCategory(), 1.0F, 1.0F);
+									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, attacker.getSoundCategory(), 1.0F, 1.0F);
 								} else f /= 1.5F;
 
 								mx = targetEntity.motionX;
@@ -349,9 +357,9 @@ public class RedwallUtils {
 						if (didDamage) {
 							if (targetEntity instanceof EntityLivingBase) {
 								if (knockback > 0.0F) {
-									RedwallUtils.doEntityKnockbackTrue(((EntityLivingBase) targetEntity), player, knockback, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+									RedwallUtils.doEntityKnockbackTrue(((EntityLivingBase) targetEntity), attacker, knockback, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
 								} else {
-									((EntityLivingBase) targetEntity).knockBack(player, 0.5F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+									((EntityLivingBase) targetEntity).knockBack(attacker, 0.5F, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
 								}
 
 								if (stun > 0.0F) {
@@ -360,17 +368,17 @@ public class RedwallUtils {
 								}
 
 								if (aoe > 0.0F) {
-									for (EntityLivingBase entitylivingbase : player.world.getEntitiesWithinAABB(EntityLivingBase.class, targetEntity.getEntityBoundingBox().grow(aoe, 0.25D, aoe))) {
-										if (entitylivingbase != player && entitylivingbase != targetEntity && !player.isOnSameTeam(entitylivingbase) && player.getDistanceSq(entitylivingbase) < 16.0D) {
-											entitylivingbase.knockBack(player, 0.4F, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+									for (EntityLivingBase entitylivingbase : attacker.world.getEntitiesWithinAABB(EntityLivingBase.class, targetEntity.getEntityBoundingBox().grow(aoe, 0.25D, aoe))) {
+										if (entitylivingbase != attacker && entitylivingbase != targetEntity && !attacker.isOnSameTeam(entitylivingbase) && attacker.getDistanceSq(entitylivingbase) < 16.0D) {
+											entitylivingbase.knockBack(attacker, 0.4F, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
 											entitylivingbase.attackEntityFrom(source, f / 2.0F);
 										}
 									}
 								}
 
-								player.motionX *= 0.6D;
-								player.motionZ *= 0.6D;
-								player.setSprinting(false);
+								attacker.motionX *= 0.6D;
+								attacker.motionZ *= 0.6D;
+								attacker.setSprinting(false);
 
 								if (targetEntity instanceof EntityPlayerMP && targetEntity.velocityChanged) {
 									((EntityPlayerMP) targetEntity).connection.sendPacket(new SPacketEntityVelocity(targetEntity));
@@ -381,20 +389,20 @@ public class RedwallUtils {
 								}
 
 								if (doCriticalNonStab || doCriticalStabSweep2) {
-									player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, player.getSoundCategory(), 1.0F, 1.0F);
-									if (player instanceof EntityPlayer) ((EntityPlayer) player).onCriticalHit(targetEntity);
+									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, attacker.getSoundCategory(), 1.0F, 1.0F);
+									if (attacker instanceof EntityPlayer) ((EntityPlayer) attacker).onCriticalHit(targetEntity);
 								} else {
 									if (isWeapon) {
-										player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, player.getSoundCategory(), 1.0F, 1.0F);
+										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, attacker.getSoundCategory(), 1.0F, 1.0F);
 									} else {
-										player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, player.getSoundCategory(), 1.0F, 1.0F);
+										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, attacker.getSoundCategory(), 1.0F, 1.0F);
 									}
 								}
 
-								player.setLastAttackedEntity(targetEntity);
+								attacker.setLastAttackedEntity(targetEntity);
 
 								if (targetEntity instanceof EntityLivingBase) {
-									EquipmentModifierUtils.doAttack(player, (EntityLivingBase) targetEntity);
+									EquipmentModifierUtils.doAttack(attacker, (EntityLivingBase) targetEntity);
 								}
 
 								Entity entity = targetEntity;
@@ -409,28 +417,28 @@ public class RedwallUtils {
 
 								if (!weapon.isEmpty() && entity instanceof EntityLivingBase) {
 									ItemStack beforeHitCopy = weapon.copy();
-									if (player instanceof EntityPlayer) weapon.hitEntity((EntityLivingBase) entity, (EntityPlayer) player);
+									if (attacker instanceof EntityPlayer) weapon.hitEntity((EntityLivingBase) entity, (EntityPlayer) attacker);
 
 									if (weapon.isEmpty()) {
-										player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-										if (player instanceof EntityPlayer) net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((EntityPlayer) player, beforeHitCopy, EnumHand.MAIN_HAND);
+										attacker.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
+										if (attacker instanceof EntityPlayer) net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((EntityPlayer) attacker, beforeHitCopy, EnumHand.MAIN_HAND);
 									}
 								}
 
 								if (targetEntity instanceof EntityLivingBase) {
 									float f4 = health - ((EntityLivingBase) targetEntity).getHealth();
-									if (player instanceof EntityPlayer) ((EntityPlayer) player).addStat(StatList.DAMAGE_DEALT, Math.round(f4 * 10.0F));
+									if (attacker instanceof EntityPlayer) ((EntityPlayer) attacker).addStat(StatList.DAMAGE_DEALT, Math.round(f4 * 10.0F));
 
-									if (player.world instanceof WorldServer && f4 > 2.0F) {
+									if (attacker.world instanceof WorldServer && f4 > 2.0F) {
 										int k = (int) ((double) f4 * 0.5D);
-										((WorldServer) player.world).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, targetEntity.posX, targetEntity.posY + (double) (targetEntity.height * 0.5F), targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D, new int[0]);
+										((WorldServer) attacker.world).spawnParticle(EnumParticleTypes.DAMAGE_INDICATOR, targetEntity.posX, targetEntity.posY + (double) (targetEntity.height * 0.5F), targetEntity.posZ, k, 0.1D, 0.0D, 0.1D, 0.2D, new int[0]);
 									}
 								}
 
-								if (player instanceof EntityPlayer) ((EntityPlayer) player).addExhaustion(0.1F);
+								if (attacker instanceof EntityPlayer) ((EntityPlayer) attacker).addExhaustion(0.1F);
 							}
 						} else {
-							player.world.playSound((EntityPlayer) null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, player.getSoundCategory(), 1.0F, 1.0F);
+							attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, attacker.getSoundCategory(), 1.0F, 1.0F);
 						}
 					}
 				}

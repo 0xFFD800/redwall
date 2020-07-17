@@ -1,9 +1,10 @@
-package com.bob.redwall.entity.npc;
+package com.bob.redwall.entity.npc.good;
 
 import java.util.List;
 
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
+import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.SpeechHandler;
 

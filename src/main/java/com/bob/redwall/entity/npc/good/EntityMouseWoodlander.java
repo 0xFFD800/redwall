@@ -1,9 +1,10 @@
-package com.bob.redwall.entity.npc;
+package com.bob.redwall.entity.npc.good;
 
 import java.util.List;
 
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
+import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.SpeechHandler;
 
@@ -11,28 +12,28 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntitySquirrelWoodlander extends EntityAbstractNPC {
-	public EntitySquirrelWoodlander(World worldIn) {
+public class EntityMouseWoodlander extends EntityAbstractNPC {
+	public EntityMouseWoodlander(World worldIn) {
 		super(worldIn);
 	}
 	
-	public EntitySquirrelWoodlander(World worldIn, boolean male) {
+	public EntityMouseWoodlander(World worldIn, boolean male) {
 		super(worldIn, male);
 	}
     
 	@Override
     public List<String> getSpeechbank(EnumOpinion opinion) {
-    	return opinion == EnumOpinion.FRIENDLY ? SpeechHandler.WOODLANDER_SQUIRREL_FRIENDLY : opinion == EnumOpinion.UNFRIENDLY ? SpeechHandler.WOODLANDER_SQUIRREL_UNFRIENDLY : SpeechHandler.WOODLANDER_SQUIRREL_HOSTILE;
+    	return opinion == EnumOpinion.FRIENDLY ? SpeechHandler.WOODLANDER_MOUSE_FRIENDLY : opinion == EnumOpinion.UNFRIENDLY ? SpeechHandler.WOODLANDER_MOUSE_UNFRIENDLY : SpeechHandler.WOODLANDER_MOUSE_HOSTILE;
     }
     
 	@Override
     public List<String> getNamesBankMale() {
-    	return SpeechHandler.NAMES_WOODLANDER_SQUIRREL_M;
+    	return SpeechHandler.NAMES_WOODLANDER_MOUSE_M;
     }
     
 	@Override
     public List<String> getNamesBankFemale() {
-    	return SpeechHandler.NAMES_WOODLANDER_SQUIRREL_F;
+    	return SpeechHandler.NAMES_WOODLANDER_MOUSE_F;
     }
 
 	@Override
@@ -42,7 +43,7 @@ public class EntitySquirrelWoodlander extends EntityAbstractNPC {
 
 	@Override
 	public String getSkinPath() {
-		return ":textures/entity/squirrel/woodlander/squirrel_woodlander_";
+		return ":textures/entity/mouse/woodlander/mouse_woodlander_";
 	}
 
 	@Override
@@ -58,11 +59,11 @@ public class EntitySquirrelWoodlander extends EntityAbstractNPC {
 	
 	@Override
 	public EnumNPCType getNPCType() {
-		return EnumNPCType.SQUIRREL;
+		return EnumNPCType.MOUSE;
 	}
 
 	@Override
 	public boolean willFightEntity(EntityLivingBase entity) {
-		return this.isSuitableTarget(entity);
+		return this.getIsMale() && this.isSuitableTarget(entity);
 	}
 }

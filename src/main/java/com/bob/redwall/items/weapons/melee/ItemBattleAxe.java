@@ -2,6 +2,7 @@ package com.bob.redwall.items.weapons.melee;
 
 import java.util.Set;
 
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.collect.Sets;
 
@@ -18,6 +19,11 @@ public class ItemBattleAxe extends ModCustomWeapon {
     
 	public ItemBattleAxe(String name, CreativeTabs tab, float speed, float dmg, float reach, ToolMaterial material) {
 		super(name, tab, speed, dmg, reach, material);
+        this.efficiencyOnProperMaterial = material.getEfficiency()/2;
+	}
+
+	public ItemBattleAxe(String name, CreativeTabs tab, float spd, float dmg, float reach, ToolMaterial material, Faction faction) {
+		super(name, tab, spd, dmg, reach, material, faction);
         this.efficiencyOnProperMaterial = material.getEfficiency()/2;
 	}
 

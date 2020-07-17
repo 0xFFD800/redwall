@@ -1,5 +1,6 @@
 package com.bob.redwall.items.weapons.melee;
 
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -9,6 +10,10 @@ import net.minecraft.item.ItemStack;
 public class ItemMace extends ModCustomWeapon {
 	public ItemMace(String name, CreativeTabs tab, float damage, float speed, float reach, ToolMaterial material) {
 		super(name, tab, damage, speed, reach, material);
+	}
+
+	public ItemMace(String name, CreativeTabs tab, float spd, float dmg, float reach, ToolMaterial material, Faction faction) {
+		super(name, tab, spd, dmg, reach, material, faction);
 	}
 
 	@Override

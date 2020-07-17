@@ -18,10 +18,15 @@ import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvide
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
+import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
+import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
+import com.bob.redwall.factions.Faction;
+import com.bob.redwall.factions.Faction.FactionStatus;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 
@@ -55,6 +60,7 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -312,6 +318,36 @@ public class EventHandler {
 	public void onEvent(LivingEntityUseItemEvent.Finish event) {
 		if(event.getEntity() instanceof EntityPlayer && event.getItem().getItem().getItemUseAction(event.getItem()) == EnumAction.EAT) {
 			((EntityPlayer)event.getEntity()).getCapability(NutritionProvider.NUTRITION_CAP, null).eatFood(event.getItem());
+		}
+	}
+	
+	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	public void onEvent(LivingDeathEvent event) {
+		if(event.getSource().getTrueSource() instanceof EntityPlayer && event.getEntityLiving() instanceof EntityAbstractNPC) {
+			EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
+			EntityAbstractNPC npc = (EntityAbstractNPC)event.getEntityLiving();
+			IFactionCap facCap = player.getCapability(FactionCapProvider.FACTION_CAP, null);
+			Faction fac = npc.getFaction();
+			Faction factionGreatestLoyalty = fac;
+			
+			if(!fac.playerHasContact(player)) fac.playerContactFaction(player);
+			
+			for(Faction f : Faction.getAllFactions()) {
+				if(facCap.get(f, FacStatType.LOYALTY) > facCap.get(factionGreatestLoyalty, FacStatType.LOYALTY)) factionGreatestLoyalty = f;
+				if(fac == f) {
+					facCap.set(fac, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
+				}
+
+				if(fac.getFactionStatus(f) == FactionStatus.ALLIED) facCap.set(f, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
+				if(fac.getFactionStatus(f) == FactionStatus.FRIENDLY) facCap.set(f, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 40.0F, true);
+				if(fac.getFactionStatus(f) == FactionStatus.HOSTILE) facCap.set(f, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) + 20.0F, true);
+			}
+
+			facCap.set(factionGreatestLoyalty, FacStatType.FIGHT, facCap.get(factionGreatestLoyalty, FacStatType.FIGHT) + 10.0F, true);
+			if(player.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && ((ModCustomWeapon)player.getHeldItemMainhand().getItem()).getFaction() != null) {
+				Faction f = ((ModCustomWeapon)player.getHeldItemMainhand().getItem()).getFaction();
+				facCap.set(f, FacStatType.FIGHT, facCap.get(f, FacStatType.FIGHT) + 5.0F, true);
+			}
 		}
 	}
 }

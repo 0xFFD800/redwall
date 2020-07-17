@@ -2,6 +2,9 @@ package com.bob.redwall.items.weapons;
 
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import com.bob.redwall.factions.Faction;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -19,17 +22,23 @@ public abstract class ModCustomWeapon extends Item {
 	private Item.ToolMaterial material;
 	private float attackSpeed;
 	private float reach;
+	private Faction faction;
 
 	public ModCustomWeapon(String name, CreativeTabs tab, float spd, float dmg, float reach, Item.ToolMaterial material) {
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		setCreativeTab(tab);
-		setMaxStackSize(1);
+		this.setUnlocalizedName(name);
+		this.setRegistryName(name);
+		this.setCreativeTab(tab);
+		this.setMaxStackSize(1);
 		if (material != null) this.setMaxDamage(material.getMaxUses());
 		this.attackDamage = dmg;
 		this.reach = reach;
 		this.material = material;
 		this.attackSpeed = spd;
+	}
+
+	public ModCustomWeapon(String name, CreativeTabs tab, float spd, float dmg, float reach, Item.ToolMaterial material, Faction faction) {
+		this(name, tab, spd, dmg, reach, material);
+		this.faction = faction;
 	}
 
 	public float getDamageVsEntity() {
@@ -116,6 +125,11 @@ public abstract class ModCustomWeapon extends Item {
 
 	public ToolMaterial getToolMaterial() {
 		return this.material;
+	}
+	
+	@Nullable
+	public Faction getFaction() {
+		return this.faction;
 	}
 
 	public float getReach() {

@@ -2,6 +2,7 @@ package com.bob.redwall.items.weapons.ranged;
 
 import javax.annotation.Nullable;
 
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.ModItem;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -31,6 +32,7 @@ public class ItemModBow extends ModItem {
 	private final Class<? extends Item> ammoClass;
 	private final float chargeTime;
 	private final float power;
+	private Faction faction;
 	
     public ItemModBow(String name, CreativeTabs tab, int stacksize, int durability, Class<? extends Item> ammoClass, float chargeTime, float power) {
     	super(name, tab, stacksize);
@@ -58,7 +60,12 @@ public class ItemModBow extends ModItem {
         });
     }
 
-    private ItemStack findAmmo(EntityPlayer player) {
+    public ItemModBow(String name, CreativeTabs tab, int stacksize, int durability, Class<? extends Item> ammoClass, float chargeTime, float power, Faction faction) {
+    	this(name, tab, stacksize, durability, ammoClass, chargeTime, power);
+    	this.faction = faction;
+	}
+
+	private ItemStack findAmmo(EntityPlayer player) {
         if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
             return player.getHeldItem(EnumHand.OFF_HAND);
         } else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
@@ -209,5 +216,9 @@ public class ItemModBow extends ModItem {
     @Override
     public int getItemEnchantability() {
         return 1;
+    }
+    
+    public Faction getFaction() {
+    	return this.faction;
     }
 }
