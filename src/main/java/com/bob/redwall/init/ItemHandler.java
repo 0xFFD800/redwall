@@ -2,6 +2,7 @@ package com.bob.redwall.init;
 
 import java.util.Random;
 
+import com.bob.redwall.Ref;
 import com.bob.redwall.blocks.multiuse.BlockHiddenDoor;
 import com.bob.redwall.blocks.multiuse.BlockModDoor;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
@@ -11,6 +12,8 @@ import com.bob.redwall.items.blocks.ItemBlockSpecial;
 import com.bob.redwall.items.blocks.ItemHiddenDoor;
 import com.bob.redwall.items.blocks.ItemModDoor;
 import com.bob.redwall.items.blocks.ItemWeaponRack;
+import com.bob.redwall.items.brewing.ItemDrinkVessel;
+import com.bob.redwall.items.brewing.ItemEmptyDrinkVessel;
 import com.bob.redwall.items.food.ItemCustomFish;
 import com.bob.redwall.items.food.ItemModFood;
 import com.bob.redwall.items.food.ItemModSeedFood;
@@ -41,6 +44,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 
@@ -98,6 +102,13 @@ public class ItemHandler {
 	public static Item rice;
 	public static Item yam;
 	public static Item beans;
+	
+	public static Item drink_bottle;
+	
+	public static Item mug_empty;
+	public static Item mug_drink;
+	
+	public static Item bowl_drink;
 
 	public static Item cornstalk;
 
@@ -204,6 +215,12 @@ public class ItemHandler {
 	public static Item kotir_halberd;
 	public static Item kotir_spear;
 	public static Item kotir_pike;
+	
+	public static Item redwall_axe;
+	public static Item redwall_pickaxe;
+	public static Item redwall_spade;
+	public static Item redwall_hoe;
+	public static Item redwall_scythe;
 
 	public static void init() {
 		maple_door = new ItemModDoor("maple_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.maple_door);
@@ -274,6 +291,13 @@ public class ItemHandler {
 		yam = new ItemModSeedFood("yam", CreativeTabHandler.FOOD, 2, 0.6F, BlockHandler.yams, 2, 3, 4, 0);
 		rice = new ItemModSeeds("rice", CreativeTabHandler.FOOD, BlockHandler.rice, Blocks.FARMLAND);
 		beans = new ItemModSeedFood("beans", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.beans, 2, 3, 4, 0);
+		
+		drink_bottle = new ItemDrinkVessel("drink_bottle", CreativeTabHandler.FOOD).setContainerItem(Items.GLASS_BOTTLE);
+		
+		mug_empty = new ItemEmptyDrinkVessel("mug_empty", CreativeTabHandler.FOOD, new ResourceLocation(Ref.MODID, "mug_drink"));
+		mug_drink = new ItemDrinkVessel("mug_drink", CreativeTabHandler.FOOD).setContainerItem(ItemHandler.mug_empty);
+
+		bowl_drink = new ItemDrinkVessel("bowl_drink", CreativeTabHandler.FOOD).setContainerItem(Items.BOWL);
 
 		cornstalk = new ModItem("cornstalk", CreativeTabHandler.MISC);
 
@@ -380,6 +404,12 @@ public class ItemHandler {
 		kotir_halberd = new ItemHalberd("kotir_halberd", CreativeTabHandler.COMBAT, -3.7F, 10.5F, 2.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
 		kotir_spear = new ItemSpear("kotir_spear", CreativeTabHandler.COMBAT, -3.5F, 7.5F, 2.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
 		kotir_pike = new ItemPike("kotir_pike", CreativeTabHandler.COMBAT, -3.65F, 7.5F, 4.0F, MaterialHandler.KOTIR, Faction.FacList.VERMIN_MOSSFLOWER);
+		
+		redwall_axe = new ItemModAxe("redwall_axe", CreativeTabHandler.COMBAT, -3.0F, 5.0F, MaterialHandler.REDWALL);
+		redwall_pickaxe = new ItemModPickaxe("redwall_pickaxe", CreativeTabHandler.COMBAT, MaterialHandler.REDWALL);
+		redwall_spade = new ItemModSpade("redwall_spade", CreativeTabHandler.COMBAT, MaterialHandler.REDWALL);
+		redwall_hoe = new ItemModHoe("redwall_hoe", CreativeTabHandler.COMBAT, MaterialHandler.REDWALL);
+		redwall_scythe = new ItemScythe("redwall_scythe", CreativeTabHandler.COMBAT, -3.4F, 6.5F, 1.0F, MaterialHandler.REDWALL, Faction.FacList.REDWALL);
 	}
 
 	public static void register(RegistryEvent.Register<Item> event) {
@@ -435,6 +465,13 @@ public class ItemHandler {
 		registerItem(event, peas);
 		registerItem(event, yam);
 		registerItem(event, beans);
+
+		registerItem(event, drink_bottle);
+
+		registerItem(event, mug_empty);
+		registerItem(event, mug_drink);
+		
+		registerItem(event, bowl_drink);
 
 		registerItem(event, cornstalk);
 
@@ -541,6 +578,12 @@ public class ItemHandler {
 		registerItem(event, kotir_halberd);
 		registerItem(event, kotir_spear);
 		registerItem(event, kotir_pike);
+		
+		registerItem(event, redwall_axe);
+		registerItem(event, redwall_pickaxe);
+		registerItem(event, redwall_spade);
+		registerItem(event, redwall_hoe);
+		registerItem(event, redwall_scythe);
 	}
 
 	public static void registerRenders() {
@@ -596,6 +639,13 @@ public class ItemHandler {
 		registerRender(peas);
 		registerRender(beans);
 		registerRender(yam);
+
+		registerRender(drink_bottle);
+
+		registerRender(mug_empty);
+		registerRender(mug_drink);
+
+		registerRender(bowl_drink);
 
 		registerRender(cornstalk);
 
@@ -702,6 +752,12 @@ public class ItemHandler {
 		registerRender(kotir_halberd);
 		registerRender(kotir_spear);
 		registerRender(kotir_pike);
+
+		registerRender(redwall_axe);
+		registerRender(redwall_pickaxe);
+		registerRender(redwall_spade);
+		registerRender(redwall_hoe);
+		registerRender(redwall_scythe);
 	}
 
 	public static void registerItem(RegistryEvent.Register<Item> event, Item item) {

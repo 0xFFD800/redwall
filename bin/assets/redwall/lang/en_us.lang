@@ -165,6 +165,8 @@ item.weapon_rack.name=Weapon Rack
 tile.smithing_generic.name=Smithing Station
 tile.smeltery.name=Smeltery
 tile.cooking_generic.name=Cooking Station
+tile.smithing_redwall.name=Redwall Smithing Station
+tile.brewing_redwall.name=Redwall Brewing Station
 
 item.maple_door.name=Maple Door
 item.elm_door.name=Elm Door
@@ -208,6 +210,12 @@ item.peas.name=Peas
 item.rice.name=Rice
 item.beans.name=Beans
 item.yam.name=Yam
+
+item.mug_empty.name=Mug
+
+item.drink_bottle.name=Bottle of
+item.mug_drink.name=Mug of
+item.bowl_drink.name=Bowl of
 
 item.cornstalk.name=Cornstalk
 
@@ -377,6 +385,12 @@ item.kotir_chestplate.name=Kotir Breastplate
 item.kotir_leggings.name=Kotir Greaves
 item.kotir_boots.name=Kotir Boots
 
+item.redwall_axe.name=Redwall Axe
+item.redwall_pickaxe.name=Redwall Pickaxe
+item.redwall_spade.name=Redwall Shovel
+item.redwall_hoe.name=Redwall Hoe
+item.redwall_scythe.name=Redwall Scythe
+
 entity.redwall:spear.name=Spear
 entity.redwall:dagger.name=Dagger
 entity.redwall:throwing_axe.name=Throwing Axe
@@ -401,6 +415,14 @@ death.attack.poison=%s was poisoned
 protection.projectile=Projectile Protection
 attribute.digspeed=Digging Speed
 attribute.durability=Durability
+attribute.name.foodall=All Nutrients
+attribute.name.saturation=Saturation
+attribute.name.protein=Savory Flavor
+attribute.name.carbs=Sweet Flavor
+attribute.name.fruits=Fruit Flavor
+attribute.name.veggies=Vegetable Flavor
+attribute.name.alcohol=Alcohol
+attribute.name.effectduration=Effect Duration
 
 modifier.damage.add.1=Sharp
 modifier.damage.add.2=Keen
@@ -442,6 +464,44 @@ modifier.durability.add.5=Lasting
 modifier.durability.subtract.1=Weak
 modifier.durability.subtract.2=Frail
 modifier.durability.subtract.3=Fragile
+
+modifier.foodall.add.1=Tasty
+modifier.foodall.add.2=Scrumptious
+modifier.foodall.add.3=Delightful
+modifier.foodall.add.4=Delicious
+modifier.foodall.add.5=Legendary
+
+modifier.foodall.subtract.1=Unappetizing
+modifier.foodall.subtract.2=Gross
+modifier.foodall.subtract.3=Disgusting
+
+modifier.saturation.add.1=Filling
+modifier.saturation.add.2=Sumptuous
+modifier.saturation.add.3=Satiating
+
+modifier.saturation.subtract.1=Unsatisfying
+modifier.saturation.subtract.2=Empty
+
+modifier.protein.add.1=Savory
+modifier.protein.add.2=Extra Savory
+
+modifier.carbs.add.1=Sweet
+modifier.carbs.add.2=Extra Sweet
+
+modifier.fruits.add.1=Fruity
+modifier.fruits.add.2=Extra Fruity
+
+modifier.veggies.add.1=Healthy
+modifier.veggies.add.2=Extra Healthy
+
+modifier.alcohol.subtract.1=Moderate
+modifier.alcohol.subtract.2=Light
+
+modifier.alcohol.add.1=Potent
+modifier.alcohol.add.2=Overpowering
+
+modifier.effectduration.add.1=Strong
+modifier.effectduration.subtract.1=Weak
 
 potion.effect.fatal_poison=Poison
 splash_potion.effect.fatal_poison=Splash Poison
@@ -507,3 +567,25 @@ commands.factions.usage=/factions <player> <faction> <contact|stats> <contact?tr
 commands.factions.get=Player %s's %s for faction %s is %s
 commands.factions.getContact=Player %s's contact status for faction %s is %s
 commands.factions.used=Player %s's faction status has been updated
+
+drink.empty=Empty
+drink.water=Water
+drink.october_ale=October Ale
+drink.elderberry_wine=Elderberry Wine
+drink.damson_wine=Damson Wine
+drink.mint_tea=Mint Tea
+drink.strawberry_fizz=Strawberry Fizz
+drink.buttercup_honey_cordial=Buttercup and Honey Cordial
+drink.cup_o_cheer=Cup O' Cheer
+drink.nutbrown_beer=Nutbrown Beer
+drink.apple_cider=Apple Cider
+drink.beetroot_port=Beetroot Port
+drink.dandelion_burdock_cordial=Dandelion and Burdock Cordial
+drink.mead=Mead
+drink.shrewbeer=Shrewbeer
+drink.waterporter=Waterporter
+drink.burgoola=Burgoola
+drink.pale_cider=Pale Cider
+drink.mountain_ale=Mountain Ale
+drink.nettlebeer=Nettlebeer
+drink.blackberry_grog=Blackberry Grog

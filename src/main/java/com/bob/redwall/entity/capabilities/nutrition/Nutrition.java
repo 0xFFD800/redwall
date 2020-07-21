@@ -1,10 +1,13 @@
 package com.bob.redwall.entity.capabilities.nutrition;
 
+import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.items.food.ItemModFood;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 
 public class Nutrition implements INutrition {
 	public static final float MAX_NUTRIENT = 40.0F;
@@ -12,6 +15,7 @@ public class Nutrition implements INutrition {
 	private float carbs = 40.0F; //Breads, desserts, and the 'sweet' modifier; reduced by the 'sickly' modifier
 	private float veggies = 40.0F; //Veggies and the 'healthy' modifier; reduced by the 'unhealthy' modifier
 	private float fruits = 40.0F; //Fruits and the 'healthy' modifier; reduced by the 'unhealthy' modifier
+	private float bac = 0.0F; //Blood alcohol content. How close to getting drunk is the player?
 	private float lastFood = 40.0F; //Used to calculate food drop
 	
 	@Override
@@ -72,6 +76,21 @@ public class Nutrition implements INutrition {
 	@Override
 	public float getFruits() {
 		return this.fruits;
+	}
+
+	@Override
+	public void addBAC(float points) {
+		this.bac += points;
+	}
+
+	@Override
+	public float getBAC() {
+		return this.bac;
+	}
+
+	@Override
+	public void setBAC(float points) {
+		this.bac = points;
 	}
 	
 	@Override
@@ -141,7 +160,7 @@ public class Nutrition implements INutrition {
 	
 	@Override
 	public void update(EntityPlayer player) {
-		float dFood = this.lastFood - (player.getFoodStats().getFoodLevel() + player.getFoodStats().getSaturationLevel());
+		float dFood = (player.getFoodStats().getFoodLevel() + player.getFoodStats().getSaturationLevel()) - this.lastFood;
 		if(dFood < 0) this.addAllNutrients(dFood); //Decrement nutrients based on player exhaustion
 		
 		float minNutrient = Math.min(Math.min(this.getProtein(), this.getCarbs()), Math.min(this.getVeggies(), this.getFruits()));
@@ -154,5 +173,10 @@ public class Nutrition implements INutrition {
 		}
 		
 		this.lastFood = player.getFoodStats().getFoodLevel() + player.getFoodStats().getSaturationLevel();
+		
+		if(this.bac > 0.08) player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200));
+		if(this.bac > 0.16) player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 200));
+		if(this.bac > 0.20) player.addPotionEffect(new PotionEffect(StatusEffect.POISON, 200));
+		this.bac -= 0.00002F;
 	}
 }

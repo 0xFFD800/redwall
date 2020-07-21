@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.google.common.collect.Lists;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -50,8 +51,12 @@ public class ItemModFood extends ItemFood {
 			for (String id : this.ids) {
 				PotionEffect potionId = this.effects.get(id);
 				float potionEffectProbability = this.probabilities.get(id);
-				if (potionId != null && worldIn.rand.nextFloat() < potionEffectProbability) {
-					player.addPotionEffect(new PotionEffect(potionId));
+				if (potionId != null && player.getRNG().nextFloat() < potionEffectProbability) {
+					if (potionId.getPotion().isInstant()) {
+						new PotionEffect(potionId).getPotion().affectEntity(player, player, player, potionId.getAmplifier(), 1.0D);
+	                } else {
+	                	player.addPotionEffect(new PotionEffect(potionId.getPotion(), (int)((float)potionId.getDuration() * FoodModifierUtils.getEffectDurationMultiplier(player, stack)), potionId.getAmplifier(), potionId.getIsAmbient(), potionId.doesShowParticles()));
+	                }
 				}
 			}
 		}
@@ -72,5 +77,9 @@ public class ItemModFood extends ItemFood {
 
 	public float getFruits() {
 		return this.fruits;
+	}
+	
+	public boolean hasStatusEffects() {
+		return !this.ids.isEmpty();
 	}
 }

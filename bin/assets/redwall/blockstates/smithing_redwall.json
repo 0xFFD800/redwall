@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=south": { "model": "redwall:smithing_redwall" },
+        "facing=west": { "model": "redwall:smithing_redwall", "y": 90 },
+        "facing=north": { "model": "redwall:smithing_redwall", "y": 180 },
+        "facing=east": { "model": "redwall:smithing_redwall", "y": 270 }
+    }
+}

@@ -49,9 +49,11 @@ import com.bob.redwall.blocks.plants.treeleaves.BlockFruitTreeLeaves;
 import com.bob.redwall.blocks.plants.treeleaves.BlockModLeaves;
 import com.bob.redwall.blocks.plants.treeleaves.BlockPlumLeaves;
 import com.bob.redwall.blocks.plants.treelogs.BlockModLog;
+import com.bob.redwall.blocks.stations.BlockBrewingRedwall;
 import com.bob.redwall.blocks.stations.BlockCookingGeneric;
 import com.bob.redwall.blocks.stations.BlockSmeltery;
 import com.bob.redwall.blocks.stations.BlockSmithingGeneric;
+import com.bob.redwall.blocks.stations.BlockSmithingRedwall;
 import com.bob.redwall.items.blocks.ItemModBlock;
 import com.bob.redwall.items.blocks.ItemModSlab;
 
@@ -425,6 +427,10 @@ public class BlockHandler {
 	public static ItemBlock ib_smeltery;
 	public static Block cooking_generic;
 	public static ItemBlock ib_cooking_generic;
+	public static Block smithing_redwall;
+	public static ItemBlock ib_smithing_redwall;
+	public static Block brewing_redwall;
+	public static ItemBlock ib_brewing_redwall;
 
 	public static void init() {
 		basalt = new ModBlock(Material.ROCK, "basalt", CreativeTabHandler.BLOCKS, 2.0F, 15.0F);
@@ -813,6 +819,10 @@ public class BlockHandler {
 		ib_smeltery = (ItemBlock) new ItemModBlock(smeltery, smeltery.getRegistryName());
 		cooking_generic = new BlockCookingGeneric(Material.ROCK, "cooking_generic", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "pickaxe");
 		ib_cooking_generic = (ItemBlock) new ItemModBlock(cooking_generic, cooking_generic.getRegistryName());
+		smithing_redwall = new BlockSmithingRedwall(Material.ROCK, "smithing_redwall", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "pickaxe");
+		ib_smithing_redwall = (ItemBlock) new ItemModBlock(smithing_redwall, smithing_redwall.getRegistryName());
+		brewing_redwall = new BlockBrewingRedwall(Material.ROCK, "brewing_redwall", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "pickaxe");
+		ib_brewing_redwall = (ItemBlock) new ItemModBlock(brewing_redwall, brewing_redwall.getRegistryName());
 	}
 
 	public static void register(RegistryEvent.Register<Block> event) {
@@ -1029,6 +1039,8 @@ public class BlockHandler {
 		registerBlock(event, smithing_generic);
 		registerBlock(event, smeltery);
 		registerBlock(event, cooking_generic);
+		registerBlock(event, smithing_redwall);
+		registerBlock(event, brewing_redwall);
 	}
 
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
@@ -1188,6 +1200,8 @@ public class BlockHandler {
 		registerItemBlock(event, ib_smithing_generic);
 		registerItemBlock(event, ib_smeltery);
 		registerItemBlock(event, ib_cooking_generic);
+		registerItemBlock(event, ib_smithing_redwall);
+		registerItemBlock(event, ib_brewing_redwall);
 	}
 
 	public static void registerRenders() {
@@ -1398,6 +1412,8 @@ public class BlockHandler {
 		registerRender(smithing_generic);
 		registerRender(smeltery);
 		registerRender(cooking_generic);
+		registerRender(smithing_redwall);
+		registerRender(brewing_redwall);
 	}
 
 	public static void registerBlock(RegistryEvent.Register<Block> event, Block block) {

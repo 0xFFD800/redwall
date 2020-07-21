@@ -8,6 +8,8 @@ import java.util.Random;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.common.MessageSyncSeason;
 import com.bob.redwall.common.MessageUIInteractServer;
+import com.bob.redwall.crafting.cooking.FoodModifier;
+import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
 import com.bob.redwall.crafting.smithing.EquipmentModifierUtils;
 import com.bob.redwall.dimensions.redwall.EnumSeasons;
@@ -482,7 +484,7 @@ public class RedwallUtils {
 
 	public static void applyEquipmentModifiers(EntityPlayer player, ItemStack stack, float skill) {
 		if (!player.world.isRemote) {
-			int rand = (int) ((skill / 2.0F + player.getRNG().nextInt(Math.abs((int) skill) + 1) - 20.0F) / 5.0F);
+			int rand = (int) ((skill / 2.0F + (Math.signum(skill) * player.getRNG().nextInt(Math.abs((int) skill) + 1)) - 60.0F) / 5.0F);
 			List<Entry<Integer, EquipmentModifier>> possibilities = Lists.newArrayList();
 
 			for (ResourceLocation loc : EquipmentModifier.REGISTRY.getKeys()) {
@@ -518,6 +520,49 @@ public class RedwallUtils {
 				}
 
 				stack.getTagCompound().setTag(EquipmentModifierUtils.MODIFIER_LIST_KEY, list);
+			}
+		}
+	}
+
+	public static void applyFoodModifiers(EntityPlayer player, ItemStack stack, float skill) {
+		if (!player.world.isRemote) {
+			int rand = (int) ((skill / 2.0F + (Math.signum(skill) * player.getRNG().nextInt(Math.abs((int) skill) + 1)) - 60.0F) / 5.0F);
+			Ref.LOGGER.info(rand);
+			List<Entry<Integer, FoodModifier>> possibilities = Lists.newArrayList();
+
+			for (ResourceLocation loc : FoodModifier.REGISTRY.getKeys()) {
+				FoodModifier mod = FoodModifier.REGISTRY.getObject(loc);
+				if (mod.canApplyOnCrafting(stack)) {
+					for (int i = mod.getMinLevel(); i < mod.getMaxLevel(); i++) {
+						if ((mod.getQuality(i) < 1 && rand < mod.getQuality(i)) || (mod.getQuality(i) > -1 && rand > mod.getQuality(i))) {
+							HashMap<Integer, FoodModifier> tempMap = Maps.newHashMap();
+							tempMap.put(i, mod);
+							possibilities.add(tempMap.entrySet().iterator().next());
+						}
+					}
+				}
+			}
+
+			if (!possibilities.isEmpty()) {
+				int i = player.getRNG().nextInt(possibilities.size());
+				Entry<Integer, FoodModifier> finalMod = possibilities.get(i);
+				possibilities.remove(i);
+				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+				NBTTagList list = new NBTTagList();
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setInteger("id", FoodModifier.getModifierID(finalMod.getValue()));
+				nbt.setInteger("lvl", finalMod.getKey());
+				list.appendTag(nbt);
+
+				if (player.getRNG().nextDouble() < 0.2) {
+					Entry<Integer, FoodModifier> secondMod = possibilities.get(player.getRNG().nextInt(possibilities.size()));
+					NBTTagCompound nbt2 = new NBTTagCompound();
+					nbt2.setInteger("id", FoodModifier.getModifierID(secondMod.getValue()));
+					nbt2.setInteger("lvl", finalMod.getKey());
+					list.appendTag(nbt2);
+				}
+
+				stack.getTagCompound().setTag(FoodModifierUtils.MODIFIER_LIST_KEY, list);
 			}
 		}
 	}

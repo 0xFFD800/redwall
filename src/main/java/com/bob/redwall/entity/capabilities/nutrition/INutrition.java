@@ -16,6 +16,9 @@ public interface INutrition {
 	public void addFruits(float points);
 	public float getFruits();
 	public void setFruits(float points);
+	public void addBAC(float points);
+	public float getBAC();
+	public void setBAC(float points);
 	public void addAllNutrients(float points);
 	public float getLastFood();
 	public void setLastFood(float points);

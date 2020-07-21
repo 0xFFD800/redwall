@@ -4,6 +4,7 @@ import com.bob.redwall.Redwall.Registration;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.commands.CommandFactions;
 import com.bob.redwall.common.commands.CommandSeason;
+import com.bob.redwall.crafting.cooking.FoodModifier;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
 import com.bob.redwall.dimensions.shared.rtg.RTG;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
@@ -17,6 +18,7 @@ import com.bob.redwall.init.EntityHandler;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.init.KeyBindingHandler;
 import com.bob.redwall.init.TileEntityHandler;
+import com.bob.redwall.items.brewing.Drink;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -51,8 +53,10 @@ public class CommonProxy implements IProxy {
 		ItemHandler.init();
 		ArmorHandler.init();
 		BiomeHandler.init();
+		Drink.init();
 		TileEntityHandler.register();
 		EquipmentModifier.registerModifiers();
+		FoodModifier.registerModifiers();
 
 		//Register Capabilities
 		CapabilityHandler.register();

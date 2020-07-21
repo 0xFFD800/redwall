@@ -10,6 +10,7 @@ import net.minecraftforge.common.util.EnumHelper;
 public class MaterialHandler {
 	public static final ToolMaterial BRONZE = EnumHelper.addToolMaterial("bronze", 2, 256, 5.0F, 1.5F, 10);
 	public static final ToolMaterial SILVER = EnumHelper.addToolMaterial("silver", 1, 96, 3.0F, 1.0F, 10);
+	public static final ToolMaterial REDWALL = EnumHelper.addToolMaterial("redwall", 3, 3072, 5.0F, 3.5F, 10);
 	public static final ToolMaterial SALAMANDASTRON = EnumHelper.addToolMaterial("salamandastron", 3, 6144, 8.0F, 3.0F, 10);
 	public static final ToolMaterial SOUTHSWARD = EnumHelper.addToolMaterial("southsward", 3, 3072, 6.0F, 3.5F, 10);
 	public static final ToolMaterial RIFTGARD = EnumHelper.addToolMaterial("riftgard", 3, 2048, 6.0F, 3.0F, 10);

@@ -5,6 +5,8 @@ import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSetCap;
 import com.bob.redwall.common.MessageSyncSeason;
+import com.bob.redwall.crafting.cooking.FoodModifier;
+import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
 import com.bob.redwall.crafting.smithing.EquipmentModifierUtils;
 import com.bob.redwall.dimensions.ModDimensions;
@@ -27,7 +29,11 @@ import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
+import com.bob.redwall.gui.brewing.ContainerBrewingRedwall;
+import com.bob.redwall.gui.cooking.ContainerCookingGeneric;
+import com.bob.redwall.gui.smelting.ContainerSmeltery;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
+import com.bob.redwall.gui.smithing.redwall.ContainerSmithingRedwall;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 
 import net.minecraft.client.Minecraft;
@@ -292,6 +298,14 @@ public class EventHandler {
 	public void onEvent(PlayerContainerEvent.Open event) {
 		if(event.getContainer() instanceof ContainerSmithingGeneric) {
 			((ContainerSmithingGeneric)event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if(event.getContainer() instanceof ContainerSmithingRedwall) {
+			((ContainerSmithingRedwall)event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if(event.getContainer() instanceof ContainerCookingGeneric) {
+			((ContainerCookingGeneric)event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if(event.getContainer() instanceof ContainerBrewingRedwall) {
+			((ContainerBrewingRedwall)event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if(event.getContainer() instanceof ContainerSmeltery) {
+			((ContainerSmeltery)event.getContainer()).openInventory(event.getEntityPlayer());
 		}
 	}
 	
@@ -310,6 +324,18 @@ public class EventHandler {
 					event.getToolTip().add(name);
 				}
 			}
+
+			if(rootTag.hasKey(FoodModifierUtils.MODIFIER_LIST_KEY)) {
+				NBTTagList list = rootTag.getTagList(FoodModifierUtils.MODIFIER_LIST_KEY, Constants.NBT.TAG_COMPOUND);
+				for(int i = 0; i < list.tagCount(); i++) {
+					NBTTagCompound tag = list.getCompoundTagAt(i);
+					int id = tag.getInteger("id");
+					int lvl = tag.getInteger("lvl");
+					FoodModifier mod = FoodModifier.getModifierByID(id);
+					String name = mod.getTranslatedName(lvl);
+					event.getToolTip().add(name);
+				}
+			}
 		}
 	}
 
@@ -318,6 +344,7 @@ public class EventHandler {
 	public void onEvent(LivingEntityUseItemEvent.Finish event) {
 		if(event.getEntity() instanceof EntityPlayer && event.getItem().getItem().getItemUseAction(event.getItem()) == EnumAction.EAT) {
 			((EntityPlayer)event.getEntity()).getCapability(NutritionProvider.NUTRITION_CAP, null).eatFood(event.getItem());
+			FoodModifierUtils.onConsumed(event.getEntityLiving(), event.getItem());
 		}
 	}
 	

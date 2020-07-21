@@ -49,5 +49,6 @@ public class ClientProxy extends CommonProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(Ref.MODID, new GuiHandler());
 		
 		RTG.init(event);
+		super.init(event);
 	}
 }

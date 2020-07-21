@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "redwall:items/mug",
+		"layer1": "redwall:items/mug_overlay"
+    }
+}

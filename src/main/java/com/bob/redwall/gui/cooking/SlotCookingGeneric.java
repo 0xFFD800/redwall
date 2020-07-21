@@ -1,5 +1,6 @@
 package com.bob.redwall.gui.cooking;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
@@ -58,13 +59,13 @@ public class SlotCookingGeneric extends Slot {
 		if (this.amountCrafted > 0) {
 			this.te.setCookingFinished(false);
 			this.te.cookStack = ItemStack.EMPTY;
+			this.te.markDirty();
 			stack.onCrafting(this.player.world, this.player, this.amountCrafted);
 			net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(this.player, stack, craftMatrix);
 			IFactionCap cap = this.player.getCapability(FactionCapProvider.FACTION_CAP, null);
 			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.LOYALTY, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.LOYALTY) + 5.0F, true);
-			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.COOK) + 5.0F, true);
-			// RedwallUtils.applyFoodModifiers(this.player, stack,
-			// cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.COOK));
+			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.COOK, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.COOK) + 5.0F, true);
+			RedwallUtils.applyFoodModifiers(this.player, stack, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.COOK));
 		}
 
 		this.amountCrafted = 0;
@@ -83,6 +84,7 @@ public class SlotCookingGeneric extends Slot {
 			}
 			this.te.cookStack = this.getStack();
 			this.te.useFuel();
+			this.te.markDirty();
 			net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
 			NonNullList<ItemStack> nonnulllist = CraftingHandler.Cooking.getInstance().getRemainingItems(this.craftMatrix, player.world);
 			net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);

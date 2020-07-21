@@ -14,6 +14,7 @@ public class NutritionStorage implements IStorage<INutrition> {
 		 tag.setFloat("carbs", instance.getCarbs());
 		 tag.setFloat("veggies", instance.getVeggies());
 		 tag.setFloat("fruits", instance.getFruits());
+		 tag.setFloat("bac", instance.getBAC());
 		 tag.setFloat("lastFood", instance.getLastFood());
 		 return tag;
 	 }
@@ -27,6 +28,7 @@ public class NutritionStorage implements IStorage<INutrition> {
 			 instance.setCarbs(tag.getFloat("carbs"));
 			 instance.setVeggies(tag.getFloat("veggies"));
 			 instance.setFruits(tag.getFloat("fruits"));
+			 instance.setBAC(tag.getFloat("bac"));
 			 instance.setLastFood(tag.getFloat("lastFood"));
 		 }
 	 }

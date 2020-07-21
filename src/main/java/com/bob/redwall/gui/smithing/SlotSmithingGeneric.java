@@ -58,6 +58,7 @@ public class SlotSmithingGeneric extends Slot {
 		if (this.amountCrafted > 0) {
 			this.te.setSmithingFinished(false);
 			this.te.smithStack = ItemStack.EMPTY;
+			this.te.markDirty();
 			stack.onCrafting(this.player.world, this.player, this.amountCrafted);
 			net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(this.player, stack, craftMatrix);
 			IFactionCap cap = this.player.getCapability(FactionCapProvider.FACTION_CAP, null);
@@ -76,6 +77,7 @@ public class SlotSmithingGeneric extends Slot {
 			this.te.setSmithingTime(TileEntitySmithingGeneric.SMITHING_TIME);
 			this.te.smithStack = this.getStack();
 			this.te.useFuel();
+			this.te.markDirty();
 			net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
 			NonNullList<ItemStack> nonnulllist = CraftingHandler.SmithingGeneric.getInstance().getRemainingItems(this.craftMatrix, player.world);
 			net.minecraftforge.common.ForgeHooks.setCraftingPlayer(null);

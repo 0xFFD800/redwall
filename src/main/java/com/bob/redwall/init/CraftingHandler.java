@@ -8,6 +8,8 @@ import java.util.Map;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.factions.Faction;
+import com.bob.redwall.items.brewing.Drink;
+import com.bob.redwall.items.brewing.ItemDrinkVessel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -79,70 +81,70 @@ public class CraftingHandler {
 		((IForgeRegistryModifiable<IRecipe>) event.getRegistry()).remove(Items.DIAMOND_BOOTS.getRegistryName());
 
 		((IForgeRegistryModifiable<IRecipe>) event.getRegistry()).remove(Items.BREAD.getRegistryName());
-		
+
 		FurnaceRecipes.instance().getSmeltingList().clear();
-        GameRegistry.addSmelting(Blocks.SAND, new ItemStack(Blocks.GLASS), 0.1F);
-        GameRegistry.addSmelting(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.DEFAULT_META), new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.CRACKED_META), 0.1F);
-        GameRegistry.addSmelting(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
-        GameRegistry.addSmelting(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
-        GameRegistry.addSmelting(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()), 0.2F);
-        GameRegistry.addSmelting(Blocks.LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
-        GameRegistry.addSmelting(Blocks.LOG2, new ItemStack(Items.COAL, 1, 1), 0.15F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
-        GameRegistry.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
+		GameRegistry.addSmelting(Blocks.SAND, new ItemStack(Blocks.GLASS), 0.1F);
+		GameRegistry.addSmelting(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.DEFAULT_META), new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.CRACKED_META), 0.1F);
+		GameRegistry.addSmelting(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
+		GameRegistry.addSmelting(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
+		GameRegistry.addSmelting(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()), 0.2F);
+		GameRegistry.addSmelting(Blocks.LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(Blocks.LOG2, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
+		GameRegistry.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
 
-        for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
-            if (itemfishfood$fishtype.canCook()) {
-                GameRegistry.addSmelting(new ItemStack(Items.FISH, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
-            }
-        }
+		for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
+			if (itemfishfood$fishtype.canCook()) {
+				GameRegistry.addSmelting(new ItemStack(Items.FISH, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
+			}
+		}
 
-        GameRegistry.addSmelting(Items.CHAINMAIL_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.CHAINMAIL_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.CHAINMAIL_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.CHAINMAIL_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_PICKAXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_SHOVEL, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_AXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_HOE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_SWORD, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.IRON_HORSE_ARMOR, new ItemStack(Items.IRON_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_PICKAXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_SHOVEL, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_AXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_HOE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_SWORD, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_HELMET, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_CHESTPLATE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_LEGGINGS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_BOOTS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(Items.GOLDEN_HORSE_ARMOR, new ItemStack(Items.GOLD_NUGGET), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.WHITE.getMetadata()), new ItemStack(Blocks.WHITE_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.ORANGE.getMetadata()), new ItemStack(Blocks.ORANGE_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.MAGENTA.getMetadata()), new ItemStack(Blocks.MAGENTA_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIGHT_BLUE.getMetadata()), new ItemStack(Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.YELLOW.getMetadata()), new ItemStack(Blocks.YELLOW_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIME.getMetadata()), new ItemStack(Blocks.LIME_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PINK.getMetadata()), new ItemStack(Blocks.PINK_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GRAY.getMetadata()), new ItemStack(Blocks.GRAY_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.SILVER.getMetadata()), new ItemStack(Blocks.SILVER_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.CYAN.getMetadata()), new ItemStack(Blocks.CYAN_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PURPLE.getMetadata()), new ItemStack(Blocks.PURPLE_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLUE.getMetadata()), new ItemStack(Blocks.BLUE_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BROWN.getMetadata()), new ItemStack(Blocks.BROWN_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GREEN.getMetadata()), new ItemStack(Blocks.GREEN_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.RED_GLAZED_TERRACOTTA), 0.1F);
-        GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLACK.getMetadata()), new ItemStack(Blocks.BLACK_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(Items.CHAINMAIL_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.CHAINMAIL_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.CHAINMAIL_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.CHAINMAIL_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_PICKAXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_SHOVEL, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_AXE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_HOE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_SWORD, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_LEGGINGS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_BOOTS, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.IRON_HORSE_ARMOR, new ItemStack(Items.IRON_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_PICKAXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_SHOVEL, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_AXE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_HOE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_SWORD, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_HELMET, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_CHESTPLATE, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_LEGGINGS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_BOOTS, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(Items.GOLDEN_HORSE_ARMOR, new ItemStack(Items.GOLD_NUGGET), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.WHITE.getMetadata()), new ItemStack(Blocks.WHITE_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.ORANGE.getMetadata()), new ItemStack(Blocks.ORANGE_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.MAGENTA.getMetadata()), new ItemStack(Blocks.MAGENTA_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIGHT_BLUE.getMetadata()), new ItemStack(Blocks.LIGHT_BLUE_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.YELLOW.getMetadata()), new ItemStack(Blocks.YELLOW_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.LIME.getMetadata()), new ItemStack(Blocks.LIME_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PINK.getMetadata()), new ItemStack(Blocks.PINK_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GRAY.getMetadata()), new ItemStack(Blocks.GRAY_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.SILVER.getMetadata()), new ItemStack(Blocks.SILVER_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.CYAN.getMetadata()), new ItemStack(Blocks.CYAN_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.PURPLE.getMetadata()), new ItemStack(Blocks.PURPLE_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLUE.getMetadata()), new ItemStack(Blocks.BLUE_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BROWN.getMetadata()), new ItemStack(Blocks.BROWN_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.GREEN.getMetadata()), new ItemStack(Blocks.GREEN_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.RED.getMetadata()), new ItemStack(Blocks.RED_GLAZED_TERRACOTTA), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, EnumDyeColor.BLACK.getMetadata()), new ItemStack(Blocks.BLACK_GLAZED_TERRACOTTA), 0.1F);
 	}
 
 	public static class SmithingGeneric {
 		private static final SmithingGeneric INSTANCE = new SmithingGeneric();
-		private final List<LeveledRecipe> recipes = Lists.<LeveledRecipe>newArrayList();
+		protected final List<LeveledRecipe> recipes = Lists.<LeveledRecipe>newArrayList();
 
 		public static SmithingGeneric getInstance() {
 			return INSTANCE;
@@ -217,14 +219,15 @@ public class CraftingHandler {
 			this.addRecipe(4, new ItemStack(Items.GOLDEN_BOOTS), new Object[] { "# #", "# #", '#', Items.GOLD_INGOT });
 
 			/*
-			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new
-			 * NBTTagCompound(); //display.setString("Name", String.valueOf(new
-			 * Random().nextDouble())); NBTTagList lore = new NBTTagList();
+			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new NBTTagCompound(); 
+			 * //display.setString("Name", String.valueOf(new Random().nextDouble())); 
+			 * NBTTagList lore = new NBTTagList();
 			 * lore.appendTag(new NBTTagString(I18n.format("key.canLock", new Object[0])));
-			 * display.setTag("Lore", lore); nbt.setTag("display", display); ItemStack
-			 * itemstack = new ItemStack(ItemHandler.key, 1, 0);
-			 * itemstack.setTagCompound(nbt); this.addRecipe(itemstack.copy(), new Object[]
-			 * {" # ", "# #", " # ", '#', ItemHandler.heated_iron_ingot});
+			 * display.setTag("Lore", lore); 
+			 * nbt.setTag("display", display); 
+			 * ItemStack itemstack = new ItemStack(ItemHandler.key, 1, 0);
+			 * itemstack.setTagCompound(nbt); 
+			 * this.addRecipe(itemstack.copy(), new Object[] {" # ", "# #", " # ", '#', ItemHandler.heated_iron_ingot});
 			 */
 
 			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
@@ -347,6 +350,43 @@ public class CraftingHandler {
 		}
 	}
 
+	public static class SmithingRedwall extends SmithingGeneric {
+		private static final SmithingRedwall INSTANCE = new SmithingRedwall();
+
+		public static SmithingRedwall getInstance() {
+			return INSTANCE;
+		}
+
+		private SmithingRedwall() {
+			this.recipes.add(new LeveledRecipe(new RecipeRepairItem(), 0));
+
+			this.addRecipe(2, new ItemStack(ItemHandler.redwall_axe), new Object[] { "##", "X#", "X ", '#', Items.IRON_INGOT, 'X', Items.STICK });
+			this.addRecipe(1, new ItemStack(ItemHandler.redwall_pickaxe), new Object[] { "###", " X ", " X ", '#', Items.IRON_INGOT, 'X', Items.STICK });
+			this.addRecipe(0, new ItemStack(ItemHandler.redwall_spade), new Object[] { "#", "X", "X", '#', Items.IRON_INGOT, 'X', Items.STICK });
+			this.addRecipe(1, new ItemStack(ItemHandler.redwall_hoe), new Object[] { "##", "X ", "X ", '#', Items.IRON_INGOT, 'X', Items.STICK });
+			this.addRecipe(2, new ItemStack(ItemHandler.redwall_scythe), new Object[] { "##", "X#", "X#", '#', Items.IRON_INGOT, 'X', Items.STICK });
+
+			this.addRecipe(0, new ItemStack(BlockHandler.brewing_redwall), new Object[] { "VVV", "###", "VVV", '#', Items.IRON_INGOT, 'V', Items.STICK });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.REDWALL, FactionCap.FacStatType.SMITH) >= irecipe.reqLevel) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
 	public static class Smeltery {
 		private static final Smeltery INSTANCE = new Smeltery();
 		private final List<IRecipe> recipes = Lists.<IRecipe>newArrayList();
@@ -381,17 +421,6 @@ public class CraftingHandler {
 			this.addRecipe(new ItemStack(Blocks.GOLD_BLOCK), new Object[] { "###", "###", "###", '#', Items.GOLD_INGOT });
 			this.addShapelessRecipe(new ItemStack(Items.GOLD_NUGGET), new Object[] { Items.GOLD_INGOT });
 			this.addRecipe(new ItemStack(Items.GOLD_INGOT), new Object[] { "###", "###", "###", '#', Items.GOLD_NUGGET });
-
-			/*
-			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new
-			 * NBTTagCompound(); //display.setString("Name", String.valueOf(new
-			 * Random().nextDouble())); NBTTagList lore = new NBTTagList();
-			 * lore.appendTag(new NBTTagString(I18n.format("key.canLock", new Object[0])));
-			 * display.setTag("Lore", lore); nbt.setTag("display", display); ItemStack
-			 * itemstack = new ItemStack(ItemHandler.key, 1, 0);
-			 * itemstack.setTagCompound(nbt); this.addRecipe(itemstack.copy(), new Object[]
-			 * {" # ", "# #", " # ", '#', ItemHandler.heated_iron_ingot});
-			 */
 
 			Collections.sort(this.recipes, new Comparator<IRecipe>() {
 				@Override
@@ -532,17 +561,6 @@ public class CraftingHandler {
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.perch_cooked), new Object[] { ItemHandler.perch });
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.trout_cooked), new Object[] { ItemHandler.trout });
 
-			/*
-			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new
-			 * NBTTagCompound(); //display.setString("Name", String.valueOf(new
-			 * Random().nextDouble())); NBTTagList lore = new NBTTagList();
-			 * lore.appendTag(new NBTTagString(I18n.format("key.canLock", new Object[0])));
-			 * display.setTag("Lore", lore); nbt.setTag("display", display); ItemStack
-			 * itemstack = new ItemStack(ItemHandler.key, 1, 0);
-			 * itemstack.setTagCompound(nbt); this.addRecipe(itemstack.copy(), new Object[]
-			 * {" # ", "# #", " # ", '#', ItemHandler.heated_iron_ingot});
-			 */
-
 			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
 				@Override
 				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
@@ -676,6 +694,231 @@ public class CraftingHandler {
 
 		public List<Boolean> getCookList() {
 			return this.shouldCook;
+		}
+	}
+
+	public static class BrewingRedwall extends SmithingRedwall {
+		private static final BrewingRedwall INSTANCE = new BrewingRedwall();
+
+		public static BrewingRedwall getInstance() {
+			return INSTANCE;
+		}
+
+		private BrewingRedwall() {
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.STRAWBERRY_FIZZ), new Object[] { "#X#", "XXX", "VCV", '#', ItemHandler.strawberry, 'X', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.BEETROOT_PORT), new Object[] { "###", "VCV", '#', Items.BEETROOT, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.STRAWBERRY_FIZZ), new Object[] { "#X#", "XXX", "VCV", '#', ItemHandler.strawberry, 'X', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.BEETROOT_PORT), new Object[] { "###", "VCV", '#', Items.BEETROOT, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.STRAWBERRY_FIZZ), new Object[] { "#X#", "XXX", "VCV", '#', ItemHandler.strawberry, 'X', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BEETROOT_PORT), new Object[] { "###", "VCV", '#', Items.BEETROOT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.REDWALL, FactionCap.FacStatType.BREW) >= irecipe.reqLevel) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
+	public static class BrewingWoodlander extends BrewingRedwall {
+		private static final BrewingWoodlander INSTANCE = new BrewingWoodlander();
+
+		public static BrewingWoodlander getInstance() {
+			return INSTANCE;
+		}
+
+		private BrewingWoodlander() {
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.WOODLANDERS, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.PEACE_ISLE, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.NOONVALE, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
+	public static class BrewingGuosim extends BrewingRedwall {
+		private static final BrewingGuosim INSTANCE = new BrewingGuosim();
+
+		public static BrewingGuosim getInstance() {
+			return INSTANCE;
+		}
+
+		private BrewingGuosim() {
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GUOSIM, FactionCap.FacStatType.BREW) >= irecipe.reqLevel) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
+	public static class BrewingOtter extends BrewingRedwall {
+		private static final BrewingOtter INSTANCE = new BrewingOtter();
+
+		public static BrewingOtter getInstance() {
+			return INSTANCE;
+		}
+
+		private BrewingOtter() {
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.BURGOOLA), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.BURGOOLA), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BURGOOLA), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.OTTERS_GREEN_ISLE, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.OTTERS_MOSSFLOWER, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
+	public static class BrewingSalamandastron extends BrewingRedwall {
+		private static final BrewingSalamandastron INSTANCE = new BrewingSalamandastron();
+
+		public static BrewingSalamandastron getInstance() {
+			return INSTANCE;
+		}
+
+		private BrewingSalamandastron() {
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(3, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.MOUNTAIN_ALE), new Object[] { "###", "VCV", '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(3, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.MOUNTAIN_ALE), new Object[] { "###", "VCV", '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(3, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.MOUNTAIN_ALE), new Object[] { "###", "VCV", '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.SALAMANDASTRON, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
+		}
+	}
+
+	public static class BrewingVerminMossflower extends BrewingRedwall {
+		private static final BrewingVerminMossflower INSTANCE = new BrewingVerminMossflower();
+
+		public static BrewingVerminMossflower getInstance() {
+			return INSTANCE;
+		}
+
+		private BrewingVerminMossflower() {
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+
+			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
+				@Override
+				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
+					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
+				}
+			});
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes) {
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.VERMIN_MOSSFLOWER, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.VERMIN_NORTHLANDS, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+				}
+			}
+
+			return ItemStack.EMPTY;
 		}
 	}
 
