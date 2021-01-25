@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:southsward_brick",
+	  "data": 0
+    },
+	"X": {
+	  "item": "minecraft:vine"
+	}
+  },
+  "result": {
+    "item": "redwall:southsward_brick",
+	"data": 1
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:redwall_brick",
+	  "data": 0
+    }
+  },
+  "result": {
+    "item": "redwall:redwall_brick",
+	"data": 3,
+	"count": 4
+  }
+}

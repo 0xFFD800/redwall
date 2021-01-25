@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "redwall:southsward_brick",
+	  "data": 0
+    }
+  },
+  "result": {
+    "item": "redwall:southsward_slab",
+	"data": 0,
+	"count": 6
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##",
+    " X",
+    " X"
+  ],
+  "key": {
+    "#": [
+      {
+        "item": "redwall:maple_planks"
+      },
+      {
+        "item": "redwall:elm_planks"
+      },
+      {
+        "item": "redwall:ash_planks"
+      },
+      {
+        "item": "redwall:pine_planks"
+      },
+      {
+        "item": "redwall:fir_planks"
+      },
+      {
+        "item": "redwall:larch_planks"
+      },
+      {
+        "item": "redwall:hornbeam_planks"
+      },
+      {
+        "item": "redwall:beech_planks"
+      },
+      {
+        "item": "redwall:yew_planks"
+      },
+      {
+        "item": "redwall:alder_planks"
+      },
+      {
+        "item": "redwall:aspen_planks"
+      },
+      {
+        "item": "redwall:willow_planks"
+      },
+      {
+        "item": "redwall:apple_planks"
+      },
+      {
+        "item": "redwall:plum_planks"
+      }
+    ],
+	"X": {
+	  "item": "minecraft:stick"
+	}
+  },
+  "result": {
+    "item": "minecraft:wooden_hoe",
+    "count": 1
+  }
+}

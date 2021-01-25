@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "full=true": { "model": "redwall:mug" },
+        "full=false": { "model": "redwall:mug_empty" }
+    }
+}

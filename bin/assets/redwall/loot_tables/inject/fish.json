@@ -1,0 +1,58 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "name": "fishes",
+          "entries": [
+            {
+              "type": "item",
+              "entryName": "cod",
+              "name": "minecraft:fish",
+              "functions": [
+                {
+                  "function": "set_data",
+                  "data": 0
+                }
+              ],
+              "weight": 6
+            },
+            {
+              "type": "item",
+              "entryName": "salmon",
+              "name": "minecraft:fish",
+              "functions": [
+                {
+                  "function": "set_data",
+                  "data": 1
+                }
+              ],
+              "weight": 4
+            },
+            {
+              "type": "item",
+              "entryName": "trout",
+              "name": "redwall:trout",
+              "weight": 14
+            },
+            {
+              "type": "item",
+              "entryName": "bass",
+              "name": "redwall:bass",
+              "weight": 19
+            },
+            {
+              "type": "item",
+              "entryName": "perch",
+              "name": "redwall:perch",
+              "weight": 16
+            },
+            {
+              "type": "item",
+              "entryName": "grayling",
+              "name": "redwall:grayling",
+              "weight": 5
+            }
+          ]
+        }
+    ]
+}
