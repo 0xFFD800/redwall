@@ -168,6 +168,8 @@ tile.cooking_generic.name=Cooking Station
 tile.smithing_redwall.name=Redwall Smithing Station
 tile.brewing_redwall.name=Redwall Brewing Station
 
+tile.grape_vine_trellis.name=Grape Vine Trellis
+
 item.maple_door.name=Maple Door
 item.elm_door.name=Elm Door
 item.ash_door.name=Ash Door
@@ -202,6 +204,7 @@ item.wildberry_seeds.name=Wildberry Seeds
 
 item.plum.name=Plum
 item.damson.name=Damson Plum
+item.grapes.name=Grapes
 
 item.corn.name=Corn
 item.turnip.name=Turnip
@@ -210,6 +213,8 @@ item.peas.name=Peas
 item.rice.name=Rice
 item.beans.name=Beans
 item.yam.name=Yam
+
+item.rice_bowl.name=Bowl of Rice
 
 item.mug_empty.name=Mug
 
@@ -401,8 +406,11 @@ entity.redwall:squirrel_redwall.name=Redwall Squirrel
 entity.redwall:squirrel_woodlander.name=Woodlander Squirrel
 entity.redwall:mole_redwall.name=Redwall Mole
 entity.redwall:mole_woodlander.name=Woodlander Mole
+entity.redwall:otter_mossflower.name=Mossflower Otter
 
 entity.redwall:rat_mossflower.name=Mossflower Rat
+entity.redwall:ferret_mossflower.name=Mossflower Ferret
+entity.redwall:weasel_mossflower.name=Mossflower Weasel
 
 death.attack.spear=%s was skewered by %d
 death.attack.spear.item=%s was skewered by %d using %u
@@ -421,7 +429,7 @@ attribute.name.protein=Savory Flavor
 attribute.name.carbs=Sweet Flavor
 attribute.name.fruits=Fruit Flavor
 attribute.name.veggies=Vegetable Flavor
-attribute.name.alcohol=Alcohol
+attribute.name.alcohol=Potency
 attribute.name.effectduration=Effect Duration
 
 modifier.damage.add.1=Sharp
@@ -513,6 +521,7 @@ itemGroup.combat=Combat
 itemGroup.misc=Miscellaneous
 
 key.open_factions.desc=Open Factions Menu
+key.open_skills.desc=Open Stats Menu
 key.redwall.category=Redwall Mod Keys
 
 fac.redwall.name=Redwall
@@ -556,6 +565,12 @@ facstat.brewSkill.name=Brewing Skill
 facstat.cookSkill.name=Cooking Skill
 facstat.scoffSkill.name=Scoffing Skill
 
+playerstat.level=Level %s
+playerstat.strength.name=Strength
+playerstat.speed.name=Speed
+playerstat.vitality.name=Vitality
+playerstat.agility.name=Agility
+
 facstat.level=: Lv. %s
 
 facstat.toast.title1:Level up!
@@ -567,6 +582,14 @@ commands.factions.usage=/factions <player> <faction> <contact|stats> <contact?tr
 commands.factions.get=Player %s's %s for faction %s is %s
 commands.factions.getContact=Player %s's contact status for faction %s is %s
 commands.factions.used=Player %s's faction status has been updated
+
+commands.playerstats.usage=/playerstats <player> <strength|speed|vitality|agility> <reset|set|add|subtract|get> ...
+commands.playerstats.failed.noplayer=Failed to set stat for player: Player %s does not exist
+commands.playerstats.reset=Reset player %s's stat to %s
+commands.playerstats.set=Set player %s's stat to %s
+commands.playerstats.add=Added %s to player %s's stat
+commands.playerstats.subtract=Subtracted %s from player %s's stat
+commands.playerstats.get=Player %s's stat is %s
 
 drink.empty=Empty
 drink.water=Water
@@ -584,8 +607,11 @@ drink.dandelion_burdock_cordial=Dandelion and Burdock Cordial
 drink.mead=Mead
 drink.shrewbeer=Shrewbeer
 drink.waterporter=Waterporter
-drink.burgoola=Burgoola
+drink.gullyplug_punch=Gullyplug Punch
 drink.pale_cider=Pale Cider
 drink.mountain_ale=Mountain Ale
 drink.nettlebeer=Nettlebeer
 drink.blackberry_grog=Blackberry Grog
+
+generator.redwall=Redwall World
+generator.redwall.info=Spawn directly into the Redwall universe!

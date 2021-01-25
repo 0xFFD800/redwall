@@ -6,6 +6,7 @@ import com.bob.redwall.Ref;
 import com.bob.redwall.blocks.BlockWeaponRackHorizontal;
 import com.bob.redwall.blocks.BlockWeaponRackVertical;
 import com.bob.redwall.blocks.ModBlock;
+import com.bob.redwall.blocks.decor.BlockDrinkVessel;
 import com.bob.redwall.blocks.multiuse.BlockHiddenDoor;
 import com.bob.redwall.blocks.multiuse.BlockModBrick;
 import com.bob.redwall.blocks.multiuse.BlockModDoor;
@@ -26,6 +27,7 @@ import com.bob.redwall.blocks.plants.berry_bushes.BlockStrawberryBush;
 import com.bob.redwall.blocks.plants.berry_bushes.BlockWildberryBush;
 import com.bob.redwall.blocks.plants.crops.BlockBeans;
 import com.bob.redwall.blocks.plants.crops.BlockCornStalk;
+import com.bob.redwall.blocks.plants.crops.BlockGrapeVineTrellis;
 import com.bob.redwall.blocks.plants.crops.BlockOnions;
 import com.bob.redwall.blocks.plants.crops.BlockPeas;
 import com.bob.redwall.blocks.plants.crops.BlockRice;
@@ -105,6 +107,9 @@ public class BlockHandler {
 	public static Block rice;
 	public static Block beans;
 	public static Block yams;
+	
+	public static Block grape_vine_trellis;
+	public static ItemBlock ib_grape_vine_trellis;
 
 	public static Block wheatgrass;
 	public static ItemBlock ib_wheatgrass;
@@ -431,6 +436,8 @@ public class BlockHandler {
 	public static ItemBlock ib_smithing_redwall;
 	public static Block brewing_redwall;
 	public static ItemBlock ib_brewing_redwall;
+	
+	public static Block mug;
 
 	public static void init() {
 		basalt = new ModBlock(Material.ROCK, "basalt", CreativeTabHandler.BLOCKS, 2.0F, 15.0F);
@@ -449,6 +456,9 @@ public class BlockHandler {
 		peas = new BlockPeas("peas");
 		beans = new BlockBeans("beans");
 		yams = new BlockYams("yams");
+		
+		grape_vine_trellis = new BlockGrapeVineTrellis("grape_vine_trellis", Material.WOOD, CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_grape_vine_trellis = (ItemBlock) new ItemModBlock(grape_vine_trellis, grape_vine_trellis.getRegistryName());
 
 		cornstalk = new BlockCornStalk("cornstalk", Material.PLANTS);
 
@@ -823,6 +833,8 @@ public class BlockHandler {
 		ib_smithing_redwall = (ItemBlock) new ItemModBlock(smithing_redwall, smithing_redwall.getRegistryName());
 		brewing_redwall = new BlockBrewingRedwall(Material.ROCK, "brewing_redwall", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "pickaxe");
 		ib_brewing_redwall = (ItemBlock) new ItemModBlock(brewing_redwall, brewing_redwall.getRegistryName());
+		
+		mug = new BlockDrinkVessel(Material.CIRCUITS, "mug", new ResourceLocation(Ref.MODID, "mug_drink"), new ResourceLocation(Ref.MODID, "mug_empty"));
 	}
 
 	public static void register(RegistryEvent.Register<Block> event) {
@@ -841,6 +853,8 @@ public class BlockHandler {
 		registerBlock(event, rice);
 		registerBlock(event, beans);
 		registerBlock(event, yams);
+
+		registerBlock(event, grape_vine_trellis);
 
 		registerBlock(event, cornstalk);
 
@@ -1041,6 +1055,8 @@ public class BlockHandler {
 		registerBlock(event, cooking_generic);
 		registerBlock(event, smithing_redwall);
 		registerBlock(event, brewing_redwall);
+		
+		registerBlock(event, mug);
 	}
 
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
@@ -1052,6 +1068,8 @@ public class BlockHandler {
 
 		registerItemBlock(event, ib_wheatgrass);
 		registerItemBlock(event, ib_shortgrass);
+
+		registerItemBlock(event, ib_grape_vine_trellis);
 
 		registerItemBlock(event, ib_maple_log);
 		registerItemBlock(event, ib_elm_log);
@@ -1220,6 +1238,8 @@ public class BlockHandler {
 		registerRender(rice);
 		registerRender(yams);
 		registerRender(beans);
+
+		registerRender(grape_vine_trellis);
 
 		registerRender(cornstalk);
 
@@ -1414,6 +1434,8 @@ public class BlockHandler {
 		registerRender(cooking_generic);
 		registerRender(smithing_redwall);
 		registerRender(brewing_redwall);
+
+		registerRender(mug);
 	}
 
 	public static void registerBlock(RegistryEvent.Register<Block> event, Block block) {

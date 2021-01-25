@@ -83,7 +83,7 @@ public class SlotCookingGeneric extends Slot {
 				}
 			}
 			this.te.cookStack = this.getStack();
-			this.te.useFuel();
+			if (this.shouldBurn()) this.te.useFuel();
 			this.te.markDirty();
 			net.minecraftforge.common.ForgeHooks.setCraftingPlayer(player);
 			NonNullList<ItemStack> nonnulllist = CraftingHandler.Cooking.getInstance().getRemainingItems(this.craftMatrix, player.world);

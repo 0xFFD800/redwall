@@ -126,7 +126,7 @@ public abstract class FoodModifier extends net.minecraftforge.registries.IForgeR
      * @return The number to multiply the drink's alcohol content by.
      */
     public float calcModifierAlcohol(int level) {
-        return 1;
+        return 1.0F;
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class FoodModifier extends net.minecraftforge.registries.IForgeR
      * @return The number to multiply the effect duration by.
      */
 	public float calcModifierEffectDuration(int level) {
-		return 1;
+		return 1.0F;
 	}
 
     public boolean canApplyTogether(FoodModifier ench) {

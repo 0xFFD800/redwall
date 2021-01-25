@@ -21,6 +21,7 @@ import com.bob.redwall.biomes.warm.BiomeRedwallPlains;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.RegistryEvent;
 
 public class BiomeHandler extends Biome {
@@ -201,6 +202,55 @@ public class BiomeHandler extends Biome {
         event.getRegistry().register(redwall_noonvale);
         event.getRegistry().register(redwall_noonvale_forest);
         event.getRegistry().register(redwall_noonvale_hills);
+	
+		BiomeDictionary.addTypes(redwall_mountains, BiomeDictionary.Type.COLD, BiomeDictionary.Type.MOUNTAIN);
+		BiomeDictionary.addTypes(redwall_plains, BiomeDictionary.Type.PLAINS);
+		BiomeDictionary.addTypes(redwall_plains_sunflower, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.RARE);
+		BiomeDictionary.addTypes(redwall_beach, BiomeDictionary.Type.BEACH, BiomeDictionary.Type.SANDY);
+		BiomeDictionary.addTypes(redwall_gravel_beach, BiomeDictionary.Type.BEACH);
+		BiomeDictionary.addTypes(redwall_rocky_beach, BiomeDictionary.Type.BEACH);
+		BiomeDictionary.addTypes(redwall_desert, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY);
+		BiomeDictionary.addTypes(redwall_bare_desert, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
+		BiomeDictionary.addTypes(redwall_forest, BiomeDictionary.Type.FOREST);
+		BiomeDictionary.addTypes(redwall_forest_deciduous, BiomeDictionary.Type.FOREST);
+		BiomeDictionary.addTypes(redwall_forest_coniferous, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS);
+		BiomeDictionary.addTypes(redwall_forest_flowers, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.RARE);
+		BiomeDictionary.addTypes(redwall_forest_oak, BiomeDictionary.Type.FOREST);
+		BiomeDictionary.addTypes(redwall_forest_birch, BiomeDictionary.Type.FOREST);
+		BiomeDictionary.addTypes(redwall_forest_maple, BiomeDictionary.Type.FOREST);
+		BiomeDictionary.addTypes(redwall_forest_elm, BiomeDictionary.Type.FOREST);
+		BiomeDictionary.addTypes(redwall_forest_ash, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE);
+		BiomeDictionary.addTypes(redwall_forest_spruce, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS);
+		BiomeDictionary.addTypes(redwall_forest_pine, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS);
+		BiomeDictionary.addTypes(redwall_forest_fir, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS);
+		BiomeDictionary.addTypes(redwall_forest_larch, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS);
+		BiomeDictionary.addTypes(redwall_scrubland, BiomeDictionary.Type.WASTELAND);
+		BiomeDictionary.addTypes(redwall_heathland, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.SPARSE);
+		BiomeDictionary.addTypes(redwall_hills, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.HILLS);
+		BiomeDictionary.addTypes(redwall_red_desert, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY);
+		BiomeDictionary.addTypes(redwall_bare_red_desert, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY, BiomeDictionary.Type.WASTELAND);
+		BiomeDictionary.addTypes(redwall_mesa, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY, BiomeDictionary.Type.MESA);
+		BiomeDictionary.addTypes(redwall_ocean, BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.WATER);
+		BiomeDictionary.addTypes(redwall_deep_ocean, BiomeDictionary.Type.OCEAN, BiomeDictionary.Type.WATER);
+		BiomeDictionary.addTypes(redwall_river, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.WATER);
+		BiomeDictionary.addTypes(redwall_river_frozen, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.WATER, BiomeDictionary.Type.COLD);
+		BiomeDictionary.addTypes(redwall_grassland, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SAVANNA);
+		BiomeDictionary.addTypes(redwall_arctic, BiomeDictionary.Type.COLD, BiomeDictionary.Type.PLAINS);
+		BiomeDictionary.addTypes(redwall_arctic_hills, BiomeDictionary.Type.COLD, BiomeDictionary.Type.HILLS);
+		BiomeDictionary.addTypes(redwall_marsh, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WET);
+		BiomeDictionary.addTypes(redwall_scrubland_plateau, BiomeDictionary.Type.WASTELAND);
+		BiomeDictionary.addTypes(redwall_pines_plateau, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.CONIFEROUS);
+		BiomeDictionary.addTypes(redwall_desert_plateau, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY);
+		BiomeDictionary.addTypes(redwall_river_plateau, BiomeDictionary.Type.RIVER, BiomeDictionary.Type.WATER);
+		BiomeDictionary.addTypes(redwall_abyss, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SPOOKY);
+		BiomeDictionary.addTypes(redwall_quarry, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.DRY, BiomeDictionary.Type.SPOOKY);
+		BiomeDictionary.addTypes(redwall_forest_southsward, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.DENSE);
+		BiomeDictionary.addTypes(redwall_hills_southsward, BiomeDictionary.Type.HILLS);
+		BiomeDictionary.addTypes(redwall_deeplough, BiomeDictionary.Type.WATER, BiomeDictionary.Type.SPOOKY);
+		BiomeDictionary.addTypes(redwall_northlands, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.WASTELAND);
+		BiomeDictionary.addTypes(redwall_noonvale, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.LUSH);
+		BiomeDictionary.addTypes(redwall_noonvale_forest, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.LUSH);
+		BiomeDictionary.addTypes(redwall_noonvale_hills, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.LUSH);
 	}
 	
 	public static int getColorForBiomeFromRGB(Color color) {

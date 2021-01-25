@@ -30,7 +30,7 @@ public class RedwallTeleporter extends Teleporter {
 	public RedwallTeleporter(WorldServer worldIn, int dme2, double x, double y, double z){
 		super(worldIn);
 		this.worldServerInstance = worldIn;
-		this.random = new Random(RedwallWorldProvider.VALOUR_SEED);
+		this.random = new Random(RedwallWorldProvider.REDWALL_SEED);
 		this.dme = dme2;
 		this.prevX = x;
 		this.prevY = y;
@@ -241,7 +241,7 @@ public class RedwallTeleporter extends Teleporter {
 					player1.timeUntilPortal = 10;
 					setDme21();
 					setOverworldXYZ(player1.posX, player1.posY, player1.posZ);
-					mcServer.getPlayerList().transferPlayerToDimension(player1, dimId, new RedwallTeleporter(mcServer.getWorld(dimId), dme2, RedwallWorldProvider.VALOUR_SPAWN_POINT.getX(), RedwallWorldProvider.VALOUR_SPAWN_POINT.getY(), RedwallWorldProvider.VALOUR_SPAWN_POINT.getZ()));
+					mcServer.getPlayerList().transferPlayerToDimension(player1, dimId, new RedwallTeleporter(mcServer.getWorld(dimId), dme2, RedwallWorldProvider.REDWALL_SPAWN_POINT.getX(), RedwallWorldProvider.REDWALL_SPAWN_POINT.getY(), RedwallWorldProvider.REDWALL_SPAWN_POINT.getZ()));
 					setTestXYZ(player1.posX, player1.posY, player1.posZ);
 				} else if(prevX2 != 0.0 && prevY2 != 0.0 && prevZ2 != 0.0){
 					player1.timeUntilPortal = 10;

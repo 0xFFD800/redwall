@@ -1,5 +1,7 @@
 package com.bob.redwall.biomes.beach;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
 
@@ -18,5 +20,10 @@ public class BiomeRedwallBeach extends Biome {
         this.spawnableCaveCreatureList.clear();
         this.spawnableWaterCreatureList.clear();
         //this.spawnableCreatureList.add(new SpawnListEntry(EntityBird.class, 1, 2, 4));
+    }
+
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
     }
 }

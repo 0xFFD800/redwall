@@ -23,6 +23,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -255,7 +256,7 @@ public class BlockWeaponRackHorizontal extends ModBlock implements ITileEntityPr
         if (!world.isRemote) {
         	TileEntityWeaponRack te = this.getTE(world, pos);
             ItemStack stack = te.getStack();
-            if (te.getStack().isEmpty() && (player.getHeldItem(hand).getItem() instanceof ModCustomWeapon || player.getHeldItem(hand).getItem() instanceof ItemBow || player.getHeldItem(hand).getItem() instanceof ItemModBow)) {
+            if (te.getStack().isEmpty() && (player.getHeldItem(hand).getItem() instanceof ModCustomWeapon || player.getHeldItem(hand).getItem() instanceof ItemBow || player.getHeldItem(hand).getItem() instanceof ItemModBow || player.getHeldItem(hand).getItem() instanceof ItemFishingRod)) {
                 te.setStack(player.getHeldItem(hand).copy());
                 player.getHeldItem(hand).shrink(1);
 

@@ -2,6 +2,8 @@ package com.bob.redwall.biomes.icy;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -28,10 +30,12 @@ public class BiomeRedwallArctic extends Biome {
 	        this.spawnableWaterCreatureList.clear();
 	    }
 
+	    @Override
 	    public float getSpawningChance() {
-	        return 0.07F;
+	        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN / 1.5F;
 	    }
 
+	    @Override
 	    @SuppressWarnings("deprecation")
 		public void decorate(World worldIn, Random rand, BlockPos pos) {
 	        if (this.superIcy && net.minecraftforge.event.terraingen.TerrainGen.decorate(worldIn, rand, pos, net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.ICE)) {

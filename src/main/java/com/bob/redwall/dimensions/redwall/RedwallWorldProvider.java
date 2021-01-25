@@ -32,11 +32,13 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
 
 public class RedwallWorldProvider extends WorldProvider {
-	public static final BlockPos VALOUR_SPAWN_POINT = new BlockPos(38800, 66, 38800);
-	public static final long VALOUR_SEED = 1L;
-	public static final float VALOUR_DAY_LENGTH = 72000.0F;
-	public static final int VALOUR_BIOME_SIZE = 2; //2 results in a 1:1 ratio between pixels and chunks. That seems pretty reasonable.
-	public static final String VALOUR_MAP_LOCATION = "map.png";
+	public static final BlockPos REDWALL_SPAWN_POINT = new BlockPos(49998, 70, 30000);
+	public static final long REDWALL_SEED = 1L;
+	public static final float REDWALL_DAY_LENGTH = 72000.0F;
+	public static final int REDWALL_BIOME_SIZE = 2; //2 results in a 1:1 ratio between pixels and chunks. That seems pretty reasonable.
+	public static final float NPC_SPAWN_CHANCE_WORLDGEN = 0.02F;
+	public static final float NPC_SPAWN_CHANCE = 0.02F;
+	public static final String REDWALL_MAP_LOCATION = "map.png";
 	public static BufferedImage IMAGE = null;
 	
 	public static final Map<Integer, Biome> COLOR_TO_BIOME = Maps.<Integer, Biome>newHashMap();
@@ -63,9 +65,9 @@ public class RedwallWorldProvider extends WorldProvider {
 				line = reader.readLine();
 			}
 			reader.close();
-			RedwallWorldProvider.loadMapImage(VALOUR_MAP_LOCATION);
+			RedwallWorldProvider.loadMapImage(REDWALL_MAP_LOCATION);
 		} catch (IOException e) {
-			Logger.getLogger(RedwallWorldProvider.class.getName()).log(Level.SEVERE, String.format("Can't find %s! This is a bug!", VALOUR_MAP_LOCATION), e);
+			Logger.getLogger(RedwallWorldProvider.class.getName()).log(Level.SEVERE, String.format("Can't find %s! This is a bug!", REDWALL_MAP_LOCATION), e);
 		} catch (Exception e1) {
 			Logger.getLogger(RedwallWorldProvider.class.getName()).log(Level.SEVERE, "Error reading biomes", e1);
 		}
@@ -207,7 +209,7 @@ public class RedwallWorldProvider extends WorldProvider {
 
 	@Override
 	public int getRespawnDimension(EntityPlayerMP player){
-		return ModDimensions.redwallDimId;
+		return ModDimensions.DIM_REDWALL_ID;
 	}
 
 	@Override
@@ -222,8 +224,8 @@ public class RedwallWorldProvider extends WorldProvider {
 
 	 @Override
 	 public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        int i = (int)(worldTime % VALOUR_DAY_LENGTH);
-        float f = ((float)i + partialTicks) /  VALOUR_DAY_LENGTH - 0.25F;
+        int i = (int)(worldTime % REDWALL_DAY_LENGTH);
+        float f = ((float)i + partialTicks) /  REDWALL_DAY_LENGTH - 0.25F;
 
         if (f < 0.0F) {
             ++f;
@@ -240,7 +242,7 @@ public class RedwallWorldProvider extends WorldProvider {
 
 	@Override
     public int getMoonPhase(long worldTime) {
-        return (int)(worldTime / VALOUR_DAY_LENGTH % 8L + 8L) % 8;
+        return (int)(worldTime / REDWALL_DAY_LENGTH % 8L + 8L) % 8;
     }
 	
 	@Override

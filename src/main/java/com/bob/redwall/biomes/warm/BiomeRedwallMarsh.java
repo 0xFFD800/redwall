@@ -2,6 +2,8 @@ package com.bob.redwall.biomes.warm;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -32,10 +34,17 @@ public class BiomeRedwallMarsh extends Biome {
         this.spawnableWaterCreatureList.clear();
     }
 
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+    }
+
+    @Override
     public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
         return BlockFlower.EnumFlowerType.BLUE_ORCHID;
     }
 
+    @Override
     public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
         double d0 = GRASS_COLOR_NOISE.getValue((double)x * 0.25D, (double)z * 0.25D);
 
@@ -57,6 +66,7 @@ public class BiomeRedwallMarsh extends Biome {
         this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
     }
 
+    @Override
     public void decorate(World worldIn, Random rand, BlockPos pos) {
         for (int i1 = 0; i1 < this.decorator.clayPerChunk; ++i1) {
 	    	rand.nextInt(16);
@@ -65,12 +75,14 @@ public class BiomeRedwallMarsh extends Biome {
         super.decorate(worldIn, rand, pos);
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public int getGrassColorAtPos(BlockPos pos) {
         double d0 = GRASS_COLOR_NOISE.getValue((double)pos.getX() * 0.0225D, (double)pos.getZ() * 0.0225D);
         return d0 < -0.1D ? 5011004 : 6975545;
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public int getFoliageColorAtPos(BlockPos pos) {
         return 6975545;

@@ -29,7 +29,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		int packetId = 0;
-		Ref.NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(Ref.NETWORK_CHANNEL_NAME);
 		Ref.NETWORK.registerMessage(MessageSyncSeason.Handler.class, MessageSyncSeason.class, packetId++, Side.CLIENT);
 		Ref.NETWORK.registerMessage(MessageSetCap.Handler.class, MessageSetCap.class, packetId++, Side.SERVER);
 		Ref.NETWORK.registerMessage(MessageSyncCap.Handler.class, MessageSyncCap.class, packetId++, Side.CLIENT);

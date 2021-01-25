@@ -58,11 +58,19 @@ public class SpeechHandler {
 	public static final List<String> NAMES_WOODLANDER_MOLE_M = Lists.newArrayList();
 	public static final List<String> NAMES_WOODLANDER_MOLE_F = Lists.newArrayList();
 
+	public static final List<String> MOSSFLOWER_OTTER_FRIENDLY = Lists.newArrayList();
+	public static final List<String> MOSSFLOWER_OTTER_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> MOSSFLOWER_OTTER_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_MOSSFLOWER_OTTER_M = Lists.newArrayList();
+	public static final List<String> NAMES_MOSSFLOWER_OTTER_F = Lists.newArrayList();
+
 	public static final List<String> MOSSFLOWER_RAT_FRIENDLY = Lists.newArrayList();
 	public static final List<String> MOSSFLOWER_RAT_UNFRIENDLY = Lists.newArrayList();
 	public static final List<String> MOSSFLOWER_RAT_HOSTILE = Lists.newArrayList();
 	public static final List<String> NAMES_MOSSFLOWER_RAT_M = Lists.newArrayList();
 	public static final List<String> NAMES_MOSSFLOWER_RAT_F = Lists.newArrayList();
+	public static final List<String> NAMES_MOSSFLOWER_FERRET_M = Lists.newArrayList();
+	public static final List<String> NAMES_MOSSFLOWER_FERRET_F = Lists.newArrayList();
 
 	public static void init() {
 		String path = "speech/" + Minecraft.getMinecraft().gameSettings.language;
@@ -108,11 +116,19 @@ public class SpeechHandler {
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/names_m.speechbank"), NAMES_WOODLANDER_MOLE_M);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/woodlander/mole/names_f.speechbank"), NAMES_WOODLANDER_MOLE_F);
 
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_otters/otter/friendly.speechbank"), MOSSFLOWER_OTTER_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_otters/otter/unfriendly.speechbank"), MOSSFLOWER_OTTER_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_otters/otter/hostile.speechbank"), MOSSFLOWER_OTTER_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_otters/otter/names_m.speechbank"), NAMES_MOSSFLOWER_OTTER_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_otters/otter/names_f.speechbank"), NAMES_MOSSFLOWER_OTTER_F);
+
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/friendly.speechbank"), MOSSFLOWER_RAT_FRIENDLY);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/unfriendly.speechbank"), MOSSFLOWER_RAT_UNFRIENDLY);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/hostile.speechbank"), MOSSFLOWER_RAT_HOSTILE);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/names_m.speechbank"), NAMES_MOSSFLOWER_RAT_M);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/names_f.speechbank"), NAMES_MOSSFLOWER_RAT_F);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/ferret/names_m.speechbank"), NAMES_MOSSFLOWER_FERRET_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/ferret/names_f.speechbank"), NAMES_MOSSFLOWER_FERRET_F);
 	}
 	
 	public static void initializeSpeechbank(ResourceLocation resourceLoc, List<String> speechbank) {

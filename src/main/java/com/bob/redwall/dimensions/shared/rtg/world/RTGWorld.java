@@ -35,11 +35,11 @@ public class RTGWorld implements IRTGWorld {
 
     public RTGWorld(World world) {
         this.world = world;
-        this.simplex = new OpenSimplexNoise(RedwallWorldProvider.VALOUR_SEED);
-        this.voronoi = new SpacedCellNoise(RedwallWorldProvider.VALOUR_SEED);
+        this.simplex = new OpenSimplexNoise(RedwallWorldProvider.REDWALL_SEED);
+        this.voronoi = new SpacedCellNoise(RedwallWorldProvider.REDWALL_SEED);
         // Simplex Cell noise deleted because point assignments are defecting producing serious artifacts
         // I can't figure out how to fix it. - Zeno
-        this.cell = new SpacedCellNoise(RedwallWorldProvider.VALOUR_SEED);
+        this.cell = new SpacedCellNoise(RedwallWorldProvider.REDWALL_SEED);
         this.rand = world.rand;
         mesaBiome = (BiomeMesa)Biomes.MESA;
         mesaBiome.generateBands(world.getSeed());

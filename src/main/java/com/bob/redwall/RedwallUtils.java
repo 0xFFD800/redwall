@@ -5,14 +5,18 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import com.bob.redwall.biomes.cool.BiomeRedwallForest;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.common.MessageSyncSeason;
 import com.bob.redwall.common.MessageUIInteractServer;
+import com.bob.redwall.common.MessageSyncSeason.Mode;
 import com.bob.redwall.crafting.cooking.FoodModifier;
 import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
 import com.bob.redwall.crafting.smithing.EquipmentModifierUtils;
 import com.bob.redwall.dimensions.redwall.EnumSeasons;
+import com.bob.redwall.entity.capabilities.agility.AgilityProvider;
+import com.bob.redwall.entity.capabilities.agility.IAgility;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
@@ -23,6 +27,12 @@ import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.entity.capabilities.season.ISeasonCap;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
+import com.bob.redwall.entity.capabilities.speed.ISpeed;
+import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
+import com.bob.redwall.entity.capabilities.strength.IStrength;
+import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
+import com.bob.redwall.entity.capabilities.vitality.IVitality;
+import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.ItemHandler;
@@ -31,6 +41,7 @@ import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -84,7 +95,7 @@ public class RedwallUtils {
 	public static void updateSeason(WorldServer world, EnumSeasons season) {
 		ISeasonCap cap = world.getCapability(SeasonCapProvider.SEASON_CAP, null);
 		cap.setSeason(season);
-		Ref.NETWORK.sendToAll(new MessageSyncSeason(season.name()));
+		Ref.NETWORK.sendToAll(new MessageSyncSeason(Mode.SEASON, season.name()));
 		for (Chunk chunk : world.getChunkProvider().getLoadedChunks()) {
 			for (int i = 0; i < 255; i += 16) {
 				BlockPos pos = chunk.getPos().getBlock(0, 0 + i, 0);
@@ -213,6 +224,19 @@ public class RedwallUtils {
 				double my = targetEntity.motionY;
 				double mz = targetEntity.motionZ;
 				boolean doCriticalStabSweep2 = attacker.isSprinting();
+			    
+			    if(targetEntity instanceof EntityPlayer && ((EntityPlayer)targetEntity).isSneaking()) {
+					IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
+			    	IAgility a = ((EntityPlayer)targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null);
+			    	float rr = (attacking.getMode() == 2 && isStab ? 0.5F : 0.3F) + ((float)a.get() / 100.0F);
+			    	if(((EntityPlayer)targetEntity).getRNG().nextFloat() < rr) {
+			    		//if(event.getSource() instanceof EntityDamageSourceIndirect && ((EntityDamageSourceIndirect)event.getSource()).getImmediateSource() instanceof EntityArrow) event.getEntityLiving().setArrowCountInEntity(event.getEntityLiving().getArrowCountInEntity() - 1);;
+			    		targetEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1.0F, 1.0F);
+			    		Vec3d v = source.getDamageLocation();
+			    		targetEntity.getEntityWorld().spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, v.x, v.y, v.z, 0, 0, 0);
+			    		f = 0;
+			    	}
+			    }
 
 				boolean didDamage = false;
 
@@ -454,9 +478,9 @@ public class RedwallUtils {
 		return damage * (1.0F - f1 / 25.0F);
 	}
 
-	public static float getArmorWeight(EntityPlayer player) {
+	public static float getArmorWeight(EntityLivingBase entity) {
 		float armor_weight = 0;
-		for (ItemStack stack : player.getArmorInventoryList()) {
+		for (ItemStack stack : entity.getArmorInventoryList()) {
 			Item item = stack.getItem();
 			if (item instanceof ItemRedwallArmor) {
 				armor_weight += ((ItemRedwallArmor) item).getArmorWeight();
@@ -480,6 +504,27 @@ public class RedwallUtils {
 			}
 		}
 		return -armor_weight * 2;
+	}
+	
+	public static float getTerrainSpeedModifier(EntityLivingBase entity) {
+		float mod = 0.0F;
+		IBlockState stateIn = entity.world.getBlockState(entity.getPosition());
+		if(stateIn.getMaterial() == Material.PLANTS || stateIn.getMaterial() == Material.VINE || stateIn.getMaterial() == Material.SNOW) {
+			mod += 0.25F;
+		}
+		
+		if(entity.onGround) {
+			IBlockState stateOn = entity.world.getBlockState(entity.getPosition().down());
+			Material m = stateOn.getMaterial();
+			if(m == Material.GRASS && stateOn.getBlock() != Blocks.GRASS_PATH) mod += 0.05F;
+			else if(m == Material.GROUND) mod += 0.1F;
+			else if(m == Material.LEAVES) mod += 0.25F;
+			else if(m == Material.SAND) mod += 0.15F;
+			else if(m == Material.SNOW || m == Material.CRAFTED_SNOW) mod += 0.15F;
+			else if(m == Material.CLAY) mod += 0.2F;
+		}
+		
+		return -mod;
 	}
 
 	public static void applyEquipmentModifiers(EntityPlayer player, ItemStack stack, float skill) {
@@ -898,6 +943,17 @@ public class RedwallUtils {
 	public static void updatePlayerFactionStats(EntityPlayerMP player) {
 		Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), player);
 	}
+	
+	public static void updatePlayerSkillsStats(EntityPlayerMP player) {
+        IStrength strength = player.getCapability(StrengthProvider.STRENGTH_CAP, null);
+        ISpeed speed = player.getCapability(SpeedProvider.SPEED_CAP, null);
+        IVitality vitality = player.getCapability(VitalityProvider.VITALITY_CAP, null);
+        IAgility agility = player.getCapability(AgilityProvider.AGILITY_CAP, null);
+		Ref.NETWORK.sendTo(new MessageSyncCap(strength.get(), MessageSyncCap.Mode.STRENGTH), player);
+		Ref.NETWORK.sendTo(new MessageSyncCap(speed.get(), MessageSyncCap.Mode.SPEED), player);
+		Ref.NETWORK.sendTo(new MessageSyncCap(vitality.get(), MessageSyncCap.Mode.VITALITY), player);
+		Ref.NETWORK.sendTo(new MessageSyncCap(agility.get(), MessageSyncCap.Mode.AGILITY), player);
+	}
 
 	public static int getFacStatLevel(EntityPlayer player, Faction fac, FactionCap.FacStatType type) {
 		IFactionCap cap = player.getCapability(FactionCapProvider.FACTION_CAP, null);
@@ -943,5 +999,9 @@ public class RedwallUtils {
 		} else {
 			return 3.375F;
 		}
+	}
+
+	public static boolean isInMossflower(Biome b, int cx, int cz) {
+	    return b instanceof BiomeRedwallForest && cx > 2770 && cz > 1800 && cx < 3550 && cz < 2440;
 	}
 }

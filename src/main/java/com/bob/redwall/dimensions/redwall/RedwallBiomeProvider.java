@@ -58,7 +58,7 @@ public class RedwallBiomeProvider extends BiomeProvider implements IBiomeProvide
         this.largeBendSize *= RTGAPI.config().RIVER_BENDINESS_MULTIPLIER.get();
         this.smallBendSize *= RTGAPI.config().RIVER_BENDINESS_MULTIPLIER.get();*/
 
-        long seed = RedwallWorldProvider.VALOUR_SEED;
+        long seed = RedwallWorldProvider.REDWALL_SEED;
 
         //if (!DimensionManagerRTG.isValidDimension(world.provider.getDimension())) throw new RuntimeException();
 
@@ -72,7 +72,7 @@ public class RedwallBiomeProvider extends BiomeProvider implements IBiomeProvide
 	
 	public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType p_180781_2_, ChunkGeneratorSettings p_180781_3_) {
         GenLayer mainLayer = new GenLayerFromImage(seed, null, RedwallWorldProvider.IMAGE);
-		for (int k = 0; k < RedwallWorldProvider.VALOUR_BIOME_SIZE; ++k) mainLayer = new GenLayerZoom((long)(1000 + k), mainLayer);
+		for (int k = 0; k < RedwallWorldProvider.REDWALL_BIOME_SIZE; ++k) mainLayer = new GenLayerZoom((long)(1000 + k), mainLayer);
         GenLayer zoomedLayer = new GenLayerVoronoiZoom(10L, mainLayer);
 
         zoomedLayer.initWorldGenSeed(seed);

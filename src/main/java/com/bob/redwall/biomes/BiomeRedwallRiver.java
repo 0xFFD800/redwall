@@ -1,5 +1,7 @@
 package com.bob.redwall.biomes;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.world.biome.Biome;
 
 public class BiomeRedwallRiver extends Biome {
@@ -23,5 +25,10 @@ public class BiomeRedwallRiver extends Biome {
         this.spawnableCreatureList.clear();
         this.spawnableWaterCreatureList.clear();
         this.spawnableCaveCreatureList.clear();
+    }
+
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
     }
 }

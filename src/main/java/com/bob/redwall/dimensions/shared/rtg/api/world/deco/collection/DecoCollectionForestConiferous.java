@@ -10,6 +10,7 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFallenTree.LogCo
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFlowersRTG;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrass;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrassDoubleTallgrass;
+import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoSandstoneSlab;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoShrub;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree.TreeCondition;
@@ -18,9 +19,13 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.deco.helper.DecoHelperRan
 import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTG;
 import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTGPiceaPungens;
 import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTGPiceaSitchensis;
+import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTGPinusNigra;
 import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTGPinusPonderosa;
 import com.bob.redwall.init.BlockHandler;
 
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockLog.EnumAxis;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 
@@ -50,7 +55,6 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
             .addDeco(shortTrees(short2Min, short2Max)) // More short trees (on the other 'side' of the noise spectrum).
             .addDeco(randomTrees()) // More trees.
             .addDeco(logs(), config.ALLOW_LOGS.get()) // Add some fallen trees of the oak and spruce variety (50/50 distribution).
-            .addDeco(shrubsOak()) // Shrubs to fill in the blanks.
             .addDeco(shrubsSpruce()) // Fewer spruce shrubs than oak.
             .addDeco(bushes())
             .addDeco(flowers()) // Only 1-block tall flowers so we can see the trees better.
@@ -81,6 +85,12 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
         decoBoulder.setMaxY(95);
         decoBoulder.setStrengthFactor(2f);
         this.addDeco(decoBoulder);
+
+        DecoSandstoneSlab decoSandstoneSlab = new DecoSandstoneSlab();
+        decoSandstoneSlab.setChance(200);
+        decoSandstoneSlab.setMaxY(95);
+        decoSandstoneSlab.setStrengthFactor(2f);
+        this.addDeco(decoSandstoneSlab);
     }
 
     private DecoHelperRandomSplit tallTrees(float noiseMin, float noiseMax) {
@@ -91,7 +101,6 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
     }
 
     private DecoTree tallPineTrees(IBlockState log, IBlockState leaves, float noiseMin, float noiseMax) {
-
         TreeRTG pinusPonderosa = new TreeRTGPinusPonderosa();
         pinusPonderosa.setLogBlock(log);
         pinusPonderosa.setLeavesBlock(leaves);
@@ -115,12 +124,11 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
 
     private DecoHelperRandomSplit shortTrees(float noiseMin, float noiseMax) {
     	return new DecoHelperRandomSplit().setDecos(new DecoBase[] {
-                shortPineTrees(BlockHandler.larch_log.getDefaultState(), BlockHandler.larch_leaves.getDefaultState(), noiseMin, noiseMax)}
-            ).setChances(new int[] {5});
+                shortPineTrees(BlockHandler.larch_log.getDefaultState(), BlockHandler.larch_leaves.getDefaultState(), noiseMin, noiseMax), yewTrees(noiseMin, noiseMax)}
+            ).setChances(new int[] {5, 2});
     }
 
     private DecoTree shortPineTrees(IBlockState log, IBlockState leaves, float noiseMin, float noiseMax) {
-
         TreeRTG piceaSitchensis = new TreeRTGPiceaSitchensis()
             .setLogBlock(log)
             .setLeavesBlock(leaves)
@@ -132,6 +140,28 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
         this.addTree(piceaSitchensis);
 
         return new DecoTree(piceaSitchensis)
+            .setStrengthFactorForLoops(6f)
+            .setTreeType(TreeType.RTG_TREE)
+            .setDistribution(forestDistribution)
+            .setTreeCondition(TreeCondition.NOISE_BETWEEN_AND_RANDOM_CHANCE)
+            .setTreeConditionNoise(noiseMin)
+            .setTreeConditionNoise2(noiseMax)
+            .setTreeConditionChance(1)
+            .setMaxY(85);
+    }
+    
+    private DecoTree yewTrees(float noiseMin, float noiseMax) {
+	    TreeRTG worldgenerator = new TreeRTGPinusNigra()
+	            .setLogBlock(BlockHandler.yew_log.getDefaultState().withProperty(BlockLog.LOG_AXIS, EnumAxis.Y))
+	            .setLeavesBlock(BlockHandler.yew_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false))
+	            .setMinTrunkSize(2)
+	            .setMaxTrunkSize(4)
+	            .setMinCrownSize(5)
+	            .setMaxCrownSize(8);
+
+        this.addTree(worldgenerator);
+
+        return new DecoTree(worldgenerator)
             .setStrengthFactorForLoops(6f)
             .setTreeType(TreeType.RTG_TREE)
             .setDistribution(forestDistribution)
@@ -169,18 +199,7 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
     }
 
     private DecoHelperRandomSplit logs() {
-        return new DecoHelperRandomSplit().setDecos(new DecoBase[]{oakLogs(), spruceLogs(), mapleLogs(), elmLogs(), ashLogs(), birchLogs(), pineLogs(), firLogs(), larchLogs()}).setChances(new int[] {16, 10, 25, 5, 5, 15, 10, 10, 5});
-    }
-
-    private DecoFallenTree oakLogs() {
-        return new DecoFallenTree()
-            .setLogCondition(LogCondition.RANDOM_CHANCE)
-            .setLogConditionChance(16)
-            .setMaxY(80)
-            .setLogBlock(Blocks.LOG.getDefaultState())
-            .setLeavesBlock(Blocks.LEAVES.getDefaultState())
-            .setMinSize(3)
-            .setMaxSize(6);
+        return new DecoHelperRandomSplit().setDecos(new DecoBase[]{spruceLogs(), pineLogs(), firLogs(), larchLogs()}).setChances(new int[] {16, 10, 25, 5});
     }
 
     private DecoFallenTree spruceLogs() {
@@ -190,17 +209,6 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
             .setMaxY(80)
             .setLogBlock(BlockUtil.getStateLog(1))
             .setLeavesBlock(BlockUtil.getStateLeaf(1))
-            .setMinSize(3)
-            .setMaxSize(6);
-    }
-
-    private DecoFallenTree birchLogs() {
-        return new DecoFallenTree()
-            .setLogCondition(LogCondition.RANDOM_CHANCE)
-            .setLogConditionChance(24)
-            .setMaxY(80)
-            .setLogBlock(BlockUtil.getStateLog(2))
-            .setLeavesBlock(BlockUtil.getStateLeaf(2))
             .setMinSize(3)
             .setMaxSize(6);
     }
@@ -216,17 +224,6 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
             .setMaxSize(6);
     }
 
-    private DecoFallenTree mapleLogs() {
-        return new DecoFallenTree()
-            .setLogCondition(LogCondition.RANDOM_CHANCE)
-            .setLogConditionChance(24)
-            .setMaxY(80)
-            .setLogBlock(BlockHandler.maple_log.getDefaultState())
-            .setLeavesBlock(BlockHandler.maple_leaves.getDefaultState())
-            .setMinSize(3)
-            .setMaxSize(6);
-    }
-
     private DecoFallenTree pineLogs() {
         return new DecoFallenTree()
             .setLogCondition(LogCondition.RANDOM_CHANCE)
@@ -234,28 +231,6 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
             .setMaxY(80)
             .setLogBlock(BlockHandler.pine_log.getDefaultState())
             .setLeavesBlock(BlockHandler.pine_leaves.getDefaultState())
-            .setMinSize(3)
-            .setMaxSize(6);
-    }
-
-    private DecoFallenTree elmLogs() {
-        return new DecoFallenTree()
-            .setLogCondition(LogCondition.RANDOM_CHANCE)
-            .setLogConditionChance(24)
-            .setMaxY(80)
-            .setLogBlock(BlockHandler.elm_log.getDefaultState())
-            .setLeavesBlock(BlockHandler.elm_leaves.getDefaultState())
-            .setMinSize(3)
-            .setMaxSize(6);
-    }
-
-    private DecoFallenTree ashLogs() {
-        return new DecoFallenTree()
-            .setLogCondition(LogCondition.RANDOM_CHANCE)
-            .setLogConditionChance(24)
-            .setMaxY(80)
-            .setLogBlock(BlockHandler.ash_log.getDefaultState())
-            .setLeavesBlock(BlockHandler.ash_leaves.getDefaultState())
             .setMinSize(3)
             .setMaxSize(6);
     }
@@ -271,20 +246,13 @@ public class DecoCollectionForestConiferous extends DecoCollectionBase {
             .setMaxSize(6);
     }
 
-    private DecoShrub shrubsOak() {
-        return new DecoShrub()
-            .setMaxY(140)
-            .setStrengthFactor(4f)
-            .setChance(3);
-    }
-
     private DecoShrub shrubsSpruce() {
         return new DecoShrub()
             .setLogBlock(BlockUtil.getStateLog(1))
             .setLeavesBlock(BlockUtil.getStateLeaf(1))
             .setMaxY(140)
-            .setStrengthFactor(4f)
-            .setChance(9);
+            .setStrengthFactor(8f)
+            .setChance(3);
     }
 
     private DecoFlowersRTG flowers() {

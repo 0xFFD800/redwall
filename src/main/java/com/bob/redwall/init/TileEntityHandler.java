@@ -3,6 +3,7 @@ package com.bob.redwall.init;
 import com.bob.redwall.Ref;
 import com.bob.redwall.tileentity.TileEntityBrewingRedwall;
 import com.bob.redwall.tileentity.TileEntityCookingGeneric;
+import com.bob.redwall.tileentity.TileEntityDrinkVessel;
 import com.bob.redwall.tileentity.TileEntitySmeltery;
 import com.bob.redwall.tileentity.TileEntitySmithingGeneric;
 import com.bob.redwall.tileentity.TileEntitySmithingRedwall;
@@ -19,5 +20,6 @@ public class TileEntityHandler {
 		GameRegistry.registerTileEntity(TileEntityCookingGeneric.class, new ResourceLocation(Ref.MODID, "cooking"));
 		GameRegistry.registerTileEntity(TileEntitySmithingRedwall.class, new ResourceLocation(Ref.MODID, "smithing_redwall"));
 		GameRegistry.registerTileEntity(TileEntityBrewingRedwall.class, new ResourceLocation(Ref.MODID, "brewing_redwall"));
+		GameRegistry.registerTileEntity(TileEntityDrinkVessel.class, new ResourceLocation(Ref.MODID, "drink_vessel"));
 	}
 }

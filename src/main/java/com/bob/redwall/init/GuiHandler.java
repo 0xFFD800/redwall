@@ -5,6 +5,7 @@ import com.bob.redwall.gui.brewing.GuiBrewingRedwall;
 import com.bob.redwall.gui.cooking.ContainerCookingGeneric;
 import com.bob.redwall.gui.cooking.GuiCookingGeneric;
 import com.bob.redwall.gui.factions.GuiFactions;
+import com.bob.redwall.gui.skills.GuiSkills;
 import com.bob.redwall.gui.smelting.ContainerSmeltery;
 import com.bob.redwall.gui.smelting.GuiSmeltery;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
@@ -31,6 +32,7 @@ public class GuiHandler implements IGuiHandler {
 	public static final int GUI_COOKING_GENERIC_ID = i++;
 	public static final int GUI_SMITHING_REDWALL_ID = i++;
 	public static final int GUI_BREWING_REDWALL_ID = i++;
+	public static final int GUI_SKILLS_ID = i++;
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -43,6 +45,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_COOKING_GENERIC_ID) return new ContainerCookingGeneric(player.inventory, world, pos, (TileEntityCookingGeneric)te);
 		else if(ID == GuiHandler.GUI_SMITHING_REDWALL_ID) return new ContainerSmithingRedwall(player.inventory, world, pos, (TileEntitySmithingRedwall)te);
 		else if(ID == GuiHandler.GUI_BREWING_REDWALL_ID) return new ContainerBrewingRedwall(player.inventory, world, pos, (TileEntityBrewingRedwall)te);
+		else if(ID == GuiHandler.GUI_SKILLS_ID) return null;
 		else return null;
 	}
 
@@ -57,6 +60,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_COOKING_GENERIC_ID) return new GuiCookingGeneric(player.inventory, world, pos, (TileEntityCookingGeneric)te);
 		else if(ID == GuiHandler.GUI_SMITHING_REDWALL_ID) return new GuiSmithingRedwall(player.inventory, world, pos, (TileEntitySmithingRedwall)te);
 		else if(ID == GuiHandler.GUI_BREWING_REDWALL_ID) return new GuiBrewingRedwall(player.inventory, world, pos, (TileEntityBrewingRedwall)te);
+		if(ID == GuiHandler.GUI_SKILLS_ID) return new GuiSkills(player);
 		else return null;
 	}
 }

@@ -10,6 +10,7 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFallenTree.LogCo
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFlowersRTG;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrass;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrassDoubleTallgrass;
+import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoSandstoneSlab;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoShrub;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree.TreeCondition;
@@ -36,7 +37,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  * @author WhichOnesPink
  */
 public class DecoCollectionForest extends DecoCollectionBase {
-
     // Tends to return values between -3f to 5f, with some overflow.
     private DecoTree.Distribution forestDistribution = new DecoTree.Distribution(100f, 6f, 0.8f);
 
@@ -48,7 +48,6 @@ public class DecoCollectionForest extends DecoCollectionBase {
     private float short2Max = 5f;
 
     public DecoCollectionForest(BiomeConfig config) {
-
         super(config);
 
         this
@@ -87,6 +86,12 @@ public class DecoCollectionForest extends DecoCollectionBase {
         decoBoulder.setMaxY(95);
         decoBoulder.setStrengthFactor(2f);
         this.addDeco(decoBoulder);
+
+        DecoSandstoneSlab decoSandstoneSlab = new DecoSandstoneSlab();
+        decoSandstoneSlab.setChance(200);
+        decoSandstoneSlab.setMaxY(95);
+        decoSandstoneSlab.setStrengthFactor(2f);
+        this.addDeco(decoSandstoneSlab);
     }
 
     private DecoHelperRandomSplit tallTrees(float noiseMin, float noiseMax) {
@@ -97,7 +102,6 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree tallPineTrees(IBlockState log, IBlockState leaves, float noiseMin, float noiseMax) {
-
         TreeRTG pinusPonderosa = new TreeRTGPinusPonderosa();
         pinusPonderosa.setLogBlock(log);
         pinusPonderosa.setLeavesBlock(leaves);
@@ -128,7 +132,6 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree shortPineTrees(IBlockState log, IBlockState leaves, float noiseMin, float noiseMax) {
-
         TreeRTG piceaSitchensis = new TreeRTGPiceaSitchensis()
             .setLogBlock(log)
             .setLeavesBlock(leaves)
@@ -151,13 +154,14 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree shortAspenTrees(float noiseMin, float noiseMax) {
-        TreeRTG worldgenerator = new TreeRTGPinusNigra()
-                .setLogBlock(BlockHandler.aspen_log.getDefaultState().withProperty(BlockLog.LOG_AXIS, EnumAxis.Y))
-                .setLeavesBlock(BlockHandler.aspen_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false))
-                .setMinTrunkSize(2)
-                .setMaxTrunkSize(4)
-                .setMinCrownSize(5)
-                .setMaxCrownSize(8);
+        TreeRTG worldgenerator = new TreeRTGCupressusSempervirens();
+        worldgenerator.setLogBlock(BlockHandler.aspen_log.getDefaultState());
+        worldgenerator.setLeavesBlock(BlockHandler.aspen_leaves.getDefaultState());
+        worldgenerator.setMinTrunkSize(2);
+        worldgenerator.setMaxTrunkSize(3);
+        worldgenerator.setMinCrownSize(8);
+        worldgenerator.setMaxCrownSize(16);
+        worldgenerator.setNoLeaves(false);
 
         this.addTree(worldgenerator);
 
@@ -223,13 +227,13 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree randomYewTrees() {
-        TreeRTG tree = new TreeRTGCupressusSempervirens()
-            .setLogBlock(BlockHandler.yew_log.getDefaultState())
-            .setLeavesBlock(BlockHandler.yew_leaves.getDefaultState())
-            .setMinTrunkSize(2)
-            .setMaxTrunkSize(4)
-            .setMinCrownSize(5)
-            .setMaxCrownSize(8);
+        TreeRTG tree = new TreeRTGPinusNigra()
+                .setLogBlock(BlockHandler.yew_log.getDefaultState().withProperty(BlockLog.LOG_AXIS, EnumAxis.Y))
+                .setLeavesBlock(BlockHandler.yew_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false))
+                .setMinTrunkSize(2)
+                .setMaxTrunkSize(4)
+                .setMinCrownSize(5)
+                .setMaxCrownSize(8);
 
         this.addTree(tree);
 
@@ -244,7 +248,6 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree randomVanillaTrees() {
-
         WorldGenerator worldGenTrees = new WorldGenBigTrees(false);
 
         return new DecoTree(worldGenTrees)
@@ -256,7 +259,6 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree randomValourTrees(int height, IBlockState trunk, IBlockState leaf, boolean bBig) {
-
         WorldGenerator worldGenTrees = new WorldGenBigTrees(false, trunk, leaf);
         if(bBig) {
         	worldGenTrees = new WorldGenBigTrees(false, trunk, leaf);
@@ -272,13 +274,11 @@ public class DecoCollectionForest extends DecoCollectionBase {
     }
 
     private DecoTree randomValourTrees(float noiseMin, float noiseMax, int height, IBlockState trunk, IBlockState leaf, boolean bBig) {
-
         WorldGenerator worldGenTrees = new WorldGenBigTrees(false, trunk, leaf);
         if(bBig) {
         	worldGenTrees = new WorldGenBigTrees(false, trunk, leaf);
         }
         
-
         return new DecoTree(worldGenTrees)
             .setStrengthFactorForLoops(3f)
             .setTreeType(TreeType.WORLDGEN)

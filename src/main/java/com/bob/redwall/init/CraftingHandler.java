@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.blocks.multiuse.BlockModBrick;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.brewing.Drink;
@@ -86,11 +87,27 @@ public class CraftingHandler {
 		GameRegistry.addSmelting(Blocks.SAND, new ItemStack(Blocks.GLASS), 0.1F);
 		GameRegistry.addSmelting(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
 		GameRegistry.addSmelting(new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.DEFAULT_META), new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.CRACKED_META), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(BlockHandler.southsward_brick, 1, BlockModBrick.DEFAULT_META), new ItemStack(BlockHandler.southsward_brick, 1, BlockModBrick.CRACKED_META), 0.1F);
+		GameRegistry.addSmelting(new ItemStack(BlockHandler.redwall_brick, 1, BlockModBrick.DEFAULT_META), new ItemStack(BlockHandler.redwall_brick, 1, BlockModBrick.CRACKED_META), 0.1F);
 		GameRegistry.addSmelting(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
 		GameRegistry.addSmelting(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
 		GameRegistry.addSmelting(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()), 0.2F);
 		GameRegistry.addSmelting(Blocks.LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(Blocks.LOG2, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.alder_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.apple_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.ash_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.aspen_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.beech_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.elm_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.fir_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.hornbeam_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.larch_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.maple_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.pine_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.plum_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.willow_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.yew_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
 		GameRegistry.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
 
@@ -99,6 +116,11 @@ public class CraftingHandler {
 				GameRegistry.addSmelting(new ItemStack(Items.FISH, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
 			}
 		}
+		GameRegistry.addSmelting(ItemHandler.trout, new ItemStack(ItemHandler.trout_cooked), 0.35F);
+		GameRegistry.addSmelting(ItemHandler.perch, new ItemStack(ItemHandler.perch_cooked), 0.35F);
+		GameRegistry.addSmelting(ItemHandler.bass, new ItemStack(ItemHandler.bass_cooked), 0.35F);
+		GameRegistry.addSmelting(ItemHandler.grayling, new ItemStack(ItemHandler.grayling_cooked), 0.35F);
+		GameRegistry.addSmelting(ItemHandler.water_reeds, new ItemStack(ItemHandler.water_reeds_dried), 0.1F);
 
 		GameRegistry.addSmelting(Items.CHAINMAIL_HELMET, new ItemStack(Items.IRON_NUGGET), 0.1F);
 		GameRegistry.addSmelting(Items.CHAINMAIL_CHESTPLATE, new ItemStack(Items.IRON_NUGGET), 0.1F);
@@ -152,6 +174,9 @@ public class CraftingHandler {
 
 		private SmithingGeneric() {
 			this.recipes.add(new LeveledRecipe(new RecipeRepairItem(), 0));
+
+			this.addRecipe(1, new ItemStack(ItemHandler.mug_empty), new Object[] { "#", "X", "#", '#', ItemHandler.tin_ingot, 'X', Items.STICK });
+			this.addRecipe(1, new ItemStack(ItemHandler.mug_empty), new Object[] { "#", "X", "#", '#', Items.IRON_INGOT, 'X', Items.STICK });
 
 			this.addRecipe(0, new ItemStack(ItemHandler.bronze_dagger), new Object[] { "#", "X", '#', ItemHandler.bronze_ingot, 'X', Items.STICK });
 			this.addRecipe(0, new ItemStack(ItemHandler.bronze_spear), new Object[] { "  #", " X ", "X  ", '#', ItemHandler.bronze_ingot, 'X', Items.STICK });
@@ -553,6 +578,7 @@ public class CraftingHandler {
 
 		private Cooking() {
 			this.addRecipe(0, true, new ItemStack(Items.BREAD), new Object[] { "###", " X ", '#', Items.WHEAT, 'X', PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER) });
+			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.rice_bowl), new Object[] { ItemHandler.rice, PotionUtils.addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), Items.BOWL });
 			this.addShapelessRecipe(0, true, new ItemStack(Items.BAKED_POTATO), new Object[] { Items.POTATO });
 			this.addShapelessRecipe(0, true, new ItemStack(Items.COOKED_FISH, 1, 0), new Object[] { new ItemStack(Items.FISH, 1, 0) });
 			this.addShapelessRecipe(0, true, new ItemStack(Items.COOKED_FISH, 1, 1), new Object[] { new ItemStack(Items.FISH, 1, 1) });
@@ -789,14 +815,17 @@ public class CraftingHandler {
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
 
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
 
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.ELDERBERRY_WINE), new Object[] { "###", "VCV", '#', ItemHandler.elderberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
 			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
 				@Override
@@ -825,11 +854,14 @@ public class CraftingHandler {
 		}
 
 		private BrewingOtter() {
-			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.BURGOOLA), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.GULLYPLUG_PUNCH), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
 
-			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.BURGOOLA), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.GULLYPLUG_PUNCH), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
 
-			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BURGOOLA), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.GULLYPLUG_PUNCH), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
 			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
 				@Override

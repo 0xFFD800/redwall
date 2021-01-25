@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bob.redwall.entity.capabilities.nutrition.INutrition;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
+import com.bob.redwall.tileentity.TileEntityDrinkVessel;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -16,13 +17,11 @@ import net.minecraftforge.common.util.Constants;
 public class FoodModifierUtils {
 	public static final String MODIFIER_LIST_KEY = "foodMods";
 	
-	public static void onConsumed(EntityLivingBase user, ItemStack foodordrink) {
-		ItemStack stack = user.getHeldItem(user.getActiveHand());
-		
+	public static void onConsumed(EntityLivingBase user, ItemStack stack) {
 		List<FoodModifier> equipMods = FoodModifierUtils.getFoodModifiersOnStack(stack);
 		for(FoodModifier mod : equipMods) {
 			int lvl = FoodModifierUtils.getFoodModifierLevelOnStack(stack, mod);
-			mod.onFoodEaten(user, foodordrink, lvl);
+			mod.onFoodEaten(user, stack, lvl);
             if(user instanceof EntityPlayer) {
             	EntityPlayer player = (EntityPlayer)user;
             	player.getFoodStats().addStats(mod.calcModifierFood(lvl), mod.calcModifierSaturation(lvl));
@@ -35,8 +34,24 @@ public class FoodModifierUtils {
 		}
 	}
 	
-	public static float getAlcoholMultiplier(EntityLivingBase user, ItemStack drink) {
-		ItemStack stack = user.getHeldItem(user.getActiveHand());
+	public static void onConsumed(EntityLivingBase user, TileEntityDrinkVessel ted) {
+		List<FoodModifier> equipMods = ted.getModifiers();
+		for(FoodModifier mod : equipMods) {
+			int lvl = ted.getLevels().get(equipMods.indexOf(mod));
+			mod.onFoodEaten(user, new ItemStack(ted.getBlockType()), lvl);
+            if(user instanceof EntityPlayer) {
+            	EntityPlayer player = (EntityPlayer)user;
+            	player.getFoodStats().addStats(mod.calcModifierFood(lvl), mod.calcModifierSaturation(lvl));
+            	INutrition n = player.getCapability(NutritionProvider.NUTRITION_CAP, null);
+            	n.addProtein(mod.calcModifierProtein(lvl));
+            	n.addCarbs(mod.calcModifierCarbs(lvl));
+            	n.addFruits(mod.calcModifierFruits(lvl));
+            	n.addVeggies(mod.calcModifierVeggies(lvl));
+            }
+		}
+	}
+	
+	public static float getAlcoholMultiplier(EntityLivingBase user, ItemStack stack) {
 		float f = 1;
 		
 		List<FoodModifier> equipMods = FoodModifierUtils.getFoodModifiersOnStack(stack);
@@ -47,14 +62,37 @@ public class FoodModifierUtils {
 		
 		return f;
 	}
+
+	public static float getAlcoholMultiplier(EntityLivingBase entityLiving, TileEntityDrinkVessel ted) {
+		float f = 1;
+		
+		List<FoodModifier> equipMods = ted.getModifiers();
+		for(FoodModifier mod : equipMods) {
+			int lvl = ted.getLevels().get(equipMods.indexOf(mod));
+			f *= mod.calcModifierAlcohol(lvl);
+		}
+		
+		return f;
+	}
 	
-	public static float getEffectDurationMultiplier(EntityLivingBase user, ItemStack foodordrink) {
-		ItemStack stack = user.getHeldItem(user.getActiveHand());
+	public static float getEffectDurationMultiplier(EntityLivingBase user, ItemStack stack) {
 		float f = 1;
 		
 		List<FoodModifier> equipMods = FoodModifierUtils.getFoodModifiersOnStack(stack);
 		for(FoodModifier mod : equipMods) {
 			int lvl = FoodModifierUtils.getFoodModifierLevelOnStack(stack, mod);
+			f *= mod.calcModifierEffectDuration(lvl);
+		}
+		
+		return f;
+	}
+
+	public static float getEffectDurationMultiplier(EntityLivingBase entityLiving, TileEntityDrinkVessel ted) {
+		float f = 1;
+		
+		List<FoodModifier> equipMods = ted.getModifiers();
+		for(FoodModifier mod : equipMods) {
+			int lvl = ted.getLevels().get(equipMods.indexOf(mod));
 			f *= mod.calcModifierEffectDuration(lvl);
 		}
 		

@@ -17,98 +17,82 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class WorldTypeRedwall extends WorldType {
-    private static RedwallBiomeProvider biomeProvider;
-    public static ChunkProviderRTG chunkProvider;
+	private static RedwallBiomeProvider biomeProvider;
+	public static ChunkProviderRTG chunkProvider;
 
-    public WorldTypeRedwall(String name) {
-        super(name);
-    }
-    
-    @Override
-    public int getSpawnFuzz(WorldServer world, net.minecraft.server.MinecraftServer server) {
-        return 0;
-    }
+	public WorldTypeRedwall(String name) {
+		super(name);
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasInfoNotice() {
-        return true;
-    }
+	@Override
+	public int getSpawnFuzz(WorldServer world, net.minecraft.server.MinecraftServer server) {
+		return 0;
+	}
 
-    @Override @Nonnull
-    public BiomeProvider getBiomeProvider(@Nonnull World world) {
-        /*if (DimensionManagerRTG.isValidDimension(world.provider.getDimension())) {
-            if (biomeProvider == null) {
-                biomeProvider = new BiomeProviderRTG(world, this);
-                RTG.instance.runOnNextServerCloseOnly(clearProvider(biomeProvider));
-            }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasInfoNotice() {
+		return true;
+	}
 
-            Logger.debug("WorldTypeRTG#getBiomeProvider() returning BiomeProviderRTG");
+	@Override
+	@Nonnull
+	public BiomeProvider getBiomeProvider(@Nonnull World world) {
+		if (biomeProvider == null) {
+			biomeProvider = new RedwallBiomeProvider(world, this);
+			RTG.runOnNextServerCloseOnly(clearProvider(biomeProvider));
+		}
 
-            return biomeProvider;
-        } else {
-            Logger.debug("WorldTypeRTG#getBiomeProvider() returning vanilla BiomeProvider");
+		Logger.debug("WorldTypeRTG#getBiomeProvider() returning %1$", biomeProvider);
 
-            return new BiomeProvider(world.getWorldInfo());
-        }*/
-    	
-        if (biomeProvider == null) {
-            biomeProvider = new RedwallBiomeProvider(world, this);
-            RTG.runOnNextServerCloseOnly(clearProvider(biomeProvider));
-        }
+		return biomeProvider;
+	}
 
-        Logger.debug("WorldTypeRTG#getBiomeProvider() returning ValourBiomeProvider");
+	@Override
+	@Nonnull
+	public IChunkGenerator getChunkGenerator(@Nonnull World world, String generatorOptions) {
+		if (DimensionManagerRTG.isValidDimension(world.provider.getDimension())) {
+			if (chunkProvider == null) {
+				chunkProvider = new ChunkProviderRTG(world, RedwallWorldProvider.REDWALL_SEED);
+				RTG.runOnNextServerCloseOnly(clearProvider(chunkProvider));
 
-        return biomeProvider;
-    }
+				// inform the event manager about the ChunkEvent.Load event
+				RTG.eventMgr.setDimensionChunkLoadEvent(world.provider.getDimension(), chunkProvider.delayedDecorator);
+				RTG.runOnNextServerCloseOnly(chunkProvider.clearOnServerClose());
 
-    @Override @Nonnull
-    public IChunkGenerator getChunkGenerator(@Nonnull World world, String generatorOptions) {
-        if (DimensionManagerRTG.isValidDimension(world.provider.getDimension())) {
-            if (chunkProvider == null) {
-                chunkProvider = new ChunkProviderRTG(world, RedwallWorldProvider.VALOUR_SEED);
-                RTG.runOnNextServerCloseOnly(clearProvider(chunkProvider));
+				Logger.debug("WorldTypeRTG#getChunkGenerator() returning %1$", chunkProvider);
 
-                // inform the event manager about the ChunkEvent.Load event
-                RTG.eventMgr.setDimensionChunkLoadEvent(world.provider.getDimension(), chunkProvider.delayedDecorator);
-                RTG.runOnNextServerCloseOnly(chunkProvider.clearOnServerClose());
+				return chunkProvider;
+			}
 
-                Logger.debug("WorldTypeRTG#getChunkGenerator() returning ChunkProviderRTG");
+			// return a "fake" provider that won't decorate for Streams
+			ChunkProviderRTG result = new ChunkProviderRTG(world, world.getSeed());
 
-                return chunkProvider;
-            }
+			return result;
 
-            // return a "fake" provider that won't decorate for Streams
-            ChunkProviderRTG result = new ChunkProviderRTG(world, world.getSeed());
-            result.isFakeGenerator();
+			// no server close because it's not supposed to decorate
+			// return chunkProvider;
+		} else {
+			Logger.debug("Invalid dimension. Serving up ChunkGeneratorOverworld instead of ChunkProviderRTG.");
+			return new ChunkGeneratorOverworld(world, world.getSeed(), world.getWorldInfo().isMapFeaturesEnabled(), generatorOptions);
+		}
+	}
 
-            return result;
+	@Override
+	public float getCloudHeight() {
+		return 256F;
+	}
 
-            // no server close because it's not supposed to decorate
-            //return chunkProvider;
-        } else {
-            Logger.debug("Invalid dimension. Serving up ChunkGeneratorOverworld instead of ChunkProviderRTG.");
-            return new ChunkGeneratorOverworld(world, world.getSeed(), world.getWorldInfo().isMapFeaturesEnabled(), generatorOptions);
-        }
-    }
-
-    @Override
-    public float getCloudHeight() {
-        return 256F;
-    }
-
-    public static Runnable clearProvider(Object provider) {
-        if (provider instanceof RedwallBiomeProvider) {
-            Logger.debug("WorldTypeRTG#clearProvider() provider instanceof RedwallBiomeProvider (setting to NULL)");
-            return () -> biomeProvider = null;
-        }
-        else if (provider instanceof ChunkProviderRTG) {
-            Logger.debug("WorldTypeRTG#clearProvider() provider instanceof ChunkProviderRTG (setting to NULL)");
-            return () -> chunkProvider = null;
-        }
-        else {
-            Logger.debug("WorldTypeRTG#clearProvider() returning NULL");
-            return null;
-        }
-    }
+	public static Runnable clearProvider(Object provider) {
+		if (provider instanceof RedwallBiomeProvider) {
+			Logger.debug("WorldTypeRTG#clearProvider() provider instanceof RedwallBiomeProvider (setting to NULL)");
+			return () -> biomeProvider = null;
+		} else if (provider instanceof ChunkProviderRTG) {
+			Logger.debug("WorldTypeRTG#clearProvider() provider instanceof ChunkProviderRTG (setting to NULL)");
+			return () -> chunkProvider = null;
+		} else {
+			Logger.debug("WorldTypeRTG#clearProvider() returning NULL");
+			return null;
+		}
+	}
 }

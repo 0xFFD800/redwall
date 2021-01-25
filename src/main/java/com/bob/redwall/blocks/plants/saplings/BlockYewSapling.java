@@ -3,11 +3,14 @@ package com.bob.redwall.blocks.plants.saplings;
 import java.util.Random;
 
 import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTG;
-import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTGCupressusSempervirens;
+import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.tree.rtg.TreeRTGPinusNigra;
 import com.bob.redwall.init.BlockHandler;
 import com.bob.redwall.init.CreativeTabHandler;
 
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockLog.EnumAxis;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
@@ -59,14 +62,13 @@ public class BlockYewSapling extends BlockBush implements IGrowable {
 
     public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         if (!net.minecraftforge.event.terraingen.TerrainGen.saplingGrowTree(worldIn, rand, pos)) return;
-        TreeRTG worldgenerator = new TreeRTGCupressusSempervirens();
-        worldgenerator.setLogBlock(BlockHandler.yew_log.getDefaultState());
-        worldgenerator.setLeavesBlock(BlockHandler.yew_leaves.getDefaultState());
-        worldgenerator.setMinTrunkSize(2);
-        worldgenerator.setMaxTrunkSize(3);
-        worldgenerator.setMinCrownSize(8);
-        worldgenerator.setMaxCrownSize(16);
-        worldgenerator.setNoLeaves(false);
+        TreeRTG worldgenerator = new TreeRTGPinusNigra()
+                .setLogBlock(BlockHandler.yew_log.getDefaultState().withProperty(BlockLog.LOG_AXIS, EnumAxis.Y))
+                .setLeavesBlock(BlockHandler.yew_leaves.getDefaultState().withProperty(BlockLeaves.CHECK_DECAY, false))
+                .setMinTrunkSize(2)
+                .setMaxTrunkSize(4)
+                .setMinCrownSize(5)
+                .setMaxCrownSize(8);
         int i = 0;
         int j = 0;
         boolean flag = false;

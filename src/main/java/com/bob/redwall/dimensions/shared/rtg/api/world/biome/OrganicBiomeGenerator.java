@@ -31,7 +31,7 @@ public class OrganicBiomeGenerator {
 
     public OrganicBiomeGenerator(IRTGWorld rtgWorld) {
         this.rtgWorld = rtgWorld;
-        organicProvider = new ChunkGeneratorOverworld(rtgWorld.world(), RedwallWorldProvider.VALOUR_SEED, rtgWorld.world().getWorldInfo().isMapFeaturesEnabled(), rtgWorld.world().getWorldInfo().getGeneratorOptions());
+        organicProvider = new ChunkGeneratorOverworld(rtgWorld.world(), RedwallWorldProvider.REDWALL_SEED, rtgWorld.world().getWorldInfo().isMapFeaturesEnabled(), rtgWorld.world().getWorldInfo().getGeneratorOptions());
 
         Field field;
         try {

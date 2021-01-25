@@ -1,6 +1,5 @@
 package com.bob.redwall.dimensions.shared.rtg;
 
-import static com.bob.redwall.dimensions.shared.rtg.api.RTGAPI.config;
 import static com.bob.redwall.dimensions.shared.rtg.api.RTGAPI.configPath;
 import static com.bob.redwall.dimensions.shared.rtg.api.world.biome.IRealisticBiome.arrRealisticBiomes;
 import static com.bob.redwall.dimensions.shared.rtg.api.world.biome.OrganicBiomeGenerator.organicBiomes;
@@ -10,23 +9,21 @@ import java.util.ArrayList;
 
 import com.bob.redwall.dimensions.ModDimensions;
 import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
+import com.bob.redwall.dimensions.redwall.structures.MapGenScatteredFeatureRedwall;
 import com.bob.redwall.dimensions.shared.rtg.api.RTGAPI;
 import com.bob.redwall.dimensions.shared.rtg.api.config.RTGConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.dimension.DimensionManagerRTG;
 import com.bob.redwall.dimensions.shared.rtg.api.util.BiomeUtils;
 import com.bob.redwall.dimensions.shared.rtg.api.world.biome.IRealisticBiome;
 import com.bob.redwall.dimensions.shared.rtg.event.EventManagerRTG;
-import com.bob.redwall.dimensions.shared.rtg.event.WorldTypeMessageEventHandler;
 import com.bob.redwall.dimensions.shared.rtg.reference.ModInfo;
 import com.bob.redwall.dimensions.shared.rtg.util.RealisticBiomePresenceTester;
 import com.bob.redwall.dimensions.shared.rtg.world.biome.organic.OrganicBiome;
 import com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.RealisticBiomeBase;
 import com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall.RealisticBiomeRedwallBase;
-import com.bob.redwall.dimensions.shared.rtg.world.gen.structure.MapGenScatteredFeatureRTG;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -43,8 +40,7 @@ public class RTG {
     public static void initPre(FMLPreInitializationEvent event) {
         worldtype = new WorldTypeRedwall(ModInfo.WORLD_TYPE);
 
-        DimensionManagerRTG.addRTGDimension(ModDimensions.redwallDimId);
-        //DimensionManagerRTG.addRTGDimension(DimensionManagerRTG.OVERWORLD);
+        DimensionManagerRTG.addRTGDimension(ModDimensions.DIM_REDWALL_ID);
 
         RTGAPI.configPath = event.getModConfigurationDirectory() + File.separator + ModInfo.CONFIG_DIRECTORY + File.separator;
         RTGAPI.rtgConfig = new RTGConfig();
@@ -56,11 +52,6 @@ public class RTG {
     public static void init(FMLInitializationEvent event) {
         eventMgr = new EventManagerRTG();
         eventMgr.registerEventHandlers();
-
-        // This event handler unregisters itself, so it doesn't need to be a part of the event management system.
-        if (config().ENABLE_WORLD_TYPE_NOTIFICATION_SCREEN.get()) {
-            MinecraftForge.EVENT_BUS.register(WorldTypeMessageEventHandler.instance);
-        }
     }
 
     public static void initPost(FMLPostInitializationEvent event) {
@@ -85,7 +76,7 @@ public class RTG {
 
     public static void registerStructures() {
         if (RTGAPI.config().ENABLE_SCATTERED_FEATURE_MODIFICATIONS.get()) {
-            MapGenStructureIO.registerStructure(MapGenScatteredFeatureRTG.Start.class, "rtg_MapGenScatteredFeatureRTG");
+            MapGenStructureIO.registerStructure(MapGenScatteredFeatureRedwall.Start.class, "rtg_MapGenScatteredFeatureRTG");
         }
     }
 

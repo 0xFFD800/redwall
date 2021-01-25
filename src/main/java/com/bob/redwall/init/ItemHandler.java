@@ -18,6 +18,7 @@ import com.bob.redwall.items.food.ItemCustomFish;
 import com.bob.redwall.items.food.ItemModFood;
 import com.bob.redwall.items.food.ItemModSeedFood;
 import com.bob.redwall.items.food.ItemModSeeds;
+import com.bob.redwall.items.food.ItemModSoup;
 import com.bob.redwall.items.tools.ItemModAxe;
 import com.bob.redwall.items.tools.ItemModHoe;
 import com.bob.redwall.items.tools.ItemModPickaxe;
@@ -102,6 +103,10 @@ public class ItemHandler {
 	public static Item rice;
 	public static Item yam;
 	public static Item beans;
+
+	public static Item grapes;
+	
+	public static Item rice_bowl;
 	
 	public static Item drink_bottle;
 	
@@ -291,13 +296,17 @@ public class ItemHandler {
 		yam = new ItemModSeedFood("yam", CreativeTabHandler.FOOD, 2, 0.6F, BlockHandler.yams, 2, 3, 4, 0);
 		rice = new ItemModSeeds("rice", CreativeTabHandler.FOOD, BlockHandler.rice, Blocks.FARMLAND);
 		beans = new ItemModSeedFood("beans", CreativeTabHandler.FOOD, 2, 0.3F, BlockHandler.beans, 2, 3, 4, 0);
-		
-		drink_bottle = new ItemDrinkVessel("drink_bottle", CreativeTabHandler.FOOD).setContainerItem(Items.GLASS_BOTTLE);
-		
-		mug_empty = new ItemEmptyDrinkVessel("mug_empty", CreativeTabHandler.FOOD, new ResourceLocation(Ref.MODID, "mug_drink"));
-		mug_drink = new ItemDrinkVessel("mug_drink", CreativeTabHandler.FOOD).setContainerItem(ItemHandler.mug_empty);
 
-		bowl_drink = new ItemDrinkVessel("bowl_drink", CreativeTabHandler.FOOD).setContainerItem(Items.BOWL);
+		grapes = new ItemModFood("grapes", CreativeTabHandler.FOOD, 3, 0.3F, 0, 3, 2, 8);
+
+		rice_bowl = new ItemModSoup("rice_bowl", CreativeTabHandler.FOOD, 2, 0.4F, 3, 4, 2, 0);
+		
+		drink_bottle = new ItemDrinkVessel("drink_bottle", CreativeTabHandler.FOOD, new ResourceLocation(Ref.MODID, "bottle")).setContainerItem(Items.GLASS_BOTTLE);
+		
+		mug_empty = new ItemEmptyDrinkVessel("mug_empty", CreativeTabHandler.FOOD, new ResourceLocation(Ref.MODID, "mug_drink"), new ResourceLocation(Ref.MODID, "mug"));
+		mug_drink = new ItemDrinkVessel("mug_drink", CreativeTabHandler.FOOD, new ResourceLocation(Ref.MODID, "mug")).setContainerItem(ItemHandler.mug_empty);
+
+		bowl_drink = new ItemDrinkVessel("bowl_drink", CreativeTabHandler.FOOD, new ResourceLocation(Ref.MODID, "bowl")).setContainerItem(Items.BOWL);
 
 		cornstalk = new ModItem("cornstalk", CreativeTabHandler.MISC);
 
@@ -465,6 +474,10 @@ public class ItemHandler {
 		registerItem(event, peas);
 		registerItem(event, yam);
 		registerItem(event, beans);
+
+		registerItem(event, grapes);
+
+		registerItem(event, rice_bowl);
 
 		registerItem(event, drink_bottle);
 
@@ -639,6 +652,10 @@ public class ItemHandler {
 		registerRender(peas);
 		registerRender(beans);
 		registerRender(yam);
+
+		registerRender(grapes);
+		
+		registerRender(rice_bowl);
 
 		registerRender(drink_bottle);
 

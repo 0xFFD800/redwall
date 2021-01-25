@@ -2,6 +2,15 @@ package com.bob.redwall.biomes.cool;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
+import com.bob.redwall.entity.npc.evil.EntityRatMossflower;
+import com.bob.redwall.entity.npc.evil.EntityWeaselMossflower;
+import com.bob.redwall.entity.npc.good.EntityMoleWoodlander;
+import com.bob.redwall.entity.npc.good.EntityMouseWoodlander;
+import com.bob.redwall.entity.npc.good.EntityOtterMossflower;
+import com.bob.redwall.entity.npc.good.EntitySquirrelWoodlander;
+
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.util.math.BlockPos;
@@ -22,7 +31,17 @@ public class BiomeRedwallForest extends Biome {
         this.spawnableMonsterList.clear();
         this.spawnableCaveCreatureList.clear();
         this.spawnableWaterCreatureList.clear();
-        //this.spawnableCreatureList.add(new SpawnListEntry(EntityBird.class, 10, 3, 4));
+        
+        if(typeIn != Type.HEATHLAND) {
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityFerretMossflower.class, 1, 2, 7));
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityRatMossflower.class, 1, 2, 9));
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityWeaselMossflower.class, 1, 1, 5));
+	        
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityMoleWoodlander.class, 1, 1, 3));
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityMouseWoodlander.class, 1, 3, 6));
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityOtterMossflower.class, 1, 1, 7));
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntitySquirrelWoodlander.class, 1, 1, 4));
+        }
 
         if (this.type == BiomeRedwallForest.Type.FLOWER) {
             this.decorator.treesPerChunk = 6;
@@ -31,20 +50,23 @@ public class BiomeRedwallForest extends Biome {
         }
     }
 
-    public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos)
-    {
-        if (this.type == BiomeRedwallForest.Type.FLOWER)
-        {
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+    }
+
+    @Override
+    public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
+        if (this.type == BiomeRedwallForest.Type.FLOWER) {
             double d0 = MathHelper.clamp((1.0D + GRASS_COLOR_NOISE.getValue((double)pos.getX() / 48.0D, (double)pos.getZ() / 48.0D)) / 2.0D, 0.0D, 0.9999D);
             BlockFlower.EnumFlowerType blockflower$enumflowertype = BlockFlower.EnumFlowerType.values()[(int)(d0 * (double)BlockFlower.EnumFlowerType.values().length)];
             return blockflower$enumflowertype == BlockFlower.EnumFlowerType.BLUE_ORCHID ? BlockFlower.EnumFlowerType.POPPY : blockflower$enumflowertype;
-        }
-        else
-        {
+        } else {
             return super.pickRandomFlower(rand, pos);
         }
     }
 
+    @Override
     @SuppressWarnings("deprecation")
 	public void decorate(World worldIn, Random rand, BlockPos pos) {
         if(net.minecraftforge.event.terraingen.TerrainGen.decorate(worldIn, rand, pos, net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.FLOWERS)) { 

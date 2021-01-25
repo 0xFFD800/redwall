@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.bob.redwall.Ref;
 import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
+import com.bob.redwall.tileentity.TileEntityDrinkVessel;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -76,6 +77,25 @@ public class Drink {
 			FoodModifierUtils.onConsumed(entityLiving, stack);
 		}
 	}
+
+	public void onConsumed(TileEntityDrinkVessel ted, World world, EntityLivingBase entityLiving) {
+		if (!world.isRemote) {
+			for (String id : this.ids) {
+				PotionEffect potionId = this.effects.get(id);
+				float potionEffectProbability = this.probabilities.get(id);
+				if (potionId != null && entityLiving.getRNG().nextFloat() < potionEffectProbability) {
+					if (potionId.getPotion().isInstant()) {
+						new PotionEffect(potionId).getPotion().affectEntity(entityLiving, entityLiving, entityLiving, potionId.getAmplifier(), 1.0D);
+	                } else {
+	                	entityLiving.addPotionEffect(new PotionEffect(potionId.getPotion(), (int)((float)potionId.getDuration() * FoodModifierUtils.getEffectDurationMultiplier(entityLiving, ted)), potionId.getAmplifier(), potionId.getIsAmbient(), potionId.doesShowParticles()));
+	                }
+				}
+			}
+			
+			entityLiving.getCapability(NutritionProvider.NUTRITION_CAP, null).addBAC(this.alcohol / 3.75F * FoodModifierUtils.getAlcoholMultiplier(entityLiving, ted));
+			FoodModifierUtils.onConsumed(entityLiving, ted);
+		}
+	}
 	
 	public float getAlcohol() {
 		return this.alcohol;
@@ -126,7 +146,7 @@ public class Drink {
 		public static final Drink MEAD = new Drink(new ResourceLocation(Ref.MODID, "mead"), 0xFFE500, 0.075F, 1, 5, 1, 1).addPotionEffect(new PotionEffect(MobEffects.HASTE, 600, 0), 0.1F);
 		public static final Drink SHREWBEER = new Drink(new ResourceLocation(Ref.MODID, "shrewbeer"), 0x744E45, 0.15F, 4, 8, 4, 4).addPotionEffect(new PotionEffect(MobEffects.SATURATION, 0, 7), 1.0F);
 		public static final Drink WATERPORTER = new Drink(new ResourceLocation(Ref.MODID, "waterporter"), 0x6B222B, 0.2F, 0, 2, 2, 0).addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 600, 0), 0.4F);
-		public static final Drink BURGOOLA = new Drink(new ResourceLocation(Ref.MODID, "burgoola"), 0xEA757F, 0.35F, 0, 4, 4, 0).addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 600, 0), 0.8F);
+		public static final Drink GULLYPLUG_PUNCH = new Drink(new ResourceLocation(Ref.MODID, "gullyplug_punch"), 0xEA757F, 0.35F, 0, 4, 4, 0).addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 600, 0), 0.8F);
 		public static final Drink PALE_CIDER = new Drink(new ResourceLocation(Ref.MODID, "pale_cider"), 0xFFE7A8, 0.05F, 0, 4, 0, 4).addPotionEffect(new PotionEffect(MobEffects.HASTE, 600, 0), 0.2F);
 		public static final Drink MOUNTAIN_ALE = new Drink(new ResourceLocation(Ref.MODID, "mountain_ale"), 0xCCA372, 0.15F, 2, 4, 0, 0).addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 300, 1), 0.5F);
 		public static final Drink NETTLEBEER = new Drink(new ResourceLocation(Ref.MODID, "nettlebeer"), 0x35230D, 0.2F, 2, 4, 0, 0).addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 600, 0), 1.0F);

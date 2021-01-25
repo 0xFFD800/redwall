@@ -9,9 +9,7 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoDeadBush;
  * @author WhichOnesPink
  */
 public class DecoCollectionDesert extends DecoCollectionBase {
-
     public DecoCollectionDesert(BiomeConfig config) {
-
         super(config);
 
         DecoCactus decoCactus = new DecoCactus();

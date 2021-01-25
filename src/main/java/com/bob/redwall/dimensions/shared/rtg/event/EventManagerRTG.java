@@ -105,7 +105,7 @@ public class EventManagerRTG {
             }
 
             if (WorldTypeRedwall.chunkProvider == null) {
-            	WorldTypeRedwall.chunkProvider = new ChunkProviderRTG(event.getWorld(), RedwallWorldProvider.VALOUR_SEED);
+            	WorldTypeRedwall.chunkProvider = new ChunkProviderRTG(event.getWorld(), RedwallWorldProvider.REDWALL_SEED);
                 RTG.runOnNextServerCloseOnly(WorldTypeRedwall.clearProvider(WorldTypeRedwall.chunkProvider));
 
                 // inform the event manager about the ChunkEvent.Load event
@@ -356,8 +356,8 @@ public class EventManagerRTG {
 
             // This event fires for each dimension loaded (and then one last time in which it returns 0?),
             // so initialise a field to 0 and set it to the world seed and only display it in the log once.
-            if (worldSeed != RedwallWorldProvider.VALOUR_SEED) {
-                worldSeed = RedwallWorldProvider.VALOUR_SEED;
+            if (worldSeed != RedwallWorldProvider.REDWALL_SEED) {
+                worldSeed = RedwallWorldProvider.REDWALL_SEED;
                 Logger.info("World Seed: " + worldSeed);
             }
         }

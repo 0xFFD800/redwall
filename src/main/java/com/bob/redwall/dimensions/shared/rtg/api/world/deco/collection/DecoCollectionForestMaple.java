@@ -9,6 +9,7 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFallenTree.LogCo
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFlowersRTG;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrass;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrassDoubleTallgrass;
+import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoSandstoneSlab;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoShrub;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree.TreeCondition;
@@ -68,6 +69,12 @@ public class DecoCollectionForestMaple extends DecoCollectionBase {
         decoBoulder.setMaxY(95);
         decoBoulder.setStrengthFactor(2f);
         this.addDeco(decoBoulder);
+
+        DecoSandstoneSlab decoSandstoneSlab = new DecoSandstoneSlab();
+        decoSandstoneSlab.setChance(200);
+        decoSandstoneSlab.setMaxY(95);
+        decoSandstoneSlab.setStrengthFactor(2f);
+        this.addDeco(decoSandstoneSlab);
     }
 
     private DecoHelperRandomSplit randomTrees() {

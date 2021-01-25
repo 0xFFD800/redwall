@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
@@ -45,38 +46,42 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         if (!stack.isEmpty()) {
         	if(isVertical) {
         		if(stack.getItem() instanceof ItemPike) {
-        			this.renderItemVertical(stack, eastwest, 4.0F, false, false);
+        			this.renderItemVertical(stack, eastwest, 4.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() instanceof ItemMace || stack.getItem() instanceof ItemBattleAxe) {
-        			this.renderItemVertical(stack, eastwest, 2.0F, false, false);
+        			this.renderItemVertical(stack, eastwest, 2.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe) {
-        			this.renderItemVertical(stack, eastwest, 1.0F, false, false);
+        			this.renderItemVertical(stack, eastwest, 1.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemCustomSword) {
-        			this.renderItemVertical(stack, eastwest, 2.0F, true, false);
+        			this.renderItemVertical(stack, eastwest, 2.0F, true, false, false);
         		} else if(stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemModBow) {
-        			this.renderItemVertical(stack, eastwest, 2.0F, false, true);
+        			this.renderItemVertical(stack, eastwest, 2.0F, false, true, false);
+        		} else if(stack.getItem() instanceof ItemFishingRod) {
+        			this.renderItemVertical(stack, eastwest, 1.0F, false, true, true);
         		}
         	} else {
         		if(stack.getItem() instanceof ItemPike) {
-        			this.renderItemHorizontal(stack, facing, 4.0F, false, false);
+        			this.renderItemHorizontal(stack, facing, 4.0F, false, false, false);
         		} else if((stack.getItem() instanceof ItemMace && stack.getItem() != ItemHandler.guosim_paddle) || stack.getItem() instanceof ItemBattleAxe || stack.getItem() instanceof ItemCustomSword) {
-        			this.renderItemHorizontal(stack, facing, 2.0F, false, false);
+        			this.renderItemHorizontal(stack, facing, 2.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() == ItemHandler.guosim_paddle) {
-        			this.renderItemHorizontal(stack, facing, 2.0F, true, false);
+        			this.renderItemHorizontal(stack, facing, 2.0F, true, false, false);
         		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe) {
-        			this.renderItemHorizontal(stack, facing, 1.0F, false, false);
+        			this.renderItemHorizontal(stack, facing, 1.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemModBow) {
-        			this.renderItemHorizontal(stack, facing, 2.0F, false, true);
+        			this.renderItemHorizontal(stack, facing, 2.0F, false, true, false);
+        		} else if(stack.getItem() instanceof ItemFishingRod) {
+        			this.renderItemHorizontal(stack, facing, 1.0F, false, true, true);
         		}
         	}
         }
     }
     
-    private void renderItemVertical(ItemStack stack, boolean eastwest, float scale, boolean sword, boolean bow) {
+    private void renderItemVertical(ItemStack stack, boolean eastwest, float scale, boolean sword, boolean bow, boolean fishingrod) {
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableLighting();
         GlStateManager.pushMatrix();
         float f = bow ? -0.375F : 0.125F;
-        GlStateManager.translate(0.5F, f + (sword ? 0 : ((scale == 1 ? scale : scale == 2 ? scale - 0.5 : scale - 1) / 2)), 0.5F);
+        GlStateManager.translate(0.5F, f + (sword ? 0 : ((scale == 1 ? scale : scale == 2 ? scale - 0.5 : scale - 1) / 2)) + (fishingrod ? 0.625F : 0.0F), 0.5F);
         GlStateManager.scale(eastwest ? 1.0f : scale, scale, eastwest ? scale : 1.0f);
 
     	if(eastwest) GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
@@ -87,7 +92,7 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         GlStateManager.popMatrix();
     }
     
-    private void renderItemHorizontal(ItemStack stack, EnumFacing facing, float scale, boolean spear, boolean bow) {
+    private void renderItemHorizontal(ItemStack stack, EnumFacing facing, float scale, boolean spear, boolean bow, boolean fishingrod) {
     	boolean eastwest = facing.getAxis() == EnumFacing.Axis.X;
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableLighting();
@@ -100,7 +105,7 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         float ez = 1.0F - (scale == 4F || (scale == 2F && spear) ? 0.5F : (scale == 2 && bow) ? 0.5F : scale == 2 ? -0.25F : 0.25F);
         float wx = 0.5F;
         float wz = scale == 4F || (scale == 2F && spear) ? 0.5F : (scale == 2 && bow) ? 0.5F : scale == 2 ? -0.25F : 0.25F;
-        float y = bow ? 0.15F : 0.625F;
+        float y = (bow ? 0.15F : 0.625F) + (fishingrod ? 0.5F : 0.0F);
         switch(facing) {
         case NORTH:
         	GlStateManager.translate(nx, y, nz);

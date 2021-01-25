@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.bob.redwall.dimensions.shared.rtg.api.util.RandomUtil;
-import com.bob.redwall.dimensions.shared.rtg.api.util.WorldUtil;
 import com.bob.redwall.dimensions.shared.rtg.api.world.IRTGWorld;
 import com.bob.redwall.dimensions.shared.rtg.api.world.biome.IRealisticBiome;
 import com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature.WorldGenSponge;
@@ -21,171 +20,139 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  * @author WhichOnesPink
  */
 public class DecoSponge extends DecoBase {
+	private IBlockState spongeBlock; // This can be any block.
+	private float strengthFactor; // Higher = more/bigger boulders.
+	private int minY; // Lower height restriction.
+	private int maxY; // Upper height restriction.
+	private HeightType heightType; // How we determine the Y coord.
+	private int chance; // Higher = more rare.
+	private boolean water;
+	protected ArrayList<Block> validGroundBlocks;
 
-    private IBlockState spongeBlock; // This can be any block.
-    private float strengthFactor; // Higher = more/bigger boulders.
-    private int minY; // Lower height restriction.
-    private int maxY; // Upper height restriction.
-    private HeightType heightType; // How we determine the Y coord.
-    private int chance; // Higher = more rare.
-    private boolean water;
-    protected ArrayList<Block> validGroundBlocks;
+	public DecoSponge() {
+		super();
 
-    public DecoSponge() {
+		/**
+		 * Default values. These can be overridden when configuring the Deco object in
+		 * the realistic biome.
+		 */
+		this.setSpongeBlock(Blocks.SPONGE.getDefaultState().withProperty(BlockSponge.WET, true));
+		this.setStrengthFactor(2f);
+		this.setMinY(20);
+		this.setMaxY(45);
+		this.setHeightType(HeightType.NEXT_INT);
+		this.setChance(10);
+		this.water = true;
 
-        super();
+		this.validGroundBlocks = new ArrayList<Block>(Arrays.asList(Blocks.GRASS, Blocks.DIRT, Blocks.STONE, Blocks.GRAVEL, Blocks.CLAY, Blocks.SAND));
 
-        /**
-         * Default values.
-         * These can be overridden when configuring the Deco object in the realistic biome.
-         */
-        this.setSpongeBlock(Blocks.SPONGE.getDefaultState().withProperty(BlockSponge.WET, true));
-        this.setStrengthFactor(2f);
-        this.setMinY(20);
-        this.setMaxY(45);
-        this.setHeightType(HeightType.NEXT_INT);
-        this.setChance(10);
-        this.water = true;
+		this.addDecoTypes(DecoType.SPONGE);
+	}
 
-        this.validGroundBlocks = new ArrayList<Block>(Arrays.asList(
-            Blocks.GRASS,
-            Blocks.DIRT,
-            Blocks.STONE,
-            Blocks.GRAVEL,
-            Blocks.CLAY,
-            Blocks.SAND
-        ));
+	@Override
+	public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
+		if (this.allowed) {
+			WorldGenerator worldGenerator = new WorldGenSponge(spongeBlock, 0, rand, validGroundBlocks);
 
-        this.addDecoTypes(DecoType.SPONGE);
-    }
+			for (int l1 = 0; l1 < this.strengthFactor * strength; ++l1) {
+				int i1 = worldX + rand.nextInt(16);// + 8;
+				int j1 = worldZ + rand.nextInt(16);// + 8;
+				int k1;
 
-    @Override
-    public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
+				switch (this.heightType) {
+				case NEXT_INT:
+					k1 = RandomUtil.getRandomInt(rand, this.minY, this.maxY);
+					break;
 
-        if (this.allowed) {
+				case GET_HEIGHT_VALUE:
+					k1 = rtgWorld.world().getHeight(new BlockPos(i1, 0, j1)).getY();
+					break;
 
-            WorldUtil worldUtil = new WorldUtil(rtgWorld.world());
-            WorldGenerator worldGenerator = new WorldGenSponge(spongeBlock, 0, rand, validGroundBlocks);
+				default:
+					k1 = rtgWorld.world().getHeight(new BlockPos(i1, 0, j1)).getY();
+					break;
+				}
 
-            for (int l1 = 0; l1 < this.strengthFactor * strength; ++l1) {
+				if (k1 >= this.minY && k1 <= this.maxY && rand.nextInt(this.chance) == 0) {
+					worldGenerator.generate(rtgWorld.world(), rand, new BlockPos(i1, k1, j1));
+				}
+			}
+		}
+	}
 
-                int i1 = worldX + rand.nextInt(16);// + 8;
-                int j1 = worldZ + rand.nextInt(16);// + 8;
-                int k1;
+	public enum HeightType {
+		NEXT_INT, GET_HEIGHT_VALUE;
+	}
 
-                switch (this.heightType) {
+	public IBlockState getSpongeBlock() {
+		return spongeBlock;
+	}
 
-                    case NEXT_INT:
-                        k1 = RandomUtil.getRandomInt(rand, this.minY, this.maxY);
-                        break;
+	public DecoSponge setSpongeBlock(IBlockState spongeBlock) {
+		this.spongeBlock = spongeBlock;
+		return this;
+	}
 
-                    case GET_HEIGHT_VALUE:
-                        k1 = rtgWorld.world().getHeight(new BlockPos(i1, 0, j1)).getY();
-                        break;
+	public float getStrengthFactor() {
+		return strengthFactor;
+	}
 
-                    default:
-                        k1 = rtgWorld.world().getHeight(new BlockPos(i1, 0, j1)).getY();
-                        break;
+	public DecoSponge setStrengthFactor(float strengthFactor) {
+		this.strengthFactor = strengthFactor;
+		return this;
+	}
 
-                }
+	public int getMinY() {
+		return minY;
+	}
 
-                if (k1 >= this.minY && k1 <= this.maxY && rand.nextInt(this.chance) == 0) {
-                    worldGenerator.generate(rtgWorld.world(), rand, new BlockPos(i1, k1, j1));
-                }
-            }
-        }
-    }
+	public DecoSponge setMinY(int minY) {
+		this.minY = minY;
+		return this;
+	}
 
-    public enum HeightType {
-        NEXT_INT,
-        GET_HEIGHT_VALUE;
-    }
+	public int getMaxY() {
+		return maxY;
+	}
 
-    public IBlockState getSpongeBlock() {
+	public DecoSponge setMaxY(int maxY) {
+		this.maxY = maxY;
+		return this;
+	}
 
-        return spongeBlock;
-    }
+	public int getChance() {
+		return chance;
+	}
 
-    public DecoSponge setSpongeBlock(IBlockState spongeBlock) {
+	public DecoSponge setChance(int chance) {
+		this.chance = chance;
+		return this;
+	}
 
-        this.spongeBlock = spongeBlock;
-        return this;
-    }
+	public boolean isWater() {
+		return water;
+	}
 
-    public float getStrengthFactor() {
+	public DecoSponge setWater(boolean water) {
+		this.water = water;
+		return this;
+	}
 
-        return strengthFactor;
-    }
+	public HeightType getHeightType() {
+		return heightType;
+	}
 
-    public DecoSponge setStrengthFactor(float strengthFactor) {
+	public DecoSponge setHeightType(HeightType heightType) {
+		this.heightType = heightType;
+		return this;
+	}
 
-        this.strengthFactor = strengthFactor;
-        return this;
-    }
+	public ArrayList<Block> getValidGroundBlocks() {
+		return validGroundBlocks;
+	}
 
-    public int getMinY() {
-
-        return minY;
-    }
-
-    public DecoSponge setMinY(int minY) {
-
-        this.minY = minY;
-        return this;
-    }
-
-    public int getMaxY() {
-
-        return maxY;
-    }
-
-    public DecoSponge setMaxY(int maxY) {
-
-        this.maxY = maxY;
-        return this;
-    }
-
-    public int getChance() {
-
-        return chance;
-    }
-
-    public DecoSponge setChance(int chance) {
-
-        this.chance = chance;
-        return this;
-    }
-
-    public boolean isWater() {
-
-        return water;
-    }
-
-    public DecoSponge setWater(boolean water) {
-
-        this.water = water;
-        return this;
-    }
-
-    public HeightType getHeightType() {
-
-        return heightType;
-    }
-
-    public DecoSponge setHeightType(HeightType heightType) {
-
-        this.heightType = heightType;
-        return this;
-    }
-
-    public ArrayList<Block> getValidGroundBlocks() {
-
-        return validGroundBlocks;
-    }
-
-    public DecoSponge setValidGroundBlocks(ArrayList<Block> validGroundBlocks) {
-
-        this.validGroundBlocks = validGroundBlocks;
-        return this;
-    }
+	public DecoSponge setValidGroundBlocks(ArrayList<Block> validGroundBlocks) {
+		this.validGroundBlocks = validGroundBlocks;
+		return this;
+	}
 }

@@ -6,10 +6,10 @@ import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
-import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
-import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
+import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.collect.Lists;
@@ -26,6 +26,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -80,7 +81,7 @@ public class ItemScythe extends ModCustomWeapon {
 	@Override
 	@Nullable
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt) {
-		stack.addEnchantment(Enchantments.FORTUNE, 1);
+		if(!EnchantmentHelper.getEnchantments(stack).containsKey(Enchantments.FORTUNE)) stack.addEnchantment(Enchantments.FORTUNE, 1);
 		return null;
 	}
 	
@@ -119,6 +120,15 @@ public class ItemScythe extends ModCustomWeapon {
             if(this.getFaction() != null && entity instanceof EntityPlayer && properMaterials.contains(state.getMaterial())) {
             	IFactionCap fac = ((EntityPlayer)entity).getCapability(FactionCapProvider.FACTION_CAP, null);
             	fac.set(this.getFaction(), FacStatType.FARM, fac.get(this.getFaction(), FacStatType.FARM) + 0.5F, true);
+            	if(EnchantmentHelper.getEnchantments(stack).containsKey(Enchantments.FORTUNE)) {
+            		for(int i = 0; i < stack.getEnchantmentTagList().tagCount(); i++) {
+            			NBTBase u1 = stack.getEnchantmentTagList().get(i);
+	            		if(u1 instanceof NBTTagCompound) {
+	            			NBTTagCompound nbt = (NBTTagCompound)u1;
+	            			if(Enchantment.getEnchantmentByID(nbt.getShort("id")) == Enchantments.FORTUNE) stack.getEnchantmentTagList().removeTag(i);
+	            		}
+	            	};
+            	}
         		stack.addEnchantment(Enchantments.FORTUNE, RedwallUtils.getFacStatLevel((EntityPlayer)entity, this.getFaction(), FacStatType.FARM) + 1);
             }
         }

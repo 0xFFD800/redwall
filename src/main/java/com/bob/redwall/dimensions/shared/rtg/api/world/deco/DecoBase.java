@@ -148,7 +148,6 @@ public abstract class DecoBase {
     }
 
     public DecoBase setCheckRiver(boolean checkRiver) {
-
         this.checkRiver = checkRiver;
         return this;
     }

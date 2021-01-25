@@ -1,10 +1,14 @@
 package com.bob.redwall.common;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.entity.capabilities.agility.AgilityProvider;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
+import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
+import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
+import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -85,6 +89,20 @@ public class MessageSetCap implements IMessage {
 				    	}
                 	} else if(message.mode == Mode.REQUEST_FACTION_UPDATE) {
         				RedwallUtils.updatePlayerFactionStats(serverPlayer);
+                	} else if(message.mode == Mode.STRENGTH) {
+                		if(serverPlayer.experienceLevel < serverPlayer.getCapability(SpeedProvider.SPEED_CAP, null).get() + serverPlayer.getCapability(VitalityProvider.VITALITY_CAP, null).get() + serverPlayer.getCapability(AgilityProvider.AGILITY_CAP, null).get() + message.f) return;
+                		serverPlayer.getCapability(StrengthProvider.STRENGTH_CAP, null).set((int) message.f);
+                	} else if(message.mode == Mode.SPEED) {
+                		if(serverPlayer.experienceLevel < serverPlayer.getCapability(StrengthProvider.STRENGTH_CAP, null).get() + serverPlayer.getCapability(VitalityProvider.VITALITY_CAP, null).get() + serverPlayer.getCapability(AgilityProvider.AGILITY_CAP, null).get() + message.f) return;
+                		serverPlayer.getCapability(SpeedProvider.SPEED_CAP, null).set((int) message.f);
+                	} else if(message.mode == Mode.VITALITY) {
+                		if(serverPlayer.experienceLevel < serverPlayer.getCapability(SpeedProvider.SPEED_CAP, null).get() + serverPlayer.getCapability(StrengthProvider.STRENGTH_CAP, null).get() + serverPlayer.getCapability(AgilityProvider.AGILITY_CAP, null).get() + message.f) return;
+                		serverPlayer.getCapability(VitalityProvider.VITALITY_CAP, null).set((int) message.f);
+                	} else if(message.mode == Mode.AGILITY) {
+                		if(serverPlayer.experienceLevel < serverPlayer.getCapability(SpeedProvider.SPEED_CAP, null).get() + serverPlayer.getCapability(VitalityProvider.VITALITY_CAP, null).get() + serverPlayer.getCapability(StrengthProvider.STRENGTH_CAP, null).get() + message.f) return;
+                		serverPlayer.getCapability(AgilityProvider.AGILITY_CAP, null).set((int) message.f);
+                	} else if(message.mode == Mode.REQUEST_SKILLS_UPDATE) {
+        				RedwallUtils.updatePlayerSkillsStats(serverPlayer);
                 	}
                 }
 			});
@@ -95,7 +113,12 @@ public class MessageSetCap implements IMessage {
 	public static enum Mode {
 		ATTACKING(i++), 
 		DEFENDING(i++),
-		REQUEST_FACTION_UPDATE(i++);
+		REQUEST_FACTION_UPDATE(i++), 
+		STRENGTH(i++), 
+		SPEED(i++), 
+		AGILITY(i++), 
+		VITALITY(i++),
+		REQUEST_SKILLS_UPDATE(i++);
 		
 		private final int id;
 		private Mode(int id) {

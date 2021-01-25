@@ -1,5 +1,7 @@
 package com.bob.redwall.biomes.desert;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
 
@@ -18,5 +20,10 @@ public class BiomeRedwallBareDesert extends Biome {
         this.spawnableMonsterList.clear();
         this.spawnableCaveCreatureList.clear();
         this.spawnableWaterCreatureList.clear();
+    }
+
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN / 2.0F;
     }
 }

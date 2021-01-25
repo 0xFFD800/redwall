@@ -1,5 +1,7 @@
 package com.bob.redwall.common;
 
+import com.bob.redwall.entity.capabilities.agility.AgilityProvider;
+import com.bob.redwall.entity.capabilities.agility.IAgility;
 import com.bob.redwall.entity.capabilities.armor_weight.ArmorWeightProvider;
 import com.bob.redwall.entity.capabilities.armor_weight.IArmorWeight;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
@@ -8,6 +10,12 @@ import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvide
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
+import com.bob.redwall.entity.capabilities.speed.ISpeed;
+import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
+import com.bob.redwall.entity.capabilities.strength.IStrength;
+import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
+import com.bob.redwall.entity.capabilities.vitality.IVitality;
+import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -136,7 +144,19 @@ public class MessageSyncCap implements IMessage {
     					} else {
     						defending.set(false);
     					}
-    				}
+    				} else if(message.mode == Mode.SPEED) {
+                		ISpeed speed = clientPlayer.getCapability(SpeedProvider.SPEED_CAP, null);
+                		speed.set((int) message.f);
+                	} else if(message.mode == Mode.STRENGTH) {
+                		IStrength strength = clientPlayer.getCapability(StrengthProvider.STRENGTH_CAP, null);
+                		strength.set((int) message.f);
+                	} else if(message.mode == Mode.VITALITY) {
+                		IVitality vitality = clientPlayer.getCapability(VitalityProvider.VITALITY_CAP, null);
+                		vitality.set((int) message.f);
+                	} else if(message.mode == Mode.AGILITY) {
+                		IAgility agility = clientPlayer.getCapability(AgilityProvider.AGILITY_CAP, null);
+                		agility.set((int) message.f);
+                	}
                 }
 			});
 		    return null;
@@ -147,7 +167,11 @@ public class MessageSyncCap implements IMessage {
 		ARMOR_WEIGHT(i++),
 		FACTION_STATS(i++),
 		MOB_ATTACK_MODE(i++),
-		MOB_DEFENDING(i++);
+		MOB_DEFENDING(i++),
+		SPEED(i++),
+		STRENGTH(i++),
+		VITALITY(i++),
+		AGILITY(i++);
 		
 		private final int id;
 		private Mode(int id) {

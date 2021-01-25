@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 
 import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
+import com.bob.redwall.dimensions.redwall.structures.MapGenScatteredFeatureRedwall;
 import com.bob.redwall.dimensions.shared.rtg.api.RTGAPI;
 import com.bob.redwall.dimensions.shared.rtg.api.config.RTGConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.dimension.DimensionManagerRTG;
@@ -34,7 +35,6 @@ import com.bob.redwall.dimensions.shared.rtg.world.RTGWorld;
 import com.bob.redwall.dimensions.shared.rtg.world.biome.BiomeAnalyzer;
 import com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.RealisticBiomeBase;
 import com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.RealisticBiomePatcher;
-import com.bob.redwall.dimensions.shared.rtg.world.gen.structure.MapGenScatteredFeatureRTG;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -57,7 +57,6 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.MapGenCaves;
 import net.minecraft.world.gen.MapGenRavine;
-import net.minecraft.world.gen.structure.MapGenMineshaft;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -69,7 +68,6 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
-
 public class ChunkProviderRTG implements IChunkGenerator {
     private static ChunkProviderRTG populatingProvider;
     private RTGConfig rtgConfig = RTGAPI.config();
@@ -77,7 +75,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	private final MapGenBase caveGenerator;
     @SuppressWarnings("unused")
 	private final MapGenBase ravineGenerator;
-    private final MapGenMineshaft mineshaftGenerator;
+    //private final MapGenMineshaft mineshaftGenerator;
     private final MapGenScatteredFeature scatteredFeatureGenerator;
     private final int sampleSize = 8;
     private final int sampleArraySize;
@@ -110,7 +108,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
     private boolean populating = false;
     @SuppressWarnings("unused")
 	private boolean fakeGenerator = false;
-    private LimitedSet<ChunkPos> alreadyDecorated = new LimitedSet<>(1000);
+    public LimitedSet<ChunkPos> alreadyDecorated = new LimitedSet<>(1000);
     private ChunkOreGenTracker chunkOreGenTracker = new ChunkOreGenTracker();
     private AnvilChunkLoader chunkLoader;
     private VolcanoGenerator volcanoGenerator;
@@ -119,7 +117,6 @@ public class ChunkProviderRTG implements IChunkGenerator {
     public final Acceptor<ChunkEvent.Load> delayedDecorator = new Acceptor<ChunkEvent.Load>() {
         @Override
         public void accept(ChunkEvent.Load event) {
-
             if (event.isCanceled()) {
                 Logger.debug("CPRTG#Acceptor: event is cancelled.");
                 return;
@@ -142,7 +139,6 @@ public class ChunkProviderRTG implements IChunkGenerator {
     };
 
     public ChunkProviderRTG(World world, long seed) {
-
         Logger.debug("STARTED instantiating CPRTG.");
 
         worldObj = world;
@@ -158,7 +154,6 @@ public class ChunkProviderRTG implements IChunkGenerator {
         m.put("size", "0");
         m.put("distance", "24");
         mapFeaturesEnabled = world.getWorldInfo().isMapFeaturesEnabled();
-        mapFeaturesEnabled = false; //TODO: Figure out a workaround, but for now, this is it
         boolean isRTGWorld = DimensionManagerRTG.isValidDimension(world.provider.getDimension());
 
         plateauBand = PlateauBand.getInstance();
@@ -166,26 +161,20 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
         if (isRTGWorld && rtgConfig.ENABLE_CAVE_MODIFICATIONS.get()) {
             caveGenerator = (MapGenCaves) TerrainGen.getModdedMapGen(new MapGenCavesRTG(), EventType.CAVE);
-        }
-        else {
+        } else {
             caveGenerator = (MapGenCaves) TerrainGen.getModdedMapGen(new MapGenCaves(), EventType.CAVE);
         }
 
         if (isRTGWorld && rtgConfig.ENABLE_RAVINE_MODIFICATIONS.get()) {
             ravineGenerator = (MapGenRavine) TerrainGen.getModdedMapGen(new MapGenRavineRTG(), EventType.RAVINE);
-        }
-        else {
+        } else {
             ravineGenerator = (MapGenRavine) TerrainGen.getModdedMapGen(new MapGenRavine(), EventType.RAVINE);
         }
 
-        mineshaftGenerator = (MapGenMineshaft) TerrainGen.getModdedMapGen(new MapGenMineshaft(), EventType.MINESHAFT);
-
-        if (isRTGWorld && rtgConfig.ENABLE_SCATTERED_FEATURE_MODIFICATIONS.get()) {
-            scatteredFeatureGenerator = (MapGenScatteredFeature) TerrainGen.getModdedMapGen(new MapGenScatteredFeatureRTG(), EventType.SCATTERED_FEATURE);
-        }
-        else {
-            scatteredFeatureGenerator = (MapGenScatteredFeature) TerrainGen.getModdedMapGen(new MapGenScatteredFeature(), EventType.SCATTERED_FEATURE);
-        }
+        //mineshaftGenerator = (MapGenMineshaft) TerrainGen.getModdedMapGen(new MapGenMineshaft(), EventType.MINESHAFT);
+        
+        //We actually use this one
+        scatteredFeatureGenerator = (MapGenScatteredFeature) TerrainGen.getModdedMapGen(new MapGenScatteredFeatureRedwall(), EventType.SCATTERED_FEATURE);
 
         sampleArraySize = sampleSize * 2 + 5;
         baseBiomesList = new Biome[256];
@@ -226,12 +215,6 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
     private int chunkCoordinate(int biomeMapCoordinate) {
         return (biomeMapCoordinate - sampleSize) * 8;
-    }
-
-    public void isFakeGenerator() {
-
-        this.fakeGenerator = true;
-        this.mapFeaturesEnabled = false;
     }
 
     @Nonnull
@@ -325,6 +308,22 @@ public class ChunkProviderRTG implements IChunkGenerator {
         replaceBlocksForBiome(cx, cz, primer, jitteredBiomes, baseBiomesList, landscape.noise);
 
         TimeTracker.manager.stop(replace);
+
+        TimeTracker.manager.start("Redwall Scattered Features");
+        try {
+            scatteredFeatureGenerator.generate(this.worldObj, cx, cz, primer);
+        }
+        catch (Exception e) {
+            if (rtgConfig.CRASH_ON_STRUCTURE_EXCEPTIONS.get()) {
+                Logger.fatal("Exception in scatteredFeatureGenerator");
+                throw new RuntimeException(e.getMessage());
+            }
+            else {
+                Logger.error("Exception in scatteredFeatureGenerator");
+                e.printStackTrace();
+            }
+        }
+        TimeTracker.manager.stop("Redwall Scattered Features");
 
         /*String features = "Vanilla Features";
         TimeTracker.manager.start(features);
@@ -491,11 +490,9 @@ public class ChunkProviderRTG implements IChunkGenerator {
     }
 
     @SuppressWarnings("deprecation")
-	private void replaceBlocksForBiome(int cx, int cz, ChunkPrimer primer, IRealisticBiome[]
-        biomes, Biome[] base, float[] n) {
+	private void replaceBlocksForBiome(int cx, int cz, ChunkPrimer primer, IRealisticBiome[] biomes, Biome[] base, float[] n) {
 
-        ChunkGeneratorEvent.ReplaceBiomeBlocks event = new ChunkGeneratorEvent.ReplaceBiomeBlocks(
-            this, cx, cz, primer, this.worldObj);
+        ChunkGeneratorEvent.ReplaceBiomeBlocks event = new ChunkGeneratorEvent.ReplaceBiomeBlocks(this, cx, cz, primer, this.worldObj);
         MinecraftForge.EVENT_BUS.post(event);
         if (event.getResult() == Event.Result.DENY) return;
 
@@ -531,9 +528,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
                     for (int bl = 0; bl < flatBedrockLayers; bl++) {
                         primer.setBlockState(i, bl, j, bedrockBlock.getStateFromMeta(bedrockByte));
                     }
-                }
-                else {
-
+                } else {
                     primer.setBlockState(i, 0, j, bedrockBlock.getStateFromMeta(bedrockByte));
 
                     rough = rand.nextInt(2);
@@ -561,7 +556,6 @@ public class ChunkProviderRTG implements IChunkGenerator {
         clearDecorations(0);
     }
 
-    @SuppressWarnings("unused")
 	private boolean neighborsDone(int cx, int cz) {
         return chunkExists(true, cx - 1, cz - 1) && chunkExists(true, cx - 1, cz) && chunkExists(true, cx - 1, cz + 1) && chunkExists(true, cx, cz - 1) && chunkExists(true, cx, cz + 1) && chunkExists(true, cx + 1, cz - 1) && chunkExists(true, cx + 1, cz) && chunkExists(true, cx + 1, cz + 1);
     }
@@ -604,17 +598,17 @@ public class ChunkProviderRTG implements IChunkGenerator {
         //Logger.debug("CPRTG#doPopulate: %s at %d %d", biome.baseBiome.getBiomeName(), worldX + 16, worldZ + 16);
 
         TimeTracker.manager.stop("Biome Layout");
-        this.rand.setSeed(RedwallWorldProvider.VALOUR_SEED);
+        this.rand.setSeed(RedwallWorldProvider.REDWALL_SEED);
         long i1 = this.rand.nextLong() / 2L * 2L + 1L;
         long j1 = this.rand.nextLong() / 2L * 2L + 1L;
-        this.rand.setSeed((long) chunkX * i1 + (long) chunkZ * j1 ^ RedwallWorldProvider.VALOUR_SEED);
+        this.rand.setSeed((long) chunkX * i1 + (long) chunkZ * j1 ^ RedwallWorldProvider.REDWALL_SEED);
         boolean hasPlacedVillageBlocks = false;
 
         ForgeEventFactory.onChunkPopulate(true, this, this.worldObj, this.rand, chunkX, chunkZ, false);
 
-        if (mapFeaturesEnabled) {
+        if (mapFeaturesEnabled && this.neighborsDone(chunkX, chunkZ)) {
 
-            TimeTracker.manager.start("Mineshafts");
+            /*TimeTracker.manager.start("Mineshafts");
             if (rtgConfig.GENERATE_MINESHAFTS.get()) {
                 try {
                     mineshaftGenerator.generateStructure(worldObj, rand, chunkPos);
@@ -630,7 +624,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
                     }
                 }
             }
-            TimeTracker.manager.stop("Mineshafts");
+            TimeTracker.manager.stop("Mineshafts");*/
 
             TimeTracker.manager.start("Scattered");
             if (rtgConfig.GENERATE_SCATTERED_FEATURES.get()) {
@@ -838,14 +832,13 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
     @Override
     public BlockPos getNearestStructurePos(@Nonnull World par1World, @Nonnull String par2Str, @Nonnull BlockPos blockPos, boolean unused) {
-        return null;
+        return !this.mapFeaturesEnabled ? null : par2Str.equals("RedwallSmall") ? this.scatteredFeatureGenerator.getNearestStructurePos(par1World, blockPos, unused) : null;
     }
 
     @Override
     public void recreateStructures(@Nonnull Chunk chunk, int par1, int par2) {
-
-        if (mapFeaturesEnabled) {
-            if (rtgConfig.GENERATE_MINESHAFTS.get()) {
+        if (this.mapFeaturesEnabled) {
+            /*if (rtgConfig.GENERATE_MINESHAFTS.get()) {
                 try {
                     mineshaftGenerator.generate(worldObj, par1, par2, new ChunkPrimer());
                 }
@@ -859,18 +852,16 @@ public class ChunkProviderRTG implements IChunkGenerator {
                         e.printStackTrace();
                     }
                 }
-            }
+            }*/
 
             if (rtgConfig.GENERATE_SCATTERED_FEATURES.get()) {
                 try {
                     scatteredFeatureGenerator.generate(this.worldObj, par1, par2, new ChunkPrimer());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     if (rtgConfig.CRASH_ON_STRUCTURE_EXCEPTIONS.get()) {
                         Logger.fatal("Exception in scatteredFeatureGenerator");
                         throw new RuntimeException(e.getMessage());
-                    }
-                    else {
+                    } else {
                         Logger.error("Exception in scatteredFeatureGenerator");
                         e.printStackTrace();
                     }

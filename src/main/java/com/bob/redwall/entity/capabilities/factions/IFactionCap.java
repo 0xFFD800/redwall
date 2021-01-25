@@ -18,4 +18,6 @@ public interface IFactionCap {
 	public void init(EntityPlayer player);
 	public NBTTagCompound writeToNBT();
 	public void readFromNBT(NBTTagCompound tag);
+	public void setInit();
+	public boolean isInitialized();
 }

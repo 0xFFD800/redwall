@@ -2,17 +2,22 @@ package com.bob.redwall.init;
 
 import com.bob.redwall.Ref;
 import com.bob.redwall.entity.client.render.RenderDagger;
+import com.bob.redwall.entity.client.render.RenderFerret;
 import com.bob.redwall.entity.client.render.RenderMole;
 import com.bob.redwall.entity.client.render.RenderMouse;
+import com.bob.redwall.entity.client.render.RenderOtter;
 import com.bob.redwall.entity.client.render.RenderRat;
 import com.bob.redwall.entity.client.render.RenderSpear;
 import com.bob.redwall.entity.client.render.RenderSquirrel;
 import com.bob.redwall.entity.client.render.RenderThrowingAxe;
+import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
 import com.bob.redwall.entity.npc.evil.EntityRatMossflower;
+import com.bob.redwall.entity.npc.evil.EntityWeaselMossflower;
 import com.bob.redwall.entity.npc.good.EntityMoleRedwall;
 import com.bob.redwall.entity.npc.good.EntityMoleWoodlander;
 import com.bob.redwall.entity.npc.good.EntityMouseRedwall;
 import com.bob.redwall.entity.npc.good.EntityMouseWoodlander;
+import com.bob.redwall.entity.npc.good.EntityOtterMossflower;
 import com.bob.redwall.entity.npc.good.EntitySquirrelRedwall;
 import com.bob.redwall.entity.npc.good.EntitySquirrelWoodlander;
 import com.bob.redwall.entity.projectile.dagger.EntityDagger;
@@ -37,7 +42,10 @@ public class EntityHandler {
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "squirrel_woodlander"), EntitySquirrelWoodlander.class, Ref.MODID + ":squirrel_woodlander", id++, Ref.MODID, 64, 3, true, 0x282003, 0x804523);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mole_redwall"), EntityMoleRedwall.class, Ref.MODID + ":mole_redwall", id++, Ref.MODID, 64, 3, true, 0x001104, 0x100602);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mole_woodlander"), EntityMoleWoodlander.class, Ref.MODID + ":mole_woodlander", id++, Ref.MODID, 64, 3, true, 0x222124, 0x101612);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "otter_mossflower"), EntityOtterMossflower.class, Ref.MODID + ":otter_mossflower", id++, Ref.MODID, 64, 3, true, 0x004208, 0x504513);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "rat_mossflower"), EntityRatMossflower.class, Ref.MODID + ":rat_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "ferret_mossflower"), EntityFerretMossflower.class, Ref.MODID + ":ferret_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "weasel_mossflower"), EntityWeaselMossflower.class, Ref.MODID + ":weasel_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -51,6 +59,9 @@ public class EntityHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntitySquirrelWoodlander.class, RenderSquirrel.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoleRedwall.class, RenderMole.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoleWoodlander.class, RenderMole.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityOtterMossflower.class, RenderOtter.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityRatMossflower.class, RenderRat.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFerretMossflower.class, RenderFerret.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWeaselMossflower.class, RenderFerret.FACTORY);
 	}
 }

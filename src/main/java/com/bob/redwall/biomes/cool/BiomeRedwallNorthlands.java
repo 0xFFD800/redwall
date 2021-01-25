@@ -2,6 +2,8 @@ package com.bob.redwall.biomes.cool;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +30,11 @@ public class BiomeRedwallNorthlands extends Biome {
         this.spawnableWaterCreatureList.clear();
         
         //this.spawnableCreatureList.add(new SpawnListEntry(EntityBird.class, 5, 1, 3));
+    }
+
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
     }
 
     @Override

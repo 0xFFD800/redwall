@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.bob.redwall.dimensions.shared.rtg.api.RTGAPI;
-import com.bob.redwall.dimensions.shared.rtg.api.config.RTGConfig;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -14,137 +11,116 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-
 public class WorldGenSponge extends WorldGenerator {
+	protected ArrayList<Block> validGroundBlocks;
+	protected ArrayList<Block> validAdjacentBlocks;
+	protected int minAdjacents;
+	private IBlockState spongeBlock;
+	private int spongeSize;
 
-    protected ArrayList<Block> validGroundBlocks;
-    protected ArrayList<Block> validAdjacentBlocks;
-    protected int minAdjacents;
-    private IBlockState spongeBlock;
-    private int spongeSize;
-    private RTGConfig rtgConfig = RTGAPI.config();
+	public WorldGenSponge(IBlockState b, int s, Random rand) {
+		super(false);
+		this.spongeBlock = b;
+		this.spongeSize = s;
 
-    public WorldGenSponge(IBlockState b, int s, Random rand) {
+		this.validGroundBlocks = new ArrayList<Block>(Arrays.asList(Blocks.GRASS, Blocks.DIRT, Blocks.STONE, Blocks.GRAVEL, Blocks.CLAY, Blocks.SAND));
+		this.validAdjacentBlocks = new ArrayList<Block>(Arrays.asList(Blocks.PRISMARINE, Blocks.COBBLESTONE, Blocks.MOSSY_COBBLESTONE));
+		this.minAdjacents = 2;
+	}
 
-        super(false);
-        this.spongeBlock = b;
-        this.spongeSize = s;
+	public WorldGenSponge(IBlockState b, int s, Random rand, ArrayList<Block> validGroundBlocks) {
+		this(b, s, rand);
+		this.validGroundBlocks = validGroundBlocks;
+	}
 
-        this.validGroundBlocks = new ArrayList<Block>(Arrays.asList(
-            Blocks.GRASS,
-            Blocks.DIRT,
-            Blocks.STONE,
-            Blocks.GRAVEL,
-            Blocks.CLAY,
-            Blocks.SAND
-        ));
+	@Override
+	public boolean generate(World world, Random rand, BlockPos pos) {
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		while (true) {
+			if (y > 3) {
+				label63: {
+					if (!world.isAirBlock(new BlockPos(x, y - 1, z))) {
 
-        this.validAdjacentBlocks = new ArrayList<Block>(Arrays.asList(
-            Blocks.PRISMARINE,
-            Blocks.COBBLESTONE,
-            Blocks.MOSSY_COBBLESTONE
-        ));
+						IBlockState block = world.getBlockState(new BlockPos(x, y - 1, z));
 
-        this.minAdjacents = 2;
-    }
+						if (validGroundBlocks.contains(block.getBlock())) {
+							break label63;
+						}
+					}
 
-    public WorldGenSponge(IBlockState b, int s, Random rand, ArrayList<Block> validGroundBlocks) {
+					--y;
+					continue;
+				}
+			}
 
-        this(b, s, rand);
-        this.validGroundBlocks = validGroundBlocks;
-    }
+			if (y <= 3) {
+				return false;
+			}
 
-    @Override
-    public boolean generate(World world, Random rand, BlockPos pos) {
+			int k2 = this.spongeSize;
 
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
+			for (int l = 0; k2 >= 0 && l < 3; ++l) {
+				int i1 = k2 + rand.nextInt(2);
+				int j1 = k2 + rand.nextInt(2);
+				int k1 = k2 + rand.nextInt(2);
+				float f = (float) (i1 + j1 + k1) * 0.333F + 0.5F;
 
-        while (true) {
-            if (y > 3) {
-                label63:
-                {
-                    if (!world.isAirBlock(new BlockPos(x, y - 1, z))) {
+				for (int l1 = x - i1; l1 <= x + i1; ++l1) {
+					for (int i2 = z - k1; i2 <= z + k1; ++i2) {
+						for (int j2 = y - j1; j2 <= y + j1; ++j2) {
+							float f1 = (float) (l1 - x);
+							float f2 = (float) (i2 - z);
+							float f3 = (float) (j2 - y);
 
-                        IBlockState block = world.getBlockState(new BlockPos(x, y - 1, z));
+							if (f1 * f1 + f2 * f2 + f3 * f3 <= f * f) {
+								// if (isAdjacent(world, l1, j2, i2)){
+								world.setBlockState(new BlockPos(l1, j2, i2), spongeBlock, 2);
+								// Logger.debug("Sponge generated at %d %d %d", l1, j2, i2);
+								// }
+							}
+						}
+					}
+				}
 
-                        if (validGroundBlocks.contains(block.getBlock())) {
-                            break label63;
-                        }
-                    }
+				x += -(k2 + 1) + rand.nextInt(2 + k2 * 2);
+				z += -(k2 + 1) + rand.nextInt(2 + k2 * 2);
+				y += 0 - rand.nextInt(2);
+			}
 
-                    --y;
-                    continue;
-                }
-            }
+			return true;
+		}
+	}
 
-            if (y <= 3) {
-                return false;
-            }
+	protected boolean isAdjacent(World world, int x, int y, int z) {
 
-            int k2 = this.spongeSize;
+		int adjacentCount = 0;
 
-            for (int l = 0; k2 >= 0 && l < 3; ++l) {
-                int i1 = k2 + rand.nextInt(2);
-                int j1 = k2 + rand.nextInt(2);
-                int k1 = k2 + rand.nextInt(2);
-                float f = (float) (i1 + j1 + k1) * 0.333F + 0.5F;
+		if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x + 1, y, z)).getBlock())) {
+			adjacentCount++;
+		}
 
-                for (int l1 = x - i1; l1 <= x + i1; ++l1) {
-                    for (int i2 = z - k1; i2 <= z + k1; ++i2) {
-                        for (int j2 = y - j1; j2 <= y + j1; ++j2) {
-                            float f1 = (float) (l1 - x);
-                            float f2 = (float) (i2 - z);
-                            float f3 = (float) (j2 - y);
+		if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x - 1, y, z)).getBlock())) {
+			adjacentCount++;
+		}
 
-                            if (f1 * f1 + f2 * f2 + f3 * f3 <= f * f) {
-                                //if (isAdjacent(world, l1, j2, i2)){
-                                    world.setBlockState(new BlockPos(l1, j2, i2), spongeBlock, 2);
-                                    //Logger.debug("Sponge generated at %d %d %d", l1, j2, i2);
-                                //}
-                            }
-                        }
-                    }
-                }
+		if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y + 1, z)).getBlock())) {
+			adjacentCount++;
+		}
 
-                x += -(k2 + 1) + rand.nextInt(2 + k2 * 2);
-                z += -(k2 + 1) + rand.nextInt(2 + k2 * 2);
-                y += 0 - rand.nextInt(2);
-            }
+		if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y - 1, z)).getBlock())) {
+			adjacentCount++;
+		}
 
-            return true;
-        }
-    }
+		if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y, z + 1)).getBlock())) {
+			adjacentCount++;
+		}
 
-    protected boolean isAdjacent(World world, int x, int y, int z) {
+		if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y, z - 1)).getBlock())) {
+			adjacentCount++;
+		}
 
-        int adjacentCount = 0;
-
-        if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x + 1, y, z)).getBlock())) {
-            adjacentCount++;
-        }
-
-        if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x - 1, y, z)).getBlock())) {
-            adjacentCount++;
-        }
-
-        if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y + 1, z)).getBlock())) {
-            adjacentCount++;
-        }
-
-        if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y - 1, z)).getBlock())) {
-            adjacentCount++;
-        }
-
-        if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y, z + 1)).getBlock())) {
-            adjacentCount++;
-        }
-
-        if (validAdjacentBlocks.contains(world.getBlockState(new BlockPos(x, y, z - 1)).getBlock())) {
-            adjacentCount++;
-        }
-
-        return (adjacentCount > 0 && adjacentCount >= this.minAdjacents);
-    }
+		return (adjacentCount > 0 && adjacentCount >= this.minAdjacents);
+	}
 }

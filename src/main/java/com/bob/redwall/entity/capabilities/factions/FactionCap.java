@@ -18,6 +18,7 @@ public class FactionCap implements IFactionCap {
 	private Map<Faction, FacStats> map = new HashMap<>();
 	private Map<Faction, Boolean> contactMap = new HashMap<>();
 	private EntityPlayer player;
+	private boolean isInit;
 	
 	public FactionCap() {
 		for(Faction fac : Faction.getAllFactions()) {
@@ -39,7 +40,7 @@ public class FactionCap implements IFactionCap {
 		
 		if(type == FacStatType.LOYALTY) {
 			for(FacStatType t : FacStatType.values()) {
-				if(t == FacStatType.LOYALTY) break;
+				if(t == FacStatType.LOYALTY) continue;
 				else if(this.get(fac, t) > points) this.set(fac, t, points, update);
 			}
 		}
@@ -151,5 +152,15 @@ public class FactionCap implements IFactionCap {
 		private float getStat(FacStatType type) {
 			return this.stats[type.id];
 		}
+	}
+
+	@Override
+	public void setInit() {
+		this.isInit = true;
+	}
+
+	@Override
+	public boolean isInitialized() {
+		return this.isInit;
 	}
 }

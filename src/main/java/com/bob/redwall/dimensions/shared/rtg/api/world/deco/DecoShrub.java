@@ -18,7 +18,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
  * @author WhichOnesPink
  */
 public class DecoShrub extends DecoBase {
-
     private int size;
     private boolean useDefaultRandom;
     private boolean sand;
@@ -36,7 +35,6 @@ public class DecoShrub extends DecoBase {
     private IBlockState leavesBlock;
 
     public DecoShrub() {
-
         super();
 
         /*
@@ -63,16 +61,13 @@ public class DecoShrub extends DecoBase {
     }
 
     public DecoShrub(boolean useDefaultRandom) {
-
         this();
         this.useDefaultRandom = true;
     }
 
     @Override
     public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
-
         if (this.allowed) {
-
             DecoBase.tweakShrubLeaves(this, false, true);
 
             // Shrub size.
@@ -106,8 +101,7 @@ public class DecoShrub extends DecoBase {
                     if (intY >= this.minY && intY <= this.maxY && rand.nextInt(this.notEqualsZeroChance) != 0) {
                         generateWorldGenerator(worldGenerator, worldUtil, rtgWorld.world(), rand, intX, intY, intZ, hasPlacedVillageBlocks);
                     }
-                }
-                else {
+				} else {
 
                     if (intY >= this.minY && intY <= this.maxY && rand.nextInt(this.chance) == 0) {
                         generateWorldGenerator(worldGenerator, worldUtil, rtgWorld.world(), rand, intX, intY, intZ, hasPlacedVillageBlocks);
@@ -129,166 +123,136 @@ public class DecoShrub extends DecoBase {
     }
 
     public int getSize() {
-
         return size;
     }
 
     public DecoShrub setSize(int size) {
-
         this.size = size;
         return this;
     }
 
     public boolean isUseDefaultRandom() {
-
         return useDefaultRandom;
     }
 
     public DecoShrub setUseDefaultRandom(boolean useDefaultRandom) {
-
         this.useDefaultRandom = useDefaultRandom;
         return this;
     }
 
     public boolean isSand() {
-
         return sand;
     }
 
     public DecoShrub setSand(boolean sand) {
-
         this.sand = sand;
         return this;
     }
 
     public IBlockState[] getRandomLogBlocks() {
-
         return randomLogBlocks;
     }
 
     public DecoShrub setRandomLogBlocks(IBlockState[] randomLogBlocks) {
-
         this.randomLogBlocks = randomLogBlocks;
         return this;
     }
 
     public IBlockState[] getRandomLeavesBlocks() {
-
         return randomLeavesBlocks;
     }
 
     public DecoShrub setRandomLeavesBlocks(IBlockState[] randomLeavesBlocks) {
-
         this.randomLeavesBlocks = randomLeavesBlocks;
         return this;
     }
 
     public float getStrengthFactor() {
-
         return strengthFactor;
     }
 
     public DecoShrub setStrengthFactor(float strengthFactor) {
-
         this.strengthFactor = strengthFactor;
         return this;
     }
 
     public int getMinY() {
-
         return minY;
     }
 
     public DecoShrub setMinY(int minY) {
-
         this.minY = minY;
         return this;
     }
 
     public int getMaxY() {
-
         return maxY;
     }
 
     public DecoShrub setMaxY(int maxY) {
-
         this.maxY = maxY;
         return this;
     }
 
     public int getChance() {
-
         return chance;
     }
 
     public DecoShrub setChance(int chance) {
-
         this.chance = chance;
         return this;
     }
 
     public int getNotEqualsZeroChance() {
-
         return notEqualsZeroChance;
     }
 
     public DecoShrub setNotEqualsZeroChance(int notEqualsZeroChance) {
-
         this.notEqualsZeroChance = notEqualsZeroChance;
         return this;
     }
 
     public int getLoops() {
-
         return loops;
     }
 
     public DecoShrub setLoops(int loops) {
-
         this.loops = loops;
         return this;
     }
 
     public int getMinSize() {
-
         return minSize;
     }
 
     public DecoShrub setMinSize(int minSize) {
-
         this.minSize = minSize;
         return this;
     }
 
     public int getMaxSize() {
-
         return maxSize;
     }
 
     public DecoShrub setMaxSize(int maxSize) {
-
         this.maxSize = maxSize;
         return this;
     }
 
     public IBlockState getLogBlock() {
-
         return logBlock;
     }
 
     public DecoShrub setLogBlock(IBlockState logBlock) {
-
         this.logBlock = logBlock;
         return this;
     }
 
     public IBlockState getLeavesBlock() {
-
         return leavesBlock;
     }
 
     public DecoShrub setLeavesBlock(IBlockState leavesBlock) {
-
         this.leavesBlock = leavesBlock;
         return this;
     }

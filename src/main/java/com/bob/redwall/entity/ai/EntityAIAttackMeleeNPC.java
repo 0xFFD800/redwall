@@ -210,6 +210,7 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 
 		if (!canSweep) return 2;
 
+		if(this.attacker.getRNG().nextFloat() < this.attacker.fumbleAttackChance()) return this.attacker.getRNG().nextInt(3);
 		boolean flag = defenseWeapon.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) defenseWeapon.getItem()).canBlock(defenseWeapon, target);
 		if (target.getCapability(DefendingProvider.DEFENDING_CAP, null).get() && (defenseOffhand.getItem() instanceof ItemShield || flag)) {
 			switch (target.getCapability(DefendingProvider.DEFENDING_CAP, null).getMode()) {
@@ -280,13 +281,15 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 				this.attacker.setSneaking(false);
 				this.actualSpeed = this.speedTowardsTarget;
 				this.attacker.resetCooldown();
-				this.attackTick = this.attacker.getSwingCooldown();
+				this.attackTick = this.attacker.getSwingCooldown() + this.attacker.getRNG().nextInt((int)(this.attacker.fumbleAttackChance() * 10.0F) + 10);
 			}
 		}
 
 		boolean flag = main.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) main.getItem()).canBlock(main, this.attacker);
 		if (targetAttacking.get() && !a.get() && this.attacker.getCooldown() == 0 && (flag || off.getItem() instanceof ItemShield)) {
-			switch (targetAttacking.getMode()) {
+			int i = targetAttacking.getMode();
+			if(this.attacker.getRNG().nextFloat() < this.attacker.fumbleBlockingChance()) i = this.attacker.getRNG().nextInt(3);
+			switch (i) {
 			case 0: {
 				this.attacker.setSneaking(true);
 				this.actualSpeed = 0.6D;

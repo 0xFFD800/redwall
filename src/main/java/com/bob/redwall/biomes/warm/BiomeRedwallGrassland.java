@@ -2,6 +2,8 @@ package com.bob.redwall.biomes.warm;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,10 +27,16 @@ public class BiomeRedwallGrassland extends Biome {
         this.decorator.grassPerChunk = 20;
     }
 
+    @Override
+    public float getSpawningChance() {
+        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+    }
+
     public WorldGenAbstractTree genBigTreeChance(Random rand) {
         return (WorldGenAbstractTree)(rand.nextInt(5) > 0 ? SAVANNA_TREE : TREE_FEATURE);
     }
 
+    @Override
     @SuppressWarnings("deprecation")
 	public void decorate(World worldIn, Random rand, BlockPos pos) {
         DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);

@@ -5,6 +5,7 @@ import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSetCap;
 import com.bob.redwall.common.MessageSyncSeason;
+import com.bob.redwall.common.MessageSyncSeason.Mode;
 import com.bob.redwall.crafting.cooking.FoodModifier;
 import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
@@ -14,6 +15,7 @@ import com.bob.redwall.dimensions.redwall.EnumSeasons;
 import com.bob.redwall.dimensions.redwall.RedwallTeleporter;
 import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
+import com.bob.redwall.entity.capabilities.agility.AgilityProvider;
 import com.bob.redwall.entity.capabilities.armor_weight.ArmorWeightProvider;
 import com.bob.redwall.entity.capabilities.armor_weight.IArmorWeight;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
@@ -25,6 +27,9 @@ import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
+import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
+import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
+import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
@@ -52,12 +57,15 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootEntryTable;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
@@ -69,13 +77,17 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -122,6 +134,25 @@ public class EventHandler {
 	    	if (Minecraft.getMinecraft().inGameHasFocus) {
 	    		Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_FACTION_UPDATE));
 	    		player.openGui(Ref.MODID, GuiHandler.GUI_FACTIONS_ID, player.world, (int)player.posX, (int)player.posY, (int)player.posZ);
+	    		if(!player.getCapability(FactionCapProvider.FACTION_CAP, null).isInitialized()) {
+	    			player.closeScreen();
+		    		player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
+	    		}
+	    	} else {
+				if (player.openContainer instanceof ContainerPlayer) {
+					player.closeScreen();
+				}
+			}
+	    }
+	    
+	    if(keyBindings[1].isPressed()) {
+	    	if (Minecraft.getMinecraft().inGameHasFocus) {
+	    		Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_SKILLS_UPDATE));
+	    		player.openGui(Ref.MODID, GuiHandler.GUI_SKILLS_ID, player.world, (int)player.posX, (int)player.posY, (int)player.posZ);
+	    		if(!player.getCapability(AgilityProvider.AGILITY_CAP, null).isInitialized()) {
+	    			player.closeScreen();
+		    		player.getCapability(AgilityProvider.AGILITY_CAP, null).setInit();
+	    		}
 	    	} else {
 				if (player.openContainer instanceof ContainerPlayer) {
 					player.closeScreen();
@@ -194,36 +225,39 @@ public class EventHandler {
 	
 	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 	public void onEvent(EntityJoinWorldEvent event) {
-		if(event.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer)event.getEntity();
-			entityplayer.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).init(entityplayer);
-			entityplayer.getCapability(FactionCapProvider.FACTION_CAP, null).init(entityplayer);
-			if(entityplayer.world.getWorldType() instanceof WorldTypeRedwall && entityplayer.world.provider.getDimension() != ModDimensions.redwallDimId) {
-				RedwallTeleporter.tele(entityplayer, ModDimensions.redwallDimId);
-				entityplayer.setSpawnPoint(RedwallWorldProvider.VALOUR_SPAWN_POINT, true);
-			}
-			if(event.getWorld().getGameRules().getBoolean("visibleNametags")) entityplayer.setAlwaysRenderNameTag(true);
-			else entityplayer.setAlwaysRenderNameTag(false);
-			
-			if(entityplayer instanceof EntityPlayerMP) {
-				EnumSeasons season = event.getWorld().getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason();
-				if(season == null) season = EnumSeasons.SUMMER;
-				Ref.NETWORK.sendTo(new MessageSyncSeason(season.name()), (EntityPlayerMP)entityplayer);
-				RedwallUtils.updatePlayerFactionStats((EntityPlayerMP)entityplayer);
+		if(event.getEntity() instanceof EntityLivingBase) {
+			((EntityLivingBase)event.getEntity()).getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).init((EntityLivingBase)event.getEntity());
+			((EntityLivingBase)event.getEntity()).getCapability(SpeedProvider.SPEED_CAP, null).init((EntityLivingBase)event.getEntity());
+			((EntityLivingBase)event.getEntity()).getCapability(StrengthProvider.STRENGTH_CAP, null).init((EntityLivingBase)event.getEntity());
+			((EntityLivingBase)event.getEntity()).getCapability(VitalityProvider.VITALITY_CAP, null).init((EntityLivingBase)event.getEntity());
+			((EntityLivingBase)event.getEntity()).getCapability(AgilityProvider.AGILITY_CAP, null).init((EntityLivingBase)event.getEntity());
+			if(event.getEntity() instanceof EntityPlayer) {
+				EntityPlayer entityplayer = (EntityPlayer)event.getEntity();
+				entityplayer.getCapability(FactionCapProvider.FACTION_CAP, null).init(entityplayer);
+				if(entityplayer.world.getWorldType() instanceof WorldTypeRedwall && entityplayer.world.provider.getDimension() != ModDimensions.DIM_REDWALL_ID) {
+					RedwallTeleporter.tele(entityplayer, ModDimensions.DIM_REDWALL_ID);
+					entityplayer.setSpawnPoint(RedwallWorldProvider.REDWALL_SPAWN_POINT, true);
+				}
+				if(event.getWorld().getGameRules().getBoolean("visibleNametags")) entityplayer.setAlwaysRenderNameTag(true);
+				else entityplayer.setAlwaysRenderNameTag(false);
+				
+				if(entityplayer instanceof EntityPlayerMP) {
+					EnumSeasons season = event.getWorld().getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason();
+					if(season == null) season = EnumSeasons.SUMMER;
+					Ref.NETWORK.sendTo(new MessageSyncSeason(Mode.SEASON, season.name()), (EntityPlayerMP)entityplayer);
+					RedwallUtils.updatePlayerFactionStats((EntityPlayerMP)entityplayer);
+				}
 			}
 		}
 	}
 
 	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 	public void onEvent(LivingEquipmentChangeEvent event) {
-		if(event.getEntityLiving() instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer)event.getEntityLiving();
-			if(event.getSlot().getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
-				float value = RedwallUtils.getArmorWeight(player);
-				IArmorWeight weight = player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null);
-				if(value != weight.get()) {
-					weight.set(value);
-				}
+		if(event.getSlot().getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
+			float value = RedwallUtils.getArmorWeight(event.getEntityLiving());
+			IArmorWeight weight = event.getEntityLiving().getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null);
+			if(value != weight.get()) {
+				weight.set(value);
 			}
 		}
 	}
@@ -237,7 +271,12 @@ public class EventHandler {
 	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
 	public void onEvent(WorldEvent.Load event) {
 		//if(!event.getWorld().getGameRules().hasRule("doNormalSaving")) event.getWorld().getGameRules().addGameRule("doNormalSaving", "true", GameRules.ValueType.BOOLEAN_VALUE);
-		if(!event.getWorld().getGameRules().hasRule("visibleNametags")) event.getWorld().getGameRules().addGameRule("visibleNametags", "false", GameRules.ValueType.BOOLEAN_VALUE);
+		
+		if(!event.getWorld().getGameRules().hasRule("visibleNametags")) {
+			event.getWorld().getGameRules().addGameRule("visibleNametags", "false", GameRules.ValueType.BOOLEAN_VALUE);
+			//If the world doesn't have this custom game rule yet, we assume it's the first time loaded and turn off natural regen.
+			event.getWorld().getGameRules().setOrCreateGameRule("naturalRegeneration", "false");
+		}
 		/*if(event.getWorld() instanceof WorldServer && !event.getWorld().getGameRules().getBoolean("doNormalSaving")) {
 			WorldServer worldserver = (WorldServer) event.getWorld();
 			worldserver.disableLevelSaving = true;
@@ -269,12 +308,25 @@ public class EventHandler {
 	            }
 			}
 			
+			//Terrain Speed Modifier
+			event.player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).updateTick();
+			
 			//Fatal Poison Effect
 			if(event.player.isPotionActive(StatusEffect.POISON) && event.player.ticksExisted % (int)(20.0F / (float)(event.player.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0) {
 				event.player.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor(), 1.0F);
 			}
 			
+			//Nutrition
 			event.player.getCapability(NutritionProvider.NUTRITION_CAP, null).update(event.player);
+			
+			//Loyalty timer
+			if(event.player.ticksExisted % Faction.LOYALTY_CHANGE_TIMER == 0) {
+				for(Faction f : Faction.getAllFactions()) {
+					float points = event.player.getCapability(FactionCapProvider.FACTION_CAP, null).get(f, FacStatType.LOYALTY);
+					if(f.isVermin()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
+					else if(f.isPeaceful()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
+				}
+			}
 	    } else if(event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
 	    	IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
 			if(defending.get() && !event.player.isSneaking()) RedwallControlHandler.handleDefenseEnd(defending.getMode());
@@ -365,9 +417,9 @@ public class EventHandler {
 					facCap.set(fac, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
 				}
 
-				if(fac.getFactionStatus(f) == FactionStatus.ALLIED) facCap.set(f, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
-				if(fac.getFactionStatus(f) == FactionStatus.FRIENDLY) facCap.set(f, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 40.0F, true);
-				if(fac.getFactionStatus(f) == FactionStatus.HOSTILE) facCap.set(f, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) + 20.0F, true);
+				if(f.getFactionStatus(fac) == FactionStatus.ALLIED) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 100.0F, true);
+				if(f.getFactionStatus(fac) == FactionStatus.FRIENDLY) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 40.0F, true);
+				if(f.getFactionStatus(fac) == FactionStatus.HOSTILE) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) + 20.0F, true);
 			}
 
 			facCap.set(factionGreatestLoyalty, FacStatType.FIGHT, facCap.get(factionGreatestLoyalty, FacStatType.FIGHT) + 10.0F, true);
@@ -376,5 +428,35 @@ public class EventHandler {
 				facCap.set(f, FacStatType.FIGHT, facCap.get(f, FacStatType.FIGHT) + 5.0F, true);
 			}
 		}
+	}
+
+	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	public void onEvent(LivingJumpEvent event) {
+        float f = event.getEntityLiving().rotationYaw * 0.017453292F;
+		if (event.getEntityLiving().isSprinting() && !event.getEntityLiving().collidedHorizontally) { //Sprint Jump
+			event.getEntityLiving().motionY += 0.05D;
+            event.getEntityLiving().motionX += (double)(MathHelper.sin(f) * 0.3F);
+            event.getEntityLiving().motionZ -= (double)(MathHelper.cos(f) * 0.3F);
+		}
+	}
+
+	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	public void onEvent(PlayerWakeUpEvent event) {
+        if(event.shouldSetSpawn()) {
+        	if(event.getEntityPlayer().shouldHeal()) event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
+            if (event.getEntity().world.getGameRules().getBoolean("doDaylightCycle") && !event.getEntity().world.isRemote) {
+                long l = (long) (event.getEntity().world.getWorldTime() + RedwallWorldProvider.REDWALL_DAY_LENGTH);
+                MinecraftServer server = ((WorldServer)event.getEntity().world).getMinecraftServer();
+                for (int i = 0; i < server.worlds.length; ++i) {
+                    WorldServer worldserver = server.worlds[i];
+                    worldserver.setWorldTime(l - l % (long) RedwallWorldProvider.REDWALL_DAY_LENGTH);
+                }
+            }
+        }
+	}
+
+	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	public void onEvent(LivingSpawnEvent.CheckSpawn event) {
+		if(event.getEntity() instanceof EntityAbstractNPC && event.getEntityLiving().getRNG().nextFloat() > RedwallWorldProvider.NPC_SPAWN_CHANCE) event.setResult(Result.DENY);
 	}
 }

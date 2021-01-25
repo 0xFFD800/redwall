@@ -1,6 +1,0 @@
-{
-    "parent": "block/crop",
-    "textures": {
-        "crop": "redwall:blocks/grape_vine_stage_2"
-    }
-}

@@ -67,7 +67,7 @@ public class LayerNPCArmor extends LayerArmorBase<ModelBiped> {
             domain = texture.substring(0, idx);
             texture = texture.substring(idx + 1);
         }
-        String s = entity instanceof EntityAbstractNPC ? "/" + ((EntityAbstractNPC)entity).getNPCType().type : "";
+        String s = entity instanceof EntityAbstractNPC ? "/" + ((EntityAbstractNPC)entity).getNPCType().armorSlug : "";
 		String s1 = String.format("%s:textures/models/armor%s/%s_layer_%d%s.png", domain, s, texture, (this.isLegSlot(slot) ? 2 : 1), type == null ? "" : String.format("_%s", type));
 		s1 = ForgeHooksClient.getArmorTexture(entity, stack, s1, slot, type);
 		

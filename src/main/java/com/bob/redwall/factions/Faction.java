@@ -12,20 +12,23 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 
 public abstract class Faction {
+	public static final int LOYALTY_CHANGE_TIMER = 2000;
 	private static final Map<String, Faction> FACTION_BY_ID = new HashMap<>();
 	private final String id;
 	private boolean alwaysHasContact = false;
 	private boolean isVermin;
+	private boolean peaceful;
 	private boolean hidden;
 	
-	public Faction(String id, boolean isVermin) {
+	public Faction(String id, boolean isVermin, boolean peaceful) {
 		this.id = id;
 		this.isVermin = isVermin;
+		this.peaceful = peaceful;
 		Faction.FACTION_BY_ID.put(id, this);
 	}
 	
-	public Faction(String id, boolean isVermin, boolean alwaysHasContact) {
-		this(id, isVermin);
+	public Faction(String id, boolean isVermin, boolean peaceful, boolean alwaysHasContact) {
+		this(id, isVermin, peaceful);
 		this.alwaysHasContact = alwaysHasContact;
 	}
 	
@@ -34,7 +37,7 @@ public abstract class Faction {
 	 * @param id The id of the faction to be hidden.
 	 */
 	public Faction(String id) {
-		this(id, false);
+		this(id, false, false);
 		this.hidden = true;
 	}
 	
@@ -61,6 +64,18 @@ public abstract class Faction {
 		return !this.hidden && (this.alwaysHasContact || cap.getPlayerContacted(this));
 	}
 	
+	public boolean isPeaceful() {
+		return this.peaceful;
+	}
+
+	public boolean isVermin() {
+		return this.isVermin;
+	}
+	
+	private void setHidden() {
+		this.hidden = true;
+	}
+	
 	public abstract FactionStatus getFactionStatus(Faction faction);
 	
 	public static Faction getFactionByID(String id) {
@@ -80,7 +95,7 @@ public abstract class Faction {
 				return FactionStatus.NEUTRAL;
 			}
 		};
-		public static final Faction REDWALL = new Faction("redwall", false, true) {
+		public static final Faction REDWALL = new Faction("redwall", false, true, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == SALAMANDASTRON || faction == GUOSIM || faction == OTTERS_MOSSFLOWER || faction == WOODLANDERS || faction == RUDDARING) return FactionStatus.ALLIED;
@@ -89,7 +104,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction SALAMANDASTRON = new Faction("salamandastron", false) {
+		public static final Faction SALAMANDASTRON = new Faction("salamandastron", false, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == GUOSIM || faction == OTTERS_MOSSFLOWER || faction == ROGUE_CREW) return FactionStatus.ALLIED;
@@ -98,7 +113,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction SOUTHSWARD = new Faction("southsward", false) {
+		public static final Faction SOUTHSWARD = new Faction("southsward", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == GUORAF || faction == GUOSSSOM || faction == OTTERS_MOSSFLOWER) return FactionStatus.ALLIED;
@@ -107,7 +122,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction GUOSIM = new Faction("guosim", false) {
+		public static final Faction GUOSIM = new Faction("guosim", false, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == REDWALL || faction == SALAMANDASTRON || faction == WOODLANDERS || faction == GUORAF || faction == GUOSSSOM || faction == OTTERS_MOSSFLOWER) return FactionStatus.ALLIED;
@@ -116,7 +131,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction GUOSSSOM = new Faction("guosssom", false) {
+		public static final Faction GUOSSSOM = new Faction("guosssom", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == SALAMANDASTRON || faction == WOODLANDERS || faction == GUORAF || faction == GUOSIM || faction == OTTERS_MOSSFLOWER) return FactionStatus.ALLIED;
@@ -125,7 +140,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction GUORAF = new Faction("guoraf", false) {
+		public static final Faction GUORAF = new Faction("guoraf", false, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == WOODLANDERS || faction == GUOSIM || faction == SOUTHSWARD || faction == GUOSSSOM || faction == OTTERS_MOSSFLOWER) return FactionStatus.ALLIED;
@@ -134,7 +149,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction OTTERS_MOSSFLOWER = new Faction("mossflowerOtters", false) {
+		public static final Faction OTTERS_MOSSFLOWER = new Faction("mossflowerOtters", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == REDWALL || faction == SALAMANDASTRON || faction == WOODLANDERS || faction == GUOSIM || faction == GUORAF || faction == GUOSSSOM || faction == OTTERS_GREEN_ISLE || faction == RUDDARING || faction == ROGUE_CREW) return FactionStatus.ALLIED;
@@ -143,7 +158,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction OTTERS_GREEN_ISLE = new Faction("greenIsleOtters", false) {
+		public static final Faction OTTERS_GREEN_ISLE = new Faction("greenIsleOtters", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == ROGUE_CREW || faction == OTTERS_MOSSFLOWER || faction == RUDDARING) return FactionStatus.ALLIED;
@@ -152,7 +167,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction RUDDARING = new Faction("ruddaring", false) {
+		public static final Faction RUDDARING = new Faction("ruddaring", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == ROGUE_CREW || faction == OTTERS_MOSSFLOWER || faction == OTTERS_GREEN_ISLE) return FactionStatus.ALLIED;
@@ -161,7 +176,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction WOODLANDERS = new Faction("mossflowerWoodlanders", false) {
+		public static final Faction WOODLANDERS = new Faction("mossflowerWoodlanders", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == REDWALL || faction == SALAMANDASTRON || faction == OTTERS_MOSSFLOWER || faction == GUOSIM || faction == GUORAF || faction == GUOSSSOM) return FactionStatus.ALLIED;
@@ -170,7 +185,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction NOONVALE = new Faction("noonvale", false) {
+		public static final Faction NOONVALE = new Faction("noonvale", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == REDWALL || faction == NORTHLANDS || faction == NOONVALE) return FactionStatus.FRIENDLY;
@@ -179,7 +194,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction ROGUE_CREW = new Faction("rogueCrew", false) {
+		public static final Faction ROGUE_CREW = new Faction("rogueCrew", false, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == SALAMANDASTRON || faction == OTTERS_MOSSFLOWER || faction == OTTERS_GREEN_ISLE || faction == GUORAF || faction == NORTHLANDS) return FactionStatus.ALLIED;
@@ -188,7 +203,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction PEACE_ISLE = new Faction("peaceIsle", false) {
+		public static final Faction PEACE_ISLE = new Faction("peaceIsle", false, true) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == REDWALL || faction == NORTHLANDS || faction == NOONVALE) return FactionStatus.FRIENDLY;
@@ -197,7 +212,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction NORTHLANDS = new Faction("northlands", false) {
+		public static final Faction NORTHLANDS = new Faction("northlands", false, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(faction == SALAMANDASTRON || faction == OTTERS_MOSSFLOWER || faction == OTTERS_GREEN_ISLE || faction == GUORAF || faction == NORTHLANDS) return FactionStatus.ALLIED;
@@ -206,7 +221,7 @@ public abstract class Faction {
 				else return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction VERMIN_MOSSFLOWER = new Faction("mossflowerVermin", false) {
+		public static final Faction VERMIN_MOSSFLOWER = new Faction("mossflowerVermin", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -215,7 +230,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction VERMIN_NORTHLANDS = new Faction("northlandsVermin", true) {
+		public static final Faction VERMIN_NORTHLANDS = new Faction("northlandsVermin", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -223,7 +238,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction SEARATS = new Faction("searats", true) {
+		public static final Faction SEARATS = new Faction("searats", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -232,7 +247,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction CORSAIRS = new Faction("corsairs", true) {
+		public static final Faction CORSAIRS = new Faction("corsairs", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -241,7 +256,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction SAMPETRA = new Faction("sampetra", true) {
+		public static final Faction SAMPETRA = new Faction("sampetra", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -249,7 +264,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction RIFTGARD = new Faction("riftgard", true) {
+		public static final Faction RIFTGARD = new Faction("riftgard", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -257,7 +272,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction IRGASH = new Faction("irgash", true) {
+		public static final Faction IRGASH = new Faction("irgash", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -266,7 +281,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction CATS_GREEN_ISLE = new Faction("greenIsleCats", true) {
+		public static final Faction CATS_GREEN_ISLE = new Faction("greenIsleCats", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -274,7 +289,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction MARL = new Faction("marl", false) {
+		public static final Faction MARL = new Faction("marl", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -283,13 +298,13 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction ICE_AND_SNOW = new Faction("iceAndSnow", true) {
+		public static final Faction ICE_AND_SNOW = new Faction("iceAndSnow", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction RAPSCALLIONS = new Faction("rapscallions", true) {
+		public static final Faction RAPSCALLIONS = new Faction("rapscallions", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -298,7 +313,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction MALKARISS = new Faction("malkariss", true) {
+		public static final Faction MALKARISS = new Faction("malkariss", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -307,19 +322,19 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction DOOMWYTE = new Faction("doomwyte", true) {
+		public static final Faction DOOMWYTE = new Faction("doomwyte", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction PAINTED_ONES = new Faction("paintedOnes", true) {
+		public static final Faction PAINTED_ONES = new Faction("paintedOnes", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction JUSKA = new Faction("juska", true) {
+		public static final Faction JUSKA = new Faction("juska", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -328,13 +343,13 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction FLITCHAYE = new Faction("flitchaye", true) {
+		public static final Faction FLITCHAYE = new Faction("flitchaye", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				return FactionStatus.HOSTILE;
 			}
 		};
-		public static final Faction RAVAGERS = new Faction("ravagers", true) {
+		public static final Faction RAVAGERS = new Faction("ravagers", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -343,7 +358,7 @@ public abstract class Faction {
 				else return FactionStatus.SUSPICIOUS;
 			}
 		};
-		public static final Faction BROWNRATS = new Faction("brownrats", true) {
+		public static final Faction BROWNRATS = new Faction("brownrats", true, false) {
 			@Override
 			public FactionStatus getFactionStatus(Faction faction) {
 				if(!faction.isVermin) return FactionStatus.HOSTILE;
@@ -354,6 +369,10 @@ public abstract class Faction {
 		
 		public static void init() {
 			Ref.LOGGER.info("Registering Factions");
+			ICE_AND_SNOW.setHidden();
+			DOOMWYTE.setHidden();
+			PAINTED_ONES.setHidden();
+			FLITCHAYE.setHidden();
 		}
 	}
 	

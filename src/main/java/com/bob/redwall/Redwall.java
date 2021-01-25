@@ -20,9 +20,6 @@ import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
- * TODO:
- * Work on Salamandastron
- * Work on Floret
  * 
  * @author Luke
  *

@@ -11,6 +11,7 @@ import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoFallenTree;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrass;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoGrassDoubleTallgrass;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoPond;
+import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoSandstoneSlab;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoShrub;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoTree;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.helper.DecoHelperRandomSplit;
@@ -73,6 +74,12 @@ public class DecoCollectionForestAsh extends DecoCollectionBase {
         decoTallGrass.setLoops(40);
         decoTallGrass.setGrassChance(10);
         this.addDeco(decoTallGrass);
+
+        DecoSandstoneSlab decoSandstoneSlab = new DecoSandstoneSlab();
+        decoSandstoneSlab.setChance(200);
+        decoSandstoneSlab.setMaxY(95);
+        decoSandstoneSlab.setStrengthFactor(2f);
+        this.addDeco(decoSandstoneSlab);
     }
 
     private DecoTree mucronataTrees(int minY, int maxY) {

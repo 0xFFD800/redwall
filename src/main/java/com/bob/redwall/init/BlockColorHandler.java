@@ -1,5 +1,7 @@
 package com.bob.redwall.init;
 
+import com.bob.redwall.tileentity.TileEntityDrinkVessel;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
@@ -13,7 +15,6 @@ import net.minecraft.world.biome.BiomeColorHelper;
 
 public class BlockColorHandler {
 	public static void init() {
-		//Initialize IBlockColors
 		BlockColorHandler.registerBlockColorHandler(new IBlockColor() {
             @Override
 			public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
@@ -44,6 +45,12 @@ public class BlockColorHandler {
                 return tintIndex == 0 ? (worldIn != null && pos != null ? BiomeColorHelper.getWaterColorAtPos(worldIn, pos) : 3031284) : -1;
             }
         }, new Block[] {BlockHandler.water_reeds});
+		BlockColorHandler.registerBlockColorHandler(new IBlockColor() {
+            @Override
+            public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
+                return tintIndex == 1 ? (worldIn != null && pos != null ? (worldIn.getTileEntity(pos) instanceof TileEntityDrinkVessel && ((TileEntityDrinkVessel)worldIn.getTileEntity(pos)).getDrink() != null ? ((TileEntityDrinkVessel)worldIn.getTileEntity(pos)).getDrink().getTint() : 0) : -1) : -1;
+            }
+        }, new Block[] {BlockHandler.mug});
 	}
 	
 	public static void registerBlockColorHandler(IBlockColor color, Block[] blocks) {
