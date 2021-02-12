@@ -1,0 +1,77 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X"
+  ],
+  "key": {
+    "#": [
+		{
+		  "item": "minecraft:fence"
+		},
+		{
+		  "item": "minecraft:spruce_fence"
+		},
+		{
+		  "item": "minecraft:birch_fence"
+		},
+		{
+		  "item": "minecraft:jungle_fence"
+		},
+		{
+		  "item": "minecraft:dark_oak_fence"
+		},
+		{
+		  "item": "minecraft:acacia_fence"
+		},
+		{
+			"item": "redwall:maple_fence"
+		},
+		{
+			"item": "redwall:elm_fence"
+		},
+		{
+			"item": "redwall:ash_fence"
+		},
+		{
+			"item": "redwall:pine_fence"
+		},
+		{
+			"item": "redwall:fir_fence"
+		},
+		{
+			"item": "redwall:larch_fence"
+		},
+		{
+			"item": "redwall:hornbeam_fence"
+		},
+		{
+			"item": "redwall:beech_fence"
+		},
+		{
+			"item": "redwall:yew_fence"
+		},
+		{
+			"item": "redwall:alder_fence"
+		},
+		{
+			"item": "redwall:aspen_fence"
+		},
+		{
+			"item": "redwall:willow_fence"
+		},
+		{
+			"item": "redwall:apple_fence"
+		},
+		{
+			"item": "redwall:plum_fence"
+		}
+	],
+	"X": {
+	  "item": "redwall:grapes"
+	}
+  },
+  "result": {
+    "item": "redwall:grape_vine_trellis",
+	"data": 0
+  }
+}

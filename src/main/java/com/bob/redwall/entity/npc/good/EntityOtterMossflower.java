@@ -56,7 +56,7 @@ public class EntityOtterMossflower extends EntityAbstractNPC {
 
 	@Override
 	public int numVariants() {
-		return 1;
+		return 2;
 	}
 
 	@Override
