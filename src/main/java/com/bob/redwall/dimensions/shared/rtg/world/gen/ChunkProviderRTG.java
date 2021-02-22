@@ -559,7 +559,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	}
 
 	private void clearDecorations(int limit) {
-		//if (WorldTypeRedwall.chunkProvider != this) return;
+		//if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 		Set<ChunkPos> toProcess = doableLocations(limit);
 		toProcess.forEach(this::removeFromDecorationList);
 		for (ChunkPos location : toProcess) {
@@ -623,7 +623,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 	private void decorateIfOtherwiseSurrounded(IChunkProvider world, ChunkPos pos, Direction fromNewChunk) {
 		// check if this is the master provider
-		//if (WorldTypeRedwall.chunkProvider != this) return;
+		//if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 
 		// see if otherwise surrounded besides the new chunk
 		ChunkPos probe = new ChunkPos(pos.x + fromNewChunk.xOffset, pos.z + fromNewChunk.zOffset);
@@ -689,7 +689,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	}
 
 	private void clearToDecorateList() {
-		//if (WorldTypeRedwall.chunkProvider != this) return;
+		//if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 		if (populating) return;// in process, do later;
 		// we have to make a copy of the set to work on or we'll get errors
 		Set<ChunkPos> toProcess = doableLocations(0);
