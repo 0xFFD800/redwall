@@ -1,5 +1,5 @@
 # eclipse
-bin
+bin/com
 *.launch
 .settings
 .metadata
@@ -16,7 +16,18 @@ out
 # gradle
 build
 .gradle
+CREDITS.txt
+forge-1.12.2-14.23.4.2759-changelog.txt
+gradle.properties
+gradlew
+gradlew.bat
+LICENSE.txt
+LICENSE-Paulscode IBXM Library.txt
+LICENSE-Paulscode SoundSystem CodecIBXM.txt
+org.eclipse.jdt.annotation_2.1.150.v20180322-1206.jar
+README.txt
 
 # other
 eclipse
 run
+gradle
