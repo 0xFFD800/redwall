@@ -3,12 +3,13 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.noise.OpenSimplexNoise;
 import com.bob.redwall.dimensions.shared.rtg.api.world.IRTGWorld;
-import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoBaseBiomeDecorations;
+import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoBoulder;
 import com.bob.redwall.dimensions.shared.rtg.api.world.surface.SurfaceBase;
 import com.bob.redwall.dimensions.shared.rtg.api.world.terrain.TerrainBase;
 import com.bob.redwall.init.BiomeHandler;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;
@@ -50,15 +51,17 @@ public class RealisticBiomeRedwallRockyBeach extends RealisticBiomeRedwallBase {
 
     @Override
     public SurfaceBase initSurface() {
-        return new SurfaceVanillaBeach(config, Blocks.GRAVEL.getDefaultState(), Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState());
+        return new SurfaceVanillaBeach(config, Blocks.GRAVEL.getDefaultState(), Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), Blocks.STONE.getDefaultState(), Blocks.COBBLESTONE.getDefaultState());
     }
 
     public class SurfaceVanillaBeach extends SurfaceBase {
+        private IBlockState top2;
         private IBlockState mixBlockFill;
         private IBlockState mixBlockTop;
 
-        public SurfaceVanillaBeach(BiomeConfig config, IBlockState top, IBlockState filler, IBlockState mixTop) {
+        public SurfaceVanillaBeach(BiomeConfig config, IBlockState top, IBlockState top2, IBlockState filler, IBlockState mixTop) {
             super(config, top, filler);
+            this.top2 = top2;
             this.mixBlockTop = mixTop;
             this.mixBlockFill = this.getConfigBlock(config.SURFACE_MIX_FILLER_BLOCK.get(), config.SURFACE_MIX_FILLER_BLOCK_META.get(), Blocks.COBBLESTONE.getDefaultState());
         }
@@ -77,8 +80,10 @@ public class RealisticBiomeRedwallRockyBeach extends RealisticBiomeRedwallBase {
 
                     if (depth == 0 && k > 61) {
                         float mixNoise = simplex.noise2(i / 12f, j / 12f);
-                        if(mixNoise > 0.5F) {
-                        	primer.setBlockState(x, k, z, this.mixBlockTop);
+                        if(mixNoise > 0.3F) {
+                        	float f = rtgWorld.rand().nextFloat();
+                        	if(f < 0.2F) primer.setBlockState(x, k, z, this.top2);
+                        	else primer.setBlockState(x, k, z, this.mixBlockTop);
                         } else {
                         	primer.setBlockState(x, k, z, this.topBlock);
                         }
@@ -94,7 +99,18 @@ public class RealisticBiomeRedwallRockyBeach extends RealisticBiomeRedwallBase {
 
     @Override
     public void initDecos() {
-        DecoBaseBiomeDecorations decoBaseBiomeDecorations = new DecoBaseBiomeDecorations();
-        this.addDeco(decoBaseBiomeDecorations);
+        DecoBoulder decoBoulder = new DecoBoulder();
+        decoBoulder.setBoulderBlock(Blocks.COBBLESTONE.getDefaultState());
+        decoBoulder.setChance(10);
+        decoBoulder.setMaxY(95);
+        decoBoulder.setStrengthFactor(6f);
+        this.addDeco(decoBoulder);
+        
+        DecoBoulder decoBoulder2 = new DecoBoulder();
+        decoBoulder2.setBoulderBlock(Blocks.MOSSY_COBBLESTONE.getDefaultState());
+        decoBoulder2.setChance(40);
+        decoBoulder2.setMaxY(95);
+        decoBoulder2.setStrengthFactor(1.5f);
+        this.addDeco(decoBoulder2);
     }
 }

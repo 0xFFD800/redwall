@@ -46,10 +46,10 @@ public class WorldGenSquirrelDrey extends StructureComponent {
 	}
 
 	@Override
-	public boolean addComponentParts(World worldIn, Random rand, StructureBoundingBox position) {
+	public boolean addComponentParts(World world, Random rand, StructureBoundingBox position) {
 		BlockPos blockpos = new BlockPos(position.minX, position.minY, position.minZ);
-        WorldServer worldserver = (WorldServer)worldIn;
-        MinecraftServer minecraftserver = worldIn.getMinecraftServer();
+        WorldServer worldserver = (WorldServer)world;
+        MinecraftServer minecraftserver = world.getMinecraftServer();
         TemplateManager templatemanager = worldserver.getStructureTemplateManager();
         int r = rand.nextInt(2);
         ResourceLocation structureLoc = STRUCTURE_CHANCES[r];
@@ -65,47 +65,49 @@ public class WorldGenSquirrelDrey extends StructureComponent {
         BlockPos blockpos4 = new BlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ() + blockpos2.getZ());
         BlockPos blockpos5 = new BlockPos(blockpos.getX() + blockpos2.getX(), blockpos.getY(), blockpos.getZ() + blockpos2.getZ());
         BlockPos blockpos6 = new BlockPos(blockpos.getX() + blockpos2.getX() / 2, blockpos.getY(), blockpos.getZ() + blockpos2.getZ() / 2);
-        int i = Math.min(worldIn.getHeight(blockpos.getX(), blockpos.getZ()), worldIn.getHeight(blockpos3.getX(), blockpos3.getZ()));
-        int i2 = Math.min(i, worldIn.getHeight(blockpos4.getX(), blockpos4.getZ()));
-        int i3 = Math.min(i2, worldIn.getHeight(blockpos5.getX(), blockpos5.getZ()));
-        int i4 = Math.min(i3, worldIn.getHeight(blockpos6.getX(), blockpos6.getZ()));
+        int i = Math.min(world.getHeight(blockpos.getX(), blockpos.getZ()), world.getHeight(blockpos3.getX(), blockpos3.getZ()));
+        int i2 = Math.min(i, world.getHeight(blockpos4.getX(), blockpos4.getZ()));
+        int i3 = Math.min(i2, world.getHeight(blockpos5.getX(), blockpos5.getZ()));
+        int i4 = Math.min(i3, world.getHeight(blockpos6.getX(), blockpos6.getZ()));
         int i5 = blockpos.getY() - i4;
+
+		if (world.getBlockState(blockpos).getBlock() == Blocks.WATER || world.getBlockState(blockpos3).getBlock() == Blocks.WATER || world.getBlockState(blockpos4).getBlock() == Blocks.WATER || world.getBlockState(blockpos5).getBlock() == Blocks.WATER) return false;
 
         PlacementSettings placementsettings = (new PlacementSettings()).setChunk((ChunkPos)null).setReplacedBlock((Block)null).setIgnoreStructureBlock(false);
 
-        template.addBlocksToWorldChunk(worldIn, blockpos.down(i5), placementsettings);
+        template.addBlocksToWorldChunk(world, blockpos.down(i5), placementsettings);
         
         for(int j = 0; j < position.getXSize(); j++) {
         	for(int k = 0; k < position.getZSize(); k++) {
-        		worldIn.setBlockState(blockpos.down(i5 + 1).south(k).east(j), Blocks.GRASS.getDefaultState());
+        		world.setBlockState(blockpos.down(i5 + 1).south(k).east(j), Blocks.GRASS.getDefaultState());
         	}
         }
         
         boolean m = rand.nextBoolean();
-        EntitySquirrelWoodlander dweller = new EntitySquirrelWoodlander(worldIn, m);
+        EntitySquirrelWoodlander dweller = new EntitySquirrelWoodlander(world, m);
         if(structureLoc == SQUIRREL_DREY_1) {
 	        dweller.setLocationAndAngles(blockpos.getX() + 6, blockpos.down(i5).getY() + 6, blockpos.getZ() + 3, 0, 0);
         } else {
 	        dweller.setLocationAndAngles(blockpos.getX() + 6, blockpos.down(i5).getY() + 7, blockpos.getZ() + 8, 0, 0);
         }
         dweller.enablePersistence();
-        dweller.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(dweller.posX, dweller.posY, dweller.posZ)), (IEntityLivingData)null);
+        dweller.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(dweller.posX, dweller.posY, dweller.posZ)), (IEntityLivingData)null);
         dweller.setIsMale(m);
     	dweller.resetSkinNameData();
-        worldIn.spawnEntity(dweller);
+        world.spawnEntity(dweller);
         
         if(rand.nextFloat() < 0.6F) {
-            EntitySquirrelWoodlander dweller2 = new EntitySquirrelWoodlander(worldIn, !m);
+            EntitySquirrelWoodlander dweller2 = new EntitySquirrelWoodlander(world, !m);
             if(structureLoc == SQUIRREL_DREY_1) {
     	        dweller.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5).getY() + 6, blockpos.getZ() + 3, 0, 0);
             } else {
     	        dweller.setLocationAndAngles(blockpos.getX() + 6, blockpos.down(i5).getY() + 7, blockpos.getZ() + 9, 0, 0);
             }
 	        dweller2.enablePersistence();
-	        dweller2.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(dweller.posX, dweller.posY, dweller.posZ)), (IEntityLivingData)null);
+	        dweller2.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(dweller.posX, dweller.posY, dweller.posZ)), (IEntityLivingData)null);
 	        dweller2.setIsMale(!m);
 	    	dweller2.resetSkinNameData();
-	        worldIn.spawnEntity(dweller2);
+	        world.spawnEntity(dweller2);
         }
         
         Logger.info(dweller.toString());

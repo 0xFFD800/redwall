@@ -382,7 +382,8 @@ public abstract class RealisticBiomeBase implements IRealisticBiome {
 				Accessor<Biome, Float> biomeTemp = new Accessor<>("temperature", "field_76750_F");
 				biomeTemp.setField(biome, biomeTemperature);
 
-				//Logger.info("Set biome temperature to %f for %s", biomeTemperature, biomeName);
+				// Logger.info("Set biome temperature to %f for %s", biomeTemperature,
+				// biomeName);
 			} catch (Exception e) {
 				Logger.warn("Unable to set biome temperature to %f for %s. Reason: %s", biomeTemperature, biomeName, e.getMessage());
 			}

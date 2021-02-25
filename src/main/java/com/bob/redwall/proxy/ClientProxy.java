@@ -46,7 +46,7 @@ public class ClientProxy extends CommonProxy {
 		SpeechHandler.init();
 		Faction.FacList.init();
 		NetworkRegistry.INSTANCE.registerGuiHandler(Ref.MODID, new GuiHandler());
-		
+
 		RTG.init(event);
 		super.init(event);
 	}

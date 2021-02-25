@@ -8,8 +8,8 @@ import java.util.Random;
 import com.bob.redwall.biomes.cool.BiomeRedwallForest;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.common.MessageSyncSeason;
-import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.common.MessageSyncSeason.Mode;
+import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.crafting.cooking.FoodModifier;
 import com.bob.redwall.crafting.cooking.FoodModifierUtils;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
@@ -87,6 +87,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RedwallUtils {
+    public static final ResourceLocation REDWALL_INGAME = new ResourceLocation(Ref.MODID, "textures/gui/ingame.png");
+    
 	public static EnumSeasons getSeason(IBlockAccess world) {
 		if (!(world instanceof World)) return EnumSeasons.SUMMER;
 		return ((World) world).getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason() != null ? ((World) world).getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason() : EnumSeasons.SUMMER;
@@ -197,7 +199,9 @@ public class RedwallUtils {
 		DamageSource source = attacker instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) attacker) : DamageSource.causeMobDamage(attacker);
 		if (targetEntity.canBeAttackedWithItem()) {
 			if (!targetEntity.hitByEntity(attacker)) {
-				float f = (float) attacker.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+				float cooldown = attacker instanceof EntityPlayer ? ((EntityPlayer)attacker).getCooledAttackStrength(0.5F) : attacker instanceof EntityAbstractNPC ? ((float)((EntityAbstractNPC)attacker).getCooldown()) / ((float)((EntityAbstractNPC)attacker).getSwingCooldown()) : 0.5F;
+				float modifier = 1 - (Math.abs(cooldown - 0.5F) * 2);
+				float f = (float) attacker.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * modifier;
 				float f1 = 0.0F;
 				float knockback = 0.0F;
 				float stun = 0.0F;
@@ -224,19 +228,23 @@ public class RedwallUtils {
 				double my = targetEntity.motionY;
 				double mz = targetEntity.motionZ;
 				boolean doCriticalStabSweep2 = attacker.isSprinting();
-			    
-			    if(targetEntity instanceof EntityPlayer && ((EntityPlayer)targetEntity).isSneaking()) {
+
+				if (targetEntity instanceof EntityPlayer && ((EntityPlayer) targetEntity).isSneaking()) {
 					IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
-			    	IAgility a = ((EntityPlayer)targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null);
-			    	float rr = (attacking.getMode() == 2 && isStab ? 0.5F : 0.3F) + ((float)a.get() / 100.0F);
-			    	if(((EntityPlayer)targetEntity).getRNG().nextFloat() < rr) {
-			    		//if(event.getSource() instanceof EntityDamageSourceIndirect && ((EntityDamageSourceIndirect)event.getSource()).getImmediateSource() instanceof EntityArrow) event.getEntityLiving().setArrowCountInEntity(event.getEntityLiving().getArrowCountInEntity() - 1);;
-			    		targetEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1.0F, 1.0F);
-			    		Vec3d v = source.getDamageLocation();
-			    		targetEntity.getEntityWorld().spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, v.x, v.y, v.z, 0, 0, 0);
-			    		f = 0;
-			    	}
-			    }
+					IAgility a = ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null);
+					float rr = (attacking.getMode() == 2 && isStab ? 0.5F : 0.3F) + ((float) a.get() / 100.0F);
+					if (((EntityPlayer) targetEntity).getRNG().nextFloat() < rr) {
+						// if(event.getSource() instanceof EntityDamageSourceIndirect &&
+						// ((EntityDamageSourceIndirect)event.getSource()).getImmediateSource()
+						// instanceof EntityArrow)
+						// event.getEntityLiving().setArrowCountInEntity(event.getEntityLiving().getArrowCountInEntity()
+						// - 1);;
+						targetEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1.0F, 1.0F);
+						Vec3d v = source.getDamageLocation();
+						targetEntity.getEntityWorld().spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, v.x, v.y, v.z, 0, 0, 0);
+						f = 0;
+					}
+				}
 
 				boolean didDamage = false;
 
@@ -273,11 +281,11 @@ public class RedwallUtils {
 					} else {
 						IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
 						boolean hasAttacked = false;
-						
-						if(isWeapon && ((ModCustomWeapon)weapon.getItem()).getFaction() != null && attacker instanceof EntityPlayer) {
-							float fightSkill = attacker.getCapability(FactionCapProvider.FACTION_CAP, null).get(((ModCustomWeapon)weapon.getItem()).getFaction(), FacStatType.FIGHT);
-							if(fightSkill > 0) {
-								f *= ((float)RedwallUtils.getFacStatLevel((EntityPlayer)attacker, ((ModCustomWeapon)weapon.getItem()).getFaction(), FacStatType.FIGHT) / 4.0F) + 1.0F;
+
+						if (isWeapon && ((ModCustomWeapon) weapon.getItem()).getFaction() != null && attacker instanceof EntityPlayer) {
+							float fightSkill = attacker.getCapability(FactionCapProvider.FACTION_CAP, null).get(((ModCustomWeapon) weapon.getItem()).getFaction(), FacStatType.FIGHT);
+							if (fightSkill > 0) {
+								f *= ((float) RedwallUtils.getFacStatLevel((EntityPlayer) attacker, ((ModCustomWeapon) weapon.getItem()).getFaction(), FacStatType.FIGHT) / 4.0F) + 1.0F;
 							}
 						}
 
@@ -505,25 +513,25 @@ public class RedwallUtils {
 		}
 		return -armor_weight * 2;
 	}
-	
+
 	public static float getTerrainSpeedModifier(EntityLivingBase entity) {
 		float mod = 0.0F;
 		IBlockState stateIn = entity.world.getBlockState(entity.getPosition());
-		if(stateIn.getMaterial() == Material.PLANTS || stateIn.getMaterial() == Material.VINE || stateIn.getMaterial() == Material.SNOW) {
+		if (stateIn.getMaterial() == Material.PLANTS || stateIn.getMaterial() == Material.VINE || stateIn.getMaterial() == Material.SNOW) {
 			mod += 0.25F;
 		}
-		
-		if(entity.onGround) {
+
+		if (entity.onGround) {
 			IBlockState stateOn = entity.world.getBlockState(entity.getPosition().down());
 			Material m = stateOn.getMaterial();
-			if(m == Material.GRASS && stateOn.getBlock() != Blocks.GRASS_PATH) mod += 0.05F;
-			else if(m == Material.GROUND) mod += 0.1F;
-			else if(m == Material.LEAVES) mod += 0.25F;
-			else if(m == Material.SAND) mod += 0.15F;
-			else if(m == Material.SNOW || m == Material.CRAFTED_SNOW) mod += 0.15F;
-			else if(m == Material.CLAY) mod += 0.2F;
+			if (m == Material.GRASS && stateOn.getBlock() != Blocks.GRASS_PATH) mod += 0.05F;
+			else if (m == Material.GROUND) mod += 0.1F;
+			else if (m == Material.LEAVES) mod += 0.25F;
+			else if (m == Material.SAND) mod += 0.15F;
+			else if (m == Material.SNOW || m == Material.CRAFTED_SNOW) mod += 0.15F;
+			else if (m == Material.CLAY) mod += 0.2F;
 		}
-		
+
 		return -mod;
 	}
 
@@ -943,12 +951,12 @@ public class RedwallUtils {
 	public static void updatePlayerFactionStats(EntityPlayerMP player) {
 		Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), player);
 	}
-	
+
 	public static void updatePlayerSkillsStats(EntityPlayerMP player) {
-        IStrength strength = player.getCapability(StrengthProvider.STRENGTH_CAP, null);
-        ISpeed speed = player.getCapability(SpeedProvider.SPEED_CAP, null);
-        IVitality vitality = player.getCapability(VitalityProvider.VITALITY_CAP, null);
-        IAgility agility = player.getCapability(AgilityProvider.AGILITY_CAP, null);
+		IStrength strength = player.getCapability(StrengthProvider.STRENGTH_CAP, null);
+		ISpeed speed = player.getCapability(SpeedProvider.SPEED_CAP, null);
+		IVitality vitality = player.getCapability(VitalityProvider.VITALITY_CAP, null);
+		IAgility agility = player.getCapability(AgilityProvider.AGILITY_CAP, null);
 		Ref.NETWORK.sendTo(new MessageSyncCap(strength.get(), MessageSyncCap.Mode.STRENGTH), player);
 		Ref.NETWORK.sendTo(new MessageSyncCap(speed.get(), MessageSyncCap.Mode.SPEED), player);
 		Ref.NETWORK.sendTo(new MessageSyncCap(vitality.get(), MessageSyncCap.Mode.VITALITY), player);
@@ -1002,6 +1010,6 @@ public class RedwallUtils {
 	}
 
 	public static boolean isInMossflower(Biome b, int cx, int cz) {
-	    return b instanceof BiomeRedwallForest && cx > 2770 && cz > 1800 && cx < 3550 && cz < 2440;
+		return b instanceof BiomeRedwallForest && cx > 2770 && cz > 1800 && cx < 3550 && cz < 2440;
 	}
 }

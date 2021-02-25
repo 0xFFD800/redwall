@@ -19,7 +19,6 @@ import com.bob.redwall.entity.capabilities.agility.AgilityProvider;
 import com.bob.redwall.entity.capabilities.armor_weight.ArmorWeightProvider;
 import com.bob.redwall.entity.capabilities.armor_weight.IArmorWeight;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
-import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
@@ -43,14 +42,13 @@ import com.bob.redwall.items.weapons.ModCustomWeapon;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
@@ -63,7 +61,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootEntry;
@@ -71,6 +68,8 @@ import net.minecraft.world.storage.loot.LootEntryTable;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -98,276 +97,271 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventHandler {
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-	public void onEvent(MouseEvent event) { 
-	    Minecraft mc = Minecraft.getMinecraft();
-	    EntityPlayer player = mc.player;
-	    ItemStack itemstack = player.getHeldItemMainhand();
-	    
-	    if (event.isButtonstate() && itemstack.getItem() instanceof ModCustomWeapon) {
-    		if(event.getButton() == 1 && ((ModCustomWeapon)itemstack.getItem()).hasRightClickAbility(itemstack, player)) return; 
-	    	if(player.isSneaking()) event.setCanceled(RedwallControlHandler.handleDefenseStart(event.getButton()));
-	    	else event.setCanceled(RedwallControlHandler.handleAttack(event.getButton()));
-	    } else if(itemstack.getItem() instanceof ModCustomWeapon) {
-	    	event.setCanceled(RedwallControlHandler.handleDefenseEnd(event.getButton()));
-	    }
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(MouseEvent event) {
+		Minecraft mc = Minecraft.getMinecraft();
+		EntityPlayer player = mc.player;
+		ItemStack itemstack = player.getHeldItemMainhand();
 
-	    if (event.getButton() == 1 && event.isButtonstate()) {
-	        if (player != null) {
-		    	/*if(itemstack != null && (itemstack.getItem() instanceof ItemBowAndArrow || itemstack.getItem() instanceof ItemCrossbow)) {
-		    		if(player.getHeldItemOffhand() != null && !(player.getHeldItemOffhand().getItem() instanceof ItemValArrow) && !player.getHeldItemOffhand().isEmpty()) {
-		    			event.setCanceled(true);
-		    			return;
-		    		}
-		    	}*/
-	        }
-	    }
+		if (event.isButtonstate()) {
+			if(itemstack.getItem() instanceof ModCustomWeapon) {
+				if (event.getButton() == 1 && ((ModCustomWeapon) itemstack.getItem()).hasRightClickAbility(itemstack, player)) return;
+				if (player.isSneaking()) event.setCanceled(RedwallControlHandler.handleDefenseStart(event.getButton()));
+				else event.setCanceled(RedwallControlHandler.handleAttack(event.getButton()));
+			} else if (event.getButton() == 0) {
+				event.setCanceled(RedwallControlHandler.handleAttack(event.getButton()));
+			}
+		} else if (itemstack.getItem() instanceof ModCustomWeapon) {
+			event.setCanceled(RedwallControlHandler.handleDefenseEnd(event.getButton()));
+		}
+
+		if (event.getButton() == 1 && event.isButtonstate()) {
+			if (player != null) {
+				/*
+				 * if(itemstack != null && (itemstack.getItem() instanceof ItemBowAndArrow ||
+				 * itemstack.getItem() instanceof ItemCrossbow)) {
+				 * if(player.getHeldItemOffhand() != null &&
+				 * !(player.getHeldItemOffhand().getItem() instanceof ItemValArrow) &&
+				 * !player.getHeldItemOffhand().isEmpty()) { event.setCanceled(true); return; }
+				 * }
+				 */
+			}
+		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onKeyInput(KeyInputEvent event) {
-	    KeyBinding[] keyBindings = KeyBindingHandler.KEY_BINDINGS;
+		KeyBinding[] keyBindings = KeyBindingHandler.KEY_BINDINGS;
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
-	   
-	    if(keyBindings[0].isPressed()) {
-	    	if (Minecraft.getMinecraft().inGameHasFocus) {
-	    		Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_FACTION_UPDATE));
-	    		player.openGui(Ref.MODID, GuiHandler.GUI_FACTIONS_ID, player.world, (int)player.posX, (int)player.posY, (int)player.posZ);
-	    		if(!player.getCapability(FactionCapProvider.FACTION_CAP, null).isInitialized()) {
-	    			player.closeScreen();
-		    		player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
-	    		}
-	    	} else {
+
+		if (keyBindings[0].isPressed()) {
+			if (Minecraft.getMinecraft().inGameHasFocus) {
+				Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_FACTION_UPDATE));
+				player.openGui(Ref.MODID, GuiHandler.GUI_FACTIONS_ID, player.world, (int) player.posX, (int) player.posY, (int) player.posZ);
+				if (!player.getCapability(FactionCapProvider.FACTION_CAP, null).isInitialized()) {
+					player.closeScreen();
+					player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
+				}
+			} else {
 				if (player.openContainer instanceof ContainerPlayer) {
 					player.closeScreen();
 				}
 			}
-	    }
-	    
-	    if(keyBindings[1].isPressed()) {
-	    	if (Minecraft.getMinecraft().inGameHasFocus) {
-	    		Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_SKILLS_UPDATE));
-	    		player.openGui(Ref.MODID, GuiHandler.GUI_SKILLS_ID, player.world, (int)player.posX, (int)player.posY, (int)player.posZ);
-	    		if(!player.getCapability(AgilityProvider.AGILITY_CAP, null).isInitialized()) {
-	    			player.closeScreen();
-		    		player.getCapability(AgilityProvider.AGILITY_CAP, null).setInit();
-	    		}
-	    	} else {
+		}
+
+		if (keyBindings[1].isPressed()) {
+			if (Minecraft.getMinecraft().inGameHasFocus) {
+				Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_SKILLS_UPDATE));
+				player.openGui(Ref.MODID, GuiHandler.GUI_SKILLS_ID, player.world, (int) player.posX, (int) player.posY, (int) player.posZ);
+				if (!player.getCapability(AgilityProvider.AGILITY_CAP, null).isInitialized()) {
+					player.closeScreen();
+					player.getCapability(AgilityProvider.AGILITY_CAP, null).setInit();
+				}
+			} else {
 				if (player.openContainer instanceof ContainerPlayer) {
 					player.closeScreen();
 				}
 			}
-	    }
+		}
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-	public void onEvent(LootTableLoadEvent event) {//Replace Fishing Loot Tables
-		if(event.getName().toString().equals("minecraft:gameplay/fishing/fish") || event.getName().toString().equals("minecraft:gameplay/fishing/junk") || event.getName().toString().equals("minecraft:gameplay/fishing/treasure")){
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(LootTableLoadEvent event) {// Replace Fishing Loot Tables
+		if (event.getName().toString().equals("minecraft:gameplay/fishing/fish") || event.getName().toString().equals("minecraft:gameplay/fishing/junk") || event.getName().toString().equals("minecraft:gameplay/fishing/treasure")) {
 			LootEntry entry = new LootEntryTable(new ResourceLocation(Ref.MODID, "inject/fish"), 1000000, 0, new LootCondition[0], "fishes");
-			
+
 			event.getTable().getPool("main").addEntry(entry);
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-	public void onEvent(EntityViewRenderEvent.CameraSetup event){    
-		if(event.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer)event.getEntity();
-			if(!entityplayer.isCreative()) {
-				Minecraft.getMinecraft().gameSettings.gammaSetting = RedwallUtils.getMoonBrightnessFactor(entityplayer.world) / 100F;
-			}
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(EntityViewRenderEvent.CameraSetup event) {
+		if (event.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) event.getEntity();
+			if (!entityplayer.isCreative()) Minecraft.getMinecraft().gameSettings.gammaSetting = RedwallUtils.getMoonBrightnessFactor(entityplayer.world) / 100F;
+			Minecraft.getMinecraft().gameSettings.attackIndicator = 0;
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(BiomeEvent.GetGrassColor event) {
-		if(event.getBiome().canRain() && !event.getBiome().isHighHumidity()) {
+		if (event.getBiome().canRain() && !event.getBiome().isHighHumidity()) {
 			int k = event.getOriginalColor();
 
-            float ored = (float)(k >> 16 & 255);
-            float ogreen = (float)(k >> 8 & 255);
-            float oblue = (float)(k & 255);
-            
-            float nred = ored * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getGrassColorMultiplierRed();
-            float ngreen = ogreen * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getGrassColorMultiplierGreen();
-            float nblue = oblue * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getGrassColorMultiplierBlue();
-            
-            int finalColor = ((int)nred << 8) + (int)ngreen;
-            finalColor = (finalColor << 8) + (int)nblue;
-            
-            event.setNewColor(finalColor);
+			float ored = (float) (k >> 16 & 255);
+			float ogreen = (float) (k >> 8 & 255);
+			float oblue = (float) (k & 255);
+
+			float nred = ored * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getGrassColorMultiplierRed();
+			float ngreen = ogreen * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getGrassColorMultiplierGreen();
+			float nblue = oblue * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getGrassColorMultiplierBlue();
+
+			int finalColor = ((int) nred << 8) + (int) ngreen;
+			finalColor = (finalColor << 8) + (int) nblue;
+
+			event.setNewColor(finalColor);
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(BiomeEvent.GetFoliageColor event) {
-		if(event.getBiome().canRain() && !event.getBiome().isHighHumidity()) {
+		if (event.getBiome().canRain() && !event.getBiome().isHighHumidity()) {
 			int k = event.getOriginalColor();
 
-            float ored = (float)(k >> 16 & 255);
-            float ogreen = (float)(k >> 8 & 255);
-            float oblue = (float)(k & 255);
-            
-            float nred = ored * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getFoliageColorMultiplierRed();
-            float ngreen = ogreen * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getFoliageColorMultiplierGreen();
-            float nblue = oblue * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getFoliageColorMultiplierBlue();
-            
-            int finalColor = ((int)nred << 8) + (int)ngreen;
-            finalColor = (finalColor << 8) + (int)nblue;
-            
-            event.setNewColor(finalColor);
+			float ored = (float) (k >> 16 & 255);
+			float ogreen = (float) (k >> 8 & 255);
+			float oblue = (float) (k & 255);
+
+			float nred = ored * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getFoliageColorMultiplierRed();
+			float ngreen = ogreen * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getFoliageColorMultiplierGreen();
+			float nblue = oblue * RedwallUtils.getSeason(Minecraft.getMinecraft().world).getFoliageColorMultiplierBlue();
+
+			int finalColor = ((int) nred << 8) + (int) ngreen;
+			finalColor = (finalColor << 8) + (int) nblue;
+
+			event.setNewColor(finalColor);
 		}
 	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(EntityJoinWorldEvent event) {
-		if(event.getEntity() instanceof EntityLivingBase) {
-			((EntityLivingBase)event.getEntity()).getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).init((EntityLivingBase)event.getEntity());
-			((EntityLivingBase)event.getEntity()).getCapability(SpeedProvider.SPEED_CAP, null).init((EntityLivingBase)event.getEntity());
-			((EntityLivingBase)event.getEntity()).getCapability(StrengthProvider.STRENGTH_CAP, null).init((EntityLivingBase)event.getEntity());
-			((EntityLivingBase)event.getEntity()).getCapability(VitalityProvider.VITALITY_CAP, null).init((EntityLivingBase)event.getEntity());
-			((EntityLivingBase)event.getEntity()).getCapability(AgilityProvider.AGILITY_CAP, null).init((EntityLivingBase)event.getEntity());
-			if(event.getEntity() instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer)event.getEntity();
+		if (event.getEntity() instanceof EntityLivingBase) {
+			((EntityLivingBase) event.getEntity()).getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).init((EntityLivingBase) event.getEntity());
+			((EntityLivingBase) event.getEntity()).getCapability(SpeedProvider.SPEED_CAP, null).init((EntityLivingBase) event.getEntity());
+			((EntityLivingBase) event.getEntity()).getCapability(StrengthProvider.STRENGTH_CAP, null).init((EntityLivingBase) event.getEntity());
+			((EntityLivingBase) event.getEntity()).getCapability(VitalityProvider.VITALITY_CAP, null).init((EntityLivingBase) event.getEntity());
+			((EntityLivingBase) event.getEntity()).getCapability(AgilityProvider.AGILITY_CAP, null).init((EntityLivingBase) event.getEntity());
+			if (event.getEntity() instanceof EntityPlayer) {
+				EntityPlayer entityplayer = (EntityPlayer) event.getEntity();
 				entityplayer.getCapability(FactionCapProvider.FACTION_CAP, null).init(entityplayer);
-				if(entityplayer.world.getWorldType() instanceof WorldTypeRedwall && entityplayer.world.provider.getDimension() != ModDimensions.DIM_REDWALL_ID) {
+				if (entityplayer.world.getWorldType() instanceof WorldTypeRedwall && entityplayer.world.provider.getDimension() != ModDimensions.DIM_REDWALL_ID) {
 					RedwallTeleporter.tele(entityplayer, ModDimensions.DIM_REDWALL_ID);
 					entityplayer.setSpawnPoint(RedwallWorldProvider.REDWALL_SPAWN_POINT, true);
 				}
-				if(event.getWorld().getGameRules().getBoolean("visibleNametags")) entityplayer.setAlwaysRenderNameTag(true);
+				if (event.getWorld().getGameRules().getBoolean("visibleNametags")) entityplayer.setAlwaysRenderNameTag(true);
 				else entityplayer.setAlwaysRenderNameTag(false);
-				
-				if(entityplayer instanceof EntityPlayerMP) {
+
+				if (entityplayer instanceof EntityPlayerMP) {
 					EnumSeasons season = event.getWorld().getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason();
-					if(season == null) season = EnumSeasons.SUMMER;
-					Ref.NETWORK.sendTo(new MessageSyncSeason(Mode.SEASON, season.name()), (EntityPlayerMP)entityplayer);
-					RedwallUtils.updatePlayerFactionStats((EntityPlayerMP)entityplayer);
+					if (season == null) season = EnumSeasons.SUMMER;
+					Ref.NETWORK.sendTo(new MessageSyncSeason(Mode.SEASON, season.name()), (EntityPlayerMP) entityplayer);
+					RedwallUtils.updatePlayerFactionStats((EntityPlayerMP) entityplayer);
 				}
 			}
 		}
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingEquipmentChangeEvent event) {
-		if(event.getSlot().getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
+		if (event.getSlot().getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
 			float value = RedwallUtils.getArmorWeight(event.getEntityLiving());
 			IArmorWeight weight = event.getEntityLiving().getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null);
-			if(value != weight.get()) {
+			if (value != weight.get()) {
 				weight.set(value);
 			}
 		}
 	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingKnockBackEvent event) {
 		event.setCanceled(true);
 		RedwallUtils.doEntityKnockback(event.getEntityLiving(), event.getAttacker(), event.getStrength(), event.getRatioX(), event.getRatioZ());
 	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(WorldEvent.Load event) {
-		//if(!event.getWorld().getGameRules().hasRule("doNormalSaving")) event.getWorld().getGameRules().addGameRule("doNormalSaving", "true", GameRules.ValueType.BOOLEAN_VALUE);
-		
-		if(!event.getWorld().getGameRules().hasRule("visibleNametags")) {
+		// if(!event.getWorld().getGameRules().hasRule("doNormalSaving"))
+		// event.getWorld().getGameRules().addGameRule("doNormalSaving", "true",
+		// GameRules.ValueType.BOOLEAN_VALUE);
+
+		if (!event.getWorld().getGameRules().hasRule("visibleNametags")) {
 			event.getWorld().getGameRules().addGameRule("visibleNametags", "false", GameRules.ValueType.BOOLEAN_VALUE);
-			//If the world doesn't have this custom game rule yet, we assume it's the first time loaded and turn off natural regen.
+			// If the world doesn't have this custom game rule yet, we assume it's the first
+			// time loaded and turn off natural regen.
 			event.getWorld().getGameRules().setOrCreateGameRule("naturalRegeneration", "false");
 		}
-		/*if(event.getWorld() instanceof WorldServer && !event.getWorld().getGameRules().getBoolean("doNormalSaving")) {
-			WorldServer worldserver = (WorldServer) event.getWorld();
-			worldserver.disableLevelSaving = true;
-		}*/
-		
-		if(event.getWorld().provider.isSurfaceWorld()) {
-			//event.getWorld().provider.setCloudRenderer(new RenderClouds());
-			//event.getWorld().provider.setWeatherRenderer(new RenderWeather());
+		/*
+		 * if(event.getWorld() instanceof WorldServer &&
+		 * !event.getWorld().getGameRules().getBoolean("doNormalSaving")) { WorldServer
+		 * worldserver = (WorldServer) event.getWorld(); worldserver.disableLevelSaving
+		 * = true; }
+		 */
+
+		if (event.getWorld().provider.isSurfaceWorld()) {
+			// event.getWorld().provider.setCloudRenderer(new RenderClouds());
+			// event.getWorld().provider.setWeatherRenderer(new RenderWeather());
 		}
-	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-	public void onEvent(PlayerTickEvent event) {
-	    if (event.phase == TickEvent.Phase.START && !event.player.world.isRemote) {
-	    	//Attacking
-	    	IAttacking attacking = event.player.getCapability(AttackingProvider.ATTACKING_CAP, null);
-	    	
-			if(event.player.getCooledAttackStrength(0.5F) >= 0.28875F && attacking.get()) {
-				attacking.set(false);
-	            float i = (float)event.player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
-	            
-	            label1: {
-		            RayTraceResult result = RedwallUtils.raytrace(event.player, i);
-		            if(result == null) break label1;
-					Entity entity = result.entityHit;
-					if(entity != null && !(entity instanceof EntityItem || entity instanceof EntityXPOrb || entity instanceof EntityArrow)) {
-						RedwallUtils.doPlayerAttack(event.player, entity);
-					}
-	            }
-			}
-			
-			//Terrain Speed Modifier
-			event.player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).updateTick();
-			
-			//Fatal Poison Effect
-			if(event.player.isPotionActive(StatusEffect.POISON) && event.player.ticksExisted % (int)(20.0F / (float)(event.player.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0) {
-				event.player.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor(), 1.0F);
-			}
-			
-			//Nutrition
-			event.player.getCapability(NutritionProvider.NUTRITION_CAP, null).update(event.player);
-			
-			//Loyalty timer
-			if(event.player.ticksExisted % Faction.LOYALTY_CHANGE_TIMER == 0) {
-				for(Faction f : Faction.getAllFactions()) {
-					float points = event.player.getCapability(FactionCapProvider.FACTION_CAP, null).get(f, FacStatType.LOYALTY);
-					if(f.isVermin()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
-					else if(f.isPeaceful()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
-				}
-			}
-	    } else if(event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
-	    	IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
-			if(defending.get() && !event.player.isSneaking()) RedwallControlHandler.handleDefenseEnd(defending.getMode());
-		}
-	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
-	public void onEvent(LivingHurtEvent event) {
-	    float armorPoints = EquipmentModifierUtils.getDamageModifierDefense(event.getEntityLiving(), event.getSource());
-	    if(!event.getSource().isUnblockable()) event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), armorPoints, 0));
-	    if(event.getSource() instanceof EntityDamageSource && ((EntityDamageSource)event.getSource()).getImmediateSource() instanceof EntityLivingBase) EquipmentModifierUtils.doDefense(event.getEntityLiving(), (EntityLivingBase)((EntityDamageSource)event.getSource()).getImmediateSource());
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(PlayerTickEvent event) {
+		if (event.phase == TickEvent.Phase.START && !event.player.world.isRemote) {
+			if(event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && event.player.getCooledAttackStrength(0.5F) == 1.0F) event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
+			
+			// Terrain Speed Modifier
+			event.player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).updateTick();
+
+			// Fatal Poison Effect
+			if (event.player.isPotionActive(StatusEffect.POISON) && event.player.ticksExisted % (int) (20.0F / (float) (event.player.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0) {
+				event.player.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor(), 1.0F);
+			}
+
+			// Nutrition
+			event.player.getCapability(NutritionProvider.NUTRITION_CAP, null).update(event.player);
+
+			// Loyalty timer
+			if (event.player.ticksExisted % Faction.LOYALTY_CHANGE_TIMER == 0) {
+				for (Faction f : Faction.getAllFactions()) {
+					float points = event.player.getCapability(FactionCapProvider.FACTION_CAP, null).get(f, FacStatType.LOYALTY);
+					if (f.isVermin()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
+					else if (f.isPeaceful()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
+				}
+			}
+		} else if (event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
+			IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
+			if (defending.get() && !event.player.isSneaking()) RedwallControlHandler.handleDefenseEnd(defending.getMode());
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(LivingHurtEvent event) {
+		float armorPoints = EquipmentModifierUtils.getDamageModifierDefense(event.getEntityLiving(), event.getSource());
+		if (!event.getSource().isUnblockable()) event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), armorPoints, 0));
+		if (event.getSource() instanceof EntityDamageSource && ((EntityDamageSource) event.getSource()).getImmediateSource() instanceof EntityLivingBase) EquipmentModifierUtils.doDefense(event.getEntityLiving(), (EntityLivingBase) ((EntityDamageSource) event.getSource()).getImmediateSource());
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerEvent.BreakSpeed event) {
 		float mult = EquipmentModifierUtils.getDiggingSpeedMultiplier(event.getEntityLiving(), event.getState().getBlock());
 		event.setNewSpeed(event.getOriginalSpeed() * mult);
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerContainerEvent.Open event) {
-		if(event.getContainer() instanceof ContainerSmithingGeneric) {
-			((ContainerSmithingGeneric)event.getContainer()).openInventory(event.getEntityPlayer());
-		} else if(event.getContainer() instanceof ContainerSmithingRedwall) {
-			((ContainerSmithingRedwall)event.getContainer()).openInventory(event.getEntityPlayer());
-		} else if(event.getContainer() instanceof ContainerCookingGeneric) {
-			((ContainerCookingGeneric)event.getContainer()).openInventory(event.getEntityPlayer());
-		} else if(event.getContainer() instanceof ContainerBrewingRedwall) {
-			((ContainerBrewingRedwall)event.getContainer()).openInventory(event.getEntityPlayer());
-		} else if(event.getContainer() instanceof ContainerSmeltery) {
-			((ContainerSmeltery)event.getContainer()).openInventory(event.getEntityPlayer());
+		if (event.getContainer() instanceof ContainerSmithingGeneric) {
+			((ContainerSmithingGeneric) event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if (event.getContainer() instanceof ContainerSmithingRedwall) {
+			((ContainerSmithingRedwall) event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if (event.getContainer() instanceof ContainerCookingGeneric) {
+			((ContainerCookingGeneric) event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if (event.getContainer() instanceof ContainerBrewingRedwall) {
+			((ContainerBrewingRedwall) event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if (event.getContainer() instanceof ContainerSmeltery) {
+			((ContainerSmeltery) event.getContainer()).openInventory(event.getEntityPlayer());
 		}
 	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(ItemTooltipEvent event) {
-		if(event.getItemStack().hasTagCompound()) {
+		if (event.getItemStack().hasTagCompound()) {
 			NBTTagCompound rootTag = event.getItemStack().getTagCompound();
-			if(rootTag.hasKey(EquipmentModifierUtils.MODIFIER_LIST_KEY)) {
+			if (rootTag.hasKey(EquipmentModifierUtils.MODIFIER_LIST_KEY)) {
 				NBTTagList list = rootTag.getTagList(EquipmentModifierUtils.MODIFIER_LIST_KEY, Constants.NBT.TAG_COMPOUND);
-				for(int i = 0; i < list.tagCount(); i++) {
+				for (int i = 0; i < list.tagCount(); i++) {
 					NBTTagCompound tag = list.getCompoundTagAt(i);
 					int id = tag.getInteger("id");
 					int lvl = tag.getInteger("lvl");
@@ -377,9 +371,9 @@ public class EventHandler {
 				}
 			}
 
-			if(rootTag.hasKey(FoodModifierUtils.MODIFIER_LIST_KEY)) {
+			if (rootTag.hasKey(FoodModifierUtils.MODIFIER_LIST_KEY)) {
 				NBTTagList list = rootTag.getTagList(FoodModifierUtils.MODIFIER_LIST_KEY, Constants.NBT.TAG_COMPOUND);
-				for(int i = 0; i < list.tagCount(); i++) {
+				for (int i = 0; i < list.tagCount(); i++) {
 					NBTTagCompound tag = list.getCompoundTagAt(i);
 					int id = tag.getInteger("id");
 					int lvl = tag.getInteger("lvl");
@@ -391,72 +385,99 @@ public class EventHandler {
 		}
 	}
 
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingEntityUseItemEvent.Finish event) {
-		if(event.getEntity() instanceof EntityPlayer && event.getItem().getItem().getItemUseAction(event.getItem()) == EnumAction.EAT) {
-			((EntityPlayer)event.getEntity()).getCapability(NutritionProvider.NUTRITION_CAP, null).eatFood(event.getItem());
+		if (event.getEntity() instanceof EntityPlayer && event.getItem().getItem().getItemUseAction(event.getItem()) == EnumAction.EAT) {
+			((EntityPlayer) event.getEntity()).getCapability(NutritionProvider.NUTRITION_CAP, null).eatFood(event.getItem());
 			FoodModifierUtils.onConsumed(event.getEntityLiving(), event.getItem());
 		}
 	}
-	
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingDeathEvent event) {
-		if(event.getSource().getTrueSource() instanceof EntityPlayer && event.getEntityLiving() instanceof EntityAbstractNPC) {
-			EntityPlayer player = (EntityPlayer)event.getSource().getTrueSource();
-			EntityAbstractNPC npc = (EntityAbstractNPC)event.getEntityLiving();
+		if (event.getSource().getTrueSource() instanceof EntityPlayer && event.getEntityLiving() instanceof EntityAbstractNPC) {
+			EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
+			EntityAbstractNPC npc = (EntityAbstractNPC) event.getEntityLiving();
 			IFactionCap facCap = player.getCapability(FactionCapProvider.FACTION_CAP, null);
 			Faction fac = npc.getFaction();
 			Faction factionGreatestLoyalty = fac;
-			
-			if(!fac.playerHasContact(player)) fac.playerContactFaction(player);
-			
-			for(Faction f : Faction.getAllFactions()) {
-				if(facCap.get(f, FacStatType.LOYALTY) > facCap.get(factionGreatestLoyalty, FacStatType.LOYALTY)) factionGreatestLoyalty = f;
-				if(fac == f) {
+
+			if (!fac.playerHasContact(player)) fac.playerContactFaction(player);
+
+			for (Faction f : Faction.getAllFactions()) {
+				if (facCap.get(f, FacStatType.LOYALTY) > facCap.get(factionGreatestLoyalty, FacStatType.LOYALTY)) factionGreatestLoyalty = f;
+				if (fac == f) {
 					facCap.set(fac, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
 				}
 
-				if(f.getFactionStatus(fac) == FactionStatus.ALLIED) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 100.0F, true);
-				if(f.getFactionStatus(fac) == FactionStatus.FRIENDLY) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 40.0F, true);
-				if(f.getFactionStatus(fac) == FactionStatus.HOSTILE) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) + 20.0F, true);
+				if (f.getFactionStatus(fac) == FactionStatus.ALLIED) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 100.0F, true);
+				if (f.getFactionStatus(fac) == FactionStatus.FRIENDLY) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 40.0F, true);
+				if (f.getFactionStatus(fac) == FactionStatus.HOSTILE) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) + 20.0F, true);
 			}
 
 			facCap.set(factionGreatestLoyalty, FacStatType.FIGHT, facCap.get(factionGreatestLoyalty, FacStatType.FIGHT) + 10.0F, true);
-			if(player.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && ((ModCustomWeapon)player.getHeldItemMainhand().getItem()).getFaction() != null) {
-				Faction f = ((ModCustomWeapon)player.getHeldItemMainhand().getItem()).getFaction();
+			if (player.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) player.getHeldItemMainhand().getItem()).getFaction() != null) {
+				Faction f = ((ModCustomWeapon) player.getHeldItemMainhand().getItem()).getFaction();
 				facCap.set(f, FacStatType.FIGHT, facCap.get(f, FacStatType.FIGHT) + 5.0F, true);
 			}
 		}
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingJumpEvent event) {
-        float f = event.getEntityLiving().rotationYaw * 0.017453292F;
-		if (event.getEntityLiving().isSprinting() && !event.getEntityLiving().collidedHorizontally) { //Sprint Jump
+		float f = event.getEntityLiving().rotationYaw * 0.017453292F;
+		if (event.getEntityLiving().isSprinting() && !event.getEntityLiving().collidedHorizontally) { // Sprint Jump
 			event.getEntityLiving().motionY += 0.05D;
-            event.getEntityLiving().motionX += (double)(MathHelper.sin(f) * 0.3F);
-            event.getEntityLiving().motionZ -= (double)(MathHelper.cos(f) * 0.3F);
+			event.getEntityLiving().motionX += (double) (MathHelper.sin(f) * 0.3F);
+			event.getEntityLiving().motionZ -= (double) (MathHelper.cos(f) * 0.3F);
 		}
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerWakeUpEvent event) {
-        if(event.shouldSetSpawn()) {
-        	if(event.getEntityPlayer().shouldHeal()) event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
-            if (event.getEntity().world.getGameRules().getBoolean("doDaylightCycle") && !event.getEntity().world.isRemote) {
-                long l = (long) (event.getEntity().world.getWorldTime() + RedwallWorldProvider.REDWALL_DAY_LENGTH);
-                MinecraftServer server = ((WorldServer)event.getEntity().world).getMinecraftServer();
-                for (int i = 0; i < server.worlds.length; ++i) {
-                    WorldServer worldserver = server.worlds[i];
-                    worldserver.setWorldTime(l - l % (long) RedwallWorldProvider.REDWALL_DAY_LENGTH);
-                }
-            }
-        }
+		if (event.shouldSetSpawn()) {
+			if (event.getEntityPlayer().shouldHeal()) event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
+			if (event.getEntity().world.getGameRules().getBoolean("doDaylightCycle") && !event.getEntity().world.isRemote) {
+				long l = (long) (event.getEntity().world.getWorldTime() + RedwallWorldProvider.REDWALL_DAY_LENGTH);
+				MinecraftServer server = ((WorldServer) event.getEntity().world).getMinecraftServer();
+				for (int i = 0; i < server.worlds.length; ++i) {
+					WorldServer worldserver = server.worlds[i];
+					worldserver.setWorldTime(l - l % (long) RedwallWorldProvider.REDWALL_DAY_LENGTH);
+				}
+			}
+		}
 	}
 
-	@SubscribeEvent(priority=EventPriority.NORMAL, receiveCanceled=true)
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingSpawnEvent.CheckSpawn event) {
-		if(event.getEntity() instanceof EntityAbstractNPC && event.getEntityLiving().getRNG().nextFloat() > RedwallWorldProvider.NPC_SPAWN_CHANCE) event.setResult(Result.DENY);
+		if (event.getEntity() instanceof EntityAbstractNPC && event.getEntityLiving().getRNG().nextFloat() > RedwallWorldProvider.NPC_SPAWN_CHANCE) event.setResult(Result.DENY);
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(RenderGameOverlayEvent.Pre event) {
+		if(event.getType() == ElementType.CROSSHAIRS) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(RedwallUtils.REDWALL_INGAME);
+            GlStateManager.enableAlpha();
+			float f = Minecraft.getMinecraft().player.getCooledAttackStrength(0.0F);
+			boolean flag = false;
+
+			if (Minecraft.getMinecraft().pointedEntity != null && Minecraft.getMinecraft().pointedEntity instanceof EntityLivingBase && f >= 1.0F) {
+				flag = Minecraft.getMinecraft().player.getCooldownPeriod() > 5.0F;
+				flag = flag & ((EntityLivingBase) Minecraft.getMinecraft().pointedEntity).isEntityAlive();
+			}
+
+			ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+			int i = sr.getScaledHeight() / 2 - 7 + 16;
+			int j = sr.getScaledWidth() / 2 - 8;
+
+			if (flag) {
+				Gui.drawModalRectWithCustomSizedTexture(j, i, 30, 0, 16, 16, 45, 15);
+			} else if (f < 1.0F) {
+				int k = (int) ((1 - (Math.abs(f - 0.5F) * 2.0F)) * 16.0F);
+				Gui.drawModalRectWithCustomSizedTexture(j, i, 0, 0, 15, 15, 45, 15);
+				Gui.drawModalRectWithCustomSizedTexture(j, i + 15 - k, 15, 15 - k, k, k, 45, 15);
+			}
+		}
 	}
 }

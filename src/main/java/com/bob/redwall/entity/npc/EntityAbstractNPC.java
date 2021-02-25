@@ -23,6 +23,7 @@ import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.init.SpeechHandler;
+import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
@@ -126,15 +127,17 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 			IAttacking attacking = this.getCapability(AttackingProvider.ATTACKING_CAP, null);
 			if (this.getCooldown() > 0) this.setCooldown(this.getCooldown() - 1);
+			if (this.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && this.getCooldown() == 0) this.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
 			float f = 1.0F - ((float) this.getCooldown() / (float) this.getSwingCooldown());
+			boolean flag = rand.nextFloat() - f < 0;
 
-			if (f >= 0.28875F && attacking.get() && !this.isDead) {
+			if (flag && attacking.get() && !this.isDead) {
 				attacking.set(false);
 				float i = (float) this.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
 
 				label1: {
 					RayTraceResult result = RedwallUtils.raytrace(this, i);
-					if (result == null || this.getRNG().nextFloat() < this.fumbleAttackChance()) break label1;
+					if (result == null || this.getRNG().nextFloat() < (this.fumbleAttackChance() * (!(this.getHeldItemMainhand().getItem() instanceof ModCustomWeapon) ? 1.75F : 1.0F))) break label1;
 					Entity entity = result.entityHit;
 					if (entity != null && !(entity instanceof EntityItem || entity instanceof EntityXPOrb || entity instanceof EntityArrow)) {
 						RedwallUtils.doAttack(this, entity);
@@ -226,7 +229,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getAttributeMap().registerAttribute(EntityPlayer.REACH_DISTANCE);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1.48D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
 		this.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(4.0D);
 	}

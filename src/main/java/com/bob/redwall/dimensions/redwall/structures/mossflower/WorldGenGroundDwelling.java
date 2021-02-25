@@ -10,6 +10,7 @@ import com.bob.redwall.entity.npc.good.EntityMouseWoodlander;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
@@ -48,10 +49,10 @@ public class WorldGenGroundDwelling extends StructureComponent {
 	}
 
 	@Override
-	public boolean addComponentParts(World worldIn, Random rand, StructureBoundingBox position) {
+	public boolean addComponentParts(World world, Random rand, StructureBoundingBox position) {
 		BlockPos blockpos = new BlockPos(position.minX, position.minY, position.minZ);
-        WorldServer worldserver = (WorldServer)worldIn;
-        MinecraftServer minecraftserver = worldIn.getMinecraftServer();
+        WorldServer worldserver = (WorldServer)world;
+        MinecraftServer minecraftserver = world.getMinecraftServer();
         TemplateManager templatemanager = worldserver.getStructureTemplateManager();
         int r = rand.nextInt(3);
         ResourceLocation structureLoc = STRUCTURE_CHANCES[r];
@@ -67,21 +68,23 @@ public class WorldGenGroundDwelling extends StructureComponent {
         BlockPos blockpos4 = new BlockPos(blockpos.getX(), blockpos.getY(), blockpos.getZ() + blockpos2.getZ());
         BlockPos blockpos5 = new BlockPos(blockpos.getX() + blockpos2.getX(), blockpos.getY(), blockpos.getZ() + blockpos2.getZ());
         BlockPos blockpos6 = new BlockPos(blockpos.getX() + blockpos2.getX() / 2, blockpos.getY(), blockpos.getZ() + blockpos2.getZ() / 2);
-        int i = Math.min(worldIn.getHeight(blockpos.getX(), blockpos.getZ()), worldIn.getHeight(blockpos3.getX(), blockpos3.getZ()));
-        int i2 = Math.min(i, worldIn.getHeight(blockpos4.getX(), blockpos4.getZ()));
-        int i3 = Math.min(i2, worldIn.getHeight(blockpos5.getX(), blockpos5.getZ()));
-        int i4 = Math.min(i3, worldIn.getHeight(blockpos6.getX(), blockpos6.getZ()));
+        int i = Math.min(world.getHeight(blockpos.getX(), blockpos.getZ()), world.getHeight(blockpos3.getX(), blockpos3.getZ()));
+        int i2 = Math.min(i, world.getHeight(blockpos4.getX(), blockpos4.getZ()));
+        int i3 = Math.min(i2, world.getHeight(blockpos5.getX(), blockpos5.getZ()));
+        int i4 = Math.min(i3, world.getHeight(blockpos6.getX(), blockpos6.getZ()));
         int i5 = blockpos.getY() - i4;
         int i6 = r == 2 ? 1 : r == 1 ? 3 : 3;
 
+		if (world.getBlockState(blockpos).getBlock() == Blocks.WATER || world.getBlockState(blockpos3).getBlock() == Blocks.WATER || world.getBlockState(blockpos4).getBlock() == Blocks.WATER || world.getBlockState(blockpos5).getBlock() == Blocks.WATER) return false;
+
         PlacementSettings placementsettings = (new PlacementSettings()).setChunk((ChunkPos)null).setReplacedBlock((Block)null).setIgnoreStructureBlock(false);
 
-        template.addBlocksToWorldChunk(worldIn, blockpos.down(i5 + i6), placementsettings);
+        template.addBlocksToWorldChunk(world, blockpos.down(i5 + i6), placementsettings);
         
         int c = rand.nextInt(2);
         for(int j = 0; j < rand.nextInt(4) + 1; j++) {
         	boolean m = j == 0 ? true : j == 1 ? false : rand.nextBoolean();
-	        EntityAbstractNPC dweller = c == 1 ? new EntityMouseWoodlander(worldIn, m) : new EntityMoleWoodlander(worldIn, m);
+	        EntityAbstractNPC dweller = c == 1 ? new EntityMouseWoodlander(world, m) : new EntityMoleWoodlander(world, m);
 	        if(structureLoc == GROUND_DWELLING_1) {
 		        dweller.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 8, 0, 0);
 	        } else if(structureLoc == GROUND_DWELLING_2) {
@@ -90,10 +93,10 @@ public class WorldGenGroundDwelling extends StructureComponent {
 		        dweller.setLocationAndAngles(blockpos.getX() + 4, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 4, 0, 0);
 	        }
 	        dweller.enablePersistence();
-            dweller.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(dweller.posX, dweller.posY, dweller.posZ)), (IEntityLivingData)null);
+            dweller.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(dweller.posX, dweller.posY, dweller.posZ)), (IEntityLivingData)null);
 	        dweller.setIsMale(m);
 	    	dweller.resetSkinNameData();
-            worldIn.spawnEntity(dweller);
+            world.spawnEntity(dweller);
 	        Logger.info(dweller.toString());
         }
         

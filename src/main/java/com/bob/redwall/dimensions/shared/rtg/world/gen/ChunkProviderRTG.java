@@ -292,21 +292,15 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 				for (int k = 0; k < 256; k++) {
 					if (k > h) {
-						if (k < 63) {
-							primer.setBlockState(i, k, j, Blocks.WATER.getDefaultState());
-						} else {
-							primer.setBlockState(i, k, j, Blocks.AIR.getDefaultState());
-						}
+						if (k < 63) primer.setBlockState(i, k, j, Blocks.WATER.getDefaultState());
+						else primer.setBlockState(i, k, j, Blocks.AIR.getDefaultState());
 					} else {
 						/*
 						 * if(biome.isOcean()) { TODO: Return this sedementary rock style for some areas
 						 * if(k < h / 2) { primer.setBlockState(i, k, j,
 						 * BlockHandler.hardened_basalt.getDefaultState()); } else {
 						 * primer.setBlockState(i, k, j, BlockHandler.basalt.getDefaultState()); } }
-						 * else {
-						 */
-						/*
-						 * if(k < h * (1.0F / 6.0F)) { primer.setBlockState(i, k, j,
+						 * else { if(k < h * (1.0F / 6.0F)) { primer.setBlockState(i, k, j,
 						 * BlockHandler.hardened_basalt.getDefaultState()); } else if(k < h * (2.0F /
 						 * 6.0F)) { primer.setBlockState(i, k, j,
 						 * BlockHandler.basalt.getDefaultState()); } else if(k < h * (3.0F / 6.0F)) {
@@ -395,7 +389,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 		// don't populate if already done
 
 		ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
-		//Logger.info("trying to decorate: " + chunkPos.toString());
+		// Logger.info("trying to decorate: " + chunkPos.toString());
 		if (alreadyDecorated.contains(chunkPos)) return;
 
 		if (populating) {
@@ -559,7 +553,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	}
 
 	private void clearDecorations(int limit) {
-		//if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
+		// if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 		Set<ChunkPos> toProcess = doableLocations(limit);
 		toProcess.forEach(this::removeFromDecorationList);
 		for (ChunkPos location : toProcess) {
@@ -623,7 +617,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 	private void decorateIfOtherwiseSurrounded(IChunkProvider world, ChunkPos pos, Direction fromNewChunk) {
 		// check if this is the master provider
-		//if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
+		// if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 
 		// see if otherwise surrounded besides the new chunk
 		ChunkPos probe = new ChunkPos(pos.x + fromNewChunk.xOffset, pos.z + fromNewChunk.zOffset);
@@ -689,7 +683,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	}
 
 	private void clearToDecorateList() {
-		//if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
+		// if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 		if (populating) return;// in process, do later;
 		// we have to make a copy of the set to work on or we'll get errors
 		Set<ChunkPos> toProcess = doableLocations(0);

@@ -27,169 +27,171 @@ import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
 
 /**
- * Original Author: Choonster (https://github.com/Choonster)
- * Source: https://github.com/Choonster/TestMod2/blob/1575b85ad8949381215f3aeb6ca76ea2368074de/src/main/java/com/choonster/testmod2/world/gen/structure/MapGenScatteredFeatureModBiomes.java
- * Modified by: WhichOnesPink (https://github.com/whichonespink44) and Emperor_Luke_II
+ * Original Author: Choonster (https://github.com/Choonster) Source:
+ * https://github.com/Choonster/TestMod2/blob/1575b85ad8949381215f3aeb6ca76ea2368074de/src/main/java/com/choonster/testmod2/world/gen/structure/MapGenScatteredFeatureModBiomes.java
+ * Modified by: WhichOnesPink (https://github.com/whichonespink44) and
+ * Emperor_Luke_II
  * <p>
- * Allows scattered features (jungle/desert temples, witch huts) to spawn in modded biomes, equivalent to the vanilla biomes,
- * i.e. any biome registered as JUNGLE, SANDY or SWAMP
+ * Allows scattered features (jungle/desert temples, witch huts) to spawn in
+ * modded biomes, equivalent to the vanilla biomes, i.e. any biome registered as
+ * JUNGLE, SANDY or SWAMP
  * http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/2471489-jungle-and-desert-temple-spawn-biome
  * <p>
- * This class was modified by WhichOnesPink on 2015-11-05 to allow the spawning of scattered features ONLY
- * in biomes that have been registered with multiple BiomeDictionary types that are shared by their vanilla counterparts.
- * For example, desert temples don't generate in SANDY biomes - they are only allowed to generate in biomes that
- * have been registered as HOT + DRY + SANDY.
+ * This class was modified by WhichOnesPink on 2015-11-05 to allow the spawning
+ * of scattered features ONLY in biomes that have been registered with multiple
+ * BiomeDictionary types that are shared by their vanilla counterparts. For
+ * example, desert temples don't generate in SANDY biomes - they are only
+ * allowed to generate in biomes that have been registered as HOT + DRY + SANDY.
  * <p>
- * This class has also been modified to resolve a very specific use case involving Thaumcraft world gen:
+ * This class has also been modified to resolve a very specific use case
+ * involving Thaumcraft world gen:
  * https://github.com/Team-RTG/Realistic-Terrain-Generation/issues/249
  */
 public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
-    private int maxDistanceBetweenScatteredFeatures;
-    private final int minDistanceBetweenScatteredFeatures;
+	private int maxDistanceBetweenScatteredFeatures;
+	private final int minDistanceBetweenScatteredFeatures;
 
-    public MapGenScatteredFeatureRedwall() {
-    	this.range = 1;
-        int minDistance = RTGAPI.config().MIN_DISTANCE_SCATTERED_FEATURES.get();
-        int maxDistance = RTGAPI.config().MAX_DISTANCE_SCATTERED_FEATURES.get();
+	public MapGenScatteredFeatureRedwall() {
+		this.range = 1;
+		int minDistance = RTGAPI.config().MIN_DISTANCE_SCATTERED_FEATURES.get();
+		int maxDistance = RTGAPI.config().MAX_DISTANCE_SCATTERED_FEATURES.get();
 
-        if (minDistance > maxDistance) {
-            minDistance = 8;
-            maxDistance = 32;
-        }
+		if (minDistance > maxDistance) {
+			minDistance = 8;
+			maxDistance = 32;
+		}
 
-        this.maxDistanceBetweenScatteredFeatures = maxDistance;
-        this.minDistanceBetweenScatteredFeatures = minDistance;
-    }
+		this.maxDistanceBetweenScatteredFeatures = maxDistance;
+		this.minDistanceBetweenScatteredFeatures = minDistance;
+	}
 
-    public MapGenScatteredFeatureRedwall(Map<String, String> p_i2061_1_) {
-        this();
+	public MapGenScatteredFeatureRedwall(Map<String, String> p_i2061_1_) {
+		this();
 
-        for (Entry<String, String> entry : p_i2061_1_.entrySet()) {
-            if (((String)entry.getKey()).equals("distance")) {
-                this.maxDistanceBetweenScatteredFeatures = MathHelper.getInt((String)entry.getValue(), this.maxDistanceBetweenScatteredFeatures, 9);
-            }
-        }
-    }
+		for (Entry<String, String> entry : p_i2061_1_.entrySet()) {
+			if (((String) entry.getKey()).equals("distance")) {
+				this.maxDistanceBetweenScatteredFeatures = MathHelper.getInt((String) entry.getValue(), this.maxDistanceBetweenScatteredFeatures, 9);
+			}
+		}
+	}
 
-    @Override
-    public String getStructureName() {
-        return "RedwallSmall";
-    }
+	@Override
+	public String getStructureName() {
+		return "RedwallSmall";
+	}
 
-    @Override
-    protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
-        int i = chunkX;
-        int j = chunkZ;
+	@Override
+	protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
+		int i = chunkX;
+		int j = chunkZ;
 
-        if (chunkX < 0) {
-            chunkX -= this.maxDistanceBetweenScatteredFeatures - 1;
-        }
+		if (chunkX < 0) {
+			chunkX -= this.maxDistanceBetweenScatteredFeatures - 1;
+		}
 
-        if (chunkZ < 0) {
-            chunkZ -= this.maxDistanceBetweenScatteredFeatures - 1;
-        }
+		if (chunkZ < 0) {
+			chunkZ -= this.maxDistanceBetweenScatteredFeatures - 1;
+		}
 
-        int k = chunkX / this.maxDistanceBetweenScatteredFeatures;
-        int l = chunkZ / this.maxDistanceBetweenScatteredFeatures;
-        Random random = this.world.setRandomSeed(k, l, 14357617);
-        k *= this.maxDistanceBetweenScatteredFeatures;
-        l *= this.maxDistanceBetweenScatteredFeatures;
-        k += random.nextInt(this.maxDistanceBetweenScatteredFeatures - this.minDistanceBetweenScatteredFeatures);
-        l += random.nextInt(this.maxDistanceBetweenScatteredFeatures - this.minDistanceBetweenScatteredFeatures);
+		int k = chunkX / this.maxDistanceBetweenScatteredFeatures;
+		int l = chunkZ / this.maxDistanceBetweenScatteredFeatures;
+		Random random = this.world.setRandomSeed(k, l, 14357617);
+		k *= this.maxDistanceBetweenScatteredFeatures;
+		l *= this.maxDistanceBetweenScatteredFeatures;
+		k += random.nextInt(this.maxDistanceBetweenScatteredFeatures - this.minDistanceBetweenScatteredFeatures);
+		l += random.nextInt(this.maxDistanceBetweenScatteredFeatures - this.minDistanceBetweenScatteredFeatures);
 
-        if (i == k && j == l) {
-            BlockPos pos = new BlockPos(i * 16 + 8, 0, j * 16 + 8);
-            Biome biome = this.world.getBiomeProvider().getBiome(pos);
+		if (i == k && j == l) {
+			BlockPos pos = new BlockPos(i * 16 + 8, 0, j * 16 + 8);
+			Biome biome = this.world.getBiomeProvider().getBiome(pos);
 
-            if (null == biome) {
-                Logger.error("MapGenScatteredFeatureRTG#canSpawnStructureAtCoords received a null biome at %d %d.", pos.getX(), pos.getZ());
-                return false;
-            }
+			if (null == biome) {
+				Logger.error("MapGenScatteredFeatureRTG#canSpawnStructureAtCoords received a null biome at %d %d.", pos.getX(), pos.getZ());
+				return false;
+			}
 
-            //Mossflower structures.
-            if (RedwallUtils.isInMossflower(biome, chunkX, chunkZ)) {
-                return true;
-            }
-        }
+			// Mossflower structures.
+			if (RedwallUtils.isInMossflower(biome, chunkX, chunkZ)) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    protected StructureStart getStructureStart(int chunkX, int chunkZ) {
-        return new MapGenScatteredFeatureRedwall.Start(this.world, this.rand, chunkX, chunkZ);
-    }
+	@Override
+	protected StructureStart getStructureStart(int chunkX, int chunkZ) {
+		return new MapGenScatteredFeatureRedwall.Start(this.world, this.rand, chunkX, chunkZ);
+	}
 
-    public static class Start extends StructureStart {
-        private final Set<ChunkPos> processed = Sets.<ChunkPos>newHashSet();
-        
-        public Start() { }
+	public static class Start extends StructureStart {
+		private final Set<ChunkPos> processed = Sets.<ChunkPos>newHashSet();
 
-        public Start(World worldIn, Random random, int chunkX, int chunkZ) {
-            this(worldIn, random, chunkX, chunkZ, worldIn.getBiome(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8)));
-        }
+		public Start() {}
 
-        @SuppressWarnings("unchecked")
+		public Start(World worldIn, Random random, int chunkX, int chunkZ) {
+			this(worldIn, random, chunkX, chunkZ, worldIn.getBiome(new BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8)));
+		}
+
 		public Start(World worldIn, Random random, int chunkX, int chunkZ, Biome biomeIn) {
-            super(chunkX, chunkZ);
+			super(chunkX, chunkZ);
 
-            if (null == biomeIn) {
-                Logger.error("MapGenScatteredFeatureRTG.Start received a null biome at %d %d.", chunkX * 16 + 8, chunkZ * 16 + 8);
-                return;
-            }
+			if (null == biomeIn) {
+				Logger.error("MapGenScatteredFeatureRTG.Start received a null biome at %d %d.", chunkX * 16 + 8, chunkZ * 16 + 8);
+				return;
+			}
 
-            @SuppressWarnings("rawtypes")
-			LinkedList arrComponents = new LinkedList();
+			LinkedList<StructureComponent> arrComponents = new LinkedList<StructureComponent>();
 
-            if (RedwallUtils.isInMossflower(biomeIn, chunkX, chunkZ)) {
-                arrComponents.add(new WorldGenGroundDwelling(new StructureBoundingBox(new int[] {chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGroundDwelling.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGroundDwelling.getSize().getY(), chunkZ * 16 + WorldGenGroundDwelling.getSize().getZ()})));
-                arrComponents.add(new WorldGenSquirrelDrey(new StructureBoundingBox(new int[] {chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenSquirrelDrey.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenSquirrelDrey.getSize().getY(), chunkZ * 16 + WorldGenSquirrelDrey.getSize().getZ()})));
-                arrComponents.add(new WorldGenKotirTurretAbandoned(new StructureBoundingBox(new int[] {chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretAbandoned.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretAbandoned.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretAbandoned.getSize().getZ()})));
-                arrComponents.add(new WorldGenKotirTurretInhabited(new StructureBoundingBox(new int[] {chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretInhabited.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretInhabited.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretInhabited.getSize().getZ()})));
-            }
+			if (RedwallUtils.isInMossflower(biomeIn, chunkX, chunkZ)) {
+				arrComponents.add(new WorldGenGroundDwelling(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGroundDwelling.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGroundDwelling.getSize().getY(), chunkZ * 16 + WorldGenGroundDwelling.getSize().getZ() })));
+				arrComponents.add(new WorldGenSquirrelDrey(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenSquirrelDrey.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenSquirrelDrey.getSize().getY(), chunkZ * 16 + WorldGenSquirrelDrey.getSize().getZ() })));
+				arrComponents.add(new WorldGenKotirTurretAbandoned(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretAbandoned.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretAbandoned.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretAbandoned.getSize().getZ() })));
+				arrComponents.add(new WorldGenKotirTurretInhabited(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretInhabited.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretInhabited.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretInhabited.getSize().getZ() })));
+			}
 
-            this.components.clear();
+			this.components.clear();
 
-            if (arrComponents.size() > 0) {
-                this.components.add((StructureComponent) arrComponents.get(random.nextInt(arrComponents.size())));
-            }
+			if (arrComponents.size() > 0) {
+				this.components.add((StructureComponent) arrComponents.get(random.nextInt(arrComponents.size())));
+			}
 
-            Logger.info("Scattered feature candidate at %d, %d: %s", chunkX * 16, chunkZ * 16, this.components.toString());
+			Logger.info("Scattered feature candidate at %d, %d: %s", chunkX * 16, chunkZ * 16, this.components.toString());
 
-            this.updateBoundingBox();
-        }
-        
-        @Override
-        public void generateStructure(World worldIn, Random rand, StructureBoundingBox structurebb) {
-        	Logger.info("Generating %s at %d, %d", this.components.toString(), structurebb.minX, structurebb.minZ);
-            super.generateStructure(worldIn, rand, structurebb);
-        }
+			this.updateBoundingBox();
+		}
 
-        @Override
-        public boolean isValidForPostProcess(ChunkPos pair) {
-            return this.processed.contains(pair) ? false : super.isValidForPostProcess(pair);
-        }
+		@Override
+		public void generateStructure(World worldIn, Random rand, StructureBoundingBox structurebb) {
+			Logger.info("Generating %s at %d, %d", this.components.toString(), structurebb.minX, structurebb.minZ);
+			super.generateStructure(worldIn, rand, structurebb);
+		}
 
-        @Override
-        public void notifyPostProcessAt(ChunkPos pair) {
-            super.notifyPostProcessAt(pair);
-            this.processed.add(pair);
-            //Why are we adding all adjacent chunks? To avoid duplicate structures, that's why.
-            this.processed.add(new ChunkPos(pair.x + 1, pair.z));
-            this.processed.add(new ChunkPos(pair.x - 1, pair.z));
-            this.processed.add(new ChunkPos(pair.x + 1, pair.z + 1));
-            this.processed.add(new ChunkPos(pair.x - 1, pair.z + 1));
-            this.processed.add(new ChunkPos(pair.x, pair.z + 1));
-            this.processed.add(new ChunkPos(pair.x, pair.z - 1));
-            this.processed.add(new ChunkPos(pair.x + 1, pair.z - 1));
-            this.processed.add(new ChunkPos(pair.x - 1, pair.z - 1));
-        }
-    }
+		@Override
+		public boolean isValidForPostProcess(ChunkPos pair) {
+			return this.processed.contains(pair) ? false : super.isValidForPostProcess(pair);
+		}
 
-    public static void registerScatteredFeaturePieces() {
-        MapGenStructureIO.registerStructureComponent(WorldGenGroundDwelling.class, "MoGD");
-        MapGenStructureIO.registerStructureComponent(WorldGenSquirrelDrey.class, "MoSD");
-        MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretAbandoned.class, "MoKA");
-        MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretInhabited.class, "MoKI");
-    }
+		@Override
+		public void notifyPostProcessAt(ChunkPos pair) {
+			super.notifyPostProcessAt(pair);
+			this.processed.add(pair);
+			// Add adjacent chunks to avoid duplicate structures.
+			this.processed.add(new ChunkPos(pair.x + 1, pair.z));
+			this.processed.add(new ChunkPos(pair.x - 1, pair.z));
+			this.processed.add(new ChunkPos(pair.x + 1, pair.z + 1));
+			this.processed.add(new ChunkPos(pair.x - 1, pair.z + 1));
+			this.processed.add(new ChunkPos(pair.x, pair.z + 1));
+			this.processed.add(new ChunkPos(pair.x, pair.z - 1));
+			this.processed.add(new ChunkPos(pair.x + 1, pair.z - 1));
+			this.processed.add(new ChunkPos(pair.x - 1, pair.z - 1));
+		}
+	}
+
+	public static void registerScatteredFeaturePieces() {
+		MapGenStructureIO.registerStructureComponent(WorldGenGroundDwelling.class, "MoGD");
+		MapGenStructureIO.registerStructureComponent(WorldGenSquirrelDrey.class, "MoSD");
+		MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretAbandoned.class, "MoKA");
+		MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretInhabited.class, "MoKI");
+	}
 }

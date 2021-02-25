@@ -1,6 +1,9 @@
 package com.bob.redwall.common;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
+import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
+import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.factions.Faction;
@@ -8,7 +11,13 @@ import com.bob.redwall.factions.Faction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.toasts.SystemToast;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -28,6 +37,14 @@ public class MessageUIInteractServer implements IMessage {
 	private double posZ = 0;
 	
 	public MessageUIInteractServer()  { }
+	
+	public MessageUIInteractServer(Mode mode)  {
+		this.modeId = mode.id;
+		this.value = 0;
+		this.string = "";
+		this.string2 = "";
+		this.string3 = "";
+    }
 	
 	public MessageUIInteractServer(Mode mode, int value, String string)  {
 		this.modeId = mode.id;
@@ -91,12 +108,12 @@ public class MessageUIInteractServer implements IMessage {
 	public static class Handler implements IMessageHandler<MessageUIInteractServer, IMessage> {
 		@Override
 		public IMessage onMessage(final MessageUIInteractServer message, MessageContext ctx) {
-			final EntityPlayerMP thePlayer = (EntityPlayerMP) (ctx.side.isClient() ? Minecraft.getMinecraft().player : ctx.getServerHandler().player);
-			thePlayer.getServer().addScheduledTask(new Runnable() {
+			final EntityPlayerMP player = ctx.getServerHandler().player;
+			player.getServer().addScheduledTask(new Runnable() {
                 @Override
                 public void run() {
 			    	if(message.modeId == Mode.NPC_TALK.id) {
-	                    EntityAbstractNPC npc = (EntityAbstractNPC)thePlayer.world.getEntityByID(message.value);
+	                    EntityAbstractNPC npc = (EntityAbstractNPC)player.world.getEntityByID(message.value);
 						if(!npc.getTalkingActive()) {
 							if(npc.hasCustomMessage()) {
 								npc.setTalking(new TextComponentString(npc.getCustomMessage()));
@@ -107,13 +124,26 @@ public class MessageUIInteractServer implements IMessage {
 							npc.setTalkingActive(true);
 						}
 			    	} else if(message.modeId == Mode.OPEN_GUI.id) {
-					    EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
-					    serverPlayer.openGui(Ref.MODID, message.value, serverPlayer.world, (int)serverPlayer.posX, (int)serverPlayer.posY, (int)serverPlayer.posZ);
+					    player.openGui(Ref.MODID, message.value, player.world, (int)player.posX, (int)player.posY, (int)player.posZ);
 				    } else if(message.modeId == Mode.OPEN_GUI_CONTAINER.id) {
-					    EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
-					    serverPlayer.openGui(Ref.MODID, message.value, serverPlayer.world, (int)message.posX, (int)message.posY, (int)message.posZ);
+					    player.openGui(Ref.MODID, message.value, player.world, (int)message.posX, (int)message.posY, (int)message.posZ);
 				    } else if(message.modeId == Mode.SEND_LEVEL_TOAST.id) {
 				    	SystemToast.addOrUpdate(Minecraft.getMinecraft().getToastGui(), SystemToast.Type.TUTORIAL_HINT, new TextComponentTranslation(message.string), new TextComponentTranslation(message.string2, Faction.getFactionByID(message.string3).getLocalizedName(), FactionCap.FacStatType.byID(message.value).getLocalizedName()));
+				    } else if(message.modeId == Mode.PERFORM_ATTACK.id) {
+					    IAttacking attacking = player.getCapability(AttackingProvider.ATTACKING_CAP, null);
+						if (attacking.get()) {
+							attacking.set(false);
+							float i = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+
+							label1: {
+								RayTraceResult result = RedwallUtils.raytrace(player, i);
+								if (result == null) break label1;
+								Entity entity = result.entityHit;
+								if (entity != null && !(entity instanceof EntityItem || entity instanceof EntityXPOrb || entity instanceof EntityArrow)) {
+									RedwallUtils.doPlayerAttack(player, entity);
+								}
+							}
+						}
 				    }
                 }
             });
@@ -125,7 +155,8 @@ public class MessageUIInteractServer implements IMessage {
 		NPC_TALK(i++),
 		OPEN_GUI(i++),
 		OPEN_GUI_CONTAINER(i++),
-		SEND_LEVEL_TOAST(i++);
+		SEND_LEVEL_TOAST(i++),
+		PERFORM_ATTACK(i++);
 		
 		private int id;
 		private Mode(int id) {
