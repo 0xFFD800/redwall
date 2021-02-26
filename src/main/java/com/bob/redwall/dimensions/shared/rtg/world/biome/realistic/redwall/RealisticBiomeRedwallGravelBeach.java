@@ -14,7 +14,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 
 public class RealisticBiomeRedwallGravelBeach extends RealisticBiomeRedwallBase {
-
     public static Biome biome = BiomeHandler.redwall_gravel_beach;
     public static Biome river = BiomeHandler.redwall_river;
 

@@ -13,82 +13,70 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 /**
- * @author Zeno410
+ * @author Zeno410, Emperor_Luke_II
  */
 public class DecoPond extends DecoBase {
+	private int chunksPerPond = 8;
+	private int minY = 64;
+	private int maxY = 240;
+	private int loops = 1;
 
-    private int chunksPerPond = 8;
-    private int minY = 64;
-    private int maxY = 240;
-    private int loops = 1;
+	private WorldGenerator pondGenerator = new WorldGenPond(Blocks.WATER.getDefaultState(), Blocks.CLAY.getDefaultState(), Blocks.GRAVEL.getDefaultState());
+	private RTGConfig rtgConfig = RTGAPI.config();
 
-    private WorldGenerator pondGenerator = new WorldGenPond(Blocks.WATER.getDefaultState());
-    private RTGConfig rtgConfig = RTGAPI.config();
+	@Override
+	public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
+		if (this.allowed && rtgConfig.WATER_SURFACE_LAKE_CHANCE.get() > 0 && biome.getConfig().ALLOW_PONDS_WATER.get()) {
 
-    @Override
-    public void generate(IRealisticBiome biome, IRTGWorld rtgWorld, Random rand, int worldX, int worldZ, float strength, float river, boolean hasPlacedVillageBlocks) {
+			// Surface lakes.
+			for (int i = 0; i < this.loops; i++) {
 
-        if (this.allowed && rtgConfig.WATER_SURFACE_LAKE_CHANCE.get() > 0 && biome.getConfig().ALLOW_PONDS_WATER.get()) {
+				int i2 = worldX + rand.nextInt(16);// + 8;
+				int i8 = worldZ + rand.nextInt(16);// + 8;
+				int l4 = rtgWorld.world().getHeight(new BlockPos(i2, 0, i8)).getY();
 
-            //Surface lakes.
-            for (int i = 0; i < this.loops; i++) {
+				if (rand.nextInt(this.chunksPerPond) == 0) {
+					if (l4 >= this.minY && l4 <= this.maxY) {
+						pondGenerator.generate(rtgWorld.world(), rand, new BlockPos(i2, l4, i8));
+					}
+				}
+			}
+		}
+	}
 
-                int i2 = worldX + rand.nextInt(16);// + 8;
-                int i8 = worldZ + rand.nextInt(16);// + 8;
-                int l4 = rtgWorld.world().getHeight(new BlockPos(i2, 0, i8)).getY();
+	public int getChunksPerPond() {
+		return chunksPerPond;
+	}
 
-                if (rand.nextInt(this.chunksPerPond) == 0) {
+	public DecoPond setChunksPerPond(int chunksPerPond) {
+		this.chunksPerPond = chunksPerPond;
+		return this;
+	}
 
-                    if (l4 >= this.minY && l4 <= this.maxY) {
+	public int getMinY() {
+		return minY;
+	}
 
-                        pondGenerator.generate(rtgWorld.world(), rand, new BlockPos(i2, l4, i8));
-                    }
-                }
-            }
-        }
-    }
+	public DecoPond setMinY(int minY) {
+		this.minY = minY;
+		return this;
+	}
 
-    public int getChunksPerPond() {
+	public int getMaxY() {
+		return maxY;
+	}
 
-        return chunksPerPond;
-    }
+	public DecoPond setMaxY(int maxY) {
+		this.maxY = maxY;
+		return this;
+	}
 
-    public DecoPond setChunksPerPond(int chunksPerPond) {
+	public int getLoops() {
+		return loops;
+	}
 
-        this.chunksPerPond = chunksPerPond;
-        return this;
-    }
-
-    public int getMinY() {
-
-        return minY;
-    }
-
-    public DecoPond setMinY(int minY) {
-
-        this.minY = minY;
-        return this;
-    }
-
-    public int getMaxY() {
-
-        return maxY;
-    }
-
-    public DecoPond setMaxY(int maxY) {
-
-        this.maxY = maxY;
-        return this;
-    }
-
-    public int getLoops() {
-
-        return loops;
-    }
-
-    public DecoPond setLoops(int loops) {
-
-        this.loops = loops;
-        return this;
-    }
+	public DecoPond setLoops(int loops) {
+		this.loops = loops;
+		return this;
+	}
 }

@@ -2,9 +2,11 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.BlockUtil;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
+import com.bob.redwall.dimensions.shared.rtg.api.util.noise.OpenSimplexNoise;
 import com.bob.redwall.dimensions.shared.rtg.api.world.IRTGWorld;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoBoulder;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoCrop;
@@ -87,11 +89,12 @@ public class RealisticBiomeRedwallSouthswardHills extends RealisticBiomeRedwallB
 
         @Override
         public void paintTerrain(ChunkPrimer primer, int i, int j, int x, int z, int depth, IRTGWorld rtgWorld, float[] noise, float river, Biome[] base) {
-
             Random rand = rtgWorld.rand();
             float c = CliffCalculator.calc(x, z, noise);
             boolean cliff = c > 1.4f ? true : false;
 
+            OpenSimplexNoise simplex = rtgWorld.simplex();
+            float mixNoise = simplex.noise2(i / 12f, j / 12f);
             for (int k = 255; k > -1; k--) {
                 Block b = primer.getBlockState(x, k, z).getBlock();
                 if (b == Blocks.AIR) {
@@ -103,23 +106,21 @@ public class RealisticBiomeRedwallSouthswardHills extends RealisticBiomeRedwallB
                     if (cliff) {
                         if (depth > -1 && depth < 2) {
                             if (rand.nextInt(3) == 0) {
-
                                 primer.setBlockState(x, k, z, hcCobble(rtgWorld, i, j, x, z, k));
-                            }
-                            else {
-
+                            } else {
                                 primer.setBlockState(x, k, z, hcStone(rtgWorld, i, j, x, z, k));
                             }
-                        }
-                        else if (depth < 10) {
+                        } else if (depth < 10) {
                             primer.setBlockState(x, k, z, hcStone(rtgWorld, i, j, x, z, k));
                         }
-                    }
-                    else {
-                        if (depth == 0 && k > 61) {
-                            primer.setBlockState(x, k, z, topBlock);
-                        }
-                        else if (depth < 4) {
+                    } else {
+                    	if (depth == 0) {
+							 if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+								if(mixNoise < 0.6F) primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+								if(mixNoise < -0.4F) primer.setBlockState(x, k, z, Blocks.CLAY.getDefaultState());
+								else primer.setBlockState(x, k, z, Blocks.GRAVEL.getDefaultState());
+							} else primer.setBlockState(x, k, z, topBlock);
+						} else if (depth < 4) {
                             primer.setBlockState(x, k, z, fillerBlock);
                         }
                     }

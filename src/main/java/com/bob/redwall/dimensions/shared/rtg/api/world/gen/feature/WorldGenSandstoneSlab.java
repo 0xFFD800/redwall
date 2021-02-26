@@ -5,8 +5,8 @@ import java.util.Random;
 import com.bob.redwall.Ref;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -50,7 +50,7 @@ public class WorldGenSandstoneSlab extends WorldGenerator {
 		int i4 = Math.min(i3, world.getHeight(blockpos6.getX(), blockpos6.getZ()));
 		int i5 = blockpos.getY() - i4;
 
-		if (world.getBlockState(blockpos).getBlock() == Blocks.WATER || world.getBlockState(blockpos3).getBlock() == Blocks.WATER || world.getBlockState(blockpos4).getBlock() == Blocks.WATER || world.getBlockState(blockpos5).getBlock() == Blocks.WATER) return false;
+		if (world.getBlockState(blockpos.down(i5)).isSideSolid(worldserver, blockpos.down(i5), EnumFacing.UP) || world.getBlockState(blockpos3.down(i5)).isSideSolid(worldserver, blockpos3.down(i5), EnumFacing.UP) || world.getBlockState(blockpos4.down(i5)).isSideSolid(worldserver, blockpos4.down(i5), EnumFacing.UP)) return false;
 
 		PlacementSettings placementsettings = (new PlacementSettings()).setChunk((ChunkPos) null).setReplacedBlock((Block) null).setIgnoreStructureBlock(false);
 

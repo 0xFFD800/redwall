@@ -122,37 +122,68 @@ public class Nutrition implements INutrition {
 		} else {
 			if(food.getItem() == Items.FISH) {
 				this.addProtein(8);
+				this.addCarbs(1);
+				this.addVeggies(2);
+				this.addFruits(1);
 			} else if(food.getItem() == Items.COOKED_FISH) {
 				this.addProtein(16);
+				this.addCarbs(5);
+				this.addVeggies(4);
+				this.addFruits(4);
 			} else if(food.getItem() == Items.POTATO) {
+				this.addProtein(1);
 				this.addCarbs(2);
+				this.addVeggies(1);
+				this.addFruits(1);
 			} else if(food.getItem() == Items.BAKED_POTATO) {
+				this.addProtein(3);
 				this.addCarbs(10);
-				this.addVeggies(2);
+				this.addVeggies(4);
+				this.addFruits(2);
 			} else if(food.getItem() == Items.BREAD) {
+				this.addProtein(4);
 				this.addCarbs(10);
+				this.addVeggies(3);
+				this.addFruits(4);
 			} else if(food.getItem() == Items.APPLE) {
-				this.addFruits(10);
+				this.addProtein(2);
 				this.addCarbs(4);
+				this.addVeggies(3);
+				this.addFruits(10);
 			} else if(food.getItem() == Items.CARROT) {
-				this.addVeggies(6);
+				this.addProtein(1);
 				this.addCarbs(2);
+				this.addVeggies(6);
+				this.addFruits(2);
 			} else if(food.getItem() == Items.BEETROOT) {
-				this.addVeggies(2);
+				this.addProtein(1);
 				this.addCarbs(1);
+				this.addVeggies(3);
+				this.addFruits(2);
 			} else if(food.getItem() == Items.BEETROOT_SOUP) {
+				this.addProtein(4);
+				this.addCarbs(5);
 				this.addVeggies(12);
-				this.addCarbs(4);
+				this.addFruits(6);
 			} else if(food.getItem() == Items.COOKIE) {
-				this.addCarbs(6);
-			} else if(food.getItem() == Items.MELON) {
-				this.addFruits(10);
-				this.addCarbs(4);
-			} else if(food.getItem() == Items.MUSHROOM_STEW) {
-				this.addProtein(10);
-				this.addCarbs(10);
-			} else if(food.getItem() == Items.PUMPKIN_PIE) {
+				this.addProtein(2);
 				this.addCarbs(8);
+				this.addVeggies(1);
+				this.addFruits(2);
+			} else if(food.getItem() == Items.MELON) {
+				this.addProtein(2);
+				this.addCarbs(6);
+				this.addVeggies(4);
+				this.addFruits(12);
+			} else if(food.getItem() == Items.MUSHROOM_STEW) {
+				this.addProtein(14);
+				this.addCarbs(14);
+				this.addVeggies(4);
+				this.addFruits(4);
+			} else if(food.getItem() == Items.PUMPKIN_PIE) {
+				this.addProtein(3);
+				this.addCarbs(12);
+				this.addVeggies(1);
 				this.addFruits(4);
 			}
 		}

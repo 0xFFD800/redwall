@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.annotation.Nonnull;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.redwall.structures.MapGenScatteredFeatureRedwall;
 import com.bob.redwall.dimensions.shared.rtg.api.util.Acceptor;
 import com.bob.redwall.dimensions.shared.rtg.api.util.ChunkOreGenTracker;
@@ -292,7 +293,7 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 				for (int k = 0; k < 256; k++) {
 					if (k > h) {
-						if (k < 63) primer.setBlockState(i, k, j, Blocks.WATER.getDefaultState());
+						if (k < RedwallWorldProvider.SEA_LEVEL) primer.setBlockState(i, k, j, Blocks.WATER.getDefaultState());
 						else primer.setBlockState(i, k, j, Blocks.AIR.getDefaultState());
 					} else {
 						/*

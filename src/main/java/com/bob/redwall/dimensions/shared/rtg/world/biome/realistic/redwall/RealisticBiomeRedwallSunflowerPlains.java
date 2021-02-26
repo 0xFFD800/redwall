@@ -2,8 +2,10 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
+import com.bob.redwall.dimensions.shared.rtg.api.util.noise.OpenSimplexNoise;
 import com.bob.redwall.dimensions.shared.rtg.api.world.IRTGWorld;
 import com.bob.redwall.dimensions.shared.rtg.api.world.deco.DecoBaseBiomeDecorations;
 import com.bob.redwall.dimensions.shared.rtg.api.world.surface.SurfaceBase;
@@ -61,6 +63,8 @@ public class RealisticBiomeRedwallSunflowerPlains extends RealisticBiomeRedwallB
 			float c = CliffCalculator.calc(x, z, noise);
 			boolean cliff = c > 1.4f ? true : false;
 
+            OpenSimplexNoise simplex = rtgWorld.simplex();
+            float mixNoise = simplex.noise2(i / 12f, j / 12f);
 			for (int k = 255; k > -1; k--) {
 				Block b = primer.getBlockState(x, k, z).getBlock();
 				if (b == Blocks.AIR) {
@@ -79,8 +83,12 @@ public class RealisticBiomeRedwallSunflowerPlains extends RealisticBiomeRedwallB
 							primer.setBlockState(x, k, z, hcStone(rtgWorld, i, j, x, z, k));
 						}
 					} else {
-						if (depth == 0 && k > 61) {
-							primer.setBlockState(x, k, z, topBlock);
+						if (depth == 0) {
+							 if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+								if(mixNoise < 0.6F) primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+								if(mixNoise < -0.4F) primer.setBlockState(x, k, z, Blocks.CLAY.getDefaultState());
+								else primer.setBlockState(x, k, z, Blocks.GRAVEL.getDefaultState());
+							} else primer.setBlockState(x, k, z, topBlock);
 						} else if (depth < 4) {
 							primer.setBlockState(x, k, z, fillerBlock);
 						}

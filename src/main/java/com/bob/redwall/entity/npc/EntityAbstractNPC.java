@@ -1,6 +1,7 @@
 package com.bob.redwall.entity.npc;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -44,6 +45,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,7 +76,9 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_VERMIN_MOSSFLOWER = Lists.newArrayList(new EquipmentChance(50, Items.AIR), new EquipmentChance(15, ItemHandler.bronze_dagger), new EquipmentChance(15, ItemHandler.stone_spear), new EquipmentChance(15, ItemHandler.stone_mace), new EquipmentChance(15, ItemHandler.stone_throwing_axe), new EquipmentChance(10, ItemHandler.bronze_axe), new EquipmentChance(10, ItemHandler.bronze_spear), new EquipmentChance(10, ItemHandler.bronze_mace), new EquipmentChance(10, ItemHandler.bronze_pike), new EquipmentChance(10, ItemHandler.bronze_throwing_axe), new EquipmentChance(7, ItemHandler.iron_dagger), new EquipmentChance(3, ItemHandler.iron_spear), new EquipmentChance(3, ItemHandler.iron_mace), new EquipmentChance(3, ItemHandler.iron_throwing_axe), new EquipmentChance(3, ItemHandler.iron_pike), new EquipmentChance(3, Items.IRON_AXE), new EquipmentChance(3, ItemHandler.bronze_halberd), new EquipmentChance(2, ItemHandler.iron_scimitar), new EquipmentChance(1, ItemHandler.iron_halberd), new EquipmentChance(1, ItemHandler.iron_sword), new EquipmentChance(1, ItemHandler.iron_broadsword), new EquipmentChance(1, ItemHandler.iron_rapier));
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_WOODLANDERS = Lists.newArrayList(new EquipmentChance(60, Items.AIR), new EquipmentChance(12, ItemHandler.bronze_dagger), new EquipmentChance(12, ItemHandler.stone_spear), new EquipmentChance(12, ItemHandler.stone_throwing_axe), new EquipmentChance(12, ItemHandler.bronze_axe), new EquipmentChance(12, ItemHandler.bronze_spear), new EquipmentChance(12, ItemHandler.bronze_throwing_axe), new EquipmentChance(10, ItemHandler.iron_dagger), new EquipmentChance(5, ItemHandler.iron_spear), new EquipmentChance(5, ItemHandler.iron_throwing_axe), new EquipmentChance(5, Items.IRON_AXE), new EquipmentChance(4, ItemHandler.iron_scimitar), new EquipmentChance(3, ItemHandler.iron_sword), new EquipmentChance(3, ItemHandler.iron_broadsword), new EquipmentChance(3, ItemHandler.iron_rapier));
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_MOSSFLOWER_OTTERS = Lists.newArrayList(new EquipmentChance(20, Items.AIR), new EquipmentChance(8, ItemHandler.bronze_dagger), new EquipmentChance(40, ItemHandler.stone_spear), new EquipmentChance(30, ItemHandler.stone_throwing_axe), new EquipmentChance(7, ItemHandler.bronze_axe), new EquipmentChance(40, ItemHandler.bronze_spear), new EquipmentChance(30, ItemHandler.bronze_throwing_axe), new EquipmentChance(6, ItemHandler.iron_dagger), new EquipmentChance(20, ItemHandler.iron_spear), new EquipmentChance(15, ItemHandler.iron_throwing_axe), new EquipmentChance(15, Items.IRON_AXE), new EquipmentChance(6, ItemHandler.iron_scimitar), new EquipmentChance(5, ItemHandler.iron_sword), new EquipmentChance(5, ItemHandler.iron_broadsword), new EquipmentChance(5, ItemHandler.iron_rapier));
-
+	
+	private static final AttributeModifier ATTACK_SPEED_MODIFIER = new AttributeModifier(UUID.fromString("9998FA56-323B-4433-935B-2FC3FAC87635"), "attack speed modifier", -0.63, 2);
+	
 	private static final DataParameter<Boolean> MALE = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> SKIN = EntityDataManager.<String>createKey(EntityAbstractNPC.class, DataSerializers.STRING);
 	private static final DataParameter<ITextComponent> TALKING = EntityDataManager.<ITextComponent>createKey(EntityAbstractNPC.class, DataSerializers.TEXT_COMPONENT);
@@ -229,7 +233,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getAttributeMap().registerAttribute(EntityPlayer.REACH_DISTANCE);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1.48D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(4.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).applyModifier(EntityAbstractNPC.ATTACK_SPEED_MODIFIER);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
 		this.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(4.0D);
 	}

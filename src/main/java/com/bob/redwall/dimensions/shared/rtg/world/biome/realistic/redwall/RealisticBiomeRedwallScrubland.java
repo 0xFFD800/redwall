@@ -2,6 +2,7 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.BlockUtil;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
@@ -132,12 +133,11 @@ public class RealisticBiomeRedwallScrubland extends RealisticBiomeRedwallBase {
 							}
 						} else if (cliff == 2) {
 							primer.setBlockState(x, k, z, getShadowStoneBlock(rtgWorld, i, j, x, z, k));
-						} else if (k < 63) {
-							if (k < 62) {
-								primer.setBlockState(x, k, z, fillerBlock);
-							} else {
-								primer.setBlockState(x, k, z, topBlock);
-							}
+						} else if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+							float mixRandom = rand.nextFloat();
+							if (mixRandom < mix2Height) primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+							if (mixRandom < mixHeight) primer.setBlockState(x, k, z, Blocks.DIRT.getDefaultState());
+							else primer.setBlockState(x, k, z, Blocks.GRAVEL.getDefaultState());
 						} else {
 							float mixRandom = rand.nextFloat();
 

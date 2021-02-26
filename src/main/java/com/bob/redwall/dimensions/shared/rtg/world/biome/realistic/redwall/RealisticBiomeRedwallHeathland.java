@@ -2,6 +2,7 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.BlockUtil;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
@@ -135,7 +136,6 @@ public class RealisticBiomeRedwallHeathland extends RealisticBiomeRedwallBase {
                     depth++;
 
                     if (depth == 0) {
-
                         float p = simplex.noise3(i / 8f, j / 8f, k / 8f) * 0.5f;
                         if (c > min && c > sCliff - ((k - sHeight) / sStrength) + p) {
                             cliff = 1;
@@ -147,21 +147,18 @@ public class RealisticBiomeRedwallHeathland extends RealisticBiomeRedwallBase {
 
                         if (cliff == 1) {
                             if (rand.nextInt(3) == 0) {
-
                                 primer.setBlockState(x, k, z, hcCobble(rtgWorld, i, j, x, z, k));
                             } else {
-
                                 primer.setBlockState(x, k, z, hcStone(rtgWorld, i, j, x, z, k));
                             }
                         } else if (cliff == 2) {
                             primer.setBlockState(x, k, z, getShadowStoneBlock(rtgWorld, i, j, x, z, k));
-                        } else if (k < 62) {
-                            if (k < 61) {
-                                primer.setBlockState(x, k, z, fillerBlock);
-                            } else {
-                                primer.setBlockState(x, k, z, topBlock);
-                            }
-                        } else {
+                        } else if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+                            float mixRandom = rand.nextFloat();
+							if (mixRandom < mix2Height) primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+							else if (mixRandom < mixHeight) primer.setBlockState(x, k, z, Blocks.DIRT.getDefaultState());
+							else primer.setBlockState(x, k, z, Blocks.GRAVEL.getDefaultState());
+						} else {
                             float mixRandom = rand.nextFloat();
 
                             if(mixRandom < mix3Height) {

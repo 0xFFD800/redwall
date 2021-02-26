@@ -2,6 +2,7 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.BlockUtil;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
@@ -105,6 +106,7 @@ public class RealisticBiomeRedwallForestConiferous extends RealisticBiomeRedwall
 			int cliff = 0;
 
 			Block b;
+			float mixNoise = simplex.noise2(i / 12f, j / 12f);
 			for (int k = 255; k > -1; k--) {
 				b = primer.getBlockState(x, k, z).getBlock();
 				if (b == Blocks.AIR) {
@@ -124,23 +126,17 @@ public class RealisticBiomeRedwallForestConiferous extends RealisticBiomeRedwall
 
 						if (cliff == 1) {
 							if (rand.nextInt(3) == 0) {
-
 								primer.setBlockState(x, k, z, hcCobble(rtgWorld, i, j, x, z, k));
 							} else {
-
 								primer.setBlockState(x, k, z, hcStone(rtgWorld, i, j, x, z, k));
 							}
 						} else if (cliff == 2) {
 							primer.setBlockState(x, k, z, getShadowStoneBlock(rtgWorld, i, j, x, z, k));
-						} else if (k < 63) {
-							if (k < 62) {
-								primer.setBlockState(x, k, z, fillerBlock);
-							} else {
-								primer.setBlockState(x, k, z, topBlock);
-							}
+						} else if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+							if (mixNoise < mix2Height) primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+							else if (mixNoise < mixHeight) primer.setBlockState(x, k, z, Blocks.CLAY.getDefaultState());
+							else primer.setBlockState(x, k, z, Blocks.GRAVEL.getDefaultState());
 						} else {
-							float mixNoise = simplex.noise2(i / 12f, j / 12f);
-
 							if (mixNoise < mix2Height) {
 								primer.setBlockState(x, k, z, mix2Block);
 							} else if (mixNoise > mixHeight) {

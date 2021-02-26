@@ -3,7 +3,6 @@ package com.bob.redwall.dimensions.shared.rtg.api.world.gen.feature;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.bob.redwall.dimensions.shared.rtg.api.RTGAPI;
 import com.bob.redwall.dimensions.shared.rtg.api.util.WorldUtil;
 
 import net.minecraft.block.BlockLiquid;
@@ -22,7 +21,7 @@ public class WorldGenWave extends WorldGenerator {
 	public WorldGenWave(IBlockState waveBlock, int waveLength) {
 		this.waveBlock = waveBlock;
 		this.waveLength = waveLength;
-		this.direction = RTGAPI.config().OCEAN_WAVE_DIRECTION.get(); // The direction of the wave (0 = X; 1 = Z)
+		this.direction = 1; 
 	}
 
 	public WorldGenWave(int waveLength) {

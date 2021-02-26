@@ -18,154 +18,125 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 
 public class RealisticBiomeRedwallArcticHills extends RealisticBiomeRedwallBase {
+	public static Biome biome = BiomeHandler.redwall_arctic_hills;
+	public static Biome river = BiomeHandler.redwall_river;
 
-    public static Biome biome = BiomeHandler.redwall_arctic_hills;
-    public static Biome river = BiomeHandler.redwall_river;
+	public RealisticBiomeRedwallArcticHills() {
+		super(biome, river);
+	}
 
-    public RealisticBiomeRedwallArcticHills() {
+	@Override
+	public void initConfig() {
+		this.getConfig().ALLOW_SCENIC_LAKES.set(false);
 
-        super(biome, river);
-    }
+		this.getConfig().addProperty(this.getConfig().USE_ARCTIC_SURFACE).set(true);
+		this.getConfig().addProperty(this.getConfig().SURFACE_MIX_BLOCK).set("");
+		this.getConfig().addProperty(this.getConfig().SURFACE_MIX_BLOCK_META).set(0);
+		this.getConfig().addProperty(this.getConfig().SURFACE_MIX_FILLER_BLOCK).set("");
+		this.getConfig().addProperty(this.getConfig().SURFACE_MIX_FILLER_BLOCK_META).set(0);
+	}
 
-    @Override
-    public void initConfig() {
+	@Override
+	public TerrainBase initTerrain() {
+		return new TerrainVanillaIceMountains(230f, 60f, 68f);
+	}
 
-        this.getConfig().ALLOW_SCENIC_LAKES.set(false);
+	public class TerrainVanillaIceMountains extends TerrainBase {
+		private float width;
+		private float strength;
+		private float terrainHeight;
 
-        this.getConfig().addProperty(this.getConfig().USE_ARCTIC_SURFACE).set(true);
-        this.getConfig().addProperty(this.getConfig().SURFACE_MIX_BLOCK).set("");
-        this.getConfig().addProperty(this.getConfig().SURFACE_MIX_BLOCK_META).set(0);
-        this.getConfig().addProperty(this.getConfig().SURFACE_MIX_FILLER_BLOCK).set("");
-        this.getConfig().addProperty(this.getConfig().SURFACE_MIX_FILLER_BLOCK_META).set(0);
-    }
+		public TerrainVanillaIceMountains(float mountainWidth, float mountainStrength, float height) {
+			width = mountainWidth;
+			strength = mountainStrength;
+			terrainHeight = height;
+		}
 
-    @Override
-    public TerrainBase initTerrain() {
+		@Override
+		public float generateNoise(IRTGWorld rtgWorld, int x, int y, float border, float river) {
+			return terrainLonelyMountain(x, y, rtgWorld.simplex(), rtgWorld.cell(), river, strength, width, terrainHeight);
+		}
+	}
 
-        return new TerrainVanillaIceMountains(230f, 60f, 68f);
-    }
+	@Override
+	public SurfaceBase initSurface() {
+		if (this.getConfig().USE_ARCTIC_SURFACE.get()) {
+			return new SurfaceVanillaIceMountains(config, Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(), Blocks.PACKED_ICE.getDefaultState(), Blocks.ICE.getDefaultState(), 60f, -0.14f, 14f, 0.25f);
+		} else {
+			return new SurfaceVanillaIceMountains(config, biome.topBlock, biome.fillerBlock, Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(), Blocks.PACKED_ICE.getDefaultState(), Blocks.ICE.getDefaultState(), 60f, -0.14f, 14f, 0.25f);
+		}
+	}
 
-    public class TerrainVanillaIceMountains extends TerrainBase {
+	public class SurfaceVanillaIceMountains extends SurfaceBase {
+		private IBlockState mixBlockTop;
+		private IBlockState mixBlockFill;
+		private IBlockState cliffBlock1;
+		private IBlockState cliffBlock2;
+		private float width;
+		private float height;
+		private float smallW;
+		private float smallS;
 
-        private float width;
-        private float strength;
-        private float terrainHeight;
+		public SurfaceVanillaIceMountains(BiomeConfig config, IBlockState top, IBlockState filler, IBlockState mixTop, IBlockState mixFill, IBlockState cliff1, IBlockState cliff2, float mixWidth, float mixHeight, float smallWidth, float smallStrength) {
+			super(config, top, filler);
 
-        public TerrainVanillaIceMountains(float mountainWidth, float mountainStrength, float height) {
+			mixBlockTop = this.getConfigBlock(config.SURFACE_MIX_BLOCK.get(), config.SURFACE_MIX_BLOCK_META.get(), mixTop);
+			mixBlockFill = this.getConfigBlock(config.SURFACE_MIX_FILLER_BLOCK.get(), config.SURFACE_MIX_FILLER_BLOCK_META.get(), mixFill);
 
-            width = mountainWidth;
-            strength = mountainStrength;
-            terrainHeight = height;
-        }
+			cliffBlock1 = cliff1;
+			cliffBlock2 = cliff2;
 
-        @Override
-        public float generateNoise(IRTGWorld rtgWorld, int x, int y, float border, float river) {
+			width = mixWidth;
+			height = mixHeight;
+			smallW = smallWidth;
+			smallS = smallStrength;
+		}
 
-            return terrainLonelyMountain(x, y, rtgWorld.simplex(), rtgWorld.cell(), river, strength, width, terrainHeight);
-        }
-    }
+		@Override
+		public void paintTerrain(ChunkPrimer primer, int i, int j, int x, int z, int depth, IRTGWorld rtgWorld, float[] noise, float river, Biome[] base) {
+			Random rand = rtgWorld.rand();
+			OpenSimplexNoise simplex = rtgWorld.simplex();
+			float c = CliffCalculator.calc(x, z, noise);
+			boolean cliff = c > 1.4f ? true : false;
+			boolean mix = false;
 
-    @Override
-    public SurfaceBase initSurface() {
+			for (int k = 255; k > -1; k--) {
+				Block b = primer.getBlockState(x, k, z).getBlock();
+				if (b == Blocks.AIR) {
+					depth = -1;
+				} else if (b == Blocks.STONE) {
+					depth++;
 
-        if (this.getConfig().USE_ARCTIC_SURFACE.get()) {
-            return new SurfaceVanillaIceMountains(
-                config, Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(),
-                Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(),
-                Blocks.PACKED_ICE.getDefaultState(), Blocks.ICE.getDefaultState(),
-                60f, -0.14f, 14f, 0.25f
-            );
-        }
-        else {
-            return new SurfaceVanillaIceMountains(
-                config, biome.topBlock, biome.fillerBlock,
-                Blocks.SNOW.getDefaultState(), Blocks.SNOW.getDefaultState(),
-                Blocks.PACKED_ICE.getDefaultState(), Blocks.ICE.getDefaultState(),
-                60f, -0.14f, 14f, 0.25f
-            );
-        }
-    }
+					if (cliff) {
+						if (depth > -1 && depth < 2) {
+							primer.setBlockState(x, k, z, rand.nextInt(3) == 0 ? cliffBlock2 : cliffBlock1);
+						} else if (depth < 10) {
+							primer.setBlockState(x, k, z, cliffBlock1);
+						}
+					} else {
+						if (depth == 0 && k > 61) {
+							if (simplex.noise2(i / width, j / width) + simplex.noise2(i / smallW, j / smallW) * smallS > height) {
+								primer.setBlockState(x, k, z, mixBlockTop);
+								mix = true;
+							} else {
+								primer.setBlockState(x, k, z, topBlock);
+							}
+						} else if (depth < 4) {
+							if (mix) {
+								primer.setBlockState(x, k, z, mixBlockFill);
+							} else {
+								primer.setBlockState(x, k, z, fillerBlock);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
-    public class SurfaceVanillaIceMountains extends SurfaceBase {
-
-        private IBlockState mixBlockTop;
-        private IBlockState mixBlockFill;
-        private IBlockState cliffBlock1;
-        private IBlockState cliffBlock2;
-        private float width;
-        private float height;
-        private float smallW;
-        private float smallS;
-
-        public SurfaceVanillaIceMountains(BiomeConfig config, IBlockState top, IBlockState filler, IBlockState mixTop, IBlockState mixFill, IBlockState cliff1, IBlockState cliff2, float mixWidth, float mixHeight, float smallWidth, float smallStrength) {
-
-            super(config, top, filler);
-
-            mixBlockTop = this.getConfigBlock(config.SURFACE_MIX_BLOCK.get(), config.SURFACE_MIX_BLOCK_META.get(), mixTop);
-            mixBlockFill = this.getConfigBlock(config.SURFACE_MIX_FILLER_BLOCK.get(), config.SURFACE_MIX_FILLER_BLOCK_META.get(), mixFill);
-
-            cliffBlock1 = cliff1;
-            cliffBlock2 = cliff2;
-
-            width = mixWidth;
-            height = mixHeight;
-            smallW = smallWidth;
-            smallS = smallStrength;
-        }
-
-        @Override
-        public void paintTerrain(ChunkPrimer primer, int i, int j, int x, int z, int depth, IRTGWorld rtgWorld, float[] noise, float river, Biome[] base) {
-
-            Random rand = rtgWorld.rand();
-            OpenSimplexNoise simplex = rtgWorld.simplex();
-            float c = CliffCalculator.calc(x, z, noise);
-            boolean cliff = c > 1.4f ? true : false;
-            boolean mix = false;
-
-            for (int k = 255; k > -1; k--) {
-                Block b = primer.getBlockState(x, k, z).getBlock();
-                if (b == Blocks.AIR) {
-                    depth = -1;
-                }
-                else if (b == Blocks.STONE) {
-                    depth++;
-
-                    if (cliff) {
-                        if (depth > -1 && depth < 2) {
-                            primer.setBlockState(x, k, z, rand.nextInt(3) == 0 ? cliffBlock2 : cliffBlock1);
-                        }
-                        else if (depth < 10) {
-                            primer.setBlockState(x, k, z, cliffBlock1);
-                        }
-                    }
-                    else {
-                        if (depth == 0 && k > 61) {
-                            if (simplex.noise2(i / width, j / width) + simplex.noise2(i / smallW, j / smallW) * smallS > height) {
-                                primer.setBlockState(x, k, z, mixBlockTop);
-                                mix = true;
-                            }
-                            else {
-                                primer.setBlockState(x, k, z, topBlock);
-                            }
-                        }
-                        else if (depth < 4) {
-                            if (mix) {
-                                primer.setBlockState(x, k, z, mixBlockFill);
-                            }
-                            else {
-                                primer.setBlockState(x, k, z, fillerBlock);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void initDecos() {
-
-        DecoBaseBiomeDecorations decoBaseBiomeDecorations = new DecoBaseBiomeDecorations();
-        this.addDeco(decoBaseBiomeDecorations);
-    }
+	@Override
+	public void initDecos() {
+		DecoBaseBiomeDecorations decoBaseBiomeDecorations = new DecoBaseBiomeDecorations();
+		this.addDeco(decoBaseBiomeDecorations);
+	}
 }

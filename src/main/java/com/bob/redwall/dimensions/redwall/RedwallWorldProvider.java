@@ -38,6 +38,7 @@ public class RedwallWorldProvider extends WorldProvider {
 	public static final int REDWALL_BIOME_SIZE = 2; //2 results in a 1:1 ratio between pixels and chunks. That seems pretty reasonable.
 	public static final float NPC_SPAWN_CHANCE_WORLDGEN = 0.02F;
 	public static final float NPC_SPAWN_CHANCE = 0.02F;
+	public static final int SEA_LEVEL = 63;
 	public static final String REDWALL_MAP_LOCATION = "map.png";
 	public static BufferedImage IMAGE = null;
 	

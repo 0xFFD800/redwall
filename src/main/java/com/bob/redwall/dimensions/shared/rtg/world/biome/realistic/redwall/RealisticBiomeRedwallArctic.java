@@ -2,6 +2,7 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
 import com.bob.redwall.dimensions.shared.rtg.api.util.SnowHeightCalculator;
@@ -21,7 +22,7 @@ import net.minecraft.world.chunk.ChunkPrimer;
 public class RealisticBiomeRedwallArctic extends RealisticBiomeRedwallBase {
 	public static Biome biome = BiomeHandler.redwall_arctic;
 	public static Biome river = BiomeHandler.redwall_river;
-	
+
 	public RealisticBiomeRedwallArctic() {
 		super(biome, river);
 	}
@@ -30,7 +31,7 @@ public class RealisticBiomeRedwallArctic extends RealisticBiomeRedwallBase {
 	public void initConfig() {
 		this.getConfig().addProperty(this.getConfig().USE_ARCTIC_SURFACE).set(true);
 		this.getConfig().addProperty(this.getConfig().ALLOW_LOGS).set(true);
-        this.getConfig().addProperty(this.getConfig().FALLEN_LOG_DENSITY_MULTIPLIER);
+		this.getConfig().addProperty(this.getConfig().FALLEN_LOG_DENSITY_MULTIPLIER);
 	}
 
 	@Override
@@ -38,33 +39,32 @@ public class RealisticBiomeRedwallArctic extends RealisticBiomeRedwallBase {
 		return new TerrainVanillaIcePlains();
 	}
 
-    public class TerrainVanillaIcePlains extends TerrainBase {
-        public TerrainVanillaIcePlains() {
+	public class TerrainVanillaIcePlains extends TerrainBase {
+		public TerrainVanillaIcePlains() {
 
-        }
+		}
 
-        @Override
-        public float generateNoise(IRTGWorld rtgWorld, int x, int y, float border, float river) {
+		@Override
+		public float generateNoise(IRTGWorld rtgWorld, int x, int y, float border, float river) {
 			return terrainPlains(x, y, rtgWorld.simplex(), river, 160f, 10f, 60f, 200f, 65f);
-        }
-    }
+		}
+	}
 
 	@Override
 	public SurfaceBase initSurface() {
-	    if (this.getConfig().USE_ARCTIC_SURFACE.get()) {
-            return new SurfacePolar(config,
-                Blocks.SNOW.getDefaultState(), //Block top
-                biome.fillerBlock, //Block filler,
-                Blocks.SNOW.getDefaultState(), //IBlockState mixTop,
-                biome.fillerBlock, //IBlockState mixFill,
-                80f, //float mixWidth,
-                -0.15f, //float mixHeight,
-                10f, //float smallWidth,
-                0.5f //float smallStrength
-            );
-        } else {
-            return new SurfaceVanillaIcePlains(config, biome.topBlock, biome.fillerBlock, biome.topBlock, biome.topBlock);
-        }
+		if (this.getConfig().USE_ARCTIC_SURFACE.get()) {
+			return new SurfacePolar(config, Blocks.SNOW.getDefaultState(), // Block top
+					biome.fillerBlock, // Block filler,
+					Blocks.SNOW.getDefaultState(), // IBlockState mixTop,
+					biome.fillerBlock, // IBlockState mixFill,
+					80f, // float mixWidth,
+					-0.15f, // float mixHeight,
+					10f, // float smallWidth,
+					0.5f // float smallStrength
+			);
+		} else {
+			return new SurfaceVanillaIcePlains(config, biome.topBlock, biome.fillerBlock, biome.topBlock, biome.topBlock);
+		}
 
 	}
 
@@ -81,11 +81,12 @@ public class RealisticBiomeRedwallArctic extends RealisticBiomeRedwallBase {
 
 		@Override
 		public void paintTerrain(ChunkPrimer primer, int i, int j, int x, int z, int depth, IRTGWorld rtgWorld, float[] noise, float river, Biome[] base) {
-
 			Random rand = rtgWorld.rand();
 			float c = CliffCalculator.calc(x, z, noise);
 			boolean cliff = c > 1.4f ? true : false;
 
+            OpenSimplexNoise simplex = rtgWorld.simplex();
+            float mixNoise = simplex.noise2(i / 12f, j / 12f);
 			for (int k = 255; k > -1; k--) {
 				Block b = primer.getBlockState(x, k, z).getBlock();
 				if (b == Blocks.AIR) {
@@ -93,16 +94,20 @@ public class RealisticBiomeRedwallArctic extends RealisticBiomeRedwallBase {
 				} else if (b == Blocks.STONE) {
 					depth++;
 
-					if(cliff) {
-						if(depth > -1 && depth < 2) {
+					if (cliff) {
+						if (depth > -1 && depth < 2) {
 							primer.setBlockState(x, k, z, rand.nextInt(3) == 0 ? cliffBlock2 : cliffBlock1);
 						} else if (depth < 10) {
 							primer.setBlockState(x, k, z, cliffBlock1);
 						}
 					} else {
-						if(depth == 0 && k > 61) {
-							primer.setBlockState(x, k, z, topBlock);
-						} else if(depth < 4) {
+						if (depth == 0) {
+							 if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+								if(mixNoise < 0.6F) primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+								if(mixNoise < -0.4F) primer.setBlockState(x, k, z, Blocks.CLAY.getDefaultState());
+								else primer.setBlockState(x, k, z, Blocks.GRAVEL.getDefaultState());
+							} else primer.setBlockState(x, k, z, topBlock);
+						} else if (depth < 4) {
 							primer.setBlockState(x, k, z, fillerBlock);
 						}
 					}

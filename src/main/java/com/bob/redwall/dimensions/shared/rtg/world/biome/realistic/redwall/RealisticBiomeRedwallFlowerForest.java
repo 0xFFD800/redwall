@@ -2,6 +2,7 @@ package com.bob.redwall.dimensions.shared.rtg.world.biome.realistic.redwall;
 
 import java.util.Random;
 
+import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.dimensions.shared.rtg.api.config.BiomeConfig;
 import com.bob.redwall.dimensions.shared.rtg.api.util.CliffCalculator;
 import com.bob.redwall.dimensions.shared.rtg.api.util.noise.OpenSimplexNoise;
@@ -57,7 +58,6 @@ public class RealisticBiomeRedwallFlowerForest extends RealisticBiomeRedwallBase
     }
 
     public class SurfaceVanillaFlowerForest extends SurfaceBase {
-
         private float min;
 
         private float sCliff = 1.5f;
@@ -108,21 +108,16 @@ public class RealisticBiomeRedwallFlowerForest extends RealisticBiomeRedwallBase
 
                         if (cliff == 1) {
                             if (rand.nextInt(3) == 0) {
-
                                 primer.setBlockState(x, k, z, hcCobble(rtgWorld, i, j, x, z, k));
                             } else {
-
                                 primer.setBlockState(x, k, z, hcStone(rtgWorld, i, j, x, z, k));
                             }
                         } else if (cliff == 2) {
                             primer.setBlockState(x, k, z, getShadowStoneBlock(rtgWorld, i, j, x, z, k));
-                        } else if (k < 63) {
-                            if (k < 62) {
-                                primer.setBlockState(x, k, z, fillerBlock);
-                            } else {
-                                primer.setBlockState(x, k, z, topBlock);
-                            }
-                        } else if (simplex.noise2(i / 12f, j / 12f) > mixHeight) {
+                        } else if (k < RedwallWorldProvider.SEA_LEVEL - 1) {
+							if (simplex.noise2(i / 12f, j / 12f) > mixHeight) primer.setBlockState(x, k, z, Blocks.CLAY.getDefaultState());
+							else primer.setBlockState(x, k, z, Blocks.SAND.getDefaultState());
+						} else if (simplex.noise2(i / 12f, j / 12f) > mixHeight) {
                             primer.setBlockState(x, k, z, mixBlock);
                         } else {
                             primer.setBlockState(x, k, z, topBlock);

@@ -67,7 +67,7 @@ public abstract class RealisticBiomeBase implements IRealisticBiome {
 		riverBiome = river;
 		this.config = new BiomeConfig();
 		beachBiome = this.beachBiome();
-
+		
 		rDecorator = new BiomeDecoratorRTG(this, biome);
 
 		decos = new ArrayList<>();
@@ -394,10 +394,12 @@ public abstract class RealisticBiomeBase implements IRealisticBiome {
 		return RTGAPI.configPath + "biomes/" + this.modSlug() + "/" + this.biomeSlug() + ".cfg";
 	}
 
+	@Override
 	public String modSlug() {
 		throw new RuntimeException("Realistic biomes need a mod slug.");
 	}
 
+	@Override
 	public String biomeSlug() {
 		return BiomeConfig.formatSlug(this.baseBiome.getBiomeName());
 	}
@@ -417,7 +419,6 @@ public abstract class RealisticBiomeBase implements IRealisticBiome {
 	}
 
 	protected TerrainBase checkTerrain(TerrainBase terrainIn) {
-
 		return organicTerrain() ? new TerrainOrganic() : terrainIn;
 	}
 }
