@@ -31,7 +31,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 
 public class RealisticBiomeRedwallNoonvaleHills extends RealisticBiomeRedwallBase {
-
     public static Biome biome = BiomeHandler.redwall_noonvale_hills;
     public static Biome river = BiomeHandler.redwall_river;
 

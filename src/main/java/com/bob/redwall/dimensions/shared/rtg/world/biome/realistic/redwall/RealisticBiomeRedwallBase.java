@@ -49,6 +49,7 @@ public abstract class RealisticBiomeRedwallBase extends RealisticBiomeBase {
     public static RealisticBiomeBase valourSouthswardHills;
     public static RealisticBiomeBase valourDeeplough;
     public static RealisticBiomeBase valourNorthlands;
+    public static RealisticBiomeBase valourNorthlandsHills;
     public static RealisticBiomeBase valourNoonvale;
     public static RealisticBiomeBase valourNoonvaleHills;
     public static RealisticBiomeBase valourNoonvaleForest;
@@ -123,6 +124,7 @@ public abstract class RealisticBiomeRedwallBase extends RealisticBiomeBase {
     	valourSouthswardHills = new RealisticBiomeRedwallSouthswardHills();
     	valourDeeplough = new RealisticBiomeRedwallDeeplough();
     	valourNorthlands = new RealisticBiomeRedwallNorthlands();
+    	valourNorthlandsHills = new RealisticBiomeRedwallNorthlandsHills();
     	valourNoonvale = new RealisticBiomeRedwallNoonvale();
     	valourNoonvaleHills = new RealisticBiomeRedwallNoonvaleHills();
     	valourNoonvaleForest = new RealisticBiomeRedwallNoonvaleForest();

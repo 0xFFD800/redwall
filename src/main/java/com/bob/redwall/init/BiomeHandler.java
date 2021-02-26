@@ -83,6 +83,7 @@ public class BiomeHandler extends Biome {
 	public static Biome redwall_hills_southsward;
 	public static Biome redwall_deeplough;
     public static Biome redwall_northlands;
+    public static Biome redwall_northlands_hills;
     public static Biome redwall_noonvale;
     public static Biome redwall_noonvale_forest;
     public static Biome redwall_noonvale_hills;
@@ -148,9 +149,10 @@ public class BiomeHandler extends Biome {
 		redwall_hills_southsward = new BiomeRedwallPlains(false, true, (new Biome.BiomeProperties("Southsward Hills")).setBaseHeight(0.3F).setHeightVariation(0.3F).setTemperature(1.2F).setRainfall(0.2F).setWaterColor(WWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_southsward_hills"));
 		redwall_deeplough = new BiomeRedwallOcean((new Biome.BiomeProperties("Deeplough")).setBaseHeight(-1.8F).setHeightVariation(0.1F).setWaterColor(DLWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_deeplough"));
 		redwall_northlands = new BiomeRedwallNorthlands(false, false, (new Biome.BiomeProperties("Northlands")).setBaseHeight(0.125F).setHeightVariation(0.015F).setTemperature(0.4F).setRainfall(0.8F).setWaterColor(CWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_northlands"));
+		redwall_northlands_hills = new BiomeRedwallNorthlands(false, true, (new Biome.BiomeProperties("Northlands Hills")).setBaseHeight(0.3F).setHeightVariation(0.3F).setTemperature(0.4F).setRainfall(0.8F).setWaterColor(CWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_northlands_hills"));
 		redwall_noonvale = new BiomeRedwallNorthlands(true, false, (new Biome.BiomeProperties("Noonvale")).setBaseHeight(0.125F).setHeightVariation(0.015F).setTemperature(0.4F).setRainfall(0.8F).setWaterColor(DWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_noonvale"));
 		redwall_noonvale_forest = new BiomeRedwallForest(BiomeRedwallForest.Type.NOONVALE, (new Biome.BiomeProperties("Noonvale Forest")).setTemperature(0.35F).setRainfall(0.8F).setWaterColor(DWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_noonvale_forest"));
-		redwall_noonvale_hills = new BiomeRedwallNorthlands(true, false, (new Biome.BiomeProperties("Noonvale Hills")).setBaseHeight(0.3F).setHeightVariation(0.3F).setTemperature(0.4F).setRainfall(0.8F).setWaterColor(DWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_noonvale_hills"));
+		redwall_noonvale_hills = new BiomeRedwallNorthlands(true, true, (new Biome.BiomeProperties("Noonvale Hills")).setBaseHeight(0.3F).setHeightVariation(0.3F).setTemperature(0.4F).setRainfall(0.8F).setWaterColor(DWC_BIOME)).setRegistryName(new ResourceLocation(Ref.MODID, "redwall_noonvale_hills"));
 	}
 	
 	public static void register(RegistryEvent.Register<Biome> event) {
@@ -199,6 +201,7 @@ public class BiomeHandler extends Biome {
         event.getRegistry().register(redwall_hills_southsward);
         event.getRegistry().register(redwall_deeplough);
         event.getRegistry().register(redwall_northlands);
+        event.getRegistry().register(redwall_northlands_hills);
         event.getRegistry().register(redwall_noonvale);
         event.getRegistry().register(redwall_noonvale_forest);
         event.getRegistry().register(redwall_noonvale_hills);
@@ -248,6 +251,7 @@ public class BiomeHandler extends Biome {
 		BiomeDictionary.addTypes(redwall_hills_southsward, BiomeDictionary.Type.HILLS);
 		BiomeDictionary.addTypes(redwall_deeplough, BiomeDictionary.Type.WATER, BiomeDictionary.Type.SPOOKY);
 		BiomeDictionary.addTypes(redwall_northlands, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.WASTELAND);
+		BiomeDictionary.addTypes(redwall_northlands_hills, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.COLD, BiomeDictionary.Type.WASTELAND);
 		BiomeDictionary.addTypes(redwall_noonvale, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.LUSH);
 		BiomeDictionary.addTypes(redwall_noonvale_forest, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.LUSH);
 		BiomeDictionary.addTypes(redwall_noonvale_hills, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.LUSH);

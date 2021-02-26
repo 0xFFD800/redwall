@@ -43,6 +43,7 @@ redwall_southsward_forest:00B500
 redwall_southsward_hills:3F9E00
 redwall_deeplough:00093D
 redwall_northlands:CCC470
+redwall_northlands_hills:B2AA62
 redwall_noonvale:FCA57C
 redwall_noonvale_forest:C68263
 redwall_noonvale_hills:FFB596
