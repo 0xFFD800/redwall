@@ -3,6 +3,8 @@ package com.bob.redwall.init;
 import com.bob.redwall.RedwallControlHandler;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
+import com.bob.redwall.biomes.icy.BiomeRedwallArctic;
+import com.bob.redwall.biomes.warm.BiomeRedwallMarsh;
 import com.bob.redwall.common.MessageSetCap;
 import com.bob.redwall.common.MessageSyncSeason;
 import com.bob.redwall.common.MessageSyncSeason.Mode;
@@ -63,10 +65,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootEntryTable;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -91,6 +95,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -104,7 +109,7 @@ public class EventHandler {
 		ItemStack itemstack = player.getHeldItemMainhand();
 
 		if (event.isButtonstate()) {
-			if(itemstack.getItem() instanceof ModCustomWeapon) {
+			if (itemstack.getItem() instanceof ModCustomWeapon) {
 				if (event.getButton() == 1 && ((ModCustomWeapon) itemstack.getItem()).hasRightClickAbility(itemstack, player)) return;
 				if (player.isSneaking()) event.setCanceled(RedwallControlHandler.handleDefenseStart(event.getButton()));
 				else event.setCanceled(RedwallControlHandler.handleAttack(event.getButton()));
@@ -300,8 +305,8 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerTickEvent event) {
 		if (event.phase == TickEvent.Phase.START && !event.player.world.isRemote) {
-			if(event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && event.player.getCooledAttackStrength(0.5F) == 1.0F) event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
-			
+			if (event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && event.player.getCooledAttackStrength(0.5F) == 1.0F) event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
+
 			// Terrain Speed Modifier
 			event.player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).updateTick();
 
@@ -455,9 +460,9 @@ public class EventHandler {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(RenderGameOverlayEvent.Pre event) {
-		if(event.getType() == ElementType.CROSSHAIRS) {
+		if (event.getType() == ElementType.CROSSHAIRS) {
 			Minecraft.getMinecraft().getTextureManager().bindTexture(RedwallUtils.REDWALL_INGAME);
-            GlStateManager.enableAlpha();
+			GlStateManager.enableAlpha();
 			float f = Minecraft.getMinecraft().player.getCooledAttackStrength(0.0F);
 			boolean flag = false;
 
@@ -478,6 +483,41 @@ public class EventHandler {
 				Gui.drawModalRectWithCustomSizedTexture(j, i, 0, 0, 15, 15, 45, 15);
 				Gui.drawModalRectWithCustomSizedTexture(j, i + 15 - k, 15, 15 - k, k, k, 45, 15);
 			}
+		}
+	}
+
+	private static float fog_density = 0.0F;
+	private static float prev_fog_density = 0.0F;
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(RenderFogEvent event) {
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
+		Biome biome = player.world.getBiome(player.getPosition());
+
+		if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward || biome == BiomeHandler.redwall_abyss || biome instanceof BiomeRedwallMarsh) GlStateManager.setFog(GlStateManager.FogMode.EXP);
+		else if (biome instanceof BiomeRedwallArctic) GlStateManager.setFog(GlStateManager.FogMode.LINEAR);
+
+		if (player.world.isRaining()) GlStateManager.setFog(GlStateManager.FogMode.EXP);
+
+		GlStateManager.setFogDensity(MathHelper.clamp(prev_fog_density + ((fog_density - prev_fog_density) * (float) event.getRenderPartialTicks()), 0.0F, 1.0F));
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(TickEvent.ClientTickEvent event) {
+		if (event.phase == Phase.END) {
+			prev_fog_density = fog_density;
+	
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
+			if(player == null || player.world == null) return;
+			
+			Biome biome = player.world.getBiome(player.getPosition());
+			if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward) fog_density = 0.02F;
+			else if (biome == BiomeHandler.redwall_abyss) fog_density = 0.03F;
+			else if (biome instanceof BiomeRedwallMarsh) fog_density = 0.05F;
+			else if (biome instanceof BiomeRedwallArctic) fog_density = 0.02F;
+			else fog_density = 0.0F;
+	
+			if (player.world.isRaining()) fog_density = (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
 		}
 	}
 }
