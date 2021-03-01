@@ -174,6 +174,14 @@ public class ItemModBow extends ModItem {
 
         return f;
     }
+    
+    public float getChargeTime() {
+    	return this.chargeTime;
+    }
+    
+    public float getPower() {
+    	return this.power;
+    }
 
     /**
      * How long it takes to use or consume an item

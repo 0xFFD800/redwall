@@ -1,9 +1,13 @@
 package com.bob.redwall.entity.client.model;
 
+import com.bob.redwall.entity.npc.EntityAbstractNPC;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 
 public class ModelOtter extends ModelBiped {
@@ -52,6 +56,22 @@ public class ModelOtter extends ModelBiped {
         this.bipedTail1.setRotationPoint(0.0F, 11.0F, 0.0F);
         this.bipedTail1.rotateAngleX = -1.05F;
     }
+
+	@Override
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+		this.rightArmPose = ModelBiped.ArmPose.EMPTY;
+		this.leftArmPose = ModelBiped.ArmPose.EMPTY;
+
+		if (((EntityAbstractNPC) entitylivingbaseIn).isChargingBow()) {
+			if (entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT) {
+				this.rightArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
+			} else {
+				this.leftArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
+			}
+		}
+
+		super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
+	}
 
 	@Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {

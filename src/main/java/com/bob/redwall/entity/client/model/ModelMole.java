@@ -1,9 +1,13 @@
 package com.bob.redwall.entity.client.model;
 
+import com.bob.redwall.entity.npc.EntityAbstractNPC;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.EnumHandSide;
 
 public class ModelMole extends ModelBiped {
     public ModelRenderer bipedBodywear;
@@ -56,6 +60,22 @@ public class ModelMole extends ModelBiped {
         this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 11, 4, modelSize);
         this.bipedLeftLeg.setRotationPoint(1.9F, 11.0F + extraHeight, 0.0F);
     }
+
+	@Override
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
+		this.rightArmPose = ModelBiped.ArmPose.EMPTY;
+		this.leftArmPose = ModelBiped.ArmPose.EMPTY;
+
+		if (((EntityAbstractNPC) entitylivingbaseIn).isChargingBow()) {
+			if (entitylivingbaseIn.getPrimaryHand() == EnumHandSide.RIGHT) {
+				this.rightArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
+			} else {
+				this.leftArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
+			}
+		}
+
+		super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
+	}
 
 	@Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {

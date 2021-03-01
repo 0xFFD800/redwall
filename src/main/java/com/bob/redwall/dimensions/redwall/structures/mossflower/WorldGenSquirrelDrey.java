@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.bob.redwall.Ref;
 import com.bob.redwall.dimensions.shared.rtg.api.util.Logger;
-import com.bob.redwall.entity.npc.good.EntitySquirrelWoodlander;
+import com.bob.redwall.entity.npc.good.woodlander.EntitySquirrelWoodlander;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;

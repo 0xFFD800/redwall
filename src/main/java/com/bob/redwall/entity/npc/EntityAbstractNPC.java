@@ -12,6 +12,7 @@ import com.bob.redwall.common.MessageUIInteract;
 import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC.MobAttackStrategy;
+import com.bob.redwall.entity.ai.EntityAIAttackRangedNPC;
 import com.bob.redwall.entity.ai.EntityAIOpenModDoor;
 import com.bob.redwall.entity.ai.EntityAITargetNPC;
 import com.bob.redwall.entity.ai.pathfind.NPCPathNavigate;
@@ -25,6 +26,7 @@ import com.bob.redwall.factions.Faction.FactionStatus;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.init.SpeechHandler;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
+import com.bob.redwall.items.weapons.ranged.ItemModBow;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
@@ -51,9 +53,13 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -65,20 +71,24 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class EntityAbstractNPC extends EntityCreature {
-	protected static final List<EquipmentChance> EQUIPMENT_LIST_VERMIN_MOSSFLOWER = Lists.newArrayList(new EquipmentChance(50, Items.AIR), new EquipmentChance(15, ItemHandler.bronze_dagger), new EquipmentChance(15, ItemHandler.stone_spear), new EquipmentChance(15, ItemHandler.stone_mace), new EquipmentChance(15, ItemHandler.stone_throwing_axe), new EquipmentChance(10, ItemHandler.bronze_axe), new EquipmentChance(10, ItemHandler.bronze_spear), new EquipmentChance(10, ItemHandler.bronze_mace), new EquipmentChance(10, ItemHandler.bronze_pike), new EquipmentChance(10, ItemHandler.bronze_throwing_axe), new EquipmentChance(7, ItemHandler.iron_dagger), new EquipmentChance(3, ItemHandler.iron_spear), new EquipmentChance(3, ItemHandler.iron_mace), new EquipmentChance(3, ItemHandler.iron_throwing_axe), new EquipmentChance(3, ItemHandler.iron_pike), new EquipmentChance(3, Items.IRON_AXE), new EquipmentChance(3, ItemHandler.bronze_halberd), new EquipmentChance(2, ItemHandler.iron_scimitar), new EquipmentChance(1, ItemHandler.iron_halberd), new EquipmentChance(1, ItemHandler.iron_sword), new EquipmentChance(1, ItemHandler.iron_broadsword), new EquipmentChance(1, ItemHandler.iron_rapier));
-	protected static final List<EquipmentChance> EQUIPMENT_LIST_WOODLANDERS = Lists.newArrayList(new EquipmentChance(60, Items.AIR), new EquipmentChance(12, ItemHandler.bronze_dagger), new EquipmentChance(12, ItemHandler.stone_spear), new EquipmentChance(12, ItemHandler.stone_throwing_axe), new EquipmentChance(12, ItemHandler.bronze_axe), new EquipmentChance(12, ItemHandler.bronze_spear), new EquipmentChance(12, ItemHandler.bronze_throwing_axe), new EquipmentChance(10, ItemHandler.iron_dagger), new EquipmentChance(5, ItemHandler.iron_spear), new EquipmentChance(5, ItemHandler.iron_throwing_axe), new EquipmentChance(5, Items.IRON_AXE), new EquipmentChance(4, ItemHandler.iron_scimitar), new EquipmentChance(3, ItemHandler.iron_sword), new EquipmentChance(3, ItemHandler.iron_broadsword), new EquipmentChance(3, ItemHandler.iron_rapier));
-	protected static final List<EquipmentChance> EQUIPMENT_LIST_MOSSFLOWER_OTTERS = Lists.newArrayList(new EquipmentChance(20, Items.AIR), new EquipmentChance(8, ItemHandler.bronze_dagger), new EquipmentChance(40, ItemHandler.stone_spear), new EquipmentChance(30, ItemHandler.stone_throwing_axe), new EquipmentChance(7, ItemHandler.bronze_axe), new EquipmentChance(40, ItemHandler.bronze_spear), new EquipmentChance(30, ItemHandler.bronze_throwing_axe), new EquipmentChance(6, ItemHandler.iron_dagger), new EquipmentChance(20, ItemHandler.iron_spear), new EquipmentChance(15, ItemHandler.iron_throwing_axe), new EquipmentChance(15, Items.IRON_AXE), new EquipmentChance(6, ItemHandler.iron_scimitar), new EquipmentChance(5, ItemHandler.iron_sword), new EquipmentChance(5, ItemHandler.iron_broadsword), new EquipmentChance(5, ItemHandler.iron_rapier));
-	
+	protected static final List<EquipmentChance> EQUIPMENT_LIST_VERMIN_MOSSFLOWER = Lists.newArrayList(new EquipmentChance(50, Items.AIR), new EquipmentChance(15, ItemHandler.bronze_dagger), new EquipmentChance(15, ItemHandler.stone_spear), new EquipmentChance(15, ItemHandler.stone_mace), new EquipmentChance(15, ItemHandler.stone_throwing_axe), new EquipmentChance(10, ItemHandler.bronze_axe), new EquipmentChance(10, ItemHandler.bronze_spear), new EquipmentChance(10, ItemHandler.bronze_mace), new EquipmentChance(10, ItemHandler.bronze_pike), new EquipmentChance(10, ItemHandler.bronze_throwing_axe), new EquipmentChance(7, ItemHandler.iron_dagger), new EquipmentChance(3, ItemHandler.iron_spear), new EquipmentChance(3, ItemHandler.iron_mace), new EquipmentChance(3, ItemHandler.iron_throwing_axe), new EquipmentChance(3, ItemHandler.iron_pike), new EquipmentChance(3, Items.IRON_AXE), new EquipmentChance(3, ItemHandler.bronze_halberd), new EquipmentChance(2, ItemHandler.iron_scimitar), new EquipmentChance(1, ItemHandler.iron_halberd), new EquipmentChance(1, ItemHandler.iron_sword), new EquipmentChance(1, ItemHandler.iron_broadsword), new EquipmentChance(1, ItemHandler.iron_rapier), new EquipmentChance(15, Items.BOW));
+	protected static final List<EquipmentChance> EQUIPMENT_LIST_WOODLANDERS = Lists.newArrayList(new EquipmentChance(60, Items.AIR), new EquipmentChance(12, ItemHandler.bronze_dagger), new EquipmentChance(12, ItemHandler.stone_spear), new EquipmentChance(12, ItemHandler.stone_throwing_axe), new EquipmentChance(12, ItemHandler.bronze_axe), new EquipmentChance(12, ItemHandler.bronze_spear), new EquipmentChance(12, ItemHandler.bronze_throwing_axe), new EquipmentChance(10, ItemHandler.iron_dagger), new EquipmentChance(5, ItemHandler.iron_spear), new EquipmentChance(5, ItemHandler.iron_throwing_axe), new EquipmentChance(5, Items.IRON_AXE), new EquipmentChance(4, ItemHandler.iron_scimitar), new EquipmentChance(3, ItemHandler.iron_sword), new EquipmentChance(3, ItemHandler.iron_broadsword), new EquipmentChance(3, ItemHandler.iron_rapier), new EquipmentChance(15, Items.BOW));
+	protected static final List<EquipmentChance> EQUIPMENT_LIST_MOSSFLOWER_OTTERS = Lists.newArrayList(new EquipmentChance(20, Items.AIR), new EquipmentChance(8, ItemHandler.bronze_dagger), new EquipmentChance(40, ItemHandler.stone_spear), new EquipmentChance(30, ItemHandler.stone_throwing_axe), new EquipmentChance(7, ItemHandler.bronze_axe), new EquipmentChance(40, ItemHandler.bronze_spear), new EquipmentChance(30, ItemHandler.bronze_throwing_axe), new EquipmentChance(6, ItemHandler.iron_dagger), new EquipmentChance(20, ItemHandler.iron_spear), new EquipmentChance(15, ItemHandler.iron_throwing_axe), new EquipmentChance(15, Items.IRON_AXE), new EquipmentChance(6, ItemHandler.iron_scimitar), new EquipmentChance(5, ItemHandler.iron_sword), new EquipmentChance(5, ItemHandler.iron_broadsword), new EquipmentChance(5, ItemHandler.iron_rapier), new EquipmentChance(20, Items.BOW));
+	protected static final List<EquipmentChance> EQUIPMENT_LIST_GUOSIM = Lists.newArrayList(new EquipmentChance(60, ItemHandler.guosim_rapier), new EquipmentChance(10, ItemHandler.guosim_paddle), new EquipmentChance(30, ItemHandler.guosim_bow));
+
 	private static final AttributeModifier ATTACK_SPEED_MODIFIER = new AttributeModifier(UUID.fromString("9998FA56-323B-4433-935B-2FC3FAC87635"), "attack speed modifier", -0.63, 2);
-	
+
 	private static final DataParameter<Boolean> MALE = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<String> SKIN = EntityDataManager.<String>createKey(EntityAbstractNPC.class, DataSerializers.STRING);
 	private static final DataParameter<ITextComponent> TALKING = EntityDataManager.<ITextComponent>createKey(EntityAbstractNPC.class, DataSerializers.TEXT_COMPONENT);
@@ -86,9 +96,12 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	private static final DataParameter<Integer> TALKING_TIME = EntityDataManager.<Integer>createKey(EntityAbstractNPC.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> ATTACK_COOLDOWN = EntityDataManager.<Integer>createKey(EntityAbstractNPC.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> ATTACKING_ACTIVE = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> CHARGING_BOW = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
 
 	private String customMessage;
 	public int timeToDespawn = 6000;
+	private EntityAIAttackMeleeNPC meleeAi = new EntityAIAttackMeleeNPC(this, 1.0D, true, MobAttackStrategy.HUMAN);
+	private EntityAIAttackRangedNPC rangedAi = new EntityAIAttackRangedNPC(this, 1.0D, 20, 24.0F);
 
 	public EntityAbstractNPC(World worldIn) {
 		this(worldIn, true);
@@ -187,6 +200,23 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		}
 	}
 
+	public void updateCombatTasks() {
+		if (this.world != null && !this.world.isRemote) {
+			this.tasks.removeTask(this.meleeAi);
+			this.tasks.removeTask(this.rangedAi);
+			ItemStack itemstack = this.getHeldItemMainhand();
+
+			if (itemstack.getItem() instanceof ItemBow || itemstack.getItem() instanceof ItemModBow) {
+				int i = itemstack.getItem() instanceof ItemModBow ? (int) (((ItemModBow) itemstack.getItem()).getChargeTime() * 1.5F) : 30;
+
+				this.rangedAi.setAttackCooldown(i);
+				this.tasks.addTask(1, this.rangedAi);
+			} else {
+				this.tasks.addTask(1, this.meleeAi);
+			}
+		}
+	}
+
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		if (!this.world.isRemote) {
@@ -221,6 +251,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.dataManager.register(TALKING_TIME, 0);
 		this.dataManager.register(ATTACK_COOLDOWN, 0);
 		this.dataManager.register(ATTACKING_ACTIVE, false);
+		this.dataManager.register(CHARGING_BOW, false);
 
 		this.setSkin(Ref.MODID + this.getSkinPath() + "1m.png");
 		this.setCustomNameTag(this.getIsMale() ? this.getNamesBankMale().get(this.getRNG().nextInt(this.getNamesBankMale().size())) : this.getNamesBankFemale().get(this.getRNG().nextInt(this.getNamesBankFemale().size())));
@@ -234,7 +265,6 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.getAttributeMap().registerAttribute(EntityPlayer.REACH_DISTANCE);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(4.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).applyModifier(EntityAbstractNPC.ATTACK_SPEED_MODIFIER);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
 		this.getEntityAttribute(EntityPlayer.REACH_DISTANCE).setBaseValue(4.0D);
 	}
@@ -243,6 +273,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	@Override
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).removeAllModifiers();
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).applyModifier(EntityAbstractNPC.ATTACK_SPEED_MODIFIER);
+		this.updateCombatTasks();
 
 		this.setIsMale(this.getRNG().nextBoolean());
 		this.resetSkinNameData();
@@ -296,7 +328,6 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIRestrictOpenDoor(this));
-		this.tasks.addTask(1, new EntityAIAttackMeleeNPC(this, 1.0D, true, MobAttackStrategy.HUMAN));
 		this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, true, new Class[0]) {
 			@Override
 			protected boolean isSuitableTarget(EntityLivingBase input, boolean includeInvincibles) {
@@ -342,6 +373,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		if (compound.hasKey("Skin")) this.setSkin(compound.getString("Skin"));
 		if (compound.hasKey("Male")) this.setIsMale(compound.getBoolean("Male"));
 		if (compound.hasKey("CustomMessage")) this.setCustomMessage(compound.getString("CustomMessage"));
+		this.updateCombatTasks();
 	}
 
 	@Override
@@ -447,12 +479,49 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		return super.isEntityInvulnerable(source);
 	}
 
+	@Override
+	public void setItemStackToSlot(EntityEquipmentSlot slotIn, ItemStack stack) {
+		super.setItemStackToSlot(slotIn, stack);
+
+		if (!this.world.isRemote && slotIn == EntityEquipmentSlot.MAINHAND) {
+			this.updateCombatTasks();
+		}
+	}
+
+	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+		EntityArrow entityarrow = this.getArrow(distanceFactor);
+		double d0 = target.posX - this.posX;
+		double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - entityarrow.posY;
+		double d2 = target.posZ - this.posZ;
+		double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
+		Item bow = this.getHeldItemMainhand().getItem();
+		float power = bow instanceof ItemModBow ? ((ItemModBow) bow).getPower() * 0.75F : 2.25F;
+		entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, power, (float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
+		this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		this.world.spawnEntity(entityarrow);
+	}
+
+	protected EntityArrow getArrow(float distanceFactor) {
+		EntityTippedArrow entitytippedarrow = new EntityTippedArrow(this.world, this);
+		entitytippedarrow.setEnchantmentEffectsFromEntity(this, distanceFactor);
+		return entitytippedarrow;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public boolean isChargingBow() {
+		return ((Boolean) this.dataManager.get(CHARGING_BOW)).booleanValue();
+	}
+
+	public void setChargingBow(boolean chargingBow) {
+		this.dataManager.set(CHARGING_BOW, Boolean.valueOf(chargingBow));
+	}
+
 	public static enum EnumOpinion {
 		FRIENDLY, UNFRIENDLY, HOSTILE;
 	}
 
 	public static enum EnumNPCType {
-		MOUSE("mouse"), SQUIRREL("squirrel"), MOLE("mole"), RAT("rat"), FERRET("rat"), WEASEL("rat"), OTTER("otter");
+		MOUSE("mouse"), SQUIRREL("squirrel"), MOLE("mole"), RAT("rat"), FERRET("rat"), WEASEL("rat"), OTTER("otter"), SHREW("shrew");
 
 		public final String armorSlug;
 

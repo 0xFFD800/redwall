@@ -6,10 +6,10 @@ import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
 import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
 import com.bob.redwall.entity.npc.evil.EntityRatMossflower;
 import com.bob.redwall.entity.npc.evil.EntityWeaselMossflower;
-import com.bob.redwall.entity.npc.good.EntityMoleWoodlander;
-import com.bob.redwall.entity.npc.good.EntityMouseWoodlander;
 import com.bob.redwall.entity.npc.good.EntityOtterMossflower;
-import com.bob.redwall.entity.npc.good.EntitySquirrelWoodlander;
+import com.bob.redwall.entity.npc.good.woodlander.EntityMoleWoodlander;
+import com.bob.redwall.entity.npc.good.woodlander.EntityMouseWoodlander;
+import com.bob.redwall.entity.npc.good.woodlander.EntitySquirrelWoodlander;
 
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;

@@ -71,6 +71,12 @@ public class SpeechHandler {
 	public static final List<String> NAMES_MOSSFLOWER_RAT_F = Lists.newArrayList();
 	public static final List<String> NAMES_MOSSFLOWER_FERRET_M = Lists.newArrayList();
 	public static final List<String> NAMES_MOSSFLOWER_FERRET_F = Lists.newArrayList();
+	
+	public static final List<String> GUOSIM_SHREW_FRIENDLY = Lists.newArrayList();
+	public static final List<String> GUOSIM_SHREW_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> GUOSIM_SHREW_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_GUOSIM_SHREW_M = Lists.newArrayList();
+	public static final List<String> NAMES_GUOSIM_SHREW_F = Lists.newArrayList();
 
 	public static void init() {
 		String path = "speech/" + Minecraft.getMinecraft().gameSettings.language;
@@ -129,6 +135,12 @@ public class SpeechHandler {
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/rat/names_f.speechbank"), NAMES_MOSSFLOWER_RAT_F);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/ferret/names_m.speechbank"), NAMES_MOSSFLOWER_FERRET_M);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/mossflower_vermin/ferret/names_f.speechbank"), NAMES_MOSSFLOWER_FERRET_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/guosim/shrew/friendly.speechbank"), GUOSIM_SHREW_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/guosim/shrew/unfriendly.speechbank"), GUOSIM_SHREW_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/guosim/shrew/hostile.speechbank"), GUOSIM_SHREW_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/guosim/shrew/names_m.speechbank"), NAMES_GUOSIM_SHREW_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID,  path + "/guosim/shrew/names_f.speechbank"), NAMES_GUOSIM_SHREW_F);
 	}
 	
 	public static void initializeSpeechbank(ResourceLocation resourceLoc, List<String> speechbank) {

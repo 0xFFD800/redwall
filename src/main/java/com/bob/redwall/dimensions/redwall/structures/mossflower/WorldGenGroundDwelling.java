@@ -5,8 +5,8 @@ import java.util.Random;
 import com.bob.redwall.Ref;
 import com.bob.redwall.dimensions.shared.rtg.api.util.Logger;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
-import com.bob.redwall.entity.npc.good.EntityMoleWoodlander;
-import com.bob.redwall.entity.npc.good.EntityMouseWoodlander;
+import com.bob.redwall.entity.npc.good.woodlander.EntityMoleWoodlander;
+import com.bob.redwall.entity.npc.good.woodlander.EntityMouseWoodlander;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
