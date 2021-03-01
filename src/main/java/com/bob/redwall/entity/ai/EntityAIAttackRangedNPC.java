@@ -5,7 +5,6 @@ import com.bob.redwall.items.weapons.ranged.ItemModBow;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
 import net.minecraft.util.EnumHand;
 
@@ -37,11 +36,11 @@ public class EntityAIAttackRangedNPC extends EntityAIBase {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		return this.entity.getAttackTarget() == null ? false : this.isBowInMainhand();
+		return this.entity.getAttackTarget() == null || !this.entity.getAttackTarget().isEntityAlive() ? false : this.isBowInMainhand();
 	}
 
 	protected boolean isBowInMainhand() {
-		return !this.entity.getHeldItemMainhand().isEmpty() && this.entity.getHeldItemMainhand().getItem() == Items.BOW;
+		return !this.entity.getHeldItemMainhand().isEmpty() && (this.entity.getHeldItemMainhand().getItem() instanceof ItemBow || this.entity.getHeldItemMainhand().getItem() instanceof ItemModBow);
 	}
 
 	/**
@@ -49,7 +48,7 @@ public class EntityAIAttackRangedNPC extends EntityAIBase {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		return (this.shouldExecute() || !this.entity.getNavigator().noPath()) && this.isBowInMainhand();
+		return (this.shouldExecute() || !this.entity.getNavigator().noPath()) && this.isBowInMainhand() && this.entity.getAttackTarget() != null && this.entity.getAttackTarget().isEntityAlive();
 	}
 
 	/**
