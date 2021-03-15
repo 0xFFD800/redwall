@@ -27,8 +27,8 @@ public class EntityAIAttackRangedNPC extends EntityAIBase {
 		this.setMutexBits(3);
 	}
 
-	public void setAttackCooldown(int p_189428_1_) {
-		this.attackCooldown = p_189428_1_;
+	public void setAttackCooldown(int cooldown) {
+		this.attackCooldown = cooldown;
 	}
 
 	/**
@@ -132,9 +132,9 @@ public class EntityAIAttackRangedNPC extends EntityAIBase {
 					this.entity.resetActiveHand();
 				} else if (flag) {
 					int i = this.entity.getItemInUseMaxCount();
-					float f = this.entity.getHeldItemMainhand().getItem() instanceof ItemModBow ? ((ItemModBow)this.entity.getHeldItemMainhand().getItem()).getChargeTime() : 20;
-					float f2 = this.entity.getHeldItemMainhand().getItem() instanceof ItemModBow ? ((ItemModBow)this.entity.getHeldItemMainhand().getItem()).getArrowVelocity(i) : ItemBow.getArrowVelocity(i);
-					
+					float f = this.entity.getHeldItemMainhand().getItem() instanceof ItemModBow ? ((ItemModBow) this.entity.getHeldItemMainhand().getItem()).getChargeTime() : 20;
+					float f2 = this.entity.getHeldItemMainhand().getItem() instanceof ItemModBow ? ((ItemModBow) this.entity.getHeldItemMainhand().getItem()).getArrowVelocity(i) : ItemBow.getArrowVelocity(i);
+
 					if (i >= f) {
 						this.entity.resetActiveHand();
 						this.entity.attackEntityWithRangedAttack(entitylivingbase, f2);
