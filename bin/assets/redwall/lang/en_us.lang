@@ -408,6 +408,7 @@ entity.redwall:mole_redwall.name=Redwall Mole
 entity.redwall:mole_woodlander.name=Woodlander Mole
 entity.redwall:otter_mossflower.name=Mossflower Otter
 entity.redwall:shrew_guosim.name=Guosim Shrew
+entity.redwall:shrew_redwall.name=Redwall Shrew
 
 entity.redwall:rat_mossflower.name=Mossflower Rat
 entity.redwall:ferret_mossflower.name=Mossflower Ferret

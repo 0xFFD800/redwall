@@ -7,6 +7,7 @@ import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
 import com.bob.redwall.entity.npc.evil.EntityRatMossflower;
 import com.bob.redwall.entity.npc.evil.EntityWeaselMossflower;
 import com.bob.redwall.entity.npc.good.EntityOtterMossflower;
+import com.bob.redwall.entity.npc.good.EntityShrewGuosim;
 import com.bob.redwall.entity.npc.good.woodlander.EntityMoleWoodlander;
 import com.bob.redwall.entity.npc.good.woodlander.EntityMouseWoodlander;
 import com.bob.redwall.entity.npc.good.woodlander.EntitySquirrelWoodlander;
@@ -41,6 +42,7 @@ public class BiomeRedwallForest extends Biome {
 	        this.spawnableCreatureList.add(new SpawnListEntry(EntityMouseWoodlander.class, 1, 3, 6));
 	        this.spawnableCreatureList.add(new SpawnListEntry(EntityOtterMossflower.class, 1, 1, 7));
 	        this.spawnableCreatureList.add(new SpawnListEntry(EntitySquirrelWoodlander.class, 1, 1, 4));
+	        this.spawnableCreatureList.add(new SpawnListEntry(EntityShrewGuosim.class, 1, 1, 4));
         }
 
         if (this.type == BiomeRedwallForest.Type.FLOWER) {

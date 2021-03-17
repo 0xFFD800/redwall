@@ -1,4 +1,4 @@
-package com.bob.redwall.entity.npc.good;
+package com.bob.redwall.entity.npc.good.redwall;
 
 import java.util.List;
 
@@ -20,38 +20,38 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityShrewGuosim extends EntityAbstractNPC {
-	public EntityShrewGuosim(World worldIn) {
+public class EntityShrewRedwall extends EntityAbstractNPC {
+	public EntityShrewRedwall(World worldIn) {
 		super(worldIn);
 	}
 	
-	public EntityShrewGuosim(World worldIn, boolean male) {
+	public EntityShrewRedwall(World worldIn, boolean male) {
 		super(worldIn, male);
 	}
     
 	@Override
     public List<String> getSpeechbank(EnumOpinion opinion) {
-    	return opinion == EnumOpinion.FRIENDLY ? SpeechHandler.REDWALL_SHREW_FRIENDLY : opinion == EnumOpinion.UNFRIENDLY ? SpeechHandler.REDWALL_SHREW_UNFRIENDLY : SpeechHandler.REDWALL_SHREW_HOSTILE;
+    	return opinion == EnumOpinion.FRIENDLY ? SpeechHandler.GUOSIM_SHREW_FRIENDLY : opinion == EnumOpinion.UNFRIENDLY ? SpeechHandler.GUOSIM_SHREW_UNFRIENDLY : SpeechHandler.GUOSIM_SHREW_HOSTILE;
     }
     
 	@Override
     public List<String> getNamesBankMale() {
-    	return SpeechHandler.NAMES_REDWALL_SHREW_M;
+    	return SpeechHandler.NAMES_GUOSIM_SHREW_M;
     }
     
 	@Override
     public List<String> getNamesBankFemale() {
-    	return SpeechHandler.NAMES_REDWALL_SHREW_F;
+    	return SpeechHandler.NAMES_GUOSIM_SHREW_F;
     }
 
 	@Override
 	public Faction getFaction() {
-		return Faction.FacList.REDWALL;
+		return Faction.FacList.GUOSIM;
 	}
 
 	@Override
 	public String getSkinPath() {
-		return ":textures/entity/shrew/redwall/shrew_redwall_";
+		return ":textures/entity/shrew/guosim/shrew_guosim_";
 	}
 
 	@Override
