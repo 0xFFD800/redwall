@@ -47,8 +47,8 @@ public class EntityHandler {
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mole_redwall"), EntityMoleRedwall.class, Ref.MODID + ":mole_redwall", id++, Ref.MODID, 64, 3, true, 0x001104, 0x100602);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mole_woodlander"), EntityMoleWoodlander.class, Ref.MODID + ":mole_woodlander", id++, Ref.MODID, 64, 3, true, 0x222124, 0x101612);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "otter_mossflower"), EntityOtterMossflower.class, Ref.MODID + ":otter_mossflower", id++, Ref.MODID, 64, 3, true, 0x004208, 0x504513);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "shrew_redwall"), EntityShrewRedwall.class, Ref.MODID + ":shrew_redwall", id++, Ref.MODID, 64, 3, true, 0x00603F, 0x158F49);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "shrew_guosim"), EntityShrewGuosim.class, Ref.MODID + ":shrew_guosim", id++, Ref.MODID, 64, 3, true, 0x00403F, 0x154F89);
-        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "shrew_redwall"), EntityShrewRedwall.class, Ref.MODID + ":shrew_redwall", id++, Ref.MODID, 64, 3, true, 0x00A03F, 0x15EF89);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "rat_mossflower"), EntityRatMossflower.class, Ref.MODID + ":rat_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "ferret_mossflower"), EntityFerretMossflower.class, Ref.MODID + ":ferret_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "weasel_mossflower"), EntityWeaselMossflower.class, Ref.MODID + ":weasel_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
@@ -66,8 +66,8 @@ public class EntityHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityMoleRedwall.class, RenderMole.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoleWoodlander.class, RenderMole.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityOtterMossflower.class, RenderOtter.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(EntityShrewGuosim.class, RenderShrew.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityShrewRedwall.class, RenderShrew.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityShrewGuosim.class, RenderShrew.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityRatMossflower.class, RenderRat.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityFerretMossflower.class, RenderFerret.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityWeaselMossflower.class, RenderWeasel.FACTORY);

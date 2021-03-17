@@ -31,27 +31,27 @@ public class EntityShrewRedwall extends EntityAbstractNPC {
     
 	@Override
     public List<String> getSpeechbank(EnumOpinion opinion) {
-    	return opinion == EnumOpinion.FRIENDLY ? SpeechHandler.GUOSIM_SHREW_FRIENDLY : opinion == EnumOpinion.UNFRIENDLY ? SpeechHandler.GUOSIM_SHREW_UNFRIENDLY : SpeechHandler.GUOSIM_SHREW_HOSTILE;
+    	return opinion == EnumOpinion.FRIENDLY ? SpeechHandler.REDWALL_SHREW_FRIENDLY : opinion == EnumOpinion.UNFRIENDLY ? SpeechHandler.REDWALL_SHREW_UNFRIENDLY : SpeechHandler.REDWALL_SHREW_HOSTILE;
     }
     
 	@Override
     public List<String> getNamesBankMale() {
-    	return SpeechHandler.NAMES_GUOSIM_SHREW_M;
+    	return SpeechHandler.NAMES_REDWALL_SHREW_M;
     }
     
 	@Override
     public List<String> getNamesBankFemale() {
-    	return SpeechHandler.NAMES_GUOSIM_SHREW_F;
+    	return SpeechHandler.NAMES_REDWALL_SHREW_F;
     }
 
 	@Override
 	public Faction getFaction() {
-		return Faction.FacList.GUOSIM;
+		return Faction.FacList.REDWALL;
 	}
 
 	@Override
 	public String getSkinPath() {
-		return ":textures/entity/shrew/guosim/shrew_guosim_";
+		return ":textures/entity/shrew/redwall/shrew_redwall_";
 	}
 
 	@Override
