@@ -62,7 +62,7 @@ public class SlotBrewingRedwall extends Slot {
 			stack.onCrafting(this.player.world, this.player, this.amountCrafted);
 			net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(this.player, stack, craftMatrix);
 			IFactionCap cap = this.player.getCapability(FactionCapProvider.FACTION_CAP, null);
-			cap.set(Faction.FacList.REDWALL, FactionCap.FacStatType.SMITH, cap.get(Faction.FacList.REDWALL, FactionCap.FacStatType.BREW) + 5.0F, true);
+			cap.set(Faction.FacList.REDWALL, FactionCap.FacStatType.BREW, cap.get(Faction.FacList.REDWALL, FactionCap.FacStatType.BREW) + 5.0F, true);
 			RedwallUtils.applyFoodModifiers(this.player, stack, cap.get(Faction.FacList.REDWALL, FactionCap.FacStatType.BREW));
 		}
 
