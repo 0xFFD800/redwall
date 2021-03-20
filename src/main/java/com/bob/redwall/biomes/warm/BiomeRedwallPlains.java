@@ -3,6 +3,7 @@ package com.bob.redwall.biomes.warm;
 import java.util.Random;
 
 import com.bob.redwall.dimensions.redwall.RedwallWorldProvider;
+import com.bob.redwall.entity.npc.good.EntityShrewGuosim;
 
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
@@ -27,8 +28,7 @@ public class BiomeRedwallPlains extends Biome {
 		this.spawnableCaveCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();
 
-		// this.spawnableCreatureList.add(new SpawnListEntry(EntityBird.class, 5, 1,
-		// 3));
+        this.spawnableCreatureList.add(new SpawnListEntry(EntityShrewGuosim.class, 4, 5, 8));
 	}
 
     @Override

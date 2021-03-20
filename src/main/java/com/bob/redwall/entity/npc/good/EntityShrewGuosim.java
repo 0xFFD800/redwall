@@ -78,7 +78,7 @@ public class EntityShrewGuosim extends EntityAbstractNPC {
 	@Override
 	public boolean getCanSpawnHere() {
 		ChunkPos cp = new ChunkPos(this.getPosition());
-        return super.getCanSpawnHere() && RedwallUtils.isInMossflower(this.world.getBiome(this.getPosition()), cp.x, cp.z);
+        return super.getCanSpawnHere() && RedwallUtils.isInBulrushBower(this.world.getBiome(this.getPosition()), cp.x, cp.z);
     }
     
     @Nullable

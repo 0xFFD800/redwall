@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 
 import com.bob.redwall.biomes.cool.BiomeRedwallForest;
+import com.bob.redwall.biomes.warm.BiomeRedwallPlains;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.common.MessageSyncSeason;
 import com.bob.redwall.common.MessageSyncSeason.Mode;
@@ -1011,5 +1012,9 @@ public class RedwallUtils {
 
 	public static boolean isInMossflower(Biome b, int cx, int cz) {
 		return b instanceof BiomeRedwallForest && cx > 2770 && cz > 1800 && cx < 3550 && cz < 2440;
+	}
+
+	public static boolean isInBulrushBower(Biome b, int cx, int cz) {
+		return b instanceof BiomeRedwallPlains && cx > 3342 && cz > 2365 && cx < 3401 && cz < 2399;
 	}
 }
