@@ -161,7 +161,6 @@ public class RedwallControlHandler {
 			player.getCapability(DefendingProvider.DEFENDING_CAP, null).set(false);
 			player.getCapability(DefendingProvider.DEFENDING_CAP, null).setMode(0);
 			Ref.NETWORK.sendToServer(new MessageSetCap(false, 0, Mode.DEFENDING));
-			if (returnb) player.resetCooldown();
 			return returnb;
 		} else if (mode == 2) {
 			player.resetActiveHand();
