@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "redwall:brewing_guosim", "y": 270 },
+        "facing=south": { "model": "redwall:brewing_guosim", "y": 90 },
+        "facing=west":  { "model": "redwall:brewing_guosim", "y": 180 },
+        "facing=east":  { "model": "redwall:brewing_guosim" }
+    }
+}

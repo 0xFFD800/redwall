@@ -167,6 +167,7 @@ tile.smeltery.name=Smeltery
 tile.cooking_generic.name=Cooking Station
 tile.smithing_redwall.name=Redwall Smithing Station
 tile.brewing_redwall.name=Redwall Brewing Station
+tile.brewing_guosim.name=Guosim Brewing Station
 
 tile.grape_vine_trellis.name=Grape Vine Trellis
 

@@ -1,0 +1,70 @@
+{
+	"parent": "block/block",
+    "display": {
+        "fixed": {
+            "rotation": [ 0, 90, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        }
+    },
+    "textures": {
+        "particle": "redwall:blocks/brewing_guosim_side",
+        "0": "redwall:blocks/brewing_guosim_end",
+        "1": "redwall:blocks/brewing_guosim_side",
+        "2": "blocks/cauldron_inner"
+    },
+    "elements": [
+        {
+            "name": "Body",
+            "from": [ 2.5, 0.5, 0.0 ], 
+            "to": [ 13.5, 11.5, 14.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 11.0, 11.0 ] },
+                "east": { "texture": "#1", "uv": [ 0.0, 0.0, 11.0, 14.0 ], "rotation": 90 },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 11.0, 11.0 ] },
+                "west": { "texture": "#1", "uv": [ 0.0, 0.0, 11.0, 14.0 ], "rotation": 90 },
+                "up": { "texture": "#1", "uv": [ 0.0, 0.0, 11.0, 14.0 ] },
+                "down": { "texture": "#1", "uv": [ 0.0, 0.0, 11.0, 14.0 ] }
+            }
+        },
+        {
+            "name": "Ring 1",
+            "from": [ 2.0, 0.0, 3.0 ], 
+            "to": [ 14.0, 12.0, 4.0 ], 
+            "faces": {
+                "north": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 12.0 ] },
+                "east": { "texture": "#2", "uv": [ 0.0, 0.0, 1.0, 12.0 ] },
+                "south": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 12.0 ] },
+                "west": { "texture": "#2", "uv": [ 0.0, 0.0, 1.0, 12.0 ] },
+                "up": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 1.0 ] },
+                "down": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "Bung",
+            "from": [ 7.0, 1.0, 14.0 ], 
+            "to": [ 9.0, 3.0, 15.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 12.0, 1.0, 14.0, 3.0 ] },
+                "east": { "texture": "#0", "uv": [ 11.0, 1.0, 12.0, 3.0 ] },
+                "south": { "texture": "#0", "uv": [ 12.0, 1.0, 14.0, 3.0 ] },
+                "west": { "texture": "#0", "uv": [ 14.0, 1.0, 15.0, 3.0 ] },
+                "up": { "texture": "#0", "uv": [ 12.0, 0.0, 14.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 12.0, 3.0, 14.0, 4.0 ] }
+            }
+        },
+        {
+            "name": "Ring 2",
+            "from": [ 2.0, 0.0, 10.0 ], 
+            "to": [ 14.0, 12.0, 11.0 ], 
+            "faces": {
+                "north": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 12.0 ] },
+                "east": { "texture": "#2", "uv": [ 0.0, 0.0, 1.0, 12.0 ] },
+                "south": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 12.0 ] },
+                "west": { "texture": "#2", "uv": [ 0.0, 0.0, 1.0, 12.0 ] },
+                "up": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 1.0 ] },
+                "down": { "texture": "#2", "uv": [ 0.0, 0.0, 12.0, 1.0 ] }
+            }
+        }
+    ]
+}
