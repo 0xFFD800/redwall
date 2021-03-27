@@ -114,7 +114,7 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 			}
 
 			// Mossflower structures.
-			if (RedwallUtils.isInMossflower(biome, chunkX, chunkZ)) {
+			if (RedwallUtils.isInMossflower(biome, chunkX, chunkZ) || RedwallUtils.isInBulrushBower(biome, chunkX, chunkZ)) {
 				return true;
 			}
 		}
@@ -146,7 +146,7 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 
 			LinkedList<StructureComponent> arrComponents = new LinkedList<StructureComponent>();
 
-			if (RedwallUtils.isInMossflower(biomeIn, chunkX, chunkZ) && biomeIn instanceof BiomeRedwallForest && ((BiomeRedwallForest)biomeIn).getType() != BiomeRedwallForest.Type.HEATHLAND) {
+			if (RedwallUtils.isInMossflower(biomeIn, chunkX, chunkZ) && biomeIn instanceof BiomeRedwallForest && ((BiomeRedwallForest) biomeIn).getType() != BiomeRedwallForest.Type.HEATHLAND) {
 				arrComponents.add(new WorldGenGroundDwelling(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGroundDwelling.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGroundDwelling.getSize().getY(), chunkZ * 16 + WorldGenGroundDwelling.getSize().getZ() })));
 				arrComponents.add(new WorldGenSquirrelDrey(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenSquirrelDrey.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenSquirrelDrey.getSize().getY(), chunkZ * 16 + WorldGenSquirrelDrey.getSize().getZ() })));
 				arrComponents.add(new WorldGenKotirTurretAbandoned(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretAbandoned.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretAbandoned.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretAbandoned.getSize().getZ() })));

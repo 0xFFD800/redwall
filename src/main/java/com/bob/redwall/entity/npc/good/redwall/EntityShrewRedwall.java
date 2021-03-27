@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
@@ -74,12 +73,6 @@ public class EntityShrewRedwall extends EntityAbstractNPC {
 	public boolean willFightEntity(EntityLivingBase entity) {
 		return this.isSuitableTarget(entity);
 	}
-	
-	@Override
-	public boolean getCanSpawnHere() {
-		ChunkPos cp = new ChunkPos(this.getPosition());
-        return super.getCanSpawnHere() && RedwallUtils.isInMossflower(this.world.getBiome(this.getPosition()), cp.x, cp.z);
-    }
     
     @Nullable
     @Override
