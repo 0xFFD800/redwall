@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "full=true": { "model": "redwall:bottle" },
+        "full=false": { "model": "redwall:bottle_empty" }
+    }
+}

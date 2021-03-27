@@ -6,7 +6,6 @@ import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.common.MessageUIInteractServer.Mode;
 import com.bob.redwall.init.GuiHandler;
 import com.bob.redwall.tileentity.TileEntityBrewingGuosim;
-import com.bob.redwall.tileentity.TileEntityBrewingRedwall;
 
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
@@ -112,7 +111,7 @@ public class BlockBrewingGuosim extends ModBlock implements ITileEntityProvider 
 
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
-		TileEntityBrewingRedwall tileentity = (TileEntityBrewingRedwall) world.getTileEntity(pos);
+		TileEntityBrewingGuosim tileentity = (TileEntityBrewingGuosim) world.getTileEntity(pos);
 
 		if (tileentity.getBrewingFinished()) InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.brewStack);
 		InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileentity);

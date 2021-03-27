@@ -178,7 +178,7 @@ public class BlockWaterReeds extends ModBlock implements net.minecraftforge.comm
     @SideOnly(Side.CLIENT)
     @Override
     public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
+        return BlockRenderLayer.TRANSLUCENT;
     }
 
     /**

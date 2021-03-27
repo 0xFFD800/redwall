@@ -441,6 +441,8 @@ public class BlockHandler {
 	public static ItemBlock ib_brewing_guosim;
 	
 	public static Block mug;
+	public static Block bottle;
+	public static Block bowl;
 
 	public static void init() {
 		basalt = new ModBlock(Material.ROCK, "basalt", CreativeTabHandler.BLOCKS, 2.0F, 15.0F);
@@ -840,6 +842,8 @@ public class BlockHandler {
 		ib_brewing_guosim = (ItemBlock) new ItemModBlock(brewing_guosim, brewing_guosim.getRegistryName());
 		
 		mug = new BlockDrinkVessel(Material.CIRCUITS, "mug", new ResourceLocation(Ref.MODID, "mug_drink"), new ResourceLocation(Ref.MODID, "mug_empty"));
+		bottle = new BlockDrinkVessel(Material.CIRCUITS, "bottle", new ResourceLocation(Ref.MODID, "bottle_drink"), new ResourceLocation("bottle"));
+		bowl = new BlockDrinkVessel(Material.CIRCUITS, "bowl", new ResourceLocation(Ref.MODID, "bowl_drink"), new ResourceLocation("bowl"));
 	}
 
 	public static void register(RegistryEvent.Register<Block> event) {
@@ -1063,6 +1067,8 @@ public class BlockHandler {
 		registerBlock(event, brewing_guosim);
 		
 		registerBlock(event, mug);
+		registerBlock(event, bottle);
+		registerBlock(event, bowl);
 	}
 
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
@@ -1444,6 +1450,8 @@ public class BlockHandler {
 		registerRender(brewing_guosim);
 
 		registerRender(mug);
+		registerRender(bottle);
+		registerRender(bowl);
 	}
 
 	public static void registerBlock(RegistryEvent.Register<Block> event, Block block) {

@@ -50,7 +50,7 @@ public class BlockColorHandler {
             public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
                 return tintIndex == 1 ? (worldIn != null && pos != null ? (worldIn.getTileEntity(pos) instanceof TileEntityDrinkVessel && ((TileEntityDrinkVessel)worldIn.getTileEntity(pos)).getDrink() != null ? ((TileEntityDrinkVessel)worldIn.getTileEntity(pos)).getDrink().getTint() : 0) : -1) : -1;
             }
-        }, new Block[] {BlockHandler.mug});
+        }, new Block[] {BlockHandler.mug, BlockHandler.bowl, BlockHandler.bottle});
 	}
 	
 	public static void registerBlockColorHandler(IBlockColor color, Block[] blocks) {
