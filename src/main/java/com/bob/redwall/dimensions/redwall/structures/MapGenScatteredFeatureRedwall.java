@@ -7,6 +7,9 @@ import java.util.Random;
 import java.util.Set;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.biomes.cool.BiomeRedwallForest;
+import com.bob.redwall.dimensions.redwall.structures.guosim.WorldGenGuosimCamp;
+import com.bob.redwall.dimensions.redwall.structures.guosim.WorldGenGuosimCookingTent;
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenGroundDwelling;
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenKotirTurretAbandoned;
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenKotirTurretInhabited;
@@ -143,11 +146,14 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 
 			LinkedList<StructureComponent> arrComponents = new LinkedList<StructureComponent>();
 
-			if (RedwallUtils.isInMossflower(biomeIn, chunkX, chunkZ)) {
+			if (RedwallUtils.isInMossflower(biomeIn, chunkX, chunkZ) && biomeIn instanceof BiomeRedwallForest && ((BiomeRedwallForest)biomeIn).getType() != BiomeRedwallForest.Type.HEATHLAND) {
 				arrComponents.add(new WorldGenGroundDwelling(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGroundDwelling.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGroundDwelling.getSize().getY(), chunkZ * 16 + WorldGenGroundDwelling.getSize().getZ() })));
 				arrComponents.add(new WorldGenSquirrelDrey(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenSquirrelDrey.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenSquirrelDrey.getSize().getY(), chunkZ * 16 + WorldGenSquirrelDrey.getSize().getZ() })));
 				arrComponents.add(new WorldGenKotirTurretAbandoned(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretAbandoned.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretAbandoned.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretAbandoned.getSize().getZ() })));
 				arrComponents.add(new WorldGenKotirTurretInhabited(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretInhabited.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretInhabited.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretInhabited.getSize().getZ() })));
+			} else if (RedwallUtils.isInBulrushBower(biomeIn, chunkX, chunkZ)) {
+				arrComponents.add(new WorldGenGuosimCamp(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGuosimCamp.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGuosimCamp.getSize().getY(), chunkZ * 16 + WorldGenGuosimCamp.getSize().getZ() })));
+				arrComponents.add(new WorldGenGuosimCookingTent(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGuosimCookingTent.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGuosimCookingTent.getSize().getY(), chunkZ * 16 + WorldGenGuosimCookingTent.getSize().getZ() })));
 			}
 
 			this.components.clear();

@@ -120,6 +120,11 @@ public class BiomeRedwallForest extends Biome {
         }
     }
 
+    public Type getType() {
+    	return this.type;
+    }
+    
+    @Override
     public Class <? extends Biome > getBiomeClass() {
         return BiomeRedwallForest.class;
     }
