@@ -14,7 +14,6 @@ import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenGroundDw
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenKotirTurretAbandoned;
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenKotirTurretInhabited;
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenSquirrelDrey;
-import com.bob.redwall.dimensions.shared.rtg.api.RTGAPI;
 import com.bob.redwall.dimensions.shared.rtg.api.util.Logger;
 import com.google.common.collect.Sets;
 
@@ -56,13 +55,8 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 
 	public MapGenScatteredFeatureRedwall() {
 		this.range = 1;
-		int minDistance = RTGAPI.config().MIN_DISTANCE_SCATTERED_FEATURES.get();
-		int maxDistance = RTGAPI.config().MAX_DISTANCE_SCATTERED_FEATURES.get();
-
-		if (minDistance > maxDistance) {
-			minDistance = 8;
-			maxDistance = 32;
-		}
+		int minDistance = 4;
+		int maxDistance = 12;
 
 		this.maxDistanceBetweenScatteredFeatures = maxDistance;
 		this.minDistanceBetweenScatteredFeatures = minDistance;
