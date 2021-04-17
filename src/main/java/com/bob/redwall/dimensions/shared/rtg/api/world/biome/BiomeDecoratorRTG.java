@@ -133,7 +133,7 @@ public class BiomeDecoratorRTG {
 		 * this.genStandardOre1(worldIn, random, 17, leadGen, 0, 128); }
 		 */
 		if (TerrainGen.generateOre(worldIn, random, tinGen, pos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-			this.genStandardOre1(worldIn, random, 3, tinGen, 0, 128);
+			this.genStandardOre1(worldIn, random, 6, tinGen, 0, 128);
 		}
 		if (TerrainGen.generateOre(worldIn, random, copperGen, pos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
 			this.genStandardOre1(worldIn, random, 15, copperGen, 0, 128);
