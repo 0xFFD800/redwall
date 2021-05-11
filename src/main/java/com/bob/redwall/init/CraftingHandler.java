@@ -439,8 +439,8 @@ public class CraftingHandler {
 			this.addShapelessRecipe(new ItemStack(Items.IRON_INGOT), new Object[] { Blocks.IRON_ORE, new ItemStack(Items.COAL, 1, 1) });
 			this.addRecipe(new ItemStack(Blocks.IRON_BLOCK), new Object[] { "###", "###", "###", '#', Items.IRON_INGOT });
 			this.addShapelessRecipe(new ItemStack(Items.IRON_NUGGET, 9), new Object[] { Items.IRON_INGOT });
-			this.addRecipe(new ItemStack(Items.IRON_NUGGET), new Object[] { "###", "###", "###", '#', Items.IRON_NUGGET });
-			this.addRecipe(new ItemStack(Blocks.ANVIL), new Object[] { "###", " # ", "###", '#', Items.IRON_INGOT });
+			this.addRecipe(new ItemStack(Items.IRON_INGOT), new Object[] { "###", "###", "###", '#', Items.IRON_NUGGET });
+			this.addRecipe(new ItemStack(Blocks.ANVIL), new Object[] { "###", " # ", "###", '#', ItemHandler.bronze_ingot });
 
 			this.addShapelessRecipe(new ItemStack(Items.GOLD_INGOT), new Object[] { Blocks.GOLD_ORE });
 			this.addRecipe(new ItemStack(Blocks.GOLD_BLOCK), new Object[] { "###", "###", "###", '#', Items.GOLD_INGOT });
