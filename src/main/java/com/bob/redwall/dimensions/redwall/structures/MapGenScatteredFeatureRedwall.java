@@ -34,21 +34,6 @@ import net.minecraft.world.gen.structure.StructureStart;
  * https://github.com/Choonster/TestMod2/blob/1575b85ad8949381215f3aeb6ca76ea2368074de/src/main/java/com/choonster/testmod2/world/gen/structure/MapGenScatteredFeatureModBiomes.java
  * Modified by: WhichOnesPink (https://github.com/whichonespink44) and
  * Emperor_Luke_II
- * <p>
- * Allows scattered features (jungle/desert temples, witch huts) to spawn in
- * modded biomes, equivalent to the vanilla biomes, i.e. any biome registered as
- * JUNGLE, SANDY or SWAMP
- * http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/2471489-jungle-and-desert-temple-spawn-biome
- * <p>
- * This class was modified by WhichOnesPink on 2015-11-05 to allow the spawning
- * of scattered features ONLY in biomes that have been registered with multiple
- * BiomeDictionary types that are shared by their vanilla counterparts. For
- * example, desert temples don't generate in SANDY biomes - they are only
- * allowed to generate in biomes that have been registered as HOT + DRY + SANDY.
- * <p>
- * This class has also been modified to resolve a very specific use case
- * involving Thaumcraft world gen:
- * https://github.com/Team-RTG/Realistic-Terrain-Generation/issues/249
  */
 public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 	private int maxDistanceBetweenScatteredFeatures;
@@ -66,11 +51,8 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 	public MapGenScatteredFeatureRedwall(Map<String, String> p_i2061_1_) {
 		this();
 
-		for (Entry<String, String> entry : p_i2061_1_.entrySet()) {
-			if (((String) entry.getKey()).equals("distance")) {
-				this.maxDistanceBetweenScatteredFeatures = MathHelper.getInt((String) entry.getValue(), this.maxDistanceBetweenScatteredFeatures, 9);
-			}
-		}
+		for (Entry<String, String> entry : p_i2061_1_.entrySet())
+			if (((String) entry.getKey()).equals("distance")) this.maxDistanceBetweenScatteredFeatures = MathHelper.getInt((String) entry.getValue(), this.maxDistanceBetweenScatteredFeatures, 9);
 	}
 
 	@Override
@@ -154,8 +136,7 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 
 			this.components.clear();
 
-			if (arrComponents.size() > 0)
-				this.components.add((StructureComponent) arrComponents.get(random.nextInt(arrComponents.size())));
+			if (arrComponents.size() > 0) this.components.add((StructureComponent) arrComponents.get(random.nextInt(arrComponents.size())));
 
 			Logger.info("Scattered feature candidate at %d, %d: %s", chunkX * 16, chunkZ * 16, this.components.toString());
 

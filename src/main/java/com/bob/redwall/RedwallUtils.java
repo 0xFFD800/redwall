@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import com.bob.redwall.biomes.cool.BiomeRedwallForest;
 import com.bob.redwall.biomes.warm.BiomeRedwallPlains;
 import com.bob.redwall.common.MessageSyncCap;
@@ -35,6 +37,7 @@ import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
 import com.bob.redwall.entity.capabilities.vitality.IVitality;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
+import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.armor.ItemRedwallArmor;
@@ -88,8 +91,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RedwallUtils {
-    public static final ResourceLocation REDWALL_INGAME = new ResourceLocation(Ref.MODID, "textures/gui/ingame.png");
-    
+	public static final ResourceLocation REDWALL_INGAME = new ResourceLocation(Ref.MODID, "textures/gui/ingame.png");
+
 	public static EnumSeasons getSeason(IBlockAccess world) {
 		if (!(world instanceof World)) return EnumSeasons.SUMMER;
 		return ((World) world).getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason() != null ? ((World) world).getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason() : EnumSeasons.SUMMER;
@@ -200,7 +203,7 @@ public class RedwallUtils {
 		DamageSource source = attacker instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) attacker) : DamageSource.causeMobDamage(attacker);
 		if (targetEntity.canBeAttackedWithItem()) {
 			if (!targetEntity.hitByEntity(attacker)) {
-				float cooldown = attacker instanceof EntityPlayer ? ((EntityPlayer)attacker).getCooledAttackStrength(0.5F) : attacker instanceof EntityAbstractNPC ? ((float)((EntityAbstractNPC)attacker).getCooldown()) / ((float)((EntityAbstractNPC)attacker).getSwingCooldown()) : 0.5F;
+				float cooldown = attacker instanceof EntityPlayer ? ((EntityPlayer) attacker).getCooledAttackStrength(0.5F) : attacker instanceof EntityAbstractNPC ? ((float) ((EntityAbstractNPC) attacker).getCooldown()) / ((float) ((EntityAbstractNPC) attacker).getSwingCooldown()) : 0.5F;
 				float modifier = 1 - (Math.abs(cooldown - 0.5F) * 2);
 				float f = (float) attacker.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() * modifier;
 				float f1 = 0.0F;
@@ -1016,5 +1019,18 @@ public class RedwallUtils {
 
 	public static boolean isInBulrushBower(Biome b, int cx, int cz) {
 		return b instanceof BiomeRedwallPlains && cx > 3342 && cz > 2365 && cx < 3401 && cz < 2399;
+	}
+
+	@Nullable
+	public static EntityStructureCenter getStructureAtPos(Vec3d pos) {
+		for (EntityStructureCenter s : EntityStructureCenter.ACTIVE_STRUCTURES)
+			if (s.getAOE().contains(pos)) return s;
+
+		return null;
+	}
+
+	@Nullable
+	public static EntityStructureCenter getStructureAtPos(BlockPos pos) {
+		return RedwallUtils.getStructureAtPos(new Vec3d(pos.getX(), pos.getY(), pos.getZ()));
 	}
 }

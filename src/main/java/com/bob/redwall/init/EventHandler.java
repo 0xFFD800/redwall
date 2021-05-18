@@ -42,6 +42,8 @@ import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
 import com.bob.redwall.gui.smithing.redwall.ContainerSmithingRedwall;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.Gui;
@@ -58,11 +60,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
@@ -87,8 +92,10 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -343,6 +350,42 @@ public class EventHandler {
 	public void onEvent(PlayerEvent.BreakSpeed event) {
 		float mult = EquipmentModifierUtils.getDiggingSpeedMultiplier(event.getEntityLiving(), event.getState().getBlock());
 		event.setNewSpeed(event.getOriginalSpeed() * mult);
+
+		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0)) {
+			event.setNewSpeed(0.0F);
+			event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.breakStructureFriendly"));
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(BlockEvent.BreakEvent event) {
+		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer())) {
+			event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).set(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY, event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) - 1, true);
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(BlockEvent.PlaceEvent event) {
+		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer()) || event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0)) {
+			event.setCanceled(true);
+			event.getPlayer().sendMessage(new TextComponentTranslation("message.placeStructureFriendly"));
+		} else if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer())) {
+			event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).set(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY, event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) - 1, true);
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
+	public void onEvent(PlayerInteractEvent.RightClickBlock event) {
+		Block block = event.getEntityPlayer().world.getBlockState(event.getPos()).getBlock();
+		TileEntity te = event.getEntityPlayer().world.getTileEntity(event.getPos());
+		if ((te != null && te instanceof TileEntityLockable) || block instanceof BlockDoor) {
+			if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0)) {
+				event.setCanceled(true);
+				event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.interactStructureFriendly"));
+			} else if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer())) {
+				event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).set(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY, event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) - 1, true);
+			}
+		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
@@ -506,17 +549,17 @@ public class EventHandler {
 	public void onEvent(TickEvent.ClientTickEvent event) {
 		if (event.phase == Phase.END) {
 			prev_fog_density = fog_density;
-	
+
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
-			if(player == null || player.world == null) return;
-			
+			if (player == null || player.world == null) return;
+
 			Biome biome = player.world.getBiome(player.getPosition());
 			if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward) fog_density = 0.02F;
 			else if (biome == BiomeHandler.redwall_abyss) fog_density = 0.03F;
 			else if (biome instanceof BiomeRedwallMarsh) fog_density = 0.05F;
 			else if (biome instanceof BiomeRedwallArctic) fog_density = 0.02F;
 			else fog_density = 0.0F;
-	
+
 			if (player.world.isRaining()) fog_density = (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
 		}
 	}
