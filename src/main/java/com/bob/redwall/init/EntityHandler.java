@@ -10,10 +10,12 @@ import com.bob.redwall.entity.client.render.RenderRat;
 import com.bob.redwall.entity.client.render.RenderShrew;
 import com.bob.redwall.entity.client.render.RenderSpear;
 import com.bob.redwall.entity.client.render.RenderSquirrel;
+import com.bob.redwall.entity.client.render.RenderStoat;
 import com.bob.redwall.entity.client.render.RenderThrowingAxe;
 import com.bob.redwall.entity.client.render.RenderWeasel;
 import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
 import com.bob.redwall.entity.npc.evil.EntityRatMossflower;
+import com.bob.redwall.entity.npc.evil.EntityStoatMossflower;
 import com.bob.redwall.entity.npc.evil.EntityWeaselMossflower;
 import com.bob.redwall.entity.npc.good.EntityOtterMossflower;
 import com.bob.redwall.entity.npc.good.EntityShrewGuosim;
@@ -51,7 +53,8 @@ public class EntityHandler {
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "shrew_guosim"), EntityShrewGuosim.class, Ref.MODID + ":shrew_guosim", id++, Ref.MODID, 64, 3, true, 0x00403F, 0x154F89);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "rat_mossflower"), EntityRatMossflower.class, Ref.MODID + ":rat_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "ferret_mossflower"), EntityFerretMossflower.class, Ref.MODID + ":ferret_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
-        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "weasel_mossflower"), EntityWeaselMossflower.class, Ref.MODID + ":weasel_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "weasel_mossflower"), EntityWeaselMossflower.class, Ref.MODID + ":weasel_mossflower", id++, Ref.MODID, 64, 3, true, 0x502224, 0x603435);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "stoat_mossflower"), EntityStoatMossflower.class, Ref.MODID + ":stoat_mossflower", id++, Ref.MODID, 64, 3, true, 0x401519, 0x103435);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -71,5 +74,6 @@ public class EntityHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityRatMossflower.class, RenderRat.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityFerretMossflower.class, RenderFerret.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityWeaselMossflower.class, RenderWeasel.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityStoatMossflower.class, RenderStoat.FACTORY);
 	}
 }

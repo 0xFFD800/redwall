@@ -21,13 +21,13 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityFerretMossflower extends EntityAbstractNPC {
-	public EntityFerretMossflower(World worldIn) {
+public class EntityStoatMossflower extends EntityAbstractNPC {
+	public EntityStoatMossflower(World worldIn) {
 		super(worldIn);
         this.setSize(0.5F, 1.9F);
 	}
 	
-	public EntityFerretMossflower(World worldIn, boolean male) {
+	public EntityStoatMossflower(World worldIn, boolean male) {
 		super(worldIn, male);
         this.setSize(0.5F, 1.9F);
 	}
@@ -35,7 +35,7 @@ public class EntityFerretMossflower extends EntityAbstractNPC {
     @Override
 	protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.5D);
     }
     
 	@Override
@@ -60,7 +60,7 @@ public class EntityFerretMossflower extends EntityAbstractNPC {
 
 	@Override
 	public String getSkinPath() {
-		return ":textures/entity/ferret/mossflower_vermin/ferret_mossflower_";
+		return ":textures/entity/stoat/mossflower_vermin/stoat_mossflower_";
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class EntityFerretMossflower extends EntityAbstractNPC {
 	
 	@Override
 	public EnumNPCType getNPCType() {
-		return EnumNPCType.FERRET;
+		return EnumNPCType.STOAT;
 	}
 
 	@Override

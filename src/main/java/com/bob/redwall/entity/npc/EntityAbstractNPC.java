@@ -521,7 +521,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	}
 
 	public static enum EnumNPCType {
-		MOUSE("mouse"), SQUIRREL("squirrel"), MOLE("mole"), RAT("rat"), FERRET("rat"), WEASEL("rat"), OTTER("otter"), SHREW("shrew");
+		MOUSE("mouse"), SQUIRREL("squirrel"), MOLE("mole"), RAT("rat"), FERRET("rat"), STOAT("rat"), WEASEL("rat"), OTTER("otter"), SHREW("shrew");
 
 		public final String armorSlug;
 

@@ -414,6 +414,7 @@ entity.redwall:shrew_redwall.name=Redwall Shrew
 entity.redwall:rat_mossflower.name=Mossflower Rat
 entity.redwall:ferret_mossflower.name=Mossflower Ferret
 entity.redwall:weasel_mossflower.name=Mossflower Weasel
+entity.redwall:stoat_mossflower.name=Mossflower Stoat
 
 death.attack.spear=%s was skewered by %d
 death.attack.spear.item=%s was skewered by %d using %u
