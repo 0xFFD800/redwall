@@ -580,7 +580,7 @@ facstat.level=: Lv. %s
 facstat.toast.title1:Level up!
 facstat.toast.title2:Level down!
 facstat.toast.subtitle1:Your %s %s skill leveled up!
-facstat.toast.subtitle2:Your %s %s skill leveld down!
+facstat.toast.subtitle2:Your %s %s skill leveled down!
 
 commands.factions.usage=/factions <player> <faction> <contact|stats> <contact?true|false|get:stat> [set|get|add|subtract|reset] [value]
 commands.factions.get=Player %s's %s for faction %s is %s
@@ -594,10 +594,6 @@ commands.playerstats.set=Set player %s's stat to %s
 commands.playerstats.add=Added %s to player %s's stat
 commands.playerstats.subtract=Subtracted %s from player %s's stat
 commands.playerstats.get=Player %s's stat is %s
-
-message.breakStructureFriendly=This land is owned by an NPC you're at peace with; you can't break blocks here!
-message.placeStructureFriendly=This land is owned by an NPC you're at peace with; you can't place blocks here!
-message.interactStructureFriendly=This land is owned by an NPC you're at peace with; you can't open chests or doors here!
 
 drink.empty=Empty
 drink.water=Water

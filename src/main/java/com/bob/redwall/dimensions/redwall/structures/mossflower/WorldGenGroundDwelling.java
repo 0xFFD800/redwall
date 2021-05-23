@@ -7,6 +7,7 @@ import com.bob.redwall.dimensions.shared.rtg.api.util.Logger;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.npc.good.woodlander.EntityMoleWoodlander;
 import com.bob.redwall.entity.npc.good.woodlander.EntityMouseWoodlander;
+import com.bob.redwall.entity.structure_center.EntityWoodlanderHearth;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
@@ -14,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -99,6 +101,18 @@ public class WorldGenGroundDwelling extends StructureComponent {
             world.spawnEntity(dweller);
 	        Logger.info(dweller.toString());
         }
+        
+        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(this.getBoundingBox().minX, this.getBoundingBox().minY, this.getBoundingBox().minZ, this.getBoundingBox().maxX, this.getBoundingBox().maxY, this.getBoundingBox().maxZ));
+        
+        if(structureLoc == GROUND_DWELLING_1) {
+        	center.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 8, 0, 0);
+        } else if(structureLoc == GROUND_DWELLING_2) {
+        	center.setLocationAndAngles(blockpos.getX() + 5, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 6, 0, 0);
+        } else {
+        	center.setLocationAndAngles(blockpos.getX() + 4, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 4, 0, 0);
+        }
+        
+        world.spawnEntity(center);
         
         return true;
 	}

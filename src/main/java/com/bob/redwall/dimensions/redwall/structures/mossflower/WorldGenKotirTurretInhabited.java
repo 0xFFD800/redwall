@@ -8,6 +8,7 @@ import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
 import com.bob.redwall.entity.npc.evil.EntityRatMossflower;
 import com.bob.redwall.entity.npc.evil.EntityWeaselMossflower;
+import com.bob.redwall.entity.structure_center.EntityMossflowerVerminCampfire;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
@@ -15,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -92,6 +94,12 @@ public class WorldGenKotirTurretInhabited extends StructureComponent {
 	        world.spawnEntity(dweller);
 	        Logger.info(dweller.toString());
         }
+        
+        EntityMossflowerVerminCampfire center = new EntityMossflowerVerminCampfire(world, new AxisAlignedBB(this.getBoundingBox().minX, this.getBoundingBox().minY, this.getBoundingBox().minZ, this.getBoundingBox().maxX, this.getBoundingBox().maxY, this.getBoundingBox().maxZ));
+        
+        center.setLocationAndAngles(blockpos.getX() + 6, blockpos.down(i5).getY() + 0, blockpos.getZ() + 5, 0, 0);
+        
+        world.spawnEntity(center);
         
         return true;
 	}

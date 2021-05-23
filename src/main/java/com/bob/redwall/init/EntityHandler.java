@@ -11,6 +11,7 @@ import com.bob.redwall.entity.client.render.RenderShrew;
 import com.bob.redwall.entity.client.render.RenderSpear;
 import com.bob.redwall.entity.client.render.RenderSquirrel;
 import com.bob.redwall.entity.client.render.RenderStoat;
+import com.bob.redwall.entity.client.render.RenderStructureCenter;
 import com.bob.redwall.entity.client.render.RenderThrowingAxe;
 import com.bob.redwall.entity.client.render.RenderWeasel;
 import com.bob.redwall.entity.npc.evil.EntityFerretMossflower;
@@ -29,6 +30,9 @@ import com.bob.redwall.entity.npc.good.woodlander.EntitySquirrelWoodlander;
 import com.bob.redwall.entity.projectile.dagger.EntityDagger;
 import com.bob.redwall.entity.projectile.spear.EntitySpear;
 import com.bob.redwall.entity.projectile.throwing_axe.EntityThrowingAxe;
+import com.bob.redwall.entity.structure_center.EntityGuosimCampfire;
+import com.bob.redwall.entity.structure_center.EntityMossflowerVerminCampfire;
+import com.bob.redwall.entity.structure_center.EntityWoodlanderHearth;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -42,6 +46,7 @@ public class EntityHandler {
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "spear"), EntitySpear.class, Ref.MODID + ":spear", id++, Ref.MODID, 64, 3, true);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "dagger"), EntityDagger.class, Ref.MODID + ":dagger", id++, Ref.MODID, 64, 3, true);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "throwing_axe"), EntityThrowingAxe.class, Ref.MODID + ":throwing_axe", id++, Ref.MODID, 64, 3, true);
+        
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mouse_redwall"), EntityMouseRedwall.class, Ref.MODID + ":mouse_redwall", id++, Ref.MODID, 64, 3, true, 0x005108, 0x603213);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mouse_woodlander"), EntityMouseWoodlander.class, Ref.MODID + ":mouse_woodlander", id++, Ref.MODID, 64, 3, true, 0x302104, 0x603213);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "squirrel_redwall"), EntitySquirrelRedwall.class, Ref.MODID + ":squirrel_redwall", id++, Ref.MODID, 64, 3, true, 0x004505, 0x804523);
@@ -55,6 +60,10 @@ public class EntityHandler {
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "ferret_mossflower"), EntityFerretMossflower.class, Ref.MODID + ":ferret_mossflower", id++, Ref.MODID, 64, 3, true, 0x302224, 0x403435);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "weasel_mossflower"), EntityWeaselMossflower.class, Ref.MODID + ":weasel_mossflower", id++, Ref.MODID, 64, 3, true, 0x502224, 0x603435);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "stoat_mossflower"), EntityStoatMossflower.class, Ref.MODID + ":stoat_mossflower", id++, Ref.MODID, 64, 3, true, 0x401519, 0x103435);
+        
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "woodlander_hearth"), EntityWoodlanderHearth.class, Ref.MODID + ":woodlander_hearth", id++, Ref.MODID, 64, 3, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mossflower_vermin_campfire"), EntityMossflowerVerminCampfire.class, Ref.MODID + ":mossflower_vermin_campfire", id++, Ref.MODID, 64, 3, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "guosim_campfire"), EntityMossflowerVerminCampfire.class, Ref.MODID + ":guosim_campfire", id++, Ref.MODID, 64, 3, true);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -75,5 +84,8 @@ public class EntityHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityFerretMossflower.class, RenderFerret.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityWeaselMossflower.class, RenderWeasel.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(EntityStoatMossflower.class, RenderStoat.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWoodlanderHearth.class, RenderStructureCenter.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMossflowerVerminCampfire.class, RenderStructureCenter.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGuosimCampfire.class, RenderStructureCenter.FACTORY);
 	}
 }

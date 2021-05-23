@@ -351,7 +351,7 @@ public class EventHandler {
 		float mult = EquipmentModifierUtils.getDiggingSpeedMultiplier(event.getEntityLiving(), event.getState().getBlock());
 		event.setNewSpeed(event.getOriginalSpeed() * mult);
 
-		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0)) {
+		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0) && !event.getEntityPlayer().isCreative()) {
 			event.setNewSpeed(0.0F);
 			event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.breakStructureFriendly"));
 		}
@@ -359,17 +359,17 @@ public class EventHandler {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(BlockEvent.BreakEvent event) {
-		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer())) {
+		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer()) && !event.getPlayer().isCreative()) {
 			event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).set(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY, event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) - 1, true);
 		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(BlockEvent.PlaceEvent event) {
-		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer()) || event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0)) {
+		if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer()) || event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0) && !event.getPlayer().isCreative()) {
 			event.setCanceled(true);
 			event.getPlayer().sendMessage(new TextComponentTranslation("message.placeStructureFriendly"));
-		} else if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer())) {
+		} else if (RedwallUtils.getStructureAtPos(event.getPos()) != null && RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getPlayer()) && !event.getPlayer().isCreative()) {
 			event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).set(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY, event.getPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) - 1, true);
 		}
 	}
@@ -378,7 +378,7 @@ public class EventHandler {
 	public void onEvent(PlayerInteractEvent.RightClickBlock event) {
 		Block block = event.getEntityPlayer().world.getBlockState(event.getPos()).getBlock();
 		TileEntity te = event.getEntityPlayer().world.getTileEntity(event.getPos());
-		if ((te != null && te instanceof TileEntityLockable) || block instanceof BlockDoor) {
+		if (((te != null && te instanceof TileEntityLockable) || block instanceof BlockDoor) && !event.getEntityPlayer().isCreative()) {
 			if (RedwallUtils.getStructureAtPos(event.getPos()) != null && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0)) {
 				event.setCanceled(true);
 				event.getEntityPlayer().sendMessage(new TextComponentTranslation("message.interactStructureFriendly"));

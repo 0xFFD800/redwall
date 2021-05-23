@@ -5,6 +5,7 @@ import java.util.Random;
 import com.bob.redwall.Ref;
 import com.bob.redwall.dimensions.shared.rtg.api.util.Logger;
 import com.bob.redwall.entity.npc.good.woodlander.EntitySquirrelWoodlander;
+import com.bob.redwall.entity.structure_center.EntityWoodlanderHearth;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.IEntityLivingData;
@@ -12,6 +13,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -110,7 +112,18 @@ public class WorldGenSquirrelDrey extends StructureComponent {
 	        world.spawnEntity(dweller2);
         }
         
-        Logger.info(dweller.toString());
+        Logger.debug(dweller.toString());
+        
+        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(this.getBoundingBox().minX, this.getBoundingBox().minY, this.getBoundingBox().minZ, this.getBoundingBox().maxX, this.getBoundingBox().maxY, this.getBoundingBox().maxZ));
+        
+        if(structureLoc == SQUIRREL_DREY_1) {
+	        center.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5).getY() + 6, blockpos.getZ() + 3, 0, 0);
+        } else {
+	        center.setLocationAndAngles(blockpos.getX() + 6, blockpos.down(i5).getY() + 7, blockpos.getZ() + 9, 0, 0);
+        }
+        
+        world.spawnEntity(center);
+        
         return true;
 	}
 	
