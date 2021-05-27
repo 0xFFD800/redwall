@@ -48,7 +48,7 @@ public class RenderStructureCenter<T extends EntityStructureCenter> extends Rend
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
         
-        Minecraft.getMinecraft().getRenderItem().renderItem(new ItemStack(Blocks.LIT_FURNACE), TransformType.FIRST_PERSON_RIGHT_HAND);
+        Minecraft.getMinecraft().getRenderItem().renderItem(new ItemStack(Blocks.FURNACE), TransformType.FIRST_PERSON_RIGHT_HAND);
 
         if (this.renderOutlines) {
             GlStateManager.disableOutlineMode();
