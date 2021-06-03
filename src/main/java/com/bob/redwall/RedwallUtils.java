@@ -1023,10 +1023,8 @@ public class RedwallUtils {
 
 	@Nullable
 	public static EntityStructureCenter getStructureAtPos(Vec3d pos) {
-		for (EntityStructureCenter s : EntityStructureCenter.ACTIVE_STRUCTURES) {
-			System.out.println(s.getAOE());
+		for (EntityStructureCenter s : EntityStructureCenter.ACTIVE_STRUCTURES)
 			if (s.getAOE().contains(pos)) return s;
-		}
 
 		return null;
 	}

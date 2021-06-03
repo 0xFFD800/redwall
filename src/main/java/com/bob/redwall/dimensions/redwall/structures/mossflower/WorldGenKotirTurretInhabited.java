@@ -95,7 +95,7 @@ public class WorldGenKotirTurretInhabited extends StructureComponent {
 	        Logger.info(dweller.toString());
         }
         
-        EntityMossflowerVerminCampfire center = new EntityMossflowerVerminCampfire(world, new AxisAlignedBB(blockpos.getX(), blockpos.down(i5).getY(), blockpos.getZ(), blockpos.getX() + template.getSize().getX(), blockpos.down(i5).getY() + template.getSize().getY(), blockpos.getZ() + template.getSize().getZ()));
+        EntityMossflowerVerminCampfire center = new EntityMossflowerVerminCampfire(world, new AxisAlignedBB(blockpos.getX(), blockpos.down(i5 + 2).getY(), blockpos.getZ(), blockpos.getX() + template.getSize().getX(), blockpos.down(i5).getY() + template.getSize().getY(), blockpos.getZ() + template.getSize().getZ()));
         
         center.setLocationAndAngles(blockpos.getX() + 6, blockpos.down(i5).getY() + 0, blockpos.getZ() + 5, 0, 0);
         

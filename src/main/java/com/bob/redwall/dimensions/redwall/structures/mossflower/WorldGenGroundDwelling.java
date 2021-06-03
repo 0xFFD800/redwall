@@ -102,7 +102,7 @@ public class WorldGenGroundDwelling extends StructureComponent {
 	        Logger.info(dweller.toString());
         }
         
-        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(blockpos.getX(), blockpos.down(i5 + i6).getY(), blockpos.getZ(), blockpos.getX() + template.getSize().getX(), blockpos.down(i5 + i6).getY() + template.getSize().getY(), blockpos.getZ() + template.getSize().getZ()));
+        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(blockpos.getX(), blockpos.down(i5 + i6 + 2).getY(), blockpos.getZ(), blockpos.getX() + template.getSize().getX(), blockpos.down(i5 + i6).getY() + template.getSize().getY(), blockpos.getZ() + template.getSize().getZ()));
         
         if(structureLoc == GROUND_DWELLING_1) {
         	center.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 8, 0, 0);

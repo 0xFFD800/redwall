@@ -112,7 +112,6 @@ public abstract class EntityStructureCenter extends EntityLivingBase {
 	public void readFromNBT(NBTTagCompound compound) {
 		if (compound.hasKey("AOE")) {
 			int[] a = compound.getIntArray("AOE");
-			System.out.println(a);
 			this.aoe = new AxisAlignedBB(a[0], a[1], a[2], a[3], a[4], a[5]);
 		}
 
