@@ -619,3 +619,8 @@ drink.blackberry_grog=Blackberry Grog
 
 generator.redwall=Redwall World
 generator.redwall.info=Spawn directly into the Redwall universe!
+
+message.breakStructureFriendly=This land belongs to a faction you're at peace with; you can't break blocks here!
+message.placeStructureFriendly=This land belongs to a faction you're at peace with; you can't place blocks here!
+message.interactStructureFriendly=This land belongs to a faction you're at peace with; you can't open doors or chests here!
+message.defeatStructureHostile=You have destroyed this structure! Rewards: %s XP, %s loyalty, %s fighting skill
