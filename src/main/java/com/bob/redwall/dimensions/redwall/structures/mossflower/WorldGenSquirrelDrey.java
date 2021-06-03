@@ -114,7 +114,7 @@ public class WorldGenSquirrelDrey extends StructureComponent {
         
         Logger.debug(dweller.toString());
         
-        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(this.getBoundingBox().minX, this.getBoundingBox().minY, this.getBoundingBox().minZ, this.getBoundingBox().maxX, this.getBoundingBox().maxY, this.getBoundingBox().maxZ));
+        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(blockpos.getX(), blockpos.down(i5).getY(), blockpos.getZ(), blockpos.getX() + template.getSize().getX(), blockpos.down(i5).getY() + template.getSize().getY(), blockpos.getZ() + template.getSize().getZ()));
         
         if(structureLoc == SQUIRREL_DREY_1) {
 	        center.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5).getY() + 6, blockpos.getZ() + 3, 0, 0);

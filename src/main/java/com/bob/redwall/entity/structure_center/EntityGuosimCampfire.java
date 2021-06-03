@@ -18,4 +18,19 @@ public class EntityGuosimCampfire extends EntityStructureCenter {
 	public Faction getFaction() {
 		return Faction.FacList.GUOSIM;
 	}
+
+	@Override
+	public int getXPReward() {
+		return 20;
+	}
+
+	@Override
+	public int getLoyaltyReward() {
+		return 30;
+	}
+
+	@Override
+	public int getFightSkillReward() {
+		return 15;
+	}
 }

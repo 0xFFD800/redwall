@@ -90,7 +90,7 @@ public class WorldGenGroundDwelling extends StructureComponent {
 	        if(structureLoc == GROUND_DWELLING_1) {
 		        dweller.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 8, 0, 0);
 	        } else if(structureLoc == GROUND_DWELLING_2) {
-		        dweller.setLocationAndAngles(blockpos.getX() + 5, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 6, 0, 0);
+		        dweller.setLocationAndAngles(blockpos.getX() + 5, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 6, 0, 0);
 	        } else {
 		        dweller.setLocationAndAngles(blockpos.getX() + 4, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 4, 0, 0);
 	        }
@@ -102,14 +102,14 @@ public class WorldGenGroundDwelling extends StructureComponent {
 	        Logger.info(dweller.toString());
         }
         
-        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(this.getBoundingBox().minX, this.getBoundingBox().minY, this.getBoundingBox().minZ, this.getBoundingBox().maxX, this.getBoundingBox().maxY, this.getBoundingBox().maxZ));
+        EntityWoodlanderHearth center = new EntityWoodlanderHearth(world, new AxisAlignedBB(blockpos.getX(), blockpos.down(i5 + i6).getY(), blockpos.getZ(), blockpos.getX() + template.getSize().getX(), blockpos.down(i5 + i6).getY() + template.getSize().getY(), blockpos.getZ() + template.getSize().getZ()));
         
         if(structureLoc == GROUND_DWELLING_1) {
         	center.setLocationAndAngles(blockpos.getX() + 7, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 8, 0, 0);
         } else if(structureLoc == GROUND_DWELLING_2) {
-        	center.setLocationAndAngles(blockpos.getX() + 5, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 6, 0, 0);
+        	center.setLocationAndAngles(blockpos.getX() + 5, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 6, 0, 0);
         } else {
-        	center.setLocationAndAngles(blockpos.getX() + 4, blockpos.down(i5 + i6).getY() + 0, blockpos.getZ() + 4, 0, 0);
+        	center.setLocationAndAngles(blockpos.getX() + 4, blockpos.down(i5 + i6).getY() + 1, blockpos.getZ() + 4, 0, 0);
         }
         
         world.spawnEntity(center);

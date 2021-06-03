@@ -18,4 +18,19 @@ public class EntityWoodlanderHearth extends EntityStructureCenter {
 	public Faction getFaction() {
 		return Faction.FacList.WOODLANDERS;
 	}
+
+	@Override
+	public int getXPReward() {
+		return 10;
+	}
+
+	@Override
+	public int getLoyaltyReward() {
+		return 20;
+	}
+
+	@Override
+	public int getFightSkillReward() {
+		return 10;
+	}
 }

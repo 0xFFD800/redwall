@@ -3,10 +3,13 @@ package com.bob.redwall.entity.structure_center;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
+import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.factions.Faction;
+import com.bob.redwall.factions.Faction.FactionStatus;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +20,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public abstract class EntityStructureCenter extends EntityLivingBase {
@@ -67,8 +71,22 @@ public abstract class EntityStructureCenter extends EntityLivingBase {
 			EntityPlayer player = (EntityPlayer) ((EntityDamageSource) source).getTrueSource();
 			if (player.getCapability(FactionCapProvider.FACTION_CAP, null).getPlayerContacted(this.getFaction()) && player.getCapability(FactionCapProvider.FACTION_CAP, null).get(this.getFaction(), FacStatType.LOYALTY) >= 0) return false;
 		}
-
-		return super.attackEntityFrom(source, amount);
+		
+		boolean b = super.attackEntityFrom(source, amount);
+		if(this.getHealth() <= 0.0F && source instanceof EntityDamageSource && ((EntityDamageSource) source).getTrueSource() instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) ((EntityDamageSource) source).getTrueSource();
+			player.addExperience(this.getXPReward());
+			FactionCap cap = (FactionCap) player.getCapability(FactionCapProvider.FACTION_CAP, null);
+			for(Faction f : Faction.getAllFactions()) {
+				if(f.playerHasContact(player) && f.getFactionStatus(this.getFaction()) == FactionStatus.HOSTILE) {
+					cap.set(f, FacStatType.LOYALTY, cap.get(f, FacStatType.LOYALTY) + this.getLoyaltyReward(), true);
+					cap.set(f, FacStatType.FIGHT, cap.get(f, FacStatType.FIGHT) + this.getFightSkillReward(), true);
+				}
+			}
+			player.sendMessage(new TextComponentString(I18n.format("message.defeatStructureHostile", this.getXPReward(), this.getLoyaltyReward(), this.getFightSkillReward())));
+		}
+		
+		return b;
 	}
 
 	@Override
@@ -102,4 +120,10 @@ public abstract class EntityStructureCenter extends EntityLivingBase {
 	}
 
 	public abstract Faction getFaction();
+
+	public abstract int getXPReward();
+
+	public abstract int getLoyaltyReward();
+
+	public abstract int getFightSkillReward();
 }

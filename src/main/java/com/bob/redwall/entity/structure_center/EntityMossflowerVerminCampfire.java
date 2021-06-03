@@ -18,4 +18,19 @@ public class EntityMossflowerVerminCampfire extends EntityStructureCenter {
 	public Faction getFaction() {
 		return Faction.FacList.VERMIN_MOSSFLOWER;
 	}
+
+	@Override
+	public int getXPReward() {
+		return 15;
+	}
+
+	@Override
+	public int getLoyaltyReward() {
+		return 25;
+	}
+
+	@Override
+	public int getFightSkillReward() {
+		return 12;
+	}
 }

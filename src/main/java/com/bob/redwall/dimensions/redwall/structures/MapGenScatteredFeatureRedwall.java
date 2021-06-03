@@ -175,5 +175,6 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 		MapGenStructureIO.registerStructureComponent(WorldGenSquirrelDrey.class, "MoSD");
 		MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretAbandoned.class, "MoKA");
 		MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretInhabited.class, "MoKI");
+		MapGenStructureIO.registerStructureComponent(WorldGenKotirFortAbandoned.class, "MoKF");
 	}
 }
