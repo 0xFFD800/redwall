@@ -6,6 +6,8 @@ import java.util.List;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.npc.favors.Favor;
+import com.bob.redwall.entity.npc.favors.IFavorCondition;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
 
@@ -71,21 +73,26 @@ public abstract class EntityStructureCenter extends EntityLivingBase {
 			EntityPlayer player = (EntityPlayer) ((EntityDamageSource) source).getTrueSource();
 			if (player.getCapability(FactionCapProvider.FACTION_CAP, null).getPlayerContacted(this.getFaction()) && player.getCapability(FactionCapProvider.FACTION_CAP, null).get(this.getFaction(), FacStatType.LOYALTY) >= 0) return false;
 		}
-		
+
 		boolean b = super.attackEntityFrom(source, amount);
-		if(this.getHealth() <= 0.0F && source instanceof EntityDamageSource && ((EntityDamageSource) source).getTrueSource() instanceof EntityPlayer) {
+		if (this.getHealth() <= 0.0F && source instanceof EntityDamageSource && ((EntityDamageSource) source).getTrueSource() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) ((EntityDamageSource) source).getTrueSource();
 			player.addExperience(this.getXPReward());
 			FactionCap cap = (FactionCap) player.getCapability(FactionCapProvider.FACTION_CAP, null);
-			for(Faction f : Faction.getAllFactions()) {
-				if(f.playerHasContact(player) && f.getFactionStatus(this.getFaction()) == FactionStatus.HOSTILE) {
+			for (Faction f : Faction.getAllFactions()) {
+				if (f.playerHasContact(player) && f.getFactionStatus(this.getFaction()) == FactionStatus.HOSTILE) {
 					cap.set(f, FacStatType.LOYALTY, cap.get(f, FacStatType.LOYALTY) + this.getLoyaltyReward(), true);
 					cap.set(f, FacStatType.FIGHT, cap.get(f, FacStatType.FIGHT) + this.getFightSkillReward(), true);
 				}
 			}
+
+			for (Favor favor : cap.getFavors())
+				for (IFavorCondition c : favor.getConditions())
+					c.destroyStructure(this);
+
 			player.sendMessage(new TextComponentString(I18n.format("message.defeatStructureHostile", this.getXPReward(), this.getLoyaltyReward(), this.getFightSkillReward())));
 		}
-		
+
 		return b;
 	}
 

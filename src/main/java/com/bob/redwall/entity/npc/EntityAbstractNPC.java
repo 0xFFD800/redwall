@@ -20,6 +20,9 @@ import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvide
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
+import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.npc.favors.Favor;
+import com.bob.redwall.entity.npc.favors.IFavorCondition;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
@@ -220,7 +223,18 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		if (!this.world.isRemote) {
-			this.talk(player);
+			label1: {
+				for (Favor favor : player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors())
+					if (favor.getGiver().equals(this)) {
+						for (IFavorCondition c : favor.getConditions()) {
+							ItemStack s = player.getHeldItem(hand);
+							player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
+							
+							if (!player.getHeldItem(hand).equals(s)) break label1;
+						}
+					}
+				this.talk(player);
+			}
 		}
 		return true;
 	}

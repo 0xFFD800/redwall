@@ -32,6 +32,8 @@ import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
 import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
+import com.bob.redwall.entity.npc.favors.Favor;
+import com.bob.redwall.entity.npc.favors.IFavorCondition;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
@@ -448,6 +450,9 @@ public class EventHandler {
 			IFactionCap facCap = player.getCapability(FactionCapProvider.FACTION_CAP, null);
 			Faction fac = npc.getFaction();
 			Faction factionGreatestLoyalty = fac;
+			for (Favor favor : facCap.getFavors())
+				for(IFavorCondition c : favor.getConditions()) 
+					c.killNPC(npc);
 
 			if (!fac.playerHasContact(player)) fac.playerContactFaction(player);
 
