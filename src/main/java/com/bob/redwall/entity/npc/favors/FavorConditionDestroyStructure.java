@@ -5,6 +5,7 @@ import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 import com.bob.redwall.factions.Faction.FactionStatus;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class FavorConditionDestroyStructure implements IFavorCondition {
 	private EntityStructureCenter center;
@@ -46,4 +47,23 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 		return this.complete;
 	}
 
+	@Override
+	public NBTTagCompound writeToNBT() {
+		NBTTagCompound compound = new NBTTagCompound();
+		
+		compound.setString("Type", "DestroyStructure");
+		compound.setInteger("StructureID", this.center != null ? this.center.getEntityId() : -1);
+		compound.setBoolean("Complete", this.complete);
+		
+		return compound;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound c) {
+		if(!c.getString("Type").equals("DestroyStructure")) 
+			throw new IllegalStateException("Created a DestroyStructure favor condition without a DestroyStructure tag!");
+		
+		this.center = (EntityStructureCenter) this.favor.getPlayer().getEntityWorld().getEntityByID(c.getInteger("StructureID"));
+		this.complete = c.getBoolean("Complete");
+	}
 }

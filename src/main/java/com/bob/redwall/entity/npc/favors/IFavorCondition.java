@@ -4,6 +4,7 @@ import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * A class to represent a "favor" done for an NPC.
@@ -57,4 +58,20 @@ public interface IFavorCondition {
 	 * @return Whether or not this condition has been fulfilled for this favor.
 	 */
 	public boolean isComplete();
+
+	/**
+	 * Writes this condition to NBT.
+	 * 
+	 * @return An NBTTagCompound containing the data for this condition, which can
+	 *         be read by {@link IFavorCondition#readFromNBT(NBTTagCompound c)}.
+	 */
+	public NBTTagCompound writeToNBT();
+
+	/**
+	 * Reads this condition from NBT.
+	 * 
+	 * @param c
+	 *            The NBTTagCompound containing the data for this condition.
+	 */
+	public void readFromNBT(NBTTagCompound c);
 }

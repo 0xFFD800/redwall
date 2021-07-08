@@ -1,5 +1,7 @@
 package com.bob.redwall.gui.factions;
 
+import java.util.List;
+
 import com.bob.redwall.Ref;
 import com.bob.redwall.entity.npc.favors.Favor;
 
@@ -19,11 +21,12 @@ public class GuiFavor extends GuiScreen {
     private float oldMouseX;
     private float oldMouseY;
     protected final EntityPlayer player;
-    protected final Favor favor;
+    protected final List<Favor> favors;
+    protected int selectedFavor = 0;
     
-	public GuiFavor(EntityPlayer player, Favor favor) {
+	public GuiFavor(EntityPlayer player, List<Favor> favors) {
 		this.player = player;
-		this.favor = favor;
+		this.favors = favors;
 	}
 	
 	@Override
@@ -35,7 +38,7 @@ public class GuiFavor extends GuiScreen {
         int i = this.guiLeft;
         int j = this.guiTop;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        GuiInventory.drawEntityOnScreen(i + 40, j + 82, 30, (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, this.favor.getGiver());
+        GuiInventory.drawEntityOnScreen(i + 40, j + 82, 30, (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, this.favors.get(this.selectedFavor).getGiver());
         
         this.fontRenderer.drawString(I18n.format("favor.story"), 111, 20, 4210752);
         this.fontRenderer.drawString(I18n.format("favor.conditions"), 200, 20, 4210752);

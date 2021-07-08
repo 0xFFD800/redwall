@@ -6,10 +6,13 @@ import java.util.List;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.init.ItemHandler;
+import com.bob.redwall.init.SpeechHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 public class Favor {
 	private EntityPlayer player;
@@ -18,8 +21,9 @@ public class Favor {
 	private List<IFavorReward> success;
 	private List<IFavorReward> failure;
 	private long timeLimit;
+	private String story;
 
-	public Favor(EntityPlayer player, EntityAbstractNPC giver, List<IFavorCondition> conditions, List<IFavorReward> success, List<IFavorReward> failure, long timeLimit) {
+	public Favor(EntityPlayer player, EntityAbstractNPC giver, String story, List<IFavorCondition> conditions, List<IFavorReward> success, List<IFavorReward> failure, long timeLimit) {
 		this.player = player;
 		this.giver = giver;
 		this.conditions = conditions;
@@ -28,6 +32,7 @@ public class Favor {
 		this.timeLimit = timeLimit;
 		this.success = success;
 		this.failure = failure;
+		this.story = story;
 	}
 	
 	public EntityPlayer getPlayer() {
@@ -36,6 +41,10 @@ public class Favor {
 
 	public EntityAbstractNPC getGiver() {
 		return this.giver;
+	}
+	
+	public String getStory() {
+		return this.story;
 	}
 
 	public List<IFavorCondition> getConditions() {
@@ -60,6 +69,32 @@ public class Favor {
 	public void succeed() {
 		for(IFavorReward r : this.success)
 			r.reward(this.player);
+	}
+	
+	public NBTTagCompound writeToNBT() {
+		NBTTagCompound compound = new NBTTagCompound();
+		
+		compound.setInteger("GiverID", this.giver.getEntityId());
+		compound.setString("Story", this.story);
+		
+		NBTTagList conditions = new NBTTagList();
+		for	(IFavorCondition c : this.conditions)
+			conditions.appendTag(c.writeToNBT());
+		compound.setTag("Conditions", conditions);
+		
+		NBTTagList success = new NBTTagList();
+		for (IFavorReward r : this.success)
+			success.appendTag(r.writeToNBT());
+		compound.setTag("Success", success);
+
+		NBTTagList failure = new NBTTagList();
+		for (IFavorReward r : this.failure)
+			failure.appendTag(r.writeToNBT());
+		compound.setTag("Failure", failure);
+		
+		compound.setLong("TimeLimit", this.timeLimit);
+		
+		return compound;
 	}
 	
 	private static final Item[] metals = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, ItemHandler.bronze_ingot, ItemHandler.copper_ingot, ItemHandler.tin_ingot };
@@ -98,7 +133,10 @@ public class Favor {
 		List<IFavorReward> f = new ArrayList<>();
 		for(IFavorReward ifc : failure)
 			f.add(ifc);
+
+		//TODO should be COLLECT_METALS_EVIL and COLLECT_METALS_GOOD
+		List<String> stories = giver.getFaction().isVermin() ? SpeechHandler.GENERIC_HOSTILE : SpeechHandler.GENERIC_FRIENDLY;
 		
-		return new Favor(player, giver, c, s, f, timeLimit);
+		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
 	}
 }

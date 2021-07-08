@@ -3,6 +3,7 @@ package com.bob.redwall.entity.npc.favors;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class FavorRewardItem implements IFavorReward {
 	private Item item;
@@ -21,5 +22,27 @@ public class FavorRewardItem implements IFavorReward {
 		if(!player.addItemStackToInventory(stack)) {
 			player.dropItem(stack, false);
 		}
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT() {
+		NBTTagCompound compound = new NBTTagCompound();
+		
+		compound.setString("Type", "Item");
+		compound.setInteger("ItemID", Item.getIdFromItem(this.item));
+		compound.setInteger("LowAmount", this.lowAmount);
+		compound.setInteger("HighAmount", this.highAmount);
+		
+		return compound;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound c) {
+		if(!c.getString("Type").equals("Item")) 
+			throw new IllegalStateException("Created an Item favor reward without an Item tag!");
+
+		this.item = Item.getItemById(c.getInteger("ItemID"));
+		this.lowAmount = c.getInteger("LowAmount");
+		this.highAmount = c.getInteger("HighAmount");
 	}
 }

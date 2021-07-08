@@ -5,6 +5,7 @@ import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 import com.bob.redwall.factions.Faction.FactionStatus;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class FavorConditionKillNPC implements IFavorCondition {
 	private EntityAbstractNPC npc;
@@ -46,5 +47,25 @@ public class FavorConditionKillNPC implements IFavorCondition {
 	@Override
 	public boolean isComplete() {
 		return this.complete;
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT() {
+		NBTTagCompound compound = new NBTTagCompound();
+		
+		compound.setString("Type", "KillNPC");
+		compound.setInteger("EntityID", this.npc != null ? this.npc.getEntityId() : -1);
+		compound.setBoolean("Complete", this.complete);
+		
+		return compound;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound c) {
+		if(!c.getString("Type").equals("KillNPC")) 
+			throw new IllegalStateException("Created a KillNPC favor condition without a KillNPC tag!");
+		
+		this.npc = (EntityAbstractNPC) this.favor.getPlayer().getEntityWorld().getEntityByID(c.getInteger("EntityID"));
+		this.complete = c.getBoolean("Complete");
 	}
 }

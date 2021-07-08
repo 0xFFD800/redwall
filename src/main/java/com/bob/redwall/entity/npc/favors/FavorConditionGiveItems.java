@@ -5,6 +5,7 @@ import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class FavorConditionGiveItems implements IFavorCondition {
 	private Item item;
@@ -59,5 +60,29 @@ public class FavorConditionGiveItems implements IFavorCondition {
 	@Override
 	public boolean isComplete() {
 		return this.complete;
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT() {
+		NBTTagCompound compound = new NBTTagCompound();
+		
+		compound.setString("Type", "GiveItems");
+		compound.setInteger("ItemID", Item.getIdFromItem(this.item));
+		compound.setInteger("Number", this.number);
+		compound.setInteger("NumberGiven", this.numberGiven);
+		compound.setBoolean("Complete", this.complete);
+		
+		return compound;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound c) {
+		if(!c.getString("Type").equals("GiveItems")) 
+			throw new IllegalStateException("Created a GiveItems favor condition without a GiveItems tag!");
+		
+		this.item = Item.getItemById(c.getInteger("ItemID"));
+		this.number = c.getInteger("Number");
+		this.numberGiven = c.getInteger("NumberGiven");
+		this.complete = c.getBoolean("Complete");
 	}
 }
