@@ -11,8 +11,10 @@ import com.bob.redwall.init.SpeechHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants;
 
 public class Favor {
 	private EntityPlayer player;
@@ -95,6 +97,85 @@ public class Favor {
 		compound.setLong("TimeLimit", this.timeLimit);
 		
 		return compound;
+	}
+	
+	public void readFromNBT(EntityPlayer player, NBTTagCompound c) {
+		this.player = player;
+		this.giver = (EntityAbstractNPC) player.world.getEntityByID(c.getInteger("GiverID"));
+		this.story = c.getString("Story");
+		
+		NBTTagList conditions = c.getTagList("Conditions", Constants.NBT.TAG_COMPOUND);
+		for(NBTBase con : conditions) {
+			NBTTagCompound co = (NBTTagCompound) con;
+			switch(co.getString("Type")) {
+			case "DestroyStructure":
+				IFavorCondition ifc = new FavorConditionDestroyStructure(null);
+				ifc.readFromNBT(co);
+				this.conditions.add(ifc);
+				break;
+			case "GiveItems":
+				IFavorCondition ifc2 = new FavorConditionGiveItems(null, 0);
+				ifc2.readFromNBT(co);
+				this.conditions.add(ifc2);
+				break;
+			case "GiveItemSpecific":
+				IFavorCondition ifc3 = new FavorConditionGiveItemSpecific(null);
+				ifc3.readFromNBT(co);
+				this.conditions.add(ifc3);
+				break;
+			case "KillNPC":
+				IFavorCondition ifc4 = new FavorConditionKillNPC(null);
+				ifc4.readFromNBT(co);
+				this.conditions.add(ifc4);
+				break;
+			}
+		}
+		
+		NBTTagList success = c.getTagList("Success", Constants.NBT.TAG_COMPOUND);
+		for(NBTBase con : success) {
+			NBTTagCompound co = (NBTTagCompound) con;
+			switch(co.getString("Type")) {
+			case "Item":
+				IFavorReward ifc = new FavorRewardItem(null, 0, 0);
+				ifc.readFromNBT(co);
+				this.success.add(ifc);
+				break;
+			case "Skill":
+				IFavorReward ifc2 = new FavorRewardSkill(null, null, 0, 0);
+				ifc2.readFromNBT(co);
+				this.success.add(ifc2);
+				break;
+			case "XP":
+				IFavorReward ifc3 = new FavorRewardXP(0, 0);
+				ifc3.readFromNBT(co);
+				this.success.add(ifc3);
+				break;
+			}
+		}
+		
+		NBTTagList failure = c.getTagList("Failure", Constants.NBT.TAG_COMPOUND);
+		for(NBTBase con : failure) {
+			NBTTagCompound co = (NBTTagCompound) con;
+			switch(co.getString("Type")) {
+			case "Item":
+				IFavorReward ifc = new FavorRewardItem(null, 0, 0);
+				ifc.readFromNBT(co);
+				this.failure.add(ifc);
+				break;
+			case "Skill":
+				IFavorReward ifc2 = new FavorRewardSkill(null, null, 0, 0);
+				ifc2.readFromNBT(co);
+				this.failure.add(ifc2);
+				break;
+			case "XP":
+				IFavorReward ifc3 = new FavorRewardXP(0, 0);
+				ifc3.readFromNBT(co);
+				this.failure.add(ifc3);
+				break;
+			}
+		}
+		
+		this.timeLimit = c.getLong("TimeLimit");
 	}
 	
 	private static final Item[] metals = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, ItemHandler.bronze_ingot, ItemHandler.copper_ingot, ItemHandler.tin_ingot };

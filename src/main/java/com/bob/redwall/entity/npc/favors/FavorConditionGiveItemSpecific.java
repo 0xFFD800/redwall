@@ -11,7 +11,7 @@ public class FavorConditionGiveItemSpecific implements IFavorCondition {
 	private Favor favor;
 	private boolean complete;
 	
-	public FavorConditionGiveItemSpecific(ItemStack item, int number) {
+	public FavorConditionGiveItemSpecific(ItemStack item) {
 		this.item = item;
 		this.complete = false;
 	}
