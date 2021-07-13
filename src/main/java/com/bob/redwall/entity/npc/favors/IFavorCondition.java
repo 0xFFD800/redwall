@@ -74,4 +74,12 @@ public interface IFavorCondition {
 	 *            The NBTTagCompound containing the data for this condition.
 	 */
 	public void readFromNBT(NBTTagCompound c);
+
+	/**
+	 * Gets the text of this condition, that is, what should be shown on the gui
+	 * screen.
+	 * 
+	 * @return The text that should appear on the gui screen for this condition.
+	 */
+	public String getText();
 }

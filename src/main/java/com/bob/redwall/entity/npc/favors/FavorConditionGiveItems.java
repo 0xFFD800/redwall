@@ -3,6 +3,7 @@ package com.bob.redwall.entity.npc.favors;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -84,5 +85,10 @@ public class FavorConditionGiveItems implements IFavorCondition {
 		this.number = c.getInteger("Number");
 		this.numberGiven = c.getInteger("NumberGiven");
 		this.complete = c.getBoolean("Complete");
+	}
+
+	@Override
+	public String getText() {
+		return I18n.format("favor.condition.giveitems", this.number, I18n.format(this.item.getUnlocalizedName()), this.getGiver().getName());
 	}
 }

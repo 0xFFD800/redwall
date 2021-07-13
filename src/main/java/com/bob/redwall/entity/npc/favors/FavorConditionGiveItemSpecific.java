@@ -3,6 +3,7 @@ package com.bob.redwall.entity.npc.favors;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -69,5 +70,10 @@ public class FavorConditionGiveItemSpecific implements IFavorCondition {
 		
 		this.item = new ItemStack(c.getCompoundTag("Item"));
 		this.complete = c.getBoolean("Complete");
+	}
+
+	@Override
+	public String getText() {
+		return I18n.format("favor.condition.giveitemspecific", this.item.getDisplayName(), this.getGiver().getName());
 	}
 }

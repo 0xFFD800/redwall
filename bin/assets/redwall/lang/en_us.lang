@@ -629,3 +629,7 @@ favor.story=Story
 favor.conditions=Conditions
 favor.success=Success
 favor.failure=Failure
+favor.condition.killnpc=Find and kill %s, a %s %s.
+favor.condition.giveitemspecific=Find %s and give it to %s.
+favor.condition.giveitems=Find %d %ss and give them to %s.
+favor.condition.destroystructure=Destroy the %s structure at %s, %s.

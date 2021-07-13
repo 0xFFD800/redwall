@@ -4,6 +4,7 @@ import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
 import com.bob.redwall.factions.Faction.FactionStatus;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -67,5 +68,10 @@ public class FavorConditionKillNPC implements IFavorCondition {
 		
 		this.npc = (EntityAbstractNPC) this.favor.getPlayer().getEntityWorld().getEntityByID(c.getInteger("EntityID"));
 		this.complete = c.getBoolean("Complete");
+	}
+
+	@Override
+	public String getText() {
+		return I18n.format("favor.condition.killnpc", this.npc.getName(), this.npc.getFaction().getLocalizedName(), this.npc.getNPCType().name);
 	}
 }

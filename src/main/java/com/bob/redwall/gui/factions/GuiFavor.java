@@ -40,9 +40,12 @@ public class GuiFavor extends GuiScreen {
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
         GuiInventory.drawEntityOnScreen(i + 40, j + 82, 30, (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, this.favors.get(this.selectedFavor).getGiver());
         
-        this.fontRenderer.drawString(I18n.format("favor.story"), 111, 20, 4210752);
-        this.fontRenderer.drawString(I18n.format("favor.conditions"), 200, 20, 4210752);
-        this.fontRenderer.drawString(I18n.format("favor.failure"), 83, 97, 4210752);
-        this.fontRenderer.drawString(I18n.format("favor.success"), 171, 97, 4210752);
+        this.drawCenteredString(this.fontRenderer, I18n.format("favor.story"), 111, 20, 4210752);
+        this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getStory(), 75, 28, 4210752);
+        this.drawCenteredString(this.fontRenderer, I18n.format("favor.conditions"), 200, 20, 4210752);
+        for(int i1 = 0; i1 < this.favors.get(this.selectedFavor).getConditions().size(); i1++) 
+            this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getConditions().get(i1).getText(), 164, 28 + i1 * 10, 4210752);
+        this.drawCenteredString(this.fontRenderer, I18n.format("favor.failure"), 83, 97, 4210752);
+        this.drawCenteredString(this.fontRenderer, I18n.format("favor.success"), 171, 97, 4210752);
     }
 }
