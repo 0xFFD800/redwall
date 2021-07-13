@@ -1,5 +1,6 @@
 package com.bob.redwall.entity.npc.favors;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -35,5 +36,10 @@ public class FavorRewardXP implements IFavorReward {
 
 		this.lowAmount = c.getInteger("LowAmount");
 		this.highAmount = c.getInteger("HighAmount");
+	}
+
+	@Override
+	public String getText() {
+		return I18n.format("favor.reward.xp", this.lowAmount, this.highAmount);
 	}
 }

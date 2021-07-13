@@ -43,9 +43,21 @@ public class GuiFavor extends GuiScreen {
         this.drawCenteredString(this.fontRenderer, I18n.format("favor.story"), 111, 20, 4210752);
         this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getStory(), 75, 28, 4210752);
         this.drawCenteredString(this.fontRenderer, I18n.format("favor.conditions"), 200, 20, 4210752);
+        this.drawString(this.fontRenderer, I18n.format("favor.timeLimit", this.favors.get(this.selectedFavor).getTimeLimit() <= 0 ? "None" : formatTime(this.favors.get(this.selectedFavor).getTimeLimit())), 164, 28, 4210752);
         for(int i1 = 0; i1 < this.favors.get(this.selectedFavor).getConditions().size(); i1++) 
-            this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getConditions().get(i1).getText(), 164, 28 + i1 * 10, 4210752);
+            this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getConditions().get(i1).getText(), 164, 38 + i1 * 10, 4210752);
         this.drawCenteredString(this.fontRenderer, I18n.format("favor.failure"), 83, 97, 4210752);
+        for(int i1 = 0; i1 < this.favors.get(this.selectedFavor).getFailureRewards().size(); i1++) 
+            this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getFailureRewards().get(i1).getText(), 47, 106 + i1 * 10, 4210752);
         this.drawCenteredString(this.fontRenderer, I18n.format("favor.success"), 171, 97, 4210752);
+        for(int i1 = 0; i1 < this.favors.get(this.selectedFavor).getSuccessRewards().size(); i1++) 
+            this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getSuccessRewards().get(i1).getText(), 135, 106 + i1 * 10, 4210752);
     }
+
+	public static String formatTime(long timeLimit) {
+		long seconds = (timeLimit / 20) % 60;
+		long minutes = (timeLimit / 120) % 60;
+		long hours = timeLimit / 7200;
+		return hours > 0 ? I18n.format("time.format.hours", hours, minutes, seconds) : minutes > 0 ? I18n.format("time.format.minutes", minutes, seconds) : I18n.format("time.format.seconds", seconds);
+	}
 }

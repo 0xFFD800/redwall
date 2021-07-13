@@ -49,8 +49,20 @@ public class Favor {
 		return this.story;
 	}
 
+	public long getTimeLimit() {
+		return this.timeLimit;
+	}
+
 	public List<IFavorCondition> getConditions() {
 		return this.conditions;
+	}
+
+	public List<IFavorReward> getFailureRewards() {
+		return this.failure;
+	}
+
+	public List<IFavorReward> getSuccessRewards() {
+		return this.success;
 	}
 
 	public boolean isComplete() {

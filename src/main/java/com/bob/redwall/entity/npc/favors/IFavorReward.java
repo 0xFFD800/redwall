@@ -9,4 +9,6 @@ public interface IFavorReward {
 	public NBTTagCompound writeToNBT();
 
 	public void readFromNBT(NBTTagCompound c);
+
+	public String getText();
 }

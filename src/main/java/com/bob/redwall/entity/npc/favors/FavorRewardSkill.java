@@ -4,6 +4,7 @@ import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.factions.Faction;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -47,5 +48,10 @@ public class FavorRewardSkill implements IFavorReward {
 		this.type = FactionCap.FacStatType.byID(c.getInteger("StatType"));
 		this.lowAmount = c.getInteger("LowAmount");
 		this.highAmount = c.getInteger("HighAmount");
+	}
+
+	@Override
+	public String getText() {
+		return I18n.format("favor.reward.skill", this.lowAmount, this.highAmount, this.fac.getLocalizedName(), this.type.getLocalizedName());
 	}
 }

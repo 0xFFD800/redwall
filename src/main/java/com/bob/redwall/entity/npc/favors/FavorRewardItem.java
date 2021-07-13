@@ -1,5 +1,6 @@
 package com.bob.redwall.entity.npc.favors;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,5 +45,10 @@ public class FavorRewardItem implements IFavorReward {
 		this.item = Item.getItemById(c.getInteger("ItemID"));
 		this.lowAmount = c.getInteger("LowAmount");
 		this.highAmount = c.getInteger("HighAmount");
+	}
+
+	@Override
+	public String getText() {
+		return I18n.format("favor.reward.item", this.lowAmount, this.highAmount, I18n.format(this.item.getUnlocalizedName()));
 	}
 }

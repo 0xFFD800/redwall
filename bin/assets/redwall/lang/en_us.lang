@@ -633,3 +633,11 @@ favor.condition.killnpc=Find and kill %s, a %s %s.
 favor.condition.giveitemspecific=Find %s and give it to %s.
 favor.condition.giveitems=Find %d %ss and give them to %s.
 favor.condition.destroystructure=Destroy the %s structure at %s, %s.
+favor.reward.xp=%s - %s XP
+favor.reward.skill=%s - %s %s %s
+favor.reward.item=%s - %s %ss
+favor.timeLimit=Time Limit: %s
+
+time.format.hours=%s Hours, %s Minutes, and %s Seconds
+time.format.minutes=%s Minutes and %s Seconds
+time.format.seconds=%s Seconds

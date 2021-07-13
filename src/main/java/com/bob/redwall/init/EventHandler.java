@@ -335,6 +335,10 @@ public class EventHandler {
 					else if (f.isPeaceful()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
 				}
 			}
+			
+			event.player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().forEach((u1) -> {
+				u1.update();
+			});
 		} else if (event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
 			IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
 			if (defending.get() && !event.player.isSneaking()) RedwallControlHandler.handleDefenseEnd(defending.getMode());
