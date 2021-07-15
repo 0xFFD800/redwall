@@ -637,6 +637,8 @@ favor.reward.xp=%s - %s XP
 favor.reward.skill=%s - %s %s %s
 favor.reward.item=%s - %s %ss
 favor.timeLimit=Time Limit: %s
+favor.accept=Accept
+favor.decline=Decline
 
 time.format.hours=%s Hours, %s Minutes, and %s Seconds
 time.format.minutes=%s Minutes and %s Seconds
