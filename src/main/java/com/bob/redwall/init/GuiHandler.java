@@ -71,7 +71,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_BREWING_REDWALL_ID) return new GuiBrewingRedwall(player.inventory, world, pos, (TileEntityBrewingRedwall)te);
 		else if(ID == GuiHandler.GUI_BREWING_GUOSIM_ID) return new GuiBrewingGuosim(player.inventory, world, pos, (TileEntityBrewingGuosim)te);
 		else if(ID == GuiHandler.GUI_SKILLS_ID) return new GuiSkills(player);
-		else if(ID == GuiHandler.GUI_FAVOR_ID) return new GuiFavor(player, player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors());
+		else if(ID == GuiHandler.GUI_FAVOR_ID) return player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().isEmpty() ? null : new GuiFavor(player, player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors());
 		else return null;
 	}
 }
