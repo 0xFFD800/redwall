@@ -5,6 +5,7 @@ import java.util.List;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
+import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.SpeechHandler;
 
@@ -72,5 +73,10 @@ public class EntityMoleRedwall extends EntityAbstractNPC {
 	@Override
 	public boolean willFightEntityRevenge(EntityLivingBase entity) {
 		return this.isSuitableTarget(entity) && this.getIsMale();
+	}
+
+	@Override
+	public void createFavor() {
+		this.setFavor(Favor.createFavorCollectMetals(null, this, 1, 3, 5, 30, 6000, 18000));
 	}
 }

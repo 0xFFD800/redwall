@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
+import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.SpeechHandler;
 
@@ -80,4 +81,9 @@ public class EntityShrewRedwall extends EntityAbstractNPC {
     	this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(WeightedRandom.getRandomItem(this.getRNG(), EntityAbstractNPC.EQUIPMENT_LIST_GUOSIM).getItem()));
     	return super.onInitialSpawn(difficulty, livingdata);
     }
+
+	@Override
+	public void createFavor() {
+		this.setFavor(Favor.createFavorCollectMetals(null, this, 1, 3, 5, 30, 6000, 18000));
+	}
 }

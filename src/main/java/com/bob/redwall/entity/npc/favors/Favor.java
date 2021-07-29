@@ -36,7 +36,7 @@ public class Favor {
 		this.failure = failure;
 		this.story = story;
 	}
-	
+
 	public EntityPlayer getPlayer() {
 		return this.player;
 	}
@@ -44,7 +44,7 @@ public class Favor {
 	public EntityAbstractNPC getGiver() {
 		return this.giver;
 	}
-	
+
 	public String getStory() {
 		return this.story;
 	}
@@ -76,26 +76,26 @@ public class Favor {
 	}
 
 	public void fail() {
-		for(IFavorReward r : this.failure)
+		for (IFavorReward r : this.failure)
 			r.reward(this.player);
 	}
 
 	public void succeed() {
-		for(IFavorReward r : this.success)
+		for (IFavorReward r : this.success)
 			r.reward(this.player);
 	}
-	
+
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
-		
+
 		compound.setInteger("GiverID", this.giver.getEntityId());
 		compound.setString("Story", this.story);
-		
+
 		NBTTagList conditions = new NBTTagList();
-		for	(IFavorCondition c : this.conditions)
+		for (IFavorCondition c : this.conditions)
 			conditions.appendTag(c.writeToNBT());
 		compound.setTag("Conditions", conditions);
-		
+
 		NBTTagList success = new NBTTagList();
 		for (IFavorReward r : this.success)
 			success.appendTag(r.writeToNBT());
@@ -105,21 +105,22 @@ public class Favor {
 		for (IFavorReward r : this.failure)
 			failure.appendTag(r.writeToNBT());
 		compound.setTag("Failure", failure);
-		
+
 		compound.setLong("TimeLimit", this.timeLimit);
-		
+
 		return compound;
 	}
-	
+
 	public void readFromNBT(EntityPlayer player, NBTTagCompound c) {
 		this.player = player;
-		this.giver = (EntityAbstractNPC) player.world.getEntityByID(c.getInteger("GiverID"));
+		if (this.player != null) this.giver = (EntityAbstractNPC) this.player.world.getEntityByID(c.getInteger("GiverID"));
+
 		this.story = c.getString("Story");
-		
+
 		NBTTagList conditions = c.getTagList("Conditions", Constants.NBT.TAG_COMPOUND);
-		for(NBTBase con : conditions) {
+		for (NBTBase con : conditions) {
 			NBTTagCompound co = (NBTTagCompound) con;
-			switch(co.getString("Type")) {
+			switch (co.getString("Type")) {
 			case "DestroyStructure":
 				IFavorCondition ifc = new FavorConditionDestroyStructure(null);
 				ifc.readFromNBT(co);
@@ -142,11 +143,11 @@ public class Favor {
 				break;
 			}
 		}
-		
+
 		NBTTagList success = c.getTagList("Success", Constants.NBT.TAG_COMPOUND);
-		for(NBTBase con : success) {
+		for (NBTBase con : success) {
 			NBTTagCompound co = (NBTTagCompound) con;
-			switch(co.getString("Type")) {
+			switch (co.getString("Type")) {
 			case "Item":
 				IFavorReward ifc = new FavorRewardItem(null, 0, 0);
 				ifc.readFromNBT(co);
@@ -164,11 +165,11 @@ public class Favor {
 				break;
 			}
 		}
-		
+
 		NBTTagList failure = c.getTagList("Failure", Constants.NBT.TAG_COMPOUND);
-		for(NBTBase con : failure) {
+		for (NBTBase con : failure) {
 			NBTTagCompound co = (NBTTagCompound) con;
-			switch(co.getString("Type")) {
+			switch (co.getString("Type")) {
 			case "Item":
 				IFavorReward ifc = new FavorRewardItem(null, 0, 0);
 				ifc.readFromNBT(co);
@@ -186,27 +187,27 @@ public class Favor {
 				break;
 			}
 		}
-		
+
 		this.timeLimit = c.getLong("TimeLimit");
 	}
-	
+
 	private static final Item[] metals = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, ItemHandler.bronze_ingot, ItemHandler.copper_ingot, ItemHandler.tin_ingot };
-	
+
 	public static Favor createFavorCollectMetals(EntityPlayer player, EntityAbstractNPC giver, int typesL, int typesH, int numL, int numH, long timeLimitLow, long timeLimitHigh) {
-		int types = player.getRNG().nextInt(typesH - typesL) + typesL;
+		int types = giver.getRNG().nextInt(typesH - typesL) + typesL;
 		IFavorCondition[] conditions = new IFavorCondition[types];
 		List<Item> usedItems = new ArrayList<>();
-		
-		for(int i = 0; i < types; i++) {
-			Item item = metals[player.getRNG().nextInt(metals.length)];
-			while(usedItems.contains(item)) 
-				item = metals[player.getRNG().nextInt(metals.length)];
+
+		for (int i = 0; i < types; i++) {
+			Item item = metals[giver.getRNG().nextInt(metals.length)];
+			while (usedItems.contains(item))
+				item = metals[giver.getRNG().nextInt(metals.length)];
 			usedItems.add(item);
-			
-			int num = player.getRNG().nextInt(numH - numL) + numL;
+
+			int num = giver.getRNG().nextInt(numH - numL) + numL;
 			conditions[i] = new FavorConditionGiveItems(item, num);
 		}
-		
+
 		IFavorReward[] success = new IFavorReward[3];
 		success[0] = new FavorRewardItem(Items.GOLD_NUGGET, numL / 2, numH / 2);
 		success[1] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, numL, numH);
@@ -214,22 +215,22 @@ public class Favor {
 
 		IFavorReward[] failure = new IFavorReward[1];
 		failure[0] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, -numL / 5, -numH / 5);
-		
-		long timeLimit = player.getRNG().nextInt((int) (timeLimitHigh - timeLimitLow)) + timeLimitLow;
-		
+
+		long timeLimit = giver.getRNG().nextInt((int) (timeLimitHigh - timeLimitLow)) + timeLimitLow;
+
 		List<IFavorCondition> c = new ArrayList<>();
-		for(IFavorCondition ifc : conditions)
+		for (IFavorCondition ifc : conditions)
 			c.add(ifc);
 		List<IFavorReward> s = new ArrayList<>();
-		for(IFavorReward ifc : success)
+		for (IFavorReward ifc : success)
 			s.add(ifc);
 		List<IFavorReward> f = new ArrayList<>();
-		for(IFavorReward ifc : failure)
+		for (IFavorReward ifc : failure)
 			f.add(ifc);
 
-		//TODO should be COLLECT_METALS_EVIL and COLLECT_METALS_GOOD
+		// TODO should be COLLECT_METALS_EVIL and COLLECT_METALS_GOOD
 		List<String> stories = giver.getFaction().isVermin() ? SpeechHandler.GENERIC_HOSTILE : SpeechHandler.GENERIC_FRIENDLY;
-		
+
 		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
 	}
 }

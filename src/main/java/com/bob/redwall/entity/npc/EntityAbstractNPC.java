@@ -100,9 +100,11 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	private static final DataParameter<Integer> ATTACK_COOLDOWN = EntityDataManager.<Integer>createKey(EntityAbstractNPC.class, DataSerializers.VARINT);
 	private static final DataParameter<Boolean> ATTACKING_ACTIVE = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
 	private static final DataParameter<Boolean> CHARGING_BOW = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<NBTTagCompound> FAVOR = EntityDataManager.<NBTTagCompound>createKey(EntityAbstractNPC.class, DataSerializers.COMPOUND_TAG);
 
 	private String customMessage;
 	public int timeToDespawn = 6000;
+	private int favorTimer;
 	private EntityAIAttackMeleeNPC meleeAi = new EntityAIAttackMeleeNPC(this, 1.0D, true, MobAttackStrategy.HUMAN);
 	private EntityAIAttackRangedNPC rangedAi = new EntityAIAttackRangedNPC(this, 1.0D, 20, 24.0F);
 
@@ -118,6 +120,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		((PathNavigateGround) this.getNavigator()).setEnterDoors(true);
 		this.setSize(0.6F, 1.8F);
 		this.experienceValue = 8;
+		this.favorTimer = this.getRNG().nextInt(18000) + 6000;
 	}
 
 	@Override
@@ -175,6 +178,11 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 				} else {
 					this.timeToDespawn--;
 				}
+			}
+			
+			if (--this.favorTimer <= 0) {
+				if(this.getFavor() != null) this.createFavor();
+				else this.setFavor(null);
 			}
 		}
 	}
@@ -266,6 +274,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.dataManager.register(ATTACK_COOLDOWN, 0);
 		this.dataManager.register(ATTACKING_ACTIVE, false);
 		this.dataManager.register(CHARGING_BOW, false);
+		this.dataManager.register(FAVOR, new NBTTagCompound());
 
 		this.setSkin(Ref.MODID + this.getSkinPath() + "1m.png");
 		this.setCustomNameTag(this.getIsMale() ? this.getNamesBankMale().get(this.getRNG().nextInt(this.getNamesBankMale().size())) : this.getNamesBankFemale().get(this.getRNG().nextInt(this.getNamesBankFemale().size())));
@@ -321,6 +330,17 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 	public String getSkin() {
 		return this.dataManager.get(SKIN);
+	}
+	
+	public void setFavor(Favor favor) {
+		this.dataManager.set(FAVOR, favor == null ? new NBTTagCompound() : favor.writeToNBT());
+	}
+	
+	public Favor getFavor() {
+		if(this.dataManager.get(FAVOR).hasNoTags()) return null;
+		Favor f = new Favor(null, this, "", null, null, null, 0);
+		f.readFromNBT(null, this.dataManager.get(FAVOR));
+		return f;
 	}
 
 	@Override
@@ -453,6 +473,11 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	public abstract EnumNPCType getNPCType();
 
 	public abstract boolean willFightEntity(EntityLivingBase entity);
+
+	/**
+	 * Creates a new favor for this entity and sets this entity's current offered favor.
+	 */
+	public abstract void createFavor();
 
 	/**
 	 * Will this entity fight the said entity when hit by it?
