@@ -181,7 +181,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			}
 
 			if (--this.favorTimer <= 0) {
-				if (this.getFavor() != null) this.createFavor();
+				if (this.getFavor() == null) this.createFavor();
 				else this.setFavor(null);
 			}
 		}
