@@ -28,19 +28,22 @@ public class RenderShrew<T extends EntityAbstractNPC> extends RenderLiving<T> {
             }
         });
     }
-	
+
 	@Override
 	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-		if(entity.getTalkingActive()) {
-            boolean flag = entity.isSneaking();
-            float f = this.renderManager.playerViewY;
-            float f1 = this.renderManager.playerViewX;
-            boolean flag1 = this.renderManager.options.thirdPersonView == 2;
-            float f2 = entity.height + 0.5F - (flag ? 0.25F : 0.0F);
-            EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), entity.getTalking().getFormattedText(), (float)x, (float)y + f2, (float)z, 0, f, f1, flag1, flag);
+		boolean flag = entity.isSneaking();
+		float f = this.renderManager.playerViewY;
+		float f1 = this.renderManager.playerViewX;
+		boolean flag1 = this.renderManager.options.thirdPersonView == 2;
+		float f2 = entity.height + 0.5F - (flag ? 0.25F : 0.0F);
+		float f3 = 0.0F;
+		if (entity.getTalkingActive()) {
+			f3 = 0.5F;
+			EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), entity.getTalking().getFormattedText(), (float) x, (float) y + f2, (float) z, 0, f, f1, flag1, flag);
 		}
-    }
+		if (entity.getFavor() != null) EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), "§b§3!", (float) x, (float) y + f2 + f3, (float) z, 0, f, f1, flag1, flag);
+	}
 
 	@Override
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance) {

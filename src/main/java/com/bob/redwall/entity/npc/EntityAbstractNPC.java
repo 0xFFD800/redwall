@@ -179,9 +179,9 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 					this.timeToDespawn--;
 				}
 			}
-			
+
 			if (--this.favorTimer <= 0) {
-				if(this.getFavor() != null) this.createFavor();
+				if (this.getFavor() != null) this.createFavor();
 				else this.setFavor(null);
 			}
 		}
@@ -237,7 +237,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 						for (IFavorCondition c : favor.getConditions()) {
 							ItemStack s = player.getHeldItem(hand);
 							player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
-							
+
 							if (!player.getHeldItem(hand).equals(s)) break label1;
 						}
 					}
@@ -331,13 +331,13 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	public String getSkin() {
 		return this.dataManager.get(SKIN);
 	}
-	
+
 	public void setFavor(Favor favor) {
 		this.dataManager.set(FAVOR, favor == null ? new NBTTagCompound() : favor.writeToNBT());
 	}
-	
+
 	public Favor getFavor() {
-		if(this.dataManager.get(FAVOR).hasNoTags()) return null;
+		if (this.dataManager.get(FAVOR).hasNoTags()) return null;
 		Favor f = new Favor(null, this, "", null, null, null, 0);
 		f.readFromNBT(null, this.dataManager.get(FAVOR));
 		return f;
@@ -396,9 +396,9 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		super.writeEntityToNBT(compound);
 		compound.setString("Skin", this.getSkin());
 		compound.setBoolean("Male", this.getIsMale());
-		if (this.hasCustomMessage()) {
-			compound.setString("CustomMessage", this.getCustomMessage());
-		}
+		compound.setInteger("TimeToDespawn", this.timeToDespawn);
+		compound.setInteger("FavorTimer", this.favorTimer);
+		if (this.hasCustomMessage()) compound.setString("CustomMessage", this.getCustomMessage());
 	}
 
 	@Override
@@ -406,6 +406,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		super.readEntityFromNBT(compound);
 		if (compound.hasKey("Skin")) this.setSkin(compound.getString("Skin"));
 		if (compound.hasKey("Male")) this.setIsMale(compound.getBoolean("Male"));
+		if (compound.hasKey("TimeToDespawn")) this.timeToDespawn = compound.getInteger("TimeToDespawn");
+		if (compound.hasKey("FavorTimer")) this.favorTimer = compound.getInteger("FavorTimer");
 		if (compound.hasKey("CustomMessage")) this.setCustomMessage(compound.getString("CustomMessage"));
 		this.updateCombatTasks();
 	}
@@ -475,7 +477,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	public abstract boolean willFightEntity(EntityLivingBase entity);
 
 	/**
-	 * Creates a new favor for this entity and sets this entity's current offered favor.
+	 * Creates a new favor for this entity and sets this entity's current offered
+	 * favor.
 	 */
 	public abstract void createFavor();
 
