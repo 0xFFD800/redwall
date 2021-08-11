@@ -1,5 +1,6 @@
 package com.bob.redwall.entity.npc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.entity.npc.favors.IFavorCondition;
+import com.bob.redwall.entity.npc.favors.IFavorReward;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
@@ -338,7 +340,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 	public Favor getFavor() {
 		if (this.dataManager.get(FAVOR).hasNoTags()) return null;
-		Favor f = new Favor(null, this, "", null, null, null, 0);
+		Favor f = new Favor(null, this, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
 		f.readFromNBT(null, this.dataManager.get(FAVOR));
 		return f;
 	}
