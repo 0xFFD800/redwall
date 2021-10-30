@@ -526,6 +526,7 @@ itemGroup.misc=Miscellaneous
 
 key.open_factions.desc=Open Factions Menu
 key.open_skills.desc=Open Stats Menu
+key.open_favors.desc=Open Favors Menu
 key.redwall.category=Redwall Mod Keys
 
 fac.redwall.name=Redwall

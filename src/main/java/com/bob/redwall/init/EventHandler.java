@@ -178,6 +178,21 @@ public class EventHandler {
 				}
 			}
 		}
+
+		if (keyBindings[2].isPressed()) {
+			if (Minecraft.getMinecraft().inGameHasFocus) {
+				//Ref.NETWORK.sendToServer(new MessageSetCap(MessageSetCap.Mode.REQUEST_SKILLS_UPDATE));
+				player.openGui(Ref.MODID, GuiHandler.GUI_FAVOR_ID, player.world, (int) player.posX, (int) player.posY, (int) player.posZ);
+				if (!player.getCapability(FactionCapProvider.FACTION_CAP, null).isInitialized()) {
+					player.closeScreen();
+					player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
+				}
+			} else {
+				if (player.openContainer instanceof ContainerPlayer) {
+					player.closeScreen();
+				}
+			}
+		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)

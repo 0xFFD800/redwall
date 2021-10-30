@@ -124,21 +124,25 @@ public class Favor {
 			case "DestroyStructure":
 				IFavorCondition ifc = new FavorConditionDestroyStructure(null);
 				ifc.readFromNBT(co);
+				ifc.setFavor(this);
 				this.conditions.add(ifc);
 				break;
 			case "GiveItems":
 				IFavorCondition ifc2 = new FavorConditionGiveItems(null, 0);
 				ifc2.readFromNBT(co);
+				ifc2.setFavor(this);
 				this.conditions.add(ifc2);
 				break;
 			case "GiveItemSpecific":
 				IFavorCondition ifc3 = new FavorConditionGiveItemSpecific(null);
 				ifc3.readFromNBT(co);
+				ifc3.setFavor(this);
 				this.conditions.add(ifc3);
 				break;
 			case "KillNPC":
 				IFavorCondition ifc4 = new FavorConditionKillNPC(null);
 				ifc4.readFromNBT(co);
+				ifc4.setFavor(this);
 				this.conditions.add(ifc4);
 				break;
 			}

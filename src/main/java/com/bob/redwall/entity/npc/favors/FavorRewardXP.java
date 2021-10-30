@@ -31,7 +31,7 @@ public class FavorRewardXP implements IFavorReward {
 
 	@Override
 	public void readFromNBT(NBTTagCompound c) {
-		if(!c.getString("Type").equals("Item")) 
+		if(!c.getString("Type").equals("XP")) 
 			throw new IllegalStateException("Created an XP favor reward without an XP tag!");
 
 		this.lowAmount = c.getInteger("LowAmount");

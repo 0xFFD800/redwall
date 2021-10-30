@@ -11,6 +11,7 @@ import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.common.MessageUIInteract;
 import com.bob.redwall.common.MessageUIInteractServer;
+import com.bob.redwall.common.MessageUIInteract.Mode;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC.MobAttackStrategy;
 import com.bob.redwall.entity.ai.EntityAIAttackRangedNPC;
@@ -28,6 +29,7 @@ import com.bob.redwall.entity.npc.favors.IFavorReward;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
+import com.bob.redwall.init.GuiHandler;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.init.SpeechHandler;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
@@ -109,6 +111,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	private int favorTimer;
 	private EntityAIAttackMeleeNPC meleeAi = new EntityAIAttackMeleeNPC(this, 1.0D, true, MobAttackStrategy.HUMAN);
 	private EntityAIAttackRangedNPC rangedAi = new EntityAIAttackRangedNPC(this, 1.0D, 20, 24.0F);
+	private NBTTagCompound prevFavorTag = new NBTTagCompound();
+	private Favor prevFavor = null;
 
 	public EntityAbstractNPC(World worldIn) {
 		this(worldIn, true);
@@ -185,6 +189,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			if (--this.favorTimer <= 0) {
 				if (this.getFavor() == null) this.createFavor();
 				else this.setFavor(null);
+				this.favorTimer = this.getRNG().nextInt(18000) + 6000;
 			}
 		}
 	}
@@ -201,7 +206,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	public void talk(EntityPlayer player) {
 		if (!this.world.isRemote) {
 			if (player instanceof EntityPlayerMP) {
-				Ref.NETWORK.sendTo(new MessageUIInteract(this.getEntityId()), (EntityPlayerMP) player);
+				Ref.NETWORK.sendTo(new MessageUIInteract(Mode.NPC_TALK, this.getEntityId()), (EntityPlayerMP) player);
 			}
 			if (!this.getFaction().playerHasContact(player)) this.getFaction().playerContactFaction(player);
 			this.setTimeSinceLastTalk(0);
@@ -224,18 +229,18 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 				this.rangedAi.setAttackCooldown(i);
 				this.tasks.addTask(1, this.rangedAi);
-			} else {
-				this.tasks.addTask(1, this.meleeAi);
-			}
+			} else this.tasks.addTask(1, this.meleeAi);
 		}
 	}
 
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		if (!this.world.isRemote) {
+			boolean gaveFavor = false;
 			label1: {
 				for (Favor favor : player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors())
 					if (favor.getGiver().equals(this)) {
+						gaveFavor = true;
 						for (IFavorCondition c : favor.getConditions()) {
 							ItemStack s = player.getHeldItem(hand);
 							player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
@@ -243,8 +248,10 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 							if (!player.getHeldItem(hand).equals(s)) break label1;
 						}
 					}
-				this.talk(player);
+				if (this.getFavor() != null && !gaveFavor) Ref.NETWORK.sendTo(new MessageUIInteract(Mode.OPEN_GUI, GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID, this.posX, this.posY, this.posZ), (EntityPlayerMP) player);
+				else this.talk(player);
 			}
+
 		}
 		return true;
 	}
@@ -335,11 +342,15 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	}
 
 	public void setFavor(Favor favor) {
-		this.dataManager.set(FAVOR, favor == null ? new NBTTagCompound() : favor.writeToNBT());
+		NBTTagCompound tag = favor == null ? new NBTTagCompound() : favor.writeToNBT();
+		this.dataManager.set(FAVOR, tag);
+		this.prevFavor = favor;
+		this.prevFavorTag = tag;
 	}
 
 	public Favor getFavor() {
 		if (this.dataManager.get(FAVOR).hasNoTags()) return null;
+		if (this.dataManager.get(FAVOR).equals(this.prevFavorTag)) return this.prevFavor;
 		Favor f = new Favor(null, this, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
 		f.readFromNBT(null, this.dataManager.get(FAVOR));
 		return f;
@@ -400,6 +411,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		compound.setBoolean("Male", this.getIsMale());
 		compound.setInteger("TimeToDespawn", this.timeToDespawn);
 		compound.setInteger("FavorTimer", this.favorTimer);
+		compound.setTag("Favor", this.getFavor() == null ? new NBTTagCompound() : this.getFavor().writeToNBT());
 		if (this.hasCustomMessage()) compound.setString("CustomMessage", this.getCustomMessage());
 	}
 
@@ -410,6 +422,14 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		if (compound.hasKey("Male")) this.setIsMale(compound.getBoolean("Male"));
 		if (compound.hasKey("TimeToDespawn")) this.timeToDespawn = compound.getInteger("TimeToDespawn");
 		if (compound.hasKey("FavorTimer")) this.favorTimer = compound.getInteger("FavorTimer");
+		if (compound.hasKey("Favor")) {
+			if (compound.getTag("Favor").hasNoTags()) this.setFavor(null);
+			else {
+				Favor f = new Favor(null, this, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
+				f.readFromNBT(null, (NBTTagCompound) compound.getTag("Favor"));
+				this.setFavor(f);
+			}
+		}
 		if (compound.hasKey("CustomMessage")) this.setCustomMessage(compound.getString("CustomMessage"));
 		this.updateCombatTasks();
 	}

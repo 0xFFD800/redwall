@@ -3,6 +3,8 @@ package com.bob.redwall.gui.factions;
 import java.io.IOException;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
+
 import com.bob.redwall.Ref;
 import com.bob.redwall.entity.npc.favors.Favor;
 
@@ -20,8 +22,6 @@ public class GuiFavor extends GuiScreen {
 	protected int ySize = 166;
 	protected int guiLeft;
 	protected int guiTop;
-	private float oldMouseX;
-	private float oldMouseY;
 	protected final EntityPlayer player;
 	protected final List<Favor> favors;
 	protected int selectedFavor = 0;
@@ -51,20 +51,22 @@ public class GuiFavor extends GuiScreen {
 		int i = this.guiLeft;
 		int j = this.guiTop;
 		this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-		GuiInventory.drawEntityOnScreen(i + 40, j + 82, 30, (float) (i + 51) - this.oldMouseX, (float) (j + 75 - 50) - this.oldMouseY, this.favors.get(this.selectedFavor).getGiver());
-
-		this.drawCenteredString(this.fontRenderer, I18n.format("favor.story"), 111, 20, 4210752);
-		this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getStory(), 75, 28, 4210752);
-		this.drawCenteredString(this.fontRenderer, I18n.format("favor.conditions"), 200, 20, 4210752);
-		this.drawString(this.fontRenderer, I18n.format("favor.timeLimit", this.favors.get(this.selectedFavor).getTimeLimit() <= 0 ? "None" : formatTime(this.favors.get(this.selectedFavor).getTimeLimit())), 164, 28, 4210752);
+		GuiInventory.drawEntityOnScreen(i + 40, j + 82, 30, Mouse.getX(), Mouse.getY(), this.favors.get(this.selectedFavor).getGiver());
+		this.fontRenderer.drawString(I18n.format("favor.story", this.player.getName()), this.guiLeft + 111 - this.fontRenderer.getStringWidth(I18n.format("favor.story", this.player.getName())) / 2, this.guiTop + 15, 4210752);
+		this.drawFittedString(this.favors.get(this.selectedFavor).getStory(), 80, this.guiLeft + 75, this.guiTop + 28);
+		this.fontRenderer.drawString(I18n.format("favor.conditions"), this.guiLeft + 200 - this.fontRenderer.getStringWidth(I18n.format("favor.conditions")) / 2, this.guiTop + 15, 4210752);
+		String limit = I18n.format("favor.timeLimit", this.favors.get(this.selectedFavor).getTimeLimit() <= 0 ? "None" : formatTime(this.favors.get(this.selectedFavor).getTimeLimit()));
+		this.fontRenderer.drawString(limit, this.guiLeft + 128 - this.fontRenderer.getStringWidth(limit) / 2, this.guiTop - 10, 0xFFFFFF);
 		for (int i1 = 0; i1 < this.favors.get(this.selectedFavor).getConditions().size(); i1++)
-			this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getConditions().get(i1).getText(), 164, 38 + i1 * 10, 4210752);
-		this.drawCenteredString(this.fontRenderer, I18n.format("favor.failure"), 83, 97, 4210752);
+			this.drawFittedString(this.favors.get(this.selectedFavor).getConditions().get(i1).getText(), 80, this.guiLeft + 164, this.guiTop + 28 + i1 * 10);
+		this.fontRenderer.drawString(I18n.format("favor.failure"), this.guiLeft + 68 - this.fontRenderer.getStringWidth(I18n.format("favor.failure")) / 2, this.guiTop + 92, 4210752);
 		for (int i1 = 0; i1 < this.favors.get(this.selectedFavor).getFailureRewards().size(); i1++)
-			this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getFailureRewards().get(i1).getText(), 47, 106 + i1 * 10, 4210752);
-		this.drawCenteredString(this.fontRenderer, I18n.format("favor.success"), 171, 97, 4210752);
+			this.fontRenderer.drawString(this.favors.get(this.selectedFavor).getFailureRewards().get(i1).getText(), this.guiLeft + 18, this.guiTop + 106 + i1 * 10, 4210752);
+		this.fontRenderer.drawString(I18n.format("favor.success"), this.guiLeft + 186 - this.fontRenderer.getStringWidth(I18n.format("favor.success")) / 2, this.guiTop + 92, 4210752);
 		for (int i1 = 0; i1 < this.favors.get(this.selectedFavor).getSuccessRewards().size(); i1++)
-			this.drawString(this.fontRenderer, this.favors.get(this.selectedFavor).getSuccessRewards().get(i1).getText(), 135, 106 + i1 * 10, 4210752);
+			this.fontRenderer.drawString(this.favors.get(this.selectedFavor).getSuccessRewards().get(i1).getText(), this.guiLeft + 135, this.guiTop + 106 + i1 * 10, 4210752);
+		
+		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
 	@Override
@@ -72,6 +74,15 @@ public class GuiFavor extends GuiScreen {
 		super.actionPerformed(button);
 		if (button.id == 101) this.selectedFavor = this.selectedFavor + 1 < this.favors.size() ? this.selectedFavor + 1 : 0;
 		else if (button.id == 102) this.selectedFavor = this.selectedFavor - 1 >= 0 ? this.selectedFavor - 1 : this.favors.size() - 1;
+	}
+	
+	public void drawFittedString(String string, int width, int x, int y) {
+		while (!string.isEmpty()) {
+			String s1 = this.fontRenderer.trimStringToWidth(string, width);
+			this.fontRenderer.drawString(s1, x, y, 4210752);
+			string = string.substring(Math.min(s1.length(), string.length()));
+			y += this.fontRenderer.FONT_HEIGHT;
+		}
 	}
 
 	public static String formatTime(long timeLimit) {

@@ -89,6 +89,6 @@ public class FavorConditionGiveItems implements IFavorCondition {
 
 	@Override
 	public String getText() {
-		return I18n.format("favor.condition.giveitems", this.number, I18n.format(this.item.getUnlocalizedName()), this.getGiver().getName());
+		return I18n.format("favor.condition.giveitems", this.number, I18n.format(this.item.getUnlocalizedName() + ".name"), this.getGiver().getName());
 	}
 }

@@ -49,6 +49,6 @@ public class FavorRewardItem implements IFavorReward {
 
 	@Override
 	public String getText() {
-		return I18n.format("favor.reward.item", this.lowAmount, this.highAmount, I18n.format(this.item.getUnlocalizedName()));
+		return I18n.format("favor.reward.item", this.lowAmount, this.highAmount, I18n.format(this.item.getUnlocalizedName() + ".name"));
 	}
 }

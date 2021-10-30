@@ -42,7 +42,7 @@ public class RenderMouse<T extends EntityAbstractNPC> extends RenderLiving<T> {
 			f3 = 0.5F;
 			EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), entity.getTalking().getFormattedText(), (float) x, (float) y + f2, (float) z, 0, f, f1, flag1, flag);
 		}
-		if (entity.getFavor() != null) EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), "§b§3!", (float) x, (float) y + f2 + f3, (float) z, 0, f, f1, flag1, flag);
+		if (entity.getFavor() != null) EntityRenderer.drawNameplate(this.getFontRendererFromRenderManager(), "§c§3!", (float) x, (float) y + f2 + f3, (float) z, 0, f, f1, flag1, flag);
 	}
 
 	@Override
