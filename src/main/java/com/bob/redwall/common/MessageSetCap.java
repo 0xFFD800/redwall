@@ -1,17 +1,25 @@
 package com.bob.redwall.common;
 
+import java.util.ArrayList;
+
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.agility.AgilityProvider;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
+import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
 import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
+import com.bob.redwall.entity.npc.EntityAbstractNPC;
+import com.bob.redwall.entity.npc.favors.Favor;
+import com.bob.redwall.entity.npc.favors.IFavorCondition;
+import com.bob.redwall.entity.npc.favors.IFavorReward;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -25,6 +33,7 @@ public class MessageSetCap implements IMessage {
 	private int type;
 	private float f;
 	private Mode mode;
+	private NBTTagCompound tag;
 
 	public MessageSetCap() {}
 
@@ -33,6 +42,7 @@ public class MessageSetCap implements IMessage {
 		this.type = type;
 		this.mode = mode;
 		this.f = 0;
+		this.tag = new NBTTagCompound();
 	}
 
 	public MessageSetCap(float f, int type, Mode mode) {
@@ -40,6 +50,15 @@ public class MessageSetCap implements IMessage {
 		this.type = type;
 		this.mode = mode;
 		this.value = false;
+		this.tag = new NBTTagCompound();
+	}
+
+	public MessageSetCap(NBTTagCompound tag, int type, Mode mode) {
+		this.mode = mode;
+		this.f = 0;
+		this.type = type;
+		this.value = false;
+		this.tag = tag;
 	}
 
 	public MessageSetCap(Mode mode) {
@@ -47,6 +66,7 @@ public class MessageSetCap implements IMessage {
 		this.f = 0;
 		this.type = 0;
 		this.value = false;
+		this.tag = new NBTTagCompound();
 	}
 
 	@Override
@@ -55,6 +75,7 @@ public class MessageSetCap implements IMessage {
 		ByteBufUtils.writeVarInt(buf, this.type, 5);
 		ByteBufUtils.writeVarInt(buf, (int) (this.f * 100.0F), 5);
 		ByteBufUtils.writeVarInt(buf, this.mode.getId(), 5);
+		ByteBufUtils.writeTag(buf, this.tag);
 	}
 
 	@Override
@@ -63,6 +84,7 @@ public class MessageSetCap implements IMessage {
 		this.type = ByteBufUtils.readVarInt(buf, 5);
 		this.f = ((float) ByteBufUtils.readVarInt(buf, 5)) / 100.0F;
 		this.mode = Mode.getById(ByteBufUtils.readVarInt(buf, 5));
+		this.tag = ByteBufUtils.readTag(buf);
 	}
 
 	public static class Handler implements IMessageHandler<MessageSetCap, IMessage> {
@@ -98,6 +120,12 @@ public class MessageSetCap implements IMessage {
 						serverPlayer.getCapability(AgilityProvider.AGILITY_CAP, null).set((int) message.f);
 					} else if (message.mode == Mode.REQUEST_SKILLS_UPDATE) {
 						RedwallUtils.updatePlayerSkillsStats(serverPlayer);
+					} else if (message.mode == Mode.ACCEPT_FAVOR) {
+						EntityAbstractNPC giver = (EntityAbstractNPC) serverPlayer.world.getEntityByID(message.type);
+						Favor favor = new Favor(serverPlayer, giver, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
+						favor.readFromNBT(serverPlayer, message.tag);
+						serverPlayer.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().add(favor);
+						giver.setFavor(null);
 					}
 				}
 			});
@@ -113,7 +141,8 @@ public class MessageSetCap implements IMessage {
 		SPEED(i++), 
 		AGILITY(i++), 
 		VITALITY(i++), 
-		REQUEST_SKILLS_UPDATE(i++);
+		REQUEST_SKILLS_UPDATE(i++), 
+		ACCEPT_FAVOR(i++);
 
 		private final int id;
 

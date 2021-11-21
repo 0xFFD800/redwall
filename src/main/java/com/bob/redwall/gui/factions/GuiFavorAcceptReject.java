@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.lwjgl.input.Mouse;
 
 import com.bob.redwall.Ref;
+import com.bob.redwall.common.MessageSetCap;
+import com.bob.redwall.common.MessageSetCap.Mode;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.favors.Favor;
 
@@ -74,6 +76,7 @@ public class GuiFavorAcceptReject extends GuiScreen {
 			this.player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().add(this.favor);
 			this.favor.getGiver().setFavor(null);
 			Minecraft.getMinecraft().displayGuiScreen(null);
+			Ref.NETWORK.sendToServer(new MessageSetCap(this.favor.writeToNBT(), this.favor.getGiver().getEntityId(), Mode.ACCEPT_FAVOR));
 		} else if (button.id == 102) {
 			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
