@@ -2,8 +2,11 @@ package com.bob.redwall.entity.npc.favors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
+import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.init.SpeechHandler;
@@ -24,10 +27,13 @@ public class Favor {
 	private List<IFavorReward> failure;
 	private long timeLimit;
 	private String story;
+	private UUID giverID = new UUID(0, 0);
 
 	public Favor(EntityPlayer player, EntityAbstractNPC giver, String story, List<IFavorCondition> conditions, List<IFavorReward> success, List<IFavorReward> failure, long timeLimit) {
 		this.player = player;
 		this.giver = giver;
+		if (this.giver != null)
+			this.giverID = this.giver.getUniqueID();
 		this.conditions = conditions;
 		for (IFavorCondition c : this.conditions)
 			c.setFavor(this);
@@ -42,7 +48,19 @@ public class Favor {
 	}
 
 	public EntityAbstractNPC getGiver() {
+		if (this.player != null)
+			this.giver = (EntityAbstractNPC) RedwallUtils.getEntityByUUID(this.player.world, this.giverID);
 		return this.giver;
+	}
+
+	public void setGiver(UUID uuid) {
+		this.giverID = uuid;
+		if (this.player != null)
+			this.giver = (EntityAbstractNPC) RedwallUtils.getEntityByUUID(this.player.world, this.giverID);
+	}
+
+	public UUID getGiverID() {
+		return this.giverID;
 	}
 
 	public String getStory() {
@@ -67,28 +85,35 @@ public class Favor {
 
 	public boolean isComplete() {
 		for (IFavorCondition c : this.conditions)
-			if (!c.isComplete()) return false;
+			if (!c.isComplete())
+				return false;
 		return true;
 	}
 
 	public void update() {
-		if (--this.timeLimit <= 0) this.fail();
+		if (this.isComplete())
+			this.succeed();
+		if (--this.timeLimit <= 0)
+			this.fail();
 	}
 
 	public void fail() {
 		for (IFavorReward r : this.failure)
 			r.reward(this.player);
+		this.player.getCapability(FactionCapProvider.FACTION_CAP, null).removeFavor(this);
 	}
 
 	public void succeed() {
 		for (IFavorReward r : this.success)
 			r.reward(this.player);
+		this.player.getCapability(FactionCapProvider.FACTION_CAP, null).removeFavor(this);
 	}
 
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
 
-		compound.setInteger("GiverID", this.giver.getEntityId());
+		compound.setLong("GiverMost", this.giverID.getMostSignificantBits());
+		compound.setLong("GiverLeast", this.giverID.getLeastSignificantBits());
 		compound.setString("Story", this.story);
 
 		NBTTagList conditions = new NBTTagList();
@@ -113,7 +138,9 @@ public class Favor {
 
 	public void readFromNBT(EntityPlayer player, NBTTagCompound c) {
 		this.player = player;
-		if (this.player != null) this.giver = (EntityAbstractNPC) this.player.world.getEntityByID(c.getInteger("GiverID"));
+		this.giverID = new UUID(c.getLong("GiverMost"), c.getLong("GiverLeast"));
+		if (this.player != null)
+			this.giver = (EntityAbstractNPC) RedwallUtils.getEntityByUUID(this.player.world, this.giverID);
 
 		this.story = c.getString("Story");
 

@@ -124,6 +124,7 @@ public class MessageSetCap implements IMessage {
 						EntityAbstractNPC giver = (EntityAbstractNPC) serverPlayer.world.getEntityByID(message.type);
 						Favor favor = new Favor(serverPlayer, giver, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
 						favor.readFromNBT(serverPlayer, message.tag);
+						favor.setGiver(giver.getUniqueID());
 						serverPlayer.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().add(favor);
 						giver.setFavor(null);
 					}

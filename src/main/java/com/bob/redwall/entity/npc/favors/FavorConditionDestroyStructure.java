@@ -20,7 +20,8 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 
 	@Override
 	public void killNPC(EntityAbstractNPC npc) {
-		if (this.favor != null && npc.getFaction().getFactionStatus(this.favor.getGiver().getFaction()) == FactionStatus.ALLIED) this.favor.fail();
+		if (this.favor != null && npc.getFaction().getFactionStatus(this.favor.getGiver().getFaction()) == FactionStatus.ALLIED)
+			this.favor.fail();
 	}
 
 	@Override
@@ -30,7 +31,9 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 
 	@Override
 	public void destroyStructure(EntityStructureCenter center) {
-		if (center.equals(this.center)) this.complete = true;
+		if (center.equals(this.center))
+			this.complete = true;
+		this.favor.update();
 	}
 
 	@Override
@@ -51,19 +54,19 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 	@Override
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
-		
+
 		compound.setString("Type", "DestroyStructure");
 		compound.setInteger("StructureID", this.center != null ? this.center.getEntityId() : -1);
 		compound.setBoolean("Complete", this.complete);
-		
+
 		return compound;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound c) {
-		if(!c.getString("Type").equals("DestroyStructure")) 
+		if (!c.getString("Type").equals("DestroyStructure"))
 			throw new IllegalStateException("Created a DestroyStructure favor condition without a DestroyStructure tag!");
-		
+
 		this.center = (EntityStructureCenter) this.favor.getPlayer().getEntityWorld().getEntityByID(c.getInteger("StructureID"));
 		this.complete = c.getBoolean("Complete");
 	}

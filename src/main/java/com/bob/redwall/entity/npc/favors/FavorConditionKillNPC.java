@@ -20,9 +20,11 @@ public class FavorConditionKillNPC implements IFavorCondition {
 
 	@Override
 	public void killNPC(EntityAbstractNPC npc) {
-		if(npc.getEntityId() == this.npc.getEntityId())
+		if (npc.getEntityId() == this.npc.getEntityId())
 			this.complete = true;
-		else if (this.favor != null && npc.getFaction().getFactionStatus(this.favor.getGiver().getFaction()) == FactionStatus.ALLIED) this.favor.fail();
+		else if (this.favor != null && npc.getFaction().getFactionStatus(this.favor.getGiver().getFaction()) == FactionStatus.ALLIED)
+			this.favor.fail();
+		this.favor.update();
 	}
 
 	@Override
@@ -32,7 +34,8 @@ public class FavorConditionKillNPC implements IFavorCondition {
 
 	@Override
 	public void destroyStructure(EntityStructureCenter center) {
-		if (this.favor != null && center.getFaction().getFactionStatus(this.favor.getGiver().getFaction()) == FactionStatus.ALLIED) this.favor.fail();
+		if (this.favor != null && center.getFaction().getFactionStatus(this.favor.getGiver().getFaction()) == FactionStatus.ALLIED)
+			this.favor.fail();
 	}
 
 	@Override
@@ -53,19 +56,19 @@ public class FavorConditionKillNPC implements IFavorCondition {
 	@Override
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
-		
+
 		compound.setString("Type", "KillNPC");
 		compound.setInteger("EntityID", this.npc != null ? this.npc.getEntityId() : -1);
 		compound.setBoolean("Complete", this.complete);
-		
+
 		return compound;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound c) {
-		if(!c.getString("Type").equals("KillNPC")) 
+		if (!c.getString("Type").equals("KillNPC"))
 			throw new IllegalStateException("Created a KillNPC favor condition without a KillNPC tag!");
-		
+
 		this.npc = (EntityAbstractNPC) this.favor.getPlayer().getEntityWorld().getEntityByID(c.getInteger("EntityID"));
 		this.complete = c.getBoolean("Complete");
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import com.bob.redwall.Ref;
+import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.favors.Favor;
 
 import net.minecraft.client.gui.GuiButton;
@@ -29,6 +30,7 @@ public class GuiFavor extends GuiScreen {
 	public GuiFavor(EntityPlayer player, List<Favor> favors) {
 		this.player = player;
 		this.favors = favors;
+		player.getCapability(FactionCapProvider.FACTION_CAP, null).updateFavors();
 	}
 
 	@Override

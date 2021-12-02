@@ -29,13 +29,16 @@ public class FavorConditionGiveItems implements IFavorCondition {
 
 	@Override
 	public ItemStack offerItem(ItemStack item) {
-		if(item.getItem() == this.item) {
+		if(item.getItem().equals(this.item)) {
 			if(item.getCount() >= this.number - this.numberGiven) {
 				this.complete = true;
 				item.shrink(this.number - this.numberGiven);
+				this.numberGiven = this.number;
+				this.favor.update();
 				return item;
 			} else {
 				this.numberGiven += item.getCount();
+				this.favor.update();
 				return ItemStack.EMPTY;
 			}
 		}

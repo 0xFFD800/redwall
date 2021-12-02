@@ -18,6 +18,8 @@ public interface IFactionCap {
 	public void setPlayerContacted(Faction fac, boolean value);
 	public boolean getPlayerContacted(Faction fac);
 	public void addFavor(Favor favor);
+	public void removeFavor(Favor favor);
+	public void updateFavors();
 	public List<Favor> getFavors();
 	public void init(EntityPlayer player);
 	public NBTTagCompound writeToNBT();

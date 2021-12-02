@@ -20,9 +20,8 @@ public class FavorRewardItem implements IFavorReward {
 	@Override
 	public void reward(EntityPlayer player) {
 		ItemStack stack = new ItemStack(this.item, player.getRNG().nextInt(this.highAmount - this.lowAmount) + this.lowAmount);
-		if(!player.addItemStackToInventory(stack)) {
+		if(!player.addItemStackToInventory(stack))
 			player.dropItem(stack, false);
-		}
 	}
 
 	@Override

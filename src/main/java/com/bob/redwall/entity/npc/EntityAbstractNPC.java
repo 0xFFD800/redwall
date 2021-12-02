@@ -10,8 +10,8 @@ import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.common.MessageUIInteract;
-import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.common.MessageUIInteract.Mode;
+import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC.MobAttackStrategy;
 import com.bob.redwall.entity.ai.EntityAIAttackRangedNPC;
@@ -148,15 +148,18 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		super.onLivingUpdate();
 
 		if (!this.world.isRemote) {
-			if (this.isPotionActive(StatusEffect.POISON) && this.ticksExisted % (80 / (this.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0) this.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor().setMagicDamage(), 2.0F);
+			if (this.isPotionActive(StatusEffect.POISON) && this.ticksExisted % (80 / (this.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0)
+				this.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor().setMagicDamage(), 2.0F);
 			this.setTimeSinceLastTalk(this.getTimeSinceLastTalk() + 1);
 			if (this.getTimeSinceLastTalk() > 200) {
 				this.setTalkingActive(false);
 			}
 
 			IAttacking attacking = this.getCapability(AttackingProvider.ATTACKING_CAP, null);
-			if (this.getCooldown() > 0) this.setCooldown(this.getCooldown() - 1);
-			if (this.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && this.getCooldown() == 0) this.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
+			if (this.getCooldown() > 0)
+				this.setCooldown(this.getCooldown() - 1);
+			if (this.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && this.getCooldown() == 0)
+				this.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
 			float f = 1.0F - ((float) this.getCooldown() / (float) this.getSwingCooldown());
 			boolean flag = rand.nextFloat() - f < 0;
 
@@ -166,7 +169,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 				label1: {
 					RayTraceResult result = RedwallUtils.raytrace(this, i);
-					if (result == null || this.getRNG().nextFloat() < (this.fumbleAttackChance() * (!(this.getHeldItemMainhand().getItem() instanceof ModCustomWeapon) ? 1.75F : 1.0F))) break label1;
+					if (result == null || this.getRNG().nextFloat() < (this.fumbleAttackChance() * (!(this.getHeldItemMainhand().getItem() instanceof ModCustomWeapon) ? 1.75F : 1.0F)))
+						break label1;
 					Entity entity = result.entityHit;
 					if (entity != null && !(entity instanceof EntityItem || entity instanceof EntityXPOrb || entity instanceof EntityArrow)) {
 						RedwallUtils.doAttack(this, entity);
@@ -187,7 +191,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			}
 
 			if (--this.favorTimer <= 0) {
-				if (this.getFavor() == null) this.createFavor();
+				if (this.getFavor() == null)
+					this.createFavor();
 				else this.setFavor(null);
 				this.favorTimer = this.getRNG().nextInt(18000) + 6000;
 			}
@@ -197,7 +202,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
 		IAttacking a = this.getCapability(AttackingProvider.ATTACKING_CAP, null);
-		if (a.get() || this.getCooldown() > 0) return false;
+		if (a.get() || this.getCooldown() > 0)
+			return false;
 		a.set(true);
 		this.resetCooldown();
 		return super.attackEntityAsMob(entity);
@@ -208,7 +214,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			if (player instanceof EntityPlayerMP) {
 				Ref.NETWORK.sendTo(new MessageUIInteract(Mode.NPC_TALK, this.getEntityId()), (EntityPlayerMP) player);
 			}
-			if (!this.getFaction().playerHasContact(player)) this.getFaction().playerContactFaction(player);
+			if (!this.getFaction().playerHasContact(player))
+				this.getFaction().playerContactFaction(player);
 			this.setTimeSinceLastTalk(0);
 		} else {
 			List<String> speechbank = this.getSpeechbank(this.getOpinionOfPlayer(Minecraft.getMinecraft().player));
@@ -238,17 +245,24 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		if (!this.world.isRemote) {
 			boolean gaveFavor = false;
 			label1: {
-				for (Favor favor : player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors())
-					if (favor.getGiver().equals(this)) {
+				for (Favor favor : player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors()) {
+					if (this.getUniqueID().equals(favor.getGiverID())) {
 						gaveFavor = true;
 						for (IFavorCondition c : favor.getConditions()) {
 							ItemStack s = player.getHeldItem(hand);
 							player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
-
-							if (!player.getHeldItem(hand).equals(s)) break label1;
+	
+							if (!player.getHeldItem(hand).equals(s))
+								break label1;
 						}
 					}
-				if (this.getFavor() != null && !gaveFavor) Ref.NETWORK.sendTo(new MessageUIInteract(Mode.OPEN_GUI, GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID, this.posX, this.posY, this.posZ), (EntityPlayerMP) player);
+				}
+				
+				player.getCapability(FactionCapProvider.FACTION_CAP, null).updateFavors();
+				Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), (EntityPlayerMP) player); 
+
+				if (this.getFavor() != null && !gaveFavor)
+					Ref.NETWORK.sendTo(new MessageUIInteract(Mode.OPEN_GUI, GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID, this.posX, this.posY, this.posZ), (EntityPlayerMP) player);
 				else this.talk(player);
 			}
 
@@ -349,8 +363,10 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	}
 
 	public Favor getFavor() {
-		if (this.dataManager.get(FAVOR).hasNoTags()) return null;
-		if (this.dataManager.get(FAVOR).equals(this.prevFavorTag)) return this.prevFavor;
+		if (this.dataManager.get(FAVOR).hasNoTags())
+			return null;
+		if (this.dataManager.get(FAVOR).equals(this.prevFavorTag))
+			return this.prevFavor;
 		Favor f = new Favor(null, this, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
 		f.readFromNBT(null, this.dataManager.get(FAVOR));
 		return f;
@@ -412,25 +428,32 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		compound.setInteger("TimeToDespawn", this.timeToDespawn);
 		compound.setInteger("FavorTimer", this.favorTimer);
 		compound.setTag("Favor", this.getFavor() == null ? new NBTTagCompound() : this.getFavor().writeToNBT());
-		if (this.hasCustomMessage()) compound.setString("CustomMessage", this.getCustomMessage());
+		if (this.hasCustomMessage())
+			compound.setString("CustomMessage", this.getCustomMessage());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		if (compound.hasKey("Skin")) this.setSkin(compound.getString("Skin"));
-		if (compound.hasKey("Male")) this.setIsMale(compound.getBoolean("Male"));
-		if (compound.hasKey("TimeToDespawn")) this.timeToDespawn = compound.getInteger("TimeToDespawn");
-		if (compound.hasKey("FavorTimer")) this.favorTimer = compound.getInteger("FavorTimer");
+		if (compound.hasKey("Skin"))
+			this.setSkin(compound.getString("Skin"));
+		if (compound.hasKey("Male"))
+			this.setIsMale(compound.getBoolean("Male"));
+		if (compound.hasKey("TimeToDespawn"))
+			this.timeToDespawn = compound.getInteger("TimeToDespawn");
+		if (compound.hasKey("FavorTimer"))
+			this.favorTimer = compound.getInteger("FavorTimer");
 		if (compound.hasKey("Favor")) {
-			if (compound.getTag("Favor").hasNoTags()) this.setFavor(null);
+			if (compound.getTag("Favor").hasNoTags())
+				this.setFavor(null);
 			else {
 				Favor f = new Favor(null, this, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
 				f.readFromNBT(null, (NBTTagCompound) compound.getTag("Favor"));
 				this.setFavor(f);
 			}
 		}
-		if (compound.hasKey("CustomMessage")) this.setCustomMessage(compound.getString("CustomMessage"));
+		if (compound.hasKey("CustomMessage"))
+			this.setCustomMessage(compound.getString("CustomMessage"));
 		this.updateCombatTasks();
 	}
 
@@ -534,10 +557,13 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		if (source instanceof EntityDamageSource) {
 			Entity entity = ((EntityDamageSource) source).getTrueSource();
 			if (entity instanceof EntityPlayer) {
-				if (this.getOpinionOfPlayer((EntityPlayer) entity) == EnumOpinion.FRIENDLY) return true;
+				if (this.getOpinionOfPlayer((EntityPlayer) entity) == EnumOpinion.FRIENDLY)
+					return true;
 			} else if (entity instanceof EntityAbstractNPC) {
-				if (this.getFaction().getFactionStatus(((EntityAbstractNPC) entity).getFaction()) == FactionStatus.ALLIED) return true;
-				else if (this.getFaction().getFactionStatus(((EntityAbstractNPC) entity).getFaction()) == FactionStatus.FRIENDLY) return true;
+				if (this.getFaction().getFactionStatus(((EntityAbstractNPC) entity).getFaction()) == FactionStatus.ALLIED)
+					return true;
+				else if (this.getFaction().getFactionStatus(((EntityAbstractNPC) entity).getFaction()) == FactionStatus.FRIENDLY)
+					return true;
 			}
 		}
 		return super.isEntityInvulnerable(source);

@@ -11,7 +11,7 @@ public class FavorConditionGiveItemSpecific implements IFavorCondition {
 	private ItemStack item;
 	private Favor favor;
 	private boolean complete;
-	
+
 	public FavorConditionGiveItemSpecific(ItemStack item) {
 		this.item = item;
 		this.complete = false;
@@ -19,22 +19,23 @@ public class FavorConditionGiveItemSpecific implements IFavorCondition {
 
 	@Override
 	public void killNPC(EntityAbstractNPC npc) {
-		
+
 	}
 
 	@Override
 	public ItemStack offerItem(ItemStack item) {
-		if(item.equals(this.item)){
+		if (item.equals(this.item)) {
 			this.complete = true;
+			this.favor.update();
 			return ItemStack.EMPTY;
 		}
-		
+
 		return item;
 	}
 
 	@Override
 	public void destroyStructure(EntityStructureCenter center) {
-		
+
 	}
 
 	@Override
@@ -55,19 +56,19 @@ public class FavorConditionGiveItemSpecific implements IFavorCondition {
 	@Override
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound compound = new NBTTagCompound();
-		
+
 		compound.setString("Type", "GiveItemSpecific");
 		compound.setTag("Item", this.item.writeToNBT(new NBTTagCompound()));
 		compound.setBoolean("Complete", this.complete);
-		
+
 		return compound;
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound c) {
-		if(!c.getString("Type").equals("GiveItemSpecific")) 
+		if (!c.getString("Type").equals("GiveItemSpecific"))
 			throw new IllegalStateException("Created a GiveItemSpecific favor condition without a GiveItemSpecific tag!");
-		
+
 		this.item = new ItemStack(c.getCompoundTag("Item"));
 		this.complete = c.getBoolean("Complete");
 	}

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -1032,5 +1033,13 @@ public class RedwallUtils {
 	@Nullable
 	public static EntityStructureCenter getStructureAtPos(BlockPos pos) {
 		return RedwallUtils.getStructureAtPos(new Vec3d(pos.getX(), pos.getY(), pos.getZ()));
+	}
+	
+	@Nullable
+	public static Entity getEntityByUUID(World world, UUID uuid) {
+		for (Entity entity : world.getLoadedEntityList())
+			if (entity.getUniqueID().equals(uuid))
+				return entity;
+		return null;
 	}
 }

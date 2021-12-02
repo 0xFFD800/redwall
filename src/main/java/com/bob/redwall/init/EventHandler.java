@@ -119,8 +119,10 @@ public class EventHandler {
 
 		if (event.isButtonstate()) {
 			if (itemstack.getItem() instanceof ModCustomWeapon) {
-				if (event.getButton() == 1 && ((ModCustomWeapon) itemstack.getItem()).hasRightClickAbility(itemstack, player)) return;
-				if (player.isSneaking()) event.setCanceled(RedwallControlHandler.handleDefenseStart(event.getButton()));
+				if (event.getButton() == 1 && ((ModCustomWeapon) itemstack.getItem()).hasRightClickAbility(itemstack, player))
+					return;
+				if (player.isSneaking())
+					event.setCanceled(RedwallControlHandler.handleDefenseStart(event.getButton()));
 				else event.setCanceled(RedwallControlHandler.handleAttack(event.getButton()));
 			} else if (event.getButton() == 0) {
 				event.setCanceled(RedwallControlHandler.handleAttack(event.getButton()));
@@ -157,11 +159,9 @@ public class EventHandler {
 					player.closeScreen();
 					player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
 				}
-			} else {
-				if (player.openContainer instanceof ContainerPlayer) {
+			} else
+				if (player.openContainer instanceof ContainerPlayer)
 					player.closeScreen();
-				}
-			}
 		}
 
 		if (keyBindings[1].isPressed()) {
@@ -172,11 +172,9 @@ public class EventHandler {
 					player.closeScreen();
 					player.getCapability(AgilityProvider.AGILITY_CAP, null).setInit();
 				}
-			} else {
-				if (player.openContainer instanceof ContainerPlayer) {
+			} else
+				if (player.openContainer instanceof ContainerPlayer)
 					player.closeScreen();
-				}
-			}
 		}
 
 		if (keyBindings[2].isPressed()) {
@@ -186,11 +184,9 @@ public class EventHandler {
 					player.closeScreen();
 					player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
 				}
-			} else {
-				if (player.openContainer instanceof ContainerPlayer) {
+			} else
+				if (player.openContainer instanceof ContainerPlayer)
 					player.closeScreen();
-				}
-			}
 		}
 	}
 
@@ -208,7 +204,8 @@ public class EventHandler {
 	public void onEvent(EntityViewRenderEvent.CameraSetup event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) event.getEntity();
-			if (!entityplayer.isCreative()) Minecraft.getMinecraft().gameSettings.gammaSetting = RedwallUtils.getMoonBrightnessFactor(entityplayer.world) / 100F;
+			if (!entityplayer.isCreative())
+				Minecraft.getMinecraft().gameSettings.gammaSetting = RedwallUtils.getMoonBrightnessFactor(entityplayer.world) / 100F;
 			Minecraft.getMinecraft().gameSettings.attackIndicator = 0;
 		}
 	}
@@ -270,12 +267,14 @@ public class EventHandler {
 					RedwallTeleporter.tele(entityplayer, ModDimensions.DIM_REDWALL_ID);
 					entityplayer.setSpawnPoint(RedwallWorldProvider.REDWALL_SPAWN_POINT, true);
 				}
-				if (event.getWorld().getGameRules().getBoolean("visibleNametags")) entityplayer.setAlwaysRenderNameTag(true);
+				if (event.getWorld().getGameRules().getBoolean("visibleNametags"))
+					entityplayer.setAlwaysRenderNameTag(true);
 				else entityplayer.setAlwaysRenderNameTag(false);
 
 				if (entityplayer instanceof EntityPlayerMP) {
 					EnumSeasons season = event.getWorld().getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason();
-					if (season == null) season = EnumSeasons.SUMMER;
+					if (season == null)
+						season = EnumSeasons.SUMMER;
 					Ref.NETWORK.sendTo(new MessageSyncSeason(Mode.SEASON, season.name()), (EntityPlayerMP) entityplayer);
 					RedwallUtils.updatePlayerFactionStats((EntityPlayerMP) entityplayer);
 				}
@@ -328,7 +327,8 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerTickEvent event) {
 		if (event.phase == TickEvent.Phase.START && !event.player.world.isRemote) {
-			if (event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && event.player.getCooledAttackStrength(0.5F) == 1.0F) event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
+			if (event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && event.player.getCooledAttackStrength(0.5F) == 1.0F)
+				event.player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
 
 			// Terrain Speed Modifier
 			event.player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).updateTick();
@@ -345,25 +345,30 @@ public class EventHandler {
 			if (event.player.ticksExisted % Faction.LOYALTY_CHANGE_TIMER == 0) {
 				for (Faction f : Faction.getAllFactions()) {
 					float points = event.player.getCapability(FactionCapProvider.FACTION_CAP, null).get(f, FacStatType.LOYALTY);
-					if (f.isVermin()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
-					else if (f.isPeaceful()) event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
+					if (f.isVermin())
+						event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
+					else if (f.isPeaceful())
+						event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
 				}
 			}
-			
+
 			event.player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().forEach((u1) -> {
 				u1.update();
 			});
 		} else if (event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
 			IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
-			if (defending.get() && !event.player.isSneaking()) RedwallControlHandler.handleDefenseEnd(defending.getMode());
+			if (defending.get() && !event.player.isSneaking())
+				RedwallControlHandler.handleDefenseEnd(defending.getMode());
 		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingHurtEvent event) {
 		float armorPoints = EquipmentModifierUtils.getDamageModifierDefense(event.getEntityLiving(), event.getSource());
-		if (!event.getSource().isUnblockable()) event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), armorPoints, 0));
-		if (event.getSource() instanceof EntityDamageSource && ((EntityDamageSource) event.getSource()).getImmediateSource() instanceof EntityLivingBase) EquipmentModifierUtils.doDefense(event.getEntityLiving(), (EntityLivingBase) ((EntityDamageSource) event.getSource()).getImmediateSource());
+		if (!event.getSource().isUnblockable())
+			event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), armorPoints, 0));
+		if (event.getSource() instanceof EntityDamageSource && ((EntityDamageSource) event.getSource()).getImmediateSource() instanceof EntityLivingBase)
+			EquipmentModifierUtils.doDefense(event.getEntityLiving(), (EntityLivingBase) ((EntityDamageSource) event.getSource()).getImmediateSource());
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
@@ -469,20 +474,25 @@ public class EventHandler {
 			Faction fac = npc.getFaction();
 			Faction factionGreatestLoyalty = fac;
 			for (Favor favor : facCap.getFavors())
-				for(IFavorCondition c : favor.getConditions()) 
+				for (IFavorCondition c : favor.getConditions())
 					c.killNPC(npc);
 
-			if (!fac.playerHasContact(player)) fac.playerContactFaction(player);
+			if (!fac.playerHasContact(player))
+				fac.playerContactFaction(player);
 
 			for (Faction f : Faction.getAllFactions()) {
-				if (facCap.get(f, FacStatType.LOYALTY) > facCap.get(factionGreatestLoyalty, FacStatType.LOYALTY)) factionGreatestLoyalty = f;
+				if (facCap.get(f, FacStatType.LOYALTY) > facCap.get(factionGreatestLoyalty, FacStatType.LOYALTY))
+					factionGreatestLoyalty = f;
 				if (fac == f) {
 					facCap.set(fac, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
 				}
 
-				if (f.getFactionStatus(fac) == FactionStatus.ALLIED) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 100.0F, true);
-				if (f.getFactionStatus(fac) == FactionStatus.FRIENDLY) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 40.0F, true);
-				if (f.getFactionStatus(fac) == FactionStatus.HOSTILE) facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) + 20.0F, true);
+				if (f.getFactionStatus(fac) == FactionStatus.ALLIED)
+					facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 100.0F, true);
+				if (f.getFactionStatus(fac) == FactionStatus.FRIENDLY)
+					facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 40.0F, true);
+				if (f.getFactionStatus(fac) == FactionStatus.HOSTILE)
+					facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) + 20.0F, true);
 			}
 
 			facCap.set(factionGreatestLoyalty, FacStatType.FIGHT, facCap.get(factionGreatestLoyalty, FacStatType.FIGHT) + 10.0F, true);
@@ -506,7 +516,8 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerWakeUpEvent event) {
 		if (event.shouldSetSpawn()) {
-			if (event.getEntityPlayer().shouldHeal()) event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
+			if (event.getEntityPlayer().shouldHeal())
+				event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
 			if (event.getEntity().world.getGameRules().getBoolean("doDaylightCycle") && !event.getEntity().world.isRemote) {
 				long l = (long) (event.getEntity().world.getWorldTime() + RedwallWorldProvider.REDWALL_DAY_LENGTH);
 				MinecraftServer server = ((WorldServer) event.getEntity().world).getMinecraftServer();
@@ -520,7 +531,8 @@ public class EventHandler {
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(LivingSpawnEvent.CheckSpawn event) {
-		if (event.getEntity() instanceof EntityAbstractNPC && event.getEntityLiving().getRNG().nextFloat() > RedwallWorldProvider.NPC_SPAWN_CHANCE) event.setResult(Result.DENY);
+		if (event.getEntity() instanceof EntityAbstractNPC && event.getEntityLiving().getRNG().nextFloat() > RedwallWorldProvider.NPC_SPAWN_CHANCE)
+			event.setResult(Result.DENY);
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
@@ -559,10 +571,13 @@ public class EventHandler {
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		Biome biome = player.world.getBiome(player.getPosition());
 
-		if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward || biome == BiomeHandler.redwall_abyss || biome instanceof BiomeRedwallMarsh) GlStateManager.setFog(GlStateManager.FogMode.EXP);
-		else if (biome instanceof BiomeRedwallArctic) GlStateManager.setFog(GlStateManager.FogMode.LINEAR);
+		if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward || biome == BiomeHandler.redwall_abyss || biome instanceof BiomeRedwallMarsh)
+			GlStateManager.setFog(GlStateManager.FogMode.EXP);
+		else if (biome instanceof BiomeRedwallArctic)
+			GlStateManager.setFog(GlStateManager.FogMode.LINEAR);
 
-		if (player.world.isRaining()) GlStateManager.setFog(GlStateManager.FogMode.EXP);
+		if (player.world.isRaining())
+			GlStateManager.setFog(GlStateManager.FogMode.EXP);
 
 		GlStateManager.setFogDensity(MathHelper.clamp(prev_fog_density + ((fog_density - prev_fog_density) * (float) event.getRenderPartialTicks()), 0.0F, 1.0F));
 	}
@@ -573,16 +588,22 @@ public class EventHandler {
 			prev_fog_density = fog_density;
 
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
-			if (player == null || player.world == null) return;
+			if (player == null || player.world == null)
+				return;
 
 			Biome biome = player.world.getBiome(player.getPosition());
-			if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward) fog_density = 0.02F;
-			else if (biome == BiomeHandler.redwall_abyss) fog_density = 0.03F;
-			else if (biome instanceof BiomeRedwallMarsh) fog_density = 0.05F;
-			else if (biome instanceof BiomeRedwallArctic) fog_density = 0.02F;
+			if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward)
+				fog_density = 0.02F;
+			else if (biome == BiomeHandler.redwall_abyss)
+				fog_density = 0.03F;
+			else if (biome instanceof BiomeRedwallMarsh)
+				fog_density = 0.05F;
+			else if (biome instanceof BiomeRedwallArctic)
+				fog_density = 0.02F;
 			else fog_density = 0.0F;
 
-			if (player.world.isRaining()) fog_density = (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
+			if (player.world.isRaining())
+				fog_density = (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
 		}
 	}
 }
