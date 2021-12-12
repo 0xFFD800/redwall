@@ -22,6 +22,9 @@ public class SpeechHandler {
 	public static final List<String> GENERIC_NAMES_M = Lists.newArrayList();
 	public static final List<String> GENERIC_NAMES_F = Lists.newArrayList();
 
+	public static final List<String> COLLECT_METALS_EVIL = Lists.newArrayList();
+	public static final List<String> COLLECT_METALS_GOOD = Lists.newArrayList();
+
 	public static final List<String> REDWALL_MOUSE_FRIENDLY = Lists.newArrayList();
 	public static final List<String> REDWALL_MOUSE_UNFRIENDLY = Lists.newArrayList();
 	public static final List<String> REDWALL_MOUSE_HOSTILE = Lists.newArrayList();
@@ -91,6 +94,9 @@ public class SpeechHandler {
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/generic/generic_hostile.speechbank"), GENERIC_HOSTILE);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/generic/names_m.speechbank"), GENERIC_NAMES_M);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/generic/names_f.speechbank"), GENERIC_NAMES_F);
+		
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/generic/collect_metals_evil.speechbank"), COLLECT_METALS_EVIL);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/generic/collect_metals_good.speechbank"), COLLECT_METALS_GOOD);
 
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/redwall/mouse/friendly.speechbank"), REDWALL_MOUSE_FRIENDLY);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/redwall/mouse/unfriendly.speechbank"), REDWALL_MOUSE_UNFRIENDLY);

@@ -64,7 +64,7 @@ public class Favor {
 	}
 
 	public String getStory() {
-		return this.story;
+		return String.format(this.story, this.player != null ? this.player.getDisplayNameString() : "traveler");
 	}
 
 	public long getTimeLimit() {
@@ -222,7 +222,7 @@ public class Favor {
 		this.timeLimit = c.getLong("TimeLimit");
 	}
 
-	private static final Item[] metals = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, ItemHandler.bronze_ingot, ItemHandler.copper_ingot, ItemHandler.tin_ingot };
+	private static final Item[] metals = new Item[] { Items.IRON_INGOT, ItemHandler.bronze_ingot, ItemHandler.copper_ingot, ItemHandler.tin_ingot };
 
 	public static Favor createFavorCollectMetals(EntityPlayer player, EntityAbstractNPC giver, int typesL, int typesH, int numL, int numH, long timeLimitLow, long timeLimitHigh) {
 		int types = giver.getRNG().nextInt(typesH - typesL) + typesL;
@@ -240,12 +240,12 @@ public class Favor {
 		}
 
 		IFavorReward[] success = new IFavorReward[3];
-		success[0] = new FavorRewardItem(Items.GOLD_NUGGET, numL / 2, numH / 2);
-		success[1] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, numL, numH);
-		success[2] = new FavorRewardXP(numL / 5, numH / 5);
+		success[0] = new FavorRewardItem(Items.GOLD_NUGGET, numL * 2, numH * 2);
+		success[1] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, numL * 2, numH * 2);
+		success[2] = new FavorRewardXP(numL / 2, numH / 2);
 
 		IFavorReward[] failure = new IFavorReward[1];
-		failure[0] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, -numL / 5, -numH / 5);
+		failure[0] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, -numL / 2, -numH / 2);
 
 		long timeLimit = giver.getRNG().nextInt((int) (timeLimitHigh - timeLimitLow)) + timeLimitLow;
 
@@ -259,8 +259,7 @@ public class Favor {
 		for (IFavorReward ifc : failure)
 			f.add(ifc);
 
-		// TODO should be COLLECT_METALS_EVIL and COLLECT_METALS_GOOD
-		List<String> stories = giver.getFaction().isVermin() ? SpeechHandler.GENERIC_HOSTILE : SpeechHandler.GENERIC_FRIENDLY;
+		List<String> stories = giver.getFaction().isVermin() ? SpeechHandler.COLLECT_METALS_EVIL : SpeechHandler.COLLECT_METALS_GOOD;
 
 		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
 	}
