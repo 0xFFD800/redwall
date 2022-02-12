@@ -43,6 +43,7 @@ import com.bob.redwall.gui.smelting.ContainerSmeltery;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
 import com.bob.redwall.gui.smithing.redwall.ContainerSmithingRedwall;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
+import com.bob.redwall.items.weapons.ranged.ItemModBow;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -55,9 +56,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -369,6 +373,18 @@ public class EventHandler {
 			event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), armorPoints, 0));
 		if (event.getSource() instanceof EntityDamageSource && ((EntityDamageSource) event.getSource()).getImmediateSource() instanceof EntityLivingBase)
 			EquipmentModifierUtils.doDefense(event.getEntityLiving(), (EntityLivingBase) ((EntityDamageSource) event.getSource()).getImmediateSource());
+		
+		if (event.getEntityLiving() instanceof EntityPlayer && (event.getEntityLiving().getHeldItemMainhand().getItem() instanceof ItemBow || event.getEntityLiving().getHeldItemMainhand().getItem() instanceof ItemModBow) && event.getEntityLiving().isHandActive()) {
+            ItemStack arrow = RedwallUtils.findAmmo((EntityPlayer) event.getEntityLiving());
+            ItemArrow itemarrow = (ItemArrow) arrow.getItem();
+            EntityArrow entityarrow = itemarrow.createArrow(event.getEntity().world, arrow, event.getEntityLiving());
+            entityarrow.shoot(event.getEntityLiving(), event.getEntityLiving().rotationPitch, event.getEntityLiving().rotationYaw, 0.0F, 0, 1.0F);
+            event.getEntityLiving().getHeldItemMainhand().damageItem(1, event.getEntityLiving());
+            event.getEntity().world.spawnEntity(entityarrow);
+            if (!((EntityPlayer)event.getEntity()).isCreative())
+            	arrow.shrink(1);
+			event.getEntityLiving().resetActiveHand();
+		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)

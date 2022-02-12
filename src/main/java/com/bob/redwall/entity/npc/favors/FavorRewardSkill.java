@@ -23,6 +23,8 @@ public class FavorRewardSkill implements IFavorReward {
 
 	@Override
 	public void reward(EntityPlayer player) {
+		if (player == null)
+			return;
 		player.getCapability(FactionCapProvider.FACTION_CAP, null).set(this.fac, this.type, player.getCapability(FactionCapProvider.FACTION_CAP, null).get(this.fac, this.type) + player.getRNG().nextInt(this.highAmount - this.lowAmount) + this.lowAmount, true);
 	}
 

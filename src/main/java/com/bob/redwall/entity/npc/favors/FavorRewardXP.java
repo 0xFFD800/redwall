@@ -15,6 +15,8 @@ public class FavorRewardXP implements IFavorReward {
 
 	@Override
 	public void reward(EntityPlayer player) {
+		if (player == null)
+			return;
 		player.addExperience(player.getRNG().nextInt(this.highAmount - this.lowAmount) + this.lowAmount);
 	}
 

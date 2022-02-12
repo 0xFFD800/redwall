@@ -81,11 +81,9 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 			}
 			this.path = this.attacker.getNavigator().getPathToEntityLiving(entitylivingbase);
 
-			if (this.path != null) {
+			if (this.path != null)
 				return true;
-			} else {
-				return this.getAttackReachSqr(entitylivingbase) >= this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
-			}
+			else return this.getAttackReachSqr(entitylivingbase) >= this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
 		}
 	}
 
@@ -153,7 +151,8 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 				this.delayCounter += failedPathFindingPenalty;
 				if (this.attacker.getNavigator().getPath() != null) {
 					net.minecraft.pathfinding.PathPoint finalPathPoint = this.attacker.getNavigator().getPath().getFinalPathPoint();
-					if (finalPathPoint != null && entitylivingbase.getDistanceSq(finalPathPoint.x, finalPathPoint.y, finalPathPoint.z) < 1) failedPathFindingPenalty = 0;
+					if (finalPathPoint != null && entitylivingbase.getDistanceSq(finalPathPoint.x, finalPathPoint.y, finalPathPoint.z) < 1)
+						failedPathFindingPenalty = 0;
 					else failedPathFindingPenalty += 10;
 				} else {
 					failedPathFindingPenalty += 10;
@@ -171,10 +170,13 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 			}
 		}
 
-		if (d0 <= this.getAttackReachSqr(entitylivingbase) * 0.5625 && this.strategy.reachResponse == 1) this.attacker.getNavigator().tryMoveToXYZ(this.attacker.posX, this.attacker.posY, this.attacker.posZ, 0.0D);
-		else if (this.strategy.reachResponse == 2 && d0 <= this.getAttackReachSqr(entitylivingbase) * 0.75F) this.updateStrafing(entitylivingbase);
+		if (d0 <= this.getAttackReachSqr(entitylivingbase) * 0.5625 && this.strategy.reachResponse == 1)
+			this.attacker.getNavigator().tryMoveToXYZ(this.attacker.posX, this.attacker.posY, this.attacker.posZ, 0.0D);
+		else if (this.strategy.reachResponse == 2 && d0 <= this.getAttackReachSqr(entitylivingbase) * 0.75F)
+			this.updateStrafing(entitylivingbase);
 
-		if (this.strategy.block) this.updateBlocking(entitylivingbase);
+		if (this.strategy.block)
+			this.updateBlocking(entitylivingbase);
 
 		this.attackTick = Math.max(this.attackTick - 1, 0);
 		this.checkAndPerformAttack(entitylivingbase, d0);
@@ -189,12 +191,13 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 			this.attacker.attackEntityAsMob(target);
 			IAttacking a = this.attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
 			a.setMode(this.strategy.attackType == 0 ? 0 : this.strategy.attackType == 1 ? this.attacker.getRNG().nextInt(3) : this.selectAttackBasedOnWeapons(target));
-			if (this.strategy.attemptCrit) this.performCritBehavior();
+			if (this.strategy.attemptCrit)
+				this.performCritBehavior();
 		}
 	}
 
 	protected double getAttackReachSqr(EntityLivingBase attackTarget) {
-		return Math.pow(this.attacker.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() * 0.75F, 2);
+		return Math.pow(this.attacker.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() * 0.85F, 2);
 	}
 
 	protected int selectAttackBasedOnWeapons(EntityLivingBase target) {
@@ -202,15 +205,18 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 		ItemStack defenseWeapon = target.getHeldItemMainhand();
 		ItemStack defenseOffhand = target.getHeldItemOffhand();
 
-		if (!(attackWeapon.getItem() instanceof ModCustomWeapon)) return 0;
+		if (!(attackWeapon.getItem() instanceof ModCustomWeapon))
+			return 0;
 		ModCustomWeapon aW = (ModCustomWeapon) attackWeapon.getItem();
 
 		boolean canStab = aW.isStab(attackWeapon, this.attacker);
 		boolean canSweep = aW.isSweep(attackWeapon, this.attacker) || aW.isBludgeon(attackWeapon, this.attacker);
 
-		if (!canSweep) return 2;
+		if (!canSweep)
+			return 2;
 
-		if(this.attacker.getRNG().nextFloat() < this.attacker.fumbleAttackChance()) return this.attacker.getRNG().nextInt(3);
+		if (this.attacker.getRNG().nextFloat() < this.attacker.fumbleAttackChance())
+			return this.attacker.getRNG().nextInt(3);
 		boolean flag = defenseWeapon.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) defenseWeapon.getItem()).canBlock(defenseWeapon, target);
 		if (target.getCapability(DefendingProvider.DEFENDING_CAP, null).get() && (defenseOffhand.getItem() instanceof ItemShield || flag)) {
 			switch (target.getCapability(DefendingProvider.DEFENDING_CAP, null).getMode()) {
@@ -222,7 +228,8 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 				return 0;
 			}
 		} else if (flag && !(defenseOffhand.getItem() instanceof ItemShield)) {
-			if (canStab && this.attacker.getRNG().nextFloat() < 0.75F) return 2;
+			if (canStab && this.attacker.getRNG().nextFloat() < 0.75F)
+				return 2;
 			else return this.attacker.getRNG().nextInt(2);
 		} else if (RedwallUtils.getReach(target) > Math.sqrt(this.getAttackReachSqr(target))) {
 			return this.attacker.getRNG().nextFloat() < 0.8F || !canStab ? this.attacker.getRNG().nextInt(2) : 2;
@@ -281,14 +288,15 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 				this.attacker.setSneaking(false);
 				this.actualSpeed = this.speedTowardsTarget;
 				this.attacker.resetCooldown();
-				this.attackTick = this.attacker.getSwingCooldown() + this.attacker.getRNG().nextInt((int)(this.attacker.fumbleAttackChance() * 10.0F) + 10);
+				this.attackTick = this.attacker.getSwingCooldown() + this.attacker.getRNG().nextInt((int) (this.attacker.fumbleAttackChance() * 10.0F) + 10);
 			}
 		}
 
 		boolean flag = main.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) main.getItem()).canBlock(main, this.attacker);
 		if (targetAttacking.get() && !a.get() && this.attacker.getCooldown() == 0 && (flag || off.getItem() instanceof ItemShield)) {
 			int i = targetAttacking.getMode();
-			if(this.attacker.getRNG().nextFloat() < this.attacker.fumbleBlockingChance()) i = this.attacker.getRNG().nextInt(3);
+			if (this.attacker.getRNG().nextFloat() < this.attacker.fumbleBlockingChance())
+				i = this.attacker.getRNG().nextInt(3);
 			switch (i) {
 			case 0: {
 				this.attacker.setSneaking(true);
@@ -307,7 +315,8 @@ public class EntityAIAttackMeleeNPC extends EntityAIBase {
 				break;
 			}
 			case 2: {
-				if (!(off.getItem() instanceof ItemShield)) break;
+				if (!(off.getItem() instanceof ItemShield))
+					break;
 				this.attacker.setSneaking(true);
 				this.actualSpeed = 0.6D;
 				this.blockingTime = 20;

@@ -46,6 +46,10 @@ public class Favor {
 	public EntityPlayer getPlayer() {
 		return this.player;
 	}
+	
+	public void setPlayer(EntityPlayer player) {
+		this.player = player;
+	}
 
 	public EntityAbstractNPC getGiver() {
 		if (this.player != null)
@@ -100,13 +104,15 @@ public class Favor {
 	public void fail() {
 		for (IFavorReward r : this.failure)
 			r.reward(this.player);
-		this.player.getCapability(FactionCapProvider.FACTION_CAP, null).removeFavor(this);
+		if (this.player != null)
+			this.player.getCapability(FactionCapProvider.FACTION_CAP, null).removeFavor(this);
 	}
 
 	public void succeed() {
 		for (IFavorReward r : this.success)
 			r.reward(this.player);
-		this.player.getCapability(FactionCapProvider.FACTION_CAP, null).removeFavor(this);
+		if (this.player != null)
+			this.player.getCapability(FactionCapProvider.FACTION_CAP, null).removeFavor(this);
 	}
 
 	public NBTTagCompound writeToNBT() {

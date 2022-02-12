@@ -125,6 +125,7 @@ public class MessageSetCap implements IMessage {
 						Favor favor = new Favor(serverPlayer, giver, "", new ArrayList<IFavorCondition>(), new ArrayList<IFavorReward>(), new ArrayList<IFavorReward>(), 0);
 						favor.readFromNBT(serverPlayer, message.tag);
 						favor.setGiver(giver.getUniqueID());
+						favor.setPlayer(serverPlayer);
 						serverPlayer.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().add(favor);
 						giver.setFavor(null);
 					}

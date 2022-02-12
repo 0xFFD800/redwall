@@ -158,10 +158,10 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			IAttacking attacking = this.getCapability(AttackingProvider.ATTACKING_CAP, null);
 			if (this.getCooldown() > 0)
 				this.setCooldown(this.getCooldown() - 1);
-			if (this.getCapability(AttackingProvider.ATTACKING_CAP, null).get() && this.getCooldown() == 0)
-				this.getCapability(AttackingProvider.ATTACKING_CAP, null).set(false);
+			if (attacking.get() && this.getCooldown() == 0)
+				attacking.set(false);
 			float f = 1.0F - ((float) this.getCooldown() / (float) this.getSwingCooldown());
-			boolean flag = rand.nextFloat() - f < 0;
+			boolean flag = rand.nextFloat() - f < 0 && 0.4F < f && f < 0.6F;
 
 			if (flag && attacking.get() && !this.isDead) {
 				attacking.set(false);
@@ -197,6 +197,17 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 				this.favorTimer = this.getRNG().nextInt(18000) + 6000;
 			}
 		}
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if ((this.getHeldItemMainhand().getItem() instanceof ItemBow || this.getHeldItemMainhand().getItem() instanceof ItemModBow) && this.isHandActive()) {
+			this.rangedAi.resetAttackTimer();
+			this.resetActiveHand();
+			if (this.getAttackTarget() != null)
+				this.attackEntityWithRangedAttack(this.getAttackTarget(), 0);
+		}
+		return super.attackEntityFrom(source, amount);
 	}
 
 	@Override
@@ -251,15 +262,15 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 						for (IFavorCondition c : favor.getConditions()) {
 							ItemStack s = player.getHeldItem(hand);
 							player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
-	
+
 							if (!player.getHeldItem(hand).equals(s))
 								break label1;
 						}
 					}
 				}
-				
+
 				player.getCapability(FactionCapProvider.FACTION_CAP, null).updateFavors();
-				Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), (EntityPlayerMP) player); 
+				Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), (EntityPlayerMP) player);
 
 				if (this.getFavor() != null && !gaveFavor)
 					Ref.NETWORK.sendTo(new MessageUIInteract(Mode.OPEN_GUI, GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID, this.posX, this.posY, this.posZ), (EntityPlayerMP) player);
@@ -585,7 +596,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		double d2 = target.posZ - this.posZ;
 		double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
 		Item bow = this.getHeldItemMainhand().getItem();
-		float power = bow instanceof ItemModBow ? ((ItemModBow) bow).getPower() * 0.75F : 2.25F;
+		float power = distanceFactor == 0 ? 0 : (bow instanceof ItemModBow ? ((ItemModBow) bow).getPower() * 0.75F : 2.25F);
 		entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, power, (float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
 		this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 		this.world.spawnEntity(entityarrow);

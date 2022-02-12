@@ -74,16 +74,15 @@ public class ItemModBow extends ModItem {
             for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
                 ItemStack itemstack = player.inventory.getStackInSlot(i);
 
-                if (this.isArrow(itemstack)) {
+                if (this.isArrow(itemstack))
                     return itemstack;
-                }
             }
 
             return ItemStack.EMPTY;
         }
     }
 
-    protected boolean isArrow(ItemStack stack) {
+    public boolean isArrow(ItemStack stack) {
         return ammoClass.isAssignableFrom(stack.getItem().getClass());
     }
 
@@ -102,9 +101,8 @@ public class ItemModBow extends ModItem {
             if (i < 0) return;
 
             if (!itemstack.isEmpty() || flag) {
-                if (itemstack.isEmpty()) {
+                if (itemstack.isEmpty())
                     itemstack = new ItemStack(Items.ARROW);
-                }
 
                 float f = getArrowVelocity(i);
 
@@ -122,25 +120,21 @@ public class ItemModBow extends ModItem {
 
                         int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
 
-                        if (j > 0) {
+                        if (j > 0)
                             entityarrow.setDamage(entityarrow.getDamage() + (double)j * 0.5D + 0.5D);
-                        }
 
                         int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
 
-                        if (k > 0) {
+                        if (k > 0)
                             entityarrow.setKnockbackStrength(k);
-                        }
 
-                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
+                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0)
                             entityarrow.setFire(100);
-                        }
 
                         stack.damageItem(1, entityplayer);
 
-                        if (flag1 || entityplayer.capabilities.isCreativeMode && (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
+                        if (flag1 || entityplayer.capabilities.isCreativeMode && (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW))
                             entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
-                        }
 
                         worldIn.spawnEntity(entityarrow);
                     }
@@ -150,9 +144,8 @@ public class ItemModBow extends ModItem {
                     if (!flag1 && !entityplayer.capabilities.isCreativeMode) {
                         itemstack.shrink(1);
 
-                        if (itemstack.isEmpty()) {
+                        if (itemstack.isEmpty())
                             entityplayer.inventory.deleteStack(itemstack);
-                        }
                     }
 
                     entityplayer.addStat(StatList.getObjectUseStats(this));

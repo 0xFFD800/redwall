@@ -72,6 +72,10 @@ public class EntityAIAttackRangedNPC extends EntityAIBase {
 		this.attackTime = -1;
 		this.entity.resetActiveHand();
 	}
+	
+	public void resetAttackTimer() {
+		this.attackTime = this.attackCooldown;
+	}
 
 	/**
 	 * Keep ticking a continuous task that has already been started

@@ -8,6 +8,7 @@ import org.lwjgl.input.Mouse;
 import com.bob.redwall.Ref;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.favors.Favor;
+import com.bob.redwall.entity.npc.favors.IFavorCondition;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -59,8 +60,11 @@ public class GuiFavor extends GuiScreen {
 		this.fontRenderer.drawString(I18n.format("favor.conditions"), this.guiLeft + 200 - this.fontRenderer.getStringWidth(I18n.format("favor.conditions")) / 2, this.guiTop + 15, 4210752);
 		String limit = I18n.format("favor.timeLimit", this.favors.get(this.selectedFavor).getTimeLimit() <= 0 ? "None" : formatTime(this.favors.get(this.selectedFavor).getTimeLimit()));
 		this.fontRenderer.drawString(limit, this.guiLeft + 128 - this.fontRenderer.getStringWidth(limit) / 2, this.guiTop - 10, 0xFFFFFF);
-		for (int i1 = 0; i1 < this.favors.get(this.selectedFavor).getConditions().size(); i1++)
-			this.drawFittedString(this.favors.get(this.selectedFavor).getConditions().get(i1).getText(), 80, this.guiLeft + 164, this.guiTop + 28 + i1 * 10);
+		int nextLine = 0;
+		for (IFavorCondition fc : this.favors.get(this.selectedFavor).getConditions()) {
+			nextLine += 10 + (this.fontRenderer.getStringWidth(fc.getText()) / 80) * 10;
+			this.drawFittedString(fc.getText(), 80, this.guiLeft + 164, this.guiTop + 28 + nextLine * 10);
+		}
 		this.fontRenderer.drawString(I18n.format("favor.failure"), this.guiLeft + 68 - this.fontRenderer.getStringWidth(I18n.format("favor.failure")) / 2, this.guiTop + 92, 4210752);
 		for (int i1 = 0; i1 < this.favors.get(this.selectedFavor).getFailureRewards().size(); i1++)
 			this.fontRenderer.drawString(this.favors.get(this.selectedFavor).getFailureRewards().get(i1).getText(), this.guiLeft + 18, this.guiTop + 106 + i1 * 10, 4210752);

@@ -43,6 +43,7 @@ import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.armor.ItemRedwallArmor;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
+import com.bob.redwall.items.weapons.ranged.ItemModBow;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -65,6 +66,8 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArrow;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -1042,4 +1045,32 @@ public class RedwallUtils {
 				return entity;
 		return null;
 	}
+
+	public static ItemStack findAmmo(EntityPlayer player) {
+		if (player.getHeldItemMainhand().getItem() instanceof ItemModBow)
+	        if (((ItemModBow)player.getHeldItemMainhand().getItem()).isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
+	            return player.getHeldItem(EnumHand.OFF_HAND);
+	        } else if (((ItemModBow)player.getHeldItemMainhand().getItem()).isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
+	            return player.getHeldItem(EnumHand.MAIN_HAND);
+	        } else {
+	            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+	                ItemStack itemstack = player.inventory.getStackInSlot(i);
+	                if (((ItemModBow)player.getHeldItemMainhand().getItem()).isArrow(itemstack)) 
+	                    return itemstack;
+	            }
+	        }
+		else if (player.getHeldItemMainhand().getItem() instanceof ItemBow)
+	        if (player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemArrow) {
+	            return player.getHeldItem(EnumHand.OFF_HAND);
+	        } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemArrow) {
+	            return player.getHeldItem(EnumHand.MAIN_HAND);
+	        } else {
+	            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+	                ItemStack itemstack = player.inventory.getStackInSlot(i);
+	                if (itemstack.getItem() instanceof ItemArrow) 
+	                    return itemstack;
+	            }
+	        }
+        return ItemStack.EMPTY;
+    }
 }
