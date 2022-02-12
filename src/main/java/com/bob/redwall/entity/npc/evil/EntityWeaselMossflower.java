@@ -100,6 +100,6 @@ public class EntityWeaselMossflower extends EntityAbstractNPC {
 
 	@Override
 	public void createFavor() {
-		this.setFavor(Favor.createFavorCollectMetals(null, this, 1, 3, 5, 30, 6000, 18000));
+		this.setFavor(Favor.createFavorCollectMetals(null, this, 1, 3, 2, 5, 6000, 18000));
 	}
 }

@@ -62,8 +62,8 @@ public class GuiFavor extends GuiScreen {
 		this.fontRenderer.drawString(limit, this.guiLeft + 128 - this.fontRenderer.getStringWidth(limit) / 2, this.guiTop - 10, 0xFFFFFF);
 		int nextLine = 0;
 		for (IFavorCondition fc : this.favors.get(this.selectedFavor).getConditions()) {
-			nextLine += 10 + (this.fontRenderer.getStringWidth(fc.getText()) / 80) * 10;
 			this.drawFittedString(fc.getText(), 80, this.guiLeft + 164, this.guiTop + 28 + nextLine * 10);
+			nextLine += 10 + (this.fontRenderer.getStringWidth(fc.getText()) / 80) * 10;
 		}
 		this.fontRenderer.drawString(I18n.format("favor.failure"), this.guiLeft + 68 - this.fontRenderer.getStringWidth(I18n.format("favor.failure")) / 2, this.guiTop + 92, 4210752);
 		for (int i1 = 0; i1 < this.favors.get(this.selectedFavor).getFailureRewards().size(); i1++)
