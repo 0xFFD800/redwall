@@ -608,18 +608,20 @@ public class EventHandler {
 				return;
 
 			Biome biome = player.world.getBiome(player.getPosition());
+			float f = 0.0F;
 			if (biome == BiomeHandler.redwall_forest_ash || biome == BiomeHandler.redwall_forest_southsward)
-				fog_density = 0.02F;
+				f = 0.02F;
 			else if (biome == BiomeHandler.redwall_abyss)
-				fog_density = 0.03F;
+				f = 0.03F;
 			else if (biome instanceof BiomeRedwallMarsh)
-				fog_density = 0.05F;
+				f = 0.05F;
 			else if (biome instanceof BiomeRedwallArctic)
-				fog_density = 0.02F;
-			else fog_density = 0.0F;
+				f = 0.02F;
 
 			if (player.world.isRaining())
-				fog_density = (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
+				fog_density = f + (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
+			else
+				fog_density = f;
 		}
 	}
 }
