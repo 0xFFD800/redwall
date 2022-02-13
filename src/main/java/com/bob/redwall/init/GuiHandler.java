@@ -1,5 +1,6 @@
 package com.bob.redwall.init;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.npc.favors.Favor;
@@ -19,6 +20,8 @@ import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
 import com.bob.redwall.gui.smithing.GuiSmithingGeneric;
 import com.bob.redwall.gui.smithing.redwall.ContainerSmithingRedwall;
 import com.bob.redwall.gui.smithing.redwall.GuiSmithingRedwall;
+import com.bob.redwall.gui.trading.ContainerTrading;
+import com.bob.redwall.gui.trading.GuiTrading;
 import com.bob.redwall.tileentity.TileEntityBrewingGuosim;
 import com.bob.redwall.tileentity.TileEntityBrewingRedwall;
 import com.bob.redwall.tileentity.TileEntityCookingGeneric;
@@ -27,8 +30,10 @@ import com.bob.redwall.tileentity.TileEntitySmithingGeneric;
 import com.bob.redwall.tileentity.TileEntitySmithingRedwall;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -45,11 +50,13 @@ public class GuiHandler implements IGuiHandler {
 	public static final int GUI_SKILLS_ID = i++;
 	public static final int GUI_FAVOR_ID = i++;
 	public static final int GUI_FAVOR_ACCEPT_REJECT_ID = i++;
+	public static final int GUI_TRADING_ID = i++;
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
         TileEntity te = world.getTileEntity(pos);
+        Entity entity = RedwallUtils.raytrace(player, 100.0F).entityHit;
         
 		if(ID == GuiHandler.GUI_FACTIONS_ID) return null;
 		else if(ID == GuiHandler.GUI_SMITHING_GENERIC_ID) return new ContainerSmithingGeneric(player.inventory, world, pos, (TileEntitySmithingGeneric)te);
@@ -61,6 +68,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_SKILLS_ID) return null;
 		else if(ID == GuiHandler.GUI_FAVOR_ID) return null;
 		else if(ID == GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID) return null;
+		else if(ID == GuiHandler.GUI_TRADING_ID) return new ContainerTrading(player, entity != null && entity instanceof EntityAbstractNPC ? (EntityAbstractNPC)entity : world.getEntitiesWithinAABB(EntityAbstractNPC.class, new AxisAlignedBB(pos)).get(0));
 		else return null;
 	}
 
@@ -68,7 +76,8 @@ public class GuiHandler implements IGuiHandler {
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
         TileEntity te = world.getTileEntity(pos);
-		Favor favor = Minecraft.getMinecraft().pointedEntity instanceof EntityAbstractNPC ? ((EntityAbstractNPC)Minecraft.getMinecraft().pointedEntity).getFavor() : null;
+        Entity entity = Minecraft.getMinecraft().pointedEntity;
+		Favor favor = entity instanceof EntityAbstractNPC ? ((EntityAbstractNPC)entity).getFavor() : null;
 		
 		if(ID == GuiHandler.GUI_FACTIONS_ID) return new GuiFactions(player);
 		else if(ID == GuiHandler.GUI_SMITHING_GENERIC_ID) return new GuiSmithingGeneric(player.inventory, world, pos, (TileEntitySmithingGeneric)te);
@@ -80,6 +89,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_SKILLS_ID) return new GuiSkills(player);
 		else if(ID == GuiHandler.GUI_FAVOR_ID) return player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().isEmpty() ? null : new GuiFavor(player, player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors());
 		else if(ID == GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID && favor != null) return new GuiFavorAcceptReject(player, favor);
+		else if(ID == GuiHandler.GUI_TRADING_ID) return new GuiTrading(new ContainerTrading(player, entity != null && entity instanceof EntityAbstractNPC ? (EntityAbstractNPC)entity : world.getEntitiesWithinAABB(EntityAbstractNPC.class, new AxisAlignedBB(pos)).get(0)));
 		else return null;
 	}
 }

@@ -29,6 +29,7 @@ import com.bob.redwall.entity.npc.favors.IFavorReward;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
 import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
+import com.bob.redwall.init.BlockHandler;
 import com.bob.redwall.init.GuiHandler;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.init.SpeechHandler;
@@ -61,6 +62,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -113,6 +115,10 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	private EntityAIAttackRangedNPC rangedAi = new EntityAIAttackRangedNPC(this, 1.0D, 20, 24.0F);
 	private NBTTagCompound prevFavorTag = new NBTTagCompound();
 	private Favor prevFavor = null;
+	private ItemStack[] buyingItems;
+	
+	private boolean is_trading = false;
+	private EntityPlayer customer;
 
 	public EntityAbstractNPC(World worldIn) {
 		this(worldIn, true);
@@ -127,6 +133,18 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.setSize(0.6F, 1.8F);
 		this.experienceValue = 8;
 		this.favorTimer = this.getRNG().nextInt(18000) + 6000;
+		this.initializeTrades();
+	}
+	
+	private void initializeTrades() {
+		this.buyingItems = new ItemStack[] {
+			new ItemStack(BlockHandler.copper_block, 1),
+			new ItemStack(ItemHandler.copper_ingot, 2),
+			new ItemStack(ItemHandler.copper_nugget, 3),
+			new ItemStack(ItemHandler.tin_ingot, 4),
+			new ItemStack(ItemHandler.bronze_ingot, 5),
+			new ItemStack(ItemHandler.bronze_nugget, 6)
+		};
 	}
 
 	@Override
@@ -254,29 +272,35 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		if (!this.world.isRemote) {
-			boolean gaveFavor = false;
-			label1: {
-				for (Favor favor : player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors()) {
-					if (this.getUniqueID().equals(favor.getGiverID())) {
-						gaveFavor = true;
-						for (IFavorCondition c : favor.getConditions()) {
-							ItemStack s = player.getHeldItem(hand);
-							player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
-
-							if (!player.getHeldItem(hand).equals(s))
-								break label1;
+			if (player.isSneaking()) {
+	            this.customer = player;
+	            this.is_trading = true;
+	            player.openGui(Ref.MODID, GuiHandler.GUI_TRADING_ID, this.world, this.getPosition().getX(), this.getPosition().getY(), this.getPosition().getZ());
+	            return true;
+			} else {
+				boolean gaveFavor = false;
+				label1: {
+					for (Favor favor : player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors()) {
+						if (this.getUniqueID().equals(favor.getGiverID())) {
+							gaveFavor = true;
+							for (IFavorCondition c : favor.getConditions()) {
+								ItemStack s = player.getHeldItem(hand);
+								player.setHeldItem(hand, c.offerItem(player.getHeldItem(hand)));
+	
+								if (!player.getHeldItem(hand).equals(s))
+									break label1;
+							}
 						}
 					}
+	
+					player.getCapability(FactionCapProvider.FACTION_CAP, null).updateFavors();
+					Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), (EntityPlayerMP) player);
+	
+					if (this.getFavor() != null && !gaveFavor)
+						Ref.NETWORK.sendTo(new MessageUIInteract(Mode.OPEN_GUI, GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID, this.posX, this.posY, this.posZ), (EntityPlayerMP) player);
+					else this.talk(player);
 				}
-
-				player.getCapability(FactionCapProvider.FACTION_CAP, null).updateFavors();
-				Ref.NETWORK.sendTo(new MessageSyncCap(player.getCapability(FactionCapProvider.FACTION_CAP, null).writeToNBT(), MessageSyncCap.Mode.FACTION_STATS), (EntityPlayerMP) player);
-
-				if (this.getFavor() != null && !gaveFavor)
-					Ref.NETWORK.sendTo(new MessageUIInteract(Mode.OPEN_GUI, GuiHandler.GUI_FAVOR_ACCEPT_REJECT_ID, this.posX, this.posY, this.posZ), (EntityPlayerMP) player);
-				else this.talk(player);
 			}
-
 		}
 		return true;
 	}
@@ -615,6 +639,59 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 	public void setChargingBow(boolean chargingBow) {
 		this.dataManager.set(CHARGING_BOW, Boolean.valueOf(chargingBow));
+	}
+
+	public ItemStack[] getBuyingItems() {
+		return this.buyingItems;
+	}
+	
+	public EntityPlayer getCustomer() {
+		return this.customer;
+	}
+	
+	public boolean isTrading() {
+		return this.is_trading;
+	}
+	
+	public void setIsTrading(boolean bool) {
+		this.is_trading = bool;
+	}
+	
+	public float getStackValue(ItemStack stack) {
+		float f = 0.0F;
+		
+		if (stack.getItem() == Items.GOLD_NUGGET)
+			f = 1.0F;
+		else if (stack.getItem() == Items.GOLD_INGOT)
+			f = 9.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.GOLD_BLOCK))
+			f = 81.0F;
+		else if (stack.getItem() == Items.IRON_NUGGET)
+			f = 0.75F;
+		else if (stack.getItem() == Items.IRON_INGOT)
+			f = 6.75F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.IRON_BLOCK))
+			f = 60.75F;
+		else if (stack.getItem() == ItemHandler.copper_nugget)
+			f = 0.2F;
+		else if (stack.getItem() == ItemHandler.copper_ingot)
+			f = 1.8F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.copper_block))
+			f = 16.2F;
+		else if (stack.getItem() == ItemHandler.tin_nugget)
+			f = 0.5F;
+		else if (stack.getItem() == ItemHandler.tin_ingot)
+			f = 4.5F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.tin_block))
+			f = 40.5F;
+		else if (stack.getItem() == ItemHandler.bronze_nugget)
+			f = 0.65F;
+		else if (stack.getItem() == ItemHandler.bronze_ingot)
+			f = 5.85F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.bronze_block))
+			f = 52.65F;
+		
+		return f * stack.getCount();
 	}
 
 	public static enum EnumOpinion {
