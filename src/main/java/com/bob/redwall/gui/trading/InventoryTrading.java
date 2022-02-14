@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 
 public class InventoryTrading extends InventoryBasic {
 	private final EntityAbstractNPC npc;
-	private ItemStack[] stacks = new ItemStack[6];
 	
 	public InventoryTrading(String title, boolean customName, int slotCount, EntityAbstractNPC npc) {
 		super(title, customName, slotCount);
@@ -16,7 +15,7 @@ public class InventoryTrading extends InventoryBasic {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-        return index < 6 ? this.npc.getBuyingItems()[index] : stacks[index - 6];
+        return index < 6 ? this.npc.getBuyingItems()[index] : super.getStackInSlot(index);
     }
 	
 	@Override
@@ -24,6 +23,6 @@ public class InventoryTrading extends InventoryBasic {
 		if (index < 6)
 			npc.getBuyingItems()[index] = stack;
 		else
-			stacks[index - 6] = stack;
+			super.setInventorySlotContents(index, stack);
 	}
 }

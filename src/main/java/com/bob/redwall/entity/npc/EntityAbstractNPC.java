@@ -15,6 +15,7 @@ import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC;
 import com.bob.redwall.entity.ai.EntityAIAttackMeleeNPC.MobAttackStrategy;
 import com.bob.redwall.entity.ai.EntityAIAttackRangedNPC;
+import com.bob.redwall.entity.ai.EntityAINPCLookAtTradingPlayer;
 import com.bob.redwall.entity.ai.EntityAIOpenModDoor;
 import com.bob.redwall.entity.ai.EntityAITargetNPC;
 import com.bob.redwall.entity.ai.pathfind.NPCPathNavigate;
@@ -439,6 +440,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 				return EntityAbstractNPC.this.isSuitableTarget(input) && !EntityAbstractNPC.this.willFightEntity(input);
 			}
 		}, 16.0F, 1.0F, 1.2F));
+		this.tasks.addTask(3, new EntityAINPCLookAtTradingPlayer(this));
 		this.tasks.addTask(3, new EntityAIOpenDoor(this, true));
 		this.tasks.addTask(4, new EntityAIOpenModDoor(this, true));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));

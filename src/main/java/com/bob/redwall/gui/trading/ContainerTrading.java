@@ -29,11 +29,9 @@ public class ContainerTrading extends Container {
 			this.addSlotToContainer(s1);
 		}
 
-		for (int k = 0; k < 3; ++k) {
-			for (int i1 = 0; i1 < 9; ++i1) {
+		for (int k = 0; k < 3; ++k)
+			for (int i1 = 0; i1 < 9; ++i1)
 				this.addSlotToContainer(new Slot(player.inventory, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
-			}
-		}
 
 		for (int l = 0; l < 9; ++l) {
 			this.addSlotToContainer(new Slot(player.inventory, l, 8 + l * 18, 142));
@@ -44,9 +42,11 @@ public class ContainerTrading extends Container {
 	public void onContainerClosed(EntityPlayer playerIn) {
 		this.npc.setIsTrading(false);
 		
-		for (int i = 6; i < 12; i++)
+		for (int i = 6; i < 12; i++) {
+			System.out.println(this.getSlot(i).getStack());
 			if (!playerIn.addItemStackToInventory(this.getSlot(i).getStack()))
 				playerIn.dropItem(this.getSlot(i).getStack(), false);
+		}
 
 		InventoryPlayer inventoryplayer = playerIn.inventory;
 
@@ -110,7 +110,10 @@ public class ContainerTrading extends Container {
 		@Override
 	    @SideOnly(Side.CLIENT)
 	    public boolean isEnabled() {
-	        return true;
+			float value = 0;
+			for (int i = 6; i < 12; i++)
+				value += npc.getStackValue(getSlot(i).getStack());
+	        return value > npc.getStackValue(this.getStack());
 	    }
 	}
 

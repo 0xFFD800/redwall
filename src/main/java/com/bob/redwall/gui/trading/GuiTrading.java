@@ -38,11 +38,10 @@ public class GuiTrading extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		for(int i = 0; i < 6; i++) {
-			float value = 0;
-			for (int j = 1; j < 12; j += 2)
-				value += this.container.getNPC().getStackValue(this.container.getSlot(j).getStack());
-			this.drawString(this.fontRenderer, this.container.getNPC().getStackValue(this.container.getSlot(i * 2).getStack()) < value ? "y" : "n", this.guiLeft - 58 + (i * 18), this.guiTop - 30, 4210752);
-		}
+		float value = 0;
+		for (int j = 6; j < 12; j++)
+			value += this.container.getNPC().getStackValue(this.container.getSlot(j).getStack());
+		for(int i = 0; i < 6; i++)
+			this.drawString(this.fontRenderer, this.container.getNPC().getStackValue(this.container.getSlot(i).getStack()) < value ? "y" : "n", this.guiLeft - 58 + (i * 18), this.guiTop - 30, 4210752);
 	}
 }
