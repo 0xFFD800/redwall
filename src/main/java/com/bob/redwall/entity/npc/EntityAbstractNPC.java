@@ -71,6 +71,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -88,6 +89,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -467,6 +469,10 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		compound.setTag("Favor", this.getFavor() == null ? new NBTTagCompound() : this.getFavor().writeToNBT());
 		if (this.hasCustomMessage())
 			compound.setString("CustomMessage", this.getCustomMessage());
+		NBTTagList buyingItems = new NBTTagList();
+		for (int i = 0; i < this.buyingItems.length; i++)
+			buyingItems.appendTag(this.buyingItems[i].writeToNBT(new NBTTagCompound())); 
+		compound.setTag("BuyingItems", buyingItems);
 	}
 
 	@Override
@@ -491,6 +497,9 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		}
 		if (compound.hasKey("CustomMessage"))
 			this.setCustomMessage(compound.getString("CustomMessage"));
+		if (compound.hasKey("BuyingItems"))
+			for (int i = 0; i < this.buyingItems.length; i++)
+				this.buyingItems[i] = new ItemStack(compound.getTagList("BuyingItems", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i));
 		this.updateCombatTasks();
 	}
 
