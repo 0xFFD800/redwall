@@ -42,8 +42,7 @@ public class ContainerTrading extends Container {
 	public void onContainerClosed(EntityPlayer playerIn) {
 		this.npc.setIsTrading(false);
 		
-		for (int i = 6; i < 12; i++) {
-			System.out.println(this.getSlot(i).getStack());
+		for (int i = 1; i < 12; i+=2) {
 			if (!playerIn.addItemStackToInventory(this.getSlot(i).getStack()))
 				playerIn.dropItem(this.getSlot(i).getStack(), false);
 		}
@@ -78,7 +77,7 @@ public class ContainerTrading extends Container {
 
 		@Override
 		public ItemStack onTake(EntityPlayer thePlayer, ItemStack stack) {
-			for (int i = 6; i < 12; i++)
+			for (int i = 1; i < 12; i+=2)
 				getSlot(i).putStack(ItemStack.EMPTY);
 	        this.onSlotChanged();
 			return stack;
@@ -87,7 +86,7 @@ public class ContainerTrading extends Container {
 		@Override
 		public boolean canTakeStack(EntityPlayer playerIn) {
 			float value = 0;
-			for (int i = 6; i < 12; i++)
+			for (int i = 1; i < 12; i+=2)
 				value += npc.getStackValue(getSlot(i).getStack());
 			return value > npc.getStackValue(this.getStack()) && playerIn.inventory.getItemStack().isEmpty();
 		}
@@ -111,7 +110,7 @@ public class ContainerTrading extends Container {
 	    @SideOnly(Side.CLIENT)
 	    public boolean isEnabled() {
 			float value = 0;
-			for (int i = 6; i < 12; i++)
+			for (int i = 1; i < 12; i+=2)
 				value += npc.getStackValue(getSlot(i).getStack());
 	        return value > npc.getStackValue(this.getStack());
 	    }
