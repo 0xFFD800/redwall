@@ -902,6 +902,30 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 5.0F;
 		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.brewing_guosim))
 			f = 5.0F;
+		else if (stack.getItem() == Items.ARROW)
+			f = 0.1F;
+		else if (stack.getItem() == Items.STRING)
+			f = 0.05F;
+		else if (stack.getItem() == Items.FEATHER)
+			f = 0.03F;
+		else if (stack.getItem() == Items.FLINT)
+			f = 0.02F;
+		else if (stack.getItem() == Items.BUCKET)
+			f = 6.0F;
+		else if (stack.getItem() == Items.BOOK)
+			f = 0.5F;
+		else if (stack.getItem() == Items.PAPER)
+			f = 0.04F;
+		else if (stack.getItem() == Items.MAP)
+			f = 0.4F;
+		else if (stack.getItem() == Items.EMERALD)
+			f = 8.0F;
+		else if (stack.getItem() == Items.FLINT_AND_STEEL)
+			f = 5.0F * ((float)stack.getItemDamage() / (float)stack.getMaxDamage());
+		else if (stack.getItem() == Items.SHIELD)
+			f = 5.0F * ((float)stack.getItemDamage() / (float)stack.getMaxDamage());
+		else if (stack.getItem() == Items.BOAT || stack.getItem() == Items.SPRUCE_BOAT || stack.getItem() == Items.BIRCH_BOAT || stack.getItem() == Items.JUNGLE_BOAT || stack.getItem() == Items.ACACIA_BOAT || stack.getItem() == Items.DARK_OAK_BOAT)
+			f = 1.2F;
 		
 		return f * stack.getCount();
 	}
