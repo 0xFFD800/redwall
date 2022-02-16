@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -15,6 +17,21 @@ import net.minecraftforge.common.util.Constants;
 public class EquipmentModifierUtils {
 	public static final String MODIFIER_LIST_KEY = "equipMods";
 	
+	public static float getQualityMultiplier(ItemStack stack) {
+		float i = 1.0F;
+		
+		List<EquipmentModifier> equipMods = EquipmentModifierUtils.getEquipmentModifiersOnStack(stack);
+		for(EquipmentModifier mod : equipMods) {
+			int lvl = EquipmentModifierUtils.getEquipmentModifierLevelOnStack(stack, mod);
+			i += mod.calcDamageByCreature(lvl, EnumCreatureAttribute.UNDEFINED) / 10.0F;
+			i += mod.calcModifierDamage(lvl, DamageSource.GENERIC) / 10.0F;
+			i *= mod.calcDiggingSpeedModifier(lvl, Blocks.AIR);
+			i *= mod.calcDurabilityMultiplier(lvl);
+		}
+		
+		return i;
+	}
+	
 	public static float getAdditionalAttack(EntityLivingBase attacker, EntityLivingBase defender) {
 		float i = 0;
 		ItemStack stack = attacker.getHeldItemMainhand();
@@ -22,7 +39,7 @@ public class EquipmentModifierUtils {
 		List<EquipmentModifier> equipMods = EquipmentModifierUtils.getEquipmentModifiersOnStack(stack);
 		for(EquipmentModifier mod : equipMods) {
 			int lvl = EquipmentModifierUtils.getEquipmentModifierLevelOnStack(stack, mod);
-			i += mod.calcDamageByCreature(lvl, defender.getCreatureAttribute());
+			i += mod.calcDamageByCreature(lvl, defender.getCreatureAttribute()) / 10.0F;
 		}
 		
 		return i;

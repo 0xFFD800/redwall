@@ -99,6 +99,24 @@ public class FoodModifierUtils {
 		return f;
 	}
 	
+	public static float getQualityMultiplier(ItemStack stack) {
+		float f = 1.0F;
+		
+		List<FoodModifier> equipMods = FoodModifierUtils.getFoodModifiersOnStack(stack);
+		for(FoodModifier mod : equipMods) {
+			int lvl = getFoodModifierLevelOnStack(stack, mod);
+			f += mod.calcModifierCarbs(lvl) / 40.0F;
+			f += mod.calcModifierProtein(lvl) / 40.0F;
+			f += mod.calcModifierFruits(lvl) / 40.0F;
+			f += mod.calcModifierVeggies(lvl) / 40.0F;
+			f += mod.calcModifierFood(lvl) / 10.0F;
+			f += mod.calcModifierSaturation(lvl) / 10.0F;
+			f *= mod.calcModifierEffectDuration(lvl);
+		}
+		
+		return f;
+	}
+	
 	public static boolean hasFoodModifier(ItemStack stack, FoodModifier mod) {
 		if(stack.hasTagCompound()) {
 			NBTTagCompound nbt = stack.getTagCompound();
