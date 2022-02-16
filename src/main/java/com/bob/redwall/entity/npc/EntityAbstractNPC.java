@@ -702,8 +702,12 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 5.85F;
 		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.bronze_block))
 			f = 52.65F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.ANVIL))
+			f = 50.0F;
 		else if (stack.getItem() == Items.WHEAT)
 			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.HAY_BLOCK))
+			f = 0.5F;
 		else if (stack.getItem() == Items.BREAD)
 			f = 0.17F;
 		else if (stack.getItem() == Items.WHEAT_SEEDS)
@@ -742,11 +746,13 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 0.07F;
 		else if (stack.getItem() == Items.MELON)
 			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.MELON_BLOCK))
+			f = 0.1F;
 		else if (stack.getItem() == Items.MELON_SEEDS)
 			f = 0.01F;
 		else if (stack.getItem() == Items.PUMPKIN_SEEDS)
 			f = 0.01F;
-		else if (stack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN) || stack.getItem() == Item.getItemFromBlock(Blocks.LIT_PUMPKIN))
 			f = 0.03F;
 		else if (stack.getItem() == Item.getItemFromBlock(Blocks.CAKE))
 			f = 0.5F;
@@ -782,6 +788,120 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 0.04F;
 		else if (stack.getItem() == ItemHandler.grapes)
 			f = 0.04F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.grape_vine_trellis))
+			f = 0.04F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STONE) || stack.getItem() == Item.getItemFromBlock(Blocks.COBBLESTONE) || stack.getItem() == Item.getItemFromBlock(Blocks.MOSSY_COBBLESTONE) || stack.getItem() == Item.getItemFromBlock(Blocks.COBBLESTONE_WALL))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_planks) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_planks))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.LOG) || stack.getItem() == Item.getItemFromBlock(Blocks.LOG2) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_log) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_log))
+			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.LEAVES) || stack.getItem() == Item.getItemFromBlock(Blocks.LEAVES2) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_leaves) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_leaves))
+			f = 0.005F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.OAK_FENCE) || stack.getItem() == Item.getItemFromBlock(Blocks.ACACIA_FENCE) || stack.getItem() == Item.getItemFromBlock(Blocks.BIRCH_FENCE) || stack.getItem() == Item.getItemFromBlock(Blocks.DARK_OAK_FENCE) || stack.getItem() == Item.getItemFromBlock(Blocks.JUNGLE_FENCE) || stack.getItem() == Item.getItemFromBlock(Blocks.SPRUCE_FENCE) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_fence) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_fence))
+			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.OAK_FENCE_GATE) || stack.getItem() == Item.getItemFromBlock(Blocks.ACACIA_FENCE_GATE) || stack.getItem() == Item.getItemFromBlock(Blocks.BIRCH_FENCE_GATE) || stack.getItem() == Item.getItemFromBlock(Blocks.DARK_OAK_FENCE_GATE) || stack.getItem() == Item.getItemFromBlock(Blocks.JUNGLE_FENCE_GATE) || stack.getItem() == Item.getItemFromBlock(Blocks.SPRUCE_FENCE_GATE) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_fence_gate) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_fence_gate))
+			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.SAPLING) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_sapling) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_sapling))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.OAK_STAIRS) || stack.getItem() == Item.getItemFromBlock(Blocks.ACACIA_STAIRS) || stack.getItem() == Item.getItemFromBlock(Blocks.BIRCH_STAIRS) || stack.getItem() == Item.getItemFromBlock(Blocks.DARK_OAK_STAIRS) || stack.getItem() == Item.getItemFromBlock(Blocks.JUNGLE_STAIRS) || stack.getItem() == Item.getItemFromBlock(Blocks.SPRUCE_STAIRS) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_stairs) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_stairs))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.WOODEN_SLAB) || stack.getItem() == Item.getItemFromBlock(BlockHandler.alder_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.apple_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.ash_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.aspen_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.beech_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.elm_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.fir_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.hornbeam_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.larch_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.maple_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.pine_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.plum_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.willow_slab) || stack.getItem() == Item.getItemFromBlock(BlockHandler.yew_slab))
+			f = 0.01F;
+		else if (stack.getItem() == Items.ACACIA_DOOR || stack.getItem() == Items.BIRCH_DOOR || stack.getItem() == Items.DARK_OAK_DOOR || stack.getItem() == Items.JUNGLE_DOOR || stack.getItem() == Items.OAK_DOOR || stack.getItem() == Items.SPRUCE_DOOR || stack.getItem() == ItemHandler.alder_door || stack.getItem() == ItemHandler.apple_door || stack.getItem() == ItemHandler.ash_door || stack.getItem() == ItemHandler.aspen_door || stack.getItem() == ItemHandler.beech_door || stack.getItem() == ItemHandler.elm_door || stack.getItem() == ItemHandler.fir_door || stack.getItem() == ItemHandler.hornbeam_door || stack.getItem() == ItemHandler.larch_door || stack.getItem() == ItemHandler.maple_door || stack.getItem() == ItemHandler.pine_door || stack.getItem() == ItemHandler.plum_door || stack.getItem() == ItemHandler.willow_door || stack.getItem() == ItemHandler.yew_door)
+			f = 0.03F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.thatch))
+			f = 0.005F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.thatch_stairs))
+			f = 0.005F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.thatch_slab))
+			f = 0.002F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.SANDSTONE))
+			f = 0.015F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.GLASS))
+			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.GLASS_PANE))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STAINED_GLASS))
+			f = 0.03F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STAINED_GLASS_PANE))
+			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.GRAVEL))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.SAND))
+			f = 0.01F;
+		else if (stack.getItem() == Items.BED)
+			f = 0.5F;
+		else if (stack.getItem() == Items.BRICK)
+			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.BRICK_STAIRS))
+			f = 0.06F;
+		else if (stack.getItem() == Items.CLAY_BALL)
+			f = 0.015F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB) || stack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB2))
+			f = 0.005F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.BRICK_BLOCK))
+			f = 0.06F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.BOOKSHELF))
+			f = 1.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.TORCH))
+			f = 0.1F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.CHEST))
+			f = 0.08F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.CRAFTING_TABLE))
+			f = 0.04F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.FURNACE))
+			f = 0.1F;
+		else if (stack.getItem() == Items.SIGN)
+			f = 0.06F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.LADDER))
+			f = 0.04F;
+		else if (stack.getItem() == Items.STICK)
+			f = 0.005F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.CACTUS))
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.CLAY))
+			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STONEBRICK))
+			f = 0.04F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STONE_BRICK_STAIRS))
+			f = 0.04F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.EMERALD_BLOCK))
+			f = 72.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.HARDENED_CLAY))
+			f = 0.07F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STAINED_HARDENED_CLAY))
+			f = 0.08F;
+		else if (stack.getItem() == Items.BANNER)
+			f = 0.2F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.southsward_brick) || stack.getItem() == Item.getItemFromBlock(BlockHandler.southsward_pillar) || stack.getItem() == Item.getItemFromBlock(BlockHandler.southsward_stairs))
+			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.southsward_slab))
+			f = 0.03F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.redwall_brick) || stack.getItem() == Item.getItemFromBlock(BlockHandler.redwall_pillar) || stack.getItem() == Item.getItemFromBlock(BlockHandler.redwall_stairs))
+			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.redwall_slab))
+			f = 0.03F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.kotir_brick) || stack.getItem() == Item.getItemFromBlock(BlockHandler.kotir_pillar) || stack.getItem() == Item.getItemFromBlock(BlockHandler.kotir_stairs))
+			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.kotir_slab))
+			f = 0.03F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.candle))
+			f = 0.2F;
+		else if (stack.getItem() == ItemHandler.weapon_rack)
+			f = 0.02F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.smithing_generic))
+			f = 55.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.smithing_redwall))
+			f = 55.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.smeltery))
+			f = 40.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.cooking_generic))
+			f = 10.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.brewing_redwall))
+			f = 5.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.brewing_guosim))
+			f = 5.0F;
 		
 		return f * stack.getCount();
 	}
