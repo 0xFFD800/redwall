@@ -98,7 +98,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_WOODLANDERS = Lists.newArrayList(new EquipmentChance(60, Items.AIR), new EquipmentChance(12, ItemHandler.bronze_dagger), new EquipmentChance(12, ItemHandler.stone_spear), new EquipmentChance(12, ItemHandler.stone_throwing_axe), new EquipmentChance(12, ItemHandler.bronze_axe), new EquipmentChance(12, ItemHandler.bronze_spear), new EquipmentChance(12, ItemHandler.bronze_throwing_axe), new EquipmentChance(10, ItemHandler.iron_dagger), new EquipmentChance(5, ItemHandler.iron_spear), new EquipmentChance(5, ItemHandler.iron_throwing_axe), new EquipmentChance(5, Items.IRON_AXE), new EquipmentChance(4, ItemHandler.iron_scimitar), new EquipmentChance(3, ItemHandler.iron_sword), new EquipmentChance(3, ItemHandler.iron_broadsword), new EquipmentChance(3, ItemHandler.iron_rapier), new EquipmentChance(15, Items.BOW));
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_MOSSFLOWER_OTTERS = Lists.newArrayList(new EquipmentChance(20, Items.AIR), new EquipmentChance(8, ItemHandler.bronze_dagger), new EquipmentChance(40, ItemHandler.stone_spear), new EquipmentChance(30, ItemHandler.stone_throwing_axe), new EquipmentChance(7, ItemHandler.bronze_axe), new EquipmentChance(40, ItemHandler.bronze_spear), new EquipmentChance(30, ItemHandler.bronze_throwing_axe), new EquipmentChance(6, ItemHandler.iron_dagger), new EquipmentChance(20, ItemHandler.iron_spear), new EquipmentChance(15, ItemHandler.iron_throwing_axe), new EquipmentChance(15, Items.IRON_AXE), new EquipmentChance(6, ItemHandler.iron_scimitar), new EquipmentChance(5, ItemHandler.iron_sword), new EquipmentChance(5, ItemHandler.iron_broadsword), new EquipmentChance(5, ItemHandler.iron_rapier), new EquipmentChance(20, Items.BOW));
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_GUOSIM = Lists.newArrayList(new EquipmentChance(60, ItemHandler.guosim_rapier), new EquipmentChance(10, ItemHandler.guosim_paddle), new EquipmentChance(30, ItemHandler.guosim_bow));
-
+	protected static final List<EquipmentChance> TRADES_VERMIN_MOSSFLOWER = Lists.newArrayList();
+	
 	private static final AttributeModifier ATTACK_SPEED_MODIFIER = new AttributeModifier(UUID.fromString("9998FA56-323B-4433-935B-2FC3FAC87635"), "attack speed modifier", -0.63, 2);
 
 	private static final DataParameter<Boolean> MALE = EntityDataManager.<Boolean>createKey(EntityAbstractNPC.class, DataSerializers.BOOLEAN);
@@ -701,6 +702,86 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 5.85F;
 		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.bronze_block))
 			f = 52.65F;
+		else if (stack.getItem() == Items.WHEAT)
+			f = 0.05F;
+		else if (stack.getItem() == Items.BREAD)
+			f = 0.17F;
+		else if (stack.getItem() == Items.WHEAT_SEEDS)
+			f = 0.01F;
+		else if (stack.getItem() == Items.BEETROOT)
+			f = 0.06F;
+		else if (stack.getItem() == Items.BEETROOT_SEEDS)
+			f = 0.01F;
+		else if (stack.getItem() == Items.POTATO)
+			f = 0.03F;
+		else if (stack.getItem() == Items.BAKED_POTATO)
+			f = 0.05F;
+		else if (stack.getItem() == Items.POISONOUS_POTATO)
+			f = -0.05F;
+		else if (stack.getItem() == Items.APPLE)
+			f = 0.07F;
+		else if (stack.getItem() == Items.BEETROOT_SOUP)
+			f = 0.1F;
+		else if (stack.getItem() == Items.MUSHROOM_STEW)
+			f = 0.15F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.BROWN_MUSHROOM))
+			f = 0.05F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.RED_MUSHROOM))
+			f = 0.05F;
+		else if (stack.getItem() == Items.BOWL)
+			f = 0.02F;
+		else if (stack.getItem() == Items.REEDS || stack.getItem() == ItemHandler.cornstalk || stack.getItem() == ItemHandler.water_reeds || stack.getItem() == ItemHandler.water_reeds_dried)
+			f = 0.01F;
+		else if (stack.getItem() == Items.FISH || stack.getItem() == ItemHandler.trout || stack.getItem() == ItemHandler.bass || stack.getItem() == ItemHandler.perch || stack.getItem() == ItemHandler.grayling)
+			f = 0.1F;
+		else if (stack.getItem() == Items.COOKED_FISH || stack.getItem() == ItemHandler.trout_cooked || stack.getItem() == ItemHandler.bass_cooked || stack.getItem() == ItemHandler.perch_cooked || stack.getItem() == ItemHandler.grayling_cooked)
+			f = 0.2F;
+		else if (stack.getItem() == Items.SUGAR)
+			f = 0.02F;
+		else if (stack.getItem() == Items.COOKIE)
+			f = 0.07F;
+		else if (stack.getItem() == Items.MELON)
+			f = 0.02F;
+		else if (stack.getItem() == Items.MELON_SEEDS)
+			f = 0.01F;
+		else if (stack.getItem() == Items.PUMPKIN_SEEDS)
+			f = 0.01F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.PUMPKIN))
+			f = 0.03F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.CAKE))
+			f = 0.5F;
+		else if (stack.getItem() == Items.ROTTEN_FLESH)
+			f = -0.1F;
+		else if (stack.getItem() == Items.GLASS_BOTTLE || stack.getItem() == ItemHandler.mug_empty)
+			f = 0.05F;
+		else if (stack.getItem() == Items.CARROT)
+			f = 0.06F;
+		else if (stack.getItem() == Items.PUMPKIN_PIE)
+			f = 0.2F;
+		else if (stack.getItem() == ItemHandler.strawberry || stack.getItem() == ItemHandler.blueberry || stack.getItem() == ItemHandler.blackberry || stack.getItem() == ItemHandler.raspberry || stack.getItem() == ItemHandler.elderberry || stack.getItem() == ItemHandler.wildberry)
+			f = 0.03F;
+		else if (stack.getItem() == ItemHandler.strawberry_seeds || stack.getItem() == ItemHandler.blueberry_seeds || stack.getItem() == ItemHandler.blackberry_seeds || stack.getItem() == ItemHandler.raspberry_seeds || stack.getItem() == ItemHandler.elderberry_seeds || stack.getItem() == ItemHandler.wildberry_seeds)
+			f = 0.01F;
+		else if (stack.getItem() == ItemHandler.plum || stack.getItem() == ItemHandler.damson)
+			f = 0.05F;
+		else if (stack.getItem() == ItemHandler.corn)
+			f = 0.05F;
+		else if (stack.getItem() == ItemHandler.turnip)
+			f = 0.01F;
+		else if (stack.getItem() == ItemHandler.onion)
+			f = 0.02F;
+		else if (stack.getItem() == ItemHandler.peas)
+			f = 0.02F;
+		else if (stack.getItem() == ItemHandler.rice)
+			f = 0.03F;
+		else if (stack.getItem() == ItemHandler.rice_bowl)
+			f = 0.05F;
+		else if (stack.getItem() == ItemHandler.yam)
+			f = 0.05F;
+		else if (stack.getItem() == ItemHandler.beans)
+			f = 0.04F;
+		else if (stack.getItem() == ItemHandler.grapes)
+			f = 0.04F;
 		
 		return f * stack.getCount();
 	}
