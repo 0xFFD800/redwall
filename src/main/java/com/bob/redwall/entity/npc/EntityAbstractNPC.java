@@ -868,6 +868,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 0.04F;
 		else if (stack.getItem() == Item.getItemFromBlock(Blocks.EMERALD_BLOCK))
 			f = 72.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(Blocks.DIAMOND_BLOCK))
+			f = 72.0F;
 		else if (stack.getItem() == Item.getItemFromBlock(Blocks.HARDENED_CLAY))
 			f = 0.07F;
 		else if (stack.getItem() == Item.getItemFromBlock(Blocks.STAINED_HARDENED_CLAY))
@@ -919,6 +921,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		else if (stack.getItem() == Items.MAP)
 			f = 0.4F;
 		else if (stack.getItem() == Items.EMERALD)
+			f = 8.0F;
+		else if (stack.getItem() == Items.DIAMOND)
 			f = 8.0F;
 		else if (stack.getItem() == Items.FLINT_AND_STEEL)
 			f = 5.0F * ((float)stack.getItemDamage() / (float)stack.getMaxDamage());
