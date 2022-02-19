@@ -102,7 +102,11 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_WOODLANDERS = Lists.newArrayList(new EquipmentChance(60, Items.AIR), new EquipmentChance(12, ItemHandler.bronze_dagger), new EquipmentChance(12, ItemHandler.stone_spear), new EquipmentChance(12, ItemHandler.stone_throwing_axe), new EquipmentChance(12, ItemHandler.bronze_axe), new EquipmentChance(12, ItemHandler.bronze_spear), new EquipmentChance(12, ItemHandler.bronze_throwing_axe), new EquipmentChance(10, ItemHandler.iron_dagger), new EquipmentChance(5, ItemHandler.iron_spear), new EquipmentChance(5, ItemHandler.iron_throwing_axe), new EquipmentChance(5, Items.IRON_AXE), new EquipmentChance(4, ItemHandler.iron_scimitar), new EquipmentChance(3, ItemHandler.iron_sword), new EquipmentChance(3, ItemHandler.iron_broadsword), new EquipmentChance(3, ItemHandler.iron_rapier), new EquipmentChance(15, Items.BOW));
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_MOSSFLOWER_OTTERS = Lists.newArrayList(new EquipmentChance(20, Items.AIR), new EquipmentChance(8, ItemHandler.bronze_dagger), new EquipmentChance(40, ItemHandler.stone_spear), new EquipmentChance(30, ItemHandler.stone_throwing_axe), new EquipmentChance(7, ItemHandler.bronze_axe), new EquipmentChance(40, ItemHandler.bronze_spear), new EquipmentChance(30, ItemHandler.bronze_throwing_axe), new EquipmentChance(6, ItemHandler.iron_dagger), new EquipmentChance(20, ItemHandler.iron_spear), new EquipmentChance(15, ItemHandler.iron_throwing_axe), new EquipmentChance(15, Items.IRON_AXE), new EquipmentChance(6, ItemHandler.iron_scimitar), new EquipmentChance(5, ItemHandler.iron_sword), new EquipmentChance(5, ItemHandler.iron_broadsword), new EquipmentChance(5, ItemHandler.iron_rapier), new EquipmentChance(20, Items.BOW));
 	protected static final List<EquipmentChance> EQUIPMENT_LIST_GUOSIM = Lists.newArrayList(new EquipmentChance(60, ItemHandler.guosim_rapier), new EquipmentChance(10, ItemHandler.guosim_paddle), new EquipmentChance(30, ItemHandler.guosim_bow));
-	protected static final List<EquipmentChance> TRADES_VERMIN_MOSSFLOWER = Lists.newArrayList();
+	protected static final List<EquipmentChance> TRADE_LIST_VERMIN_MOSSFLOWER = Lists.newArrayList(new EquipmentChance(10, ItemHandler.bronze_dagger), new EquipmentChance(10, ItemHandler.stone_spear), new EquipmentChance(10, ItemHandler.stone_throwing_axe), new EquipmentChance(10, Items.BOW), new EquipmentChance(15, Items.BREAD, 10), new EquipmentChance(15, Items.WHEAT, 10), new EquipmentChance(8, ItemHandler.beans, 15), new EquipmentChance(8, ItemHandler.bass, 5), new EquipmentChance(8, ItemHandler.perch, 5), new EquipmentChance(5, ItemHandler.grayling, 5), new EquipmentChance(8, ItemHandler.trout, 5), new EquipmentChance(8, ItemHandler.corn, 15), new EquipmentChance(8, ItemHandler.onion, 15), new EquipmentChance(8, ItemHandler.blueberry, 15), new EquipmentChance(8, ItemHandler.blackberry, 15), new EquipmentChance(8, ItemHandler.raspberry, 15), new EquipmentChance(8, Items.POTATO, 15), new EquipmentChance(8, Items.CARROT, 15), new EquipmentChance(8, Items.APPLE, 15), new EquipmentChance(2, Items.BRICK, 20), new EquipmentChance(2, Items.CLAY_BALL, 20), new EquipmentChance(2, Items.BED, 20), new EquipmentChance(8, ItemHandler.turnip, 20));
+	protected static final List<EquipmentChance> TRADE_LIST_WOODLANDERS = Lists.newArrayList(new EquipmentChance(10, ItemHandler.bronze_dagger), new EquipmentChance(10, ItemHandler.stone_spear), new EquipmentChance(10, ItemHandler.stone_throwing_axe), new EquipmentChance(10, Items.BOW), new EquipmentChance(15, Items.BREAD, 10), new EquipmentChance(15, Items.WHEAT, 10), new EquipmentChance(8, ItemHandler.beans, 15), new EquipmentChance(8, ItemHandler.bass, 5), new EquipmentChance(8, ItemHandler.perch, 5), new EquipmentChance(5, ItemHandler.grayling, 5), new EquipmentChance(8, ItemHandler.trout, 5), new EquipmentChance(8, ItemHandler.corn, 15), new EquipmentChance(8, ItemHandler.onion, 15), new EquipmentChance(8, ItemHandler.blueberry, 15), new EquipmentChance(8, ItemHandler.blackberry, 15), new EquipmentChance(8, ItemHandler.raspberry, 15), new EquipmentChance(8, Items.POTATO, 15), new EquipmentChance(8, Items.CARROT, 15), new EquipmentChance(8, Items.APPLE, 15), new EquipmentChance(2, Items.BRICK, 20), new EquipmentChance(2, Items.CLAY_BALL, 20), new EquipmentChance(2, Items.BED, 20), new EquipmentChance(8, ItemHandler.turnip, 20));
+	protected static final List<EquipmentChance> TRADE_LIST_MOSSFLOWER_OTTERS = Lists.newArrayList(new EquipmentChance(10, ItemHandler.bronze_dagger), new EquipmentChance(10, ItemHandler.stone_spear), new EquipmentChance(10, ItemHandler.stone_throwing_axe), new EquipmentChance(10, Items.BOW), new EquipmentChance(15, Items.BREAD, 10), new EquipmentChance(15, Items.WHEAT, 10), new EquipmentChance(8, ItemHandler.beans, 15), new EquipmentChance(8, ItemHandler.bass, 5), new EquipmentChance(8, ItemHandler.perch, 5), new EquipmentChance(5, ItemHandler.grayling, 5), new EquipmentChance(8, ItemHandler.trout, 5), new EquipmentChance(8, ItemHandler.corn, 15), new EquipmentChance(8, ItemHandler.onion, 15), new EquipmentChance(8, ItemHandler.blueberry, 15), new EquipmentChance(8, ItemHandler.blackberry, 15), new EquipmentChance(8, ItemHandler.raspberry, 15), new EquipmentChance(8, Items.POTATO, 15), new EquipmentChance(8, Items.CARROT, 15), new EquipmentChance(8, Items.APPLE, 15), new EquipmentChance(2, Items.BRICK, 20), new EquipmentChance(2, Items.CLAY_BALL, 20), new EquipmentChance(2, Items.BED, 20), new EquipmentChance(8, ItemHandler.turnip, 20));
+	protected static final List<EquipmentChance> TRADE_LIST_GUOSIM = Lists.newArrayList(new EquipmentChance(10, ItemHandler.bronze_dagger), new EquipmentChance(10, ItemHandler.stone_spear), new EquipmentChance(10, ItemHandler.stone_throwing_axe), new EquipmentChance(10, Items.BOW), new EquipmentChance(15, Items.BREAD, 10), new EquipmentChance(15, Items.WHEAT, 10), new EquipmentChance(8, ItemHandler.beans, 15), new EquipmentChance(8, ItemHandler.bass, 5), new EquipmentChance(8, ItemHandler.perch, 5), new EquipmentChance(5, ItemHandler.grayling, 5), new EquipmentChance(8, ItemHandler.trout, 5), new EquipmentChance(8, ItemHandler.corn, 15), new EquipmentChance(8, ItemHandler.onion, 15), new EquipmentChance(8, ItemHandler.blueberry, 15), new EquipmentChance(8, ItemHandler.blackberry, 15), new EquipmentChance(8, ItemHandler.raspberry, 15), new EquipmentChance(8, Items.POTATO, 15), new EquipmentChance(8, Items.CARROT, 15), new EquipmentChance(8, Items.APPLE, 15), new EquipmentChance(2, Items.BRICK, 20), new EquipmentChance(2, Items.CLAY_BALL, 20), new EquipmentChance(2, Items.BED, 20), new EquipmentChance(8, ItemHandler.turnip, 20));
+	protected static final List<EquipmentChance> TRADE_LIST_REDWALL = Lists.newArrayList(new EquipmentChance(10, ItemHandler.bronze_dagger), new EquipmentChance(10, ItemHandler.stone_spear), new EquipmentChance(10, ItemHandler.stone_throwing_axe), new EquipmentChance(10, Items.BOW), new EquipmentChance(15, Items.BREAD, 10), new EquipmentChance(15, Items.WHEAT, 10), new EquipmentChance(8, ItemHandler.beans, 15), new EquipmentChance(8, ItemHandler.bass, 5), new EquipmentChance(8, ItemHandler.perch, 5), new EquipmentChance(5, ItemHandler.grayling, 5), new EquipmentChance(8, ItemHandler.trout, 5), new EquipmentChance(8, ItemHandler.corn, 15), new EquipmentChance(8, ItemHandler.onion, 15), new EquipmentChance(8, ItemHandler.blueberry, 15), new EquipmentChance(8, ItemHandler.blackberry, 15), new EquipmentChance(8, ItemHandler.raspberry, 15), new EquipmentChance(8, Items.POTATO, 15), new EquipmentChance(8, Items.CARROT, 15), new EquipmentChance(8, Items.APPLE, 15), new EquipmentChance(2, Items.BRICK, 20), new EquipmentChance(2, Items.CLAY_BALL, 20), new EquipmentChance(2, Items.BED, 20), new EquipmentChance(8, ItemHandler.turnip, 20));
 
 	private static final AttributeModifier ATTACK_SPEED_MODIFIER = new AttributeModifier(UUID.fromString("9998FA56-323B-4433-935B-2FC3FAC87635"), "attack speed modifier", -0.63, 2);
 
@@ -141,12 +145,17 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.setSize(0.6F, 1.8F);
 		this.experienceValue = 8;
 		this.favorTimer = this.getRNG().nextInt(18000) + 6000;
-		this.initializeTrades();
 	}
 
 	private void initializeTrades() {
-		this.buyingItems = new ItemStack[] { new ItemStack(BlockHandler.copper_block, 1), new ItemStack(ItemHandler.copper_ingot, 2), new ItemStack(ItemHandler.copper_nugget, 3), new ItemStack(ItemHandler.tin_ingot, 4), new ItemStack(ItemHandler.bronze_ingot, 5), new ItemStack(ItemHandler.bronze_nugget, 6) };
+		this.buyingItems = new ItemStack[6];
+		for (int i = 0; i < this.buyingItems.length; i++) {
+			EquipmentChance e = WeightedRandom.getRandomItem(this.getRNG(), this.getPossibleTrades());
+			this.buyingItems[i] = new ItemStack(e.item, this.getRNG().nextInt(e.maxAmount));
+		}
 	}
+	
+	protected abstract List<EquipmentChance> getPossibleTrades();
 
 	@Override
 	protected PathNavigate createNavigator(World worldIn) {
@@ -361,6 +370,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.setIsMale(this.getRNG().nextBoolean());
 		this.resetSkinNameData();
 		this.setCooldown(0);
+		this.initializeTrades();
 		return livingdata;
 	}
 
@@ -1253,14 +1263,24 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 	public static class EquipmentChance extends WeightedRandom.Item {
 		private Item item;
+		private int maxAmount = 1;
 
 		public EquipmentChance(int weight, Item item) {
 			super(weight);
 			this.item = item;
 		}
 
+		public EquipmentChance(int weight, Item item, int maxAmount) {
+			this(weight, item);
+			this.maxAmount = maxAmount;
+		}
+
 		public Item getItem() {
 			return this.item;
+		}
+		
+		public int getMaxAmount() {
+			return this.maxAmount;
 		}
 	}
 }

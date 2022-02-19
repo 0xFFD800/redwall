@@ -93,4 +93,9 @@ public class EntitySquirrelWoodlander extends EntityAbstractNPC {
 	public void createFavor() {
 		this.setFavor(Favor.createFavorCollectMetals(null, this, 1, 3, 2, 5, 6000, 18000));
 	}
+
+	@Override
+	protected List<EquipmentChance> getPossibleTrades() {
+		return EntityAbstractNPC.TRADE_LIST_WOODLANDERS;
+	}
 }
