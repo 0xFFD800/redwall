@@ -123,6 +123,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	private String customMessage;
 	public int timeToDespawn = 6000;
 	private int favorTimer;
+	private int buyingTimer;
 	private EntityAIAttackMeleeNPC meleeAi = new EntityAIAttackMeleeNPC(this, 1.0D, true, MobAttackStrategy.HUMAN);
 	private EntityAIAttackRangedNPC rangedAi = new EntityAIAttackRangedNPC(this, 1.0D, 20, 24.0F);
 	private NBTTagCompound prevFavorTag = new NBTTagCompound();
@@ -145,6 +146,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.setSize(0.6F, 1.8F);
 		this.experienceValue = 8;
 		this.favorTimer = this.getRNG().nextInt(18000) + 6000;
+		this.buyingTimer = this.getRNG().nextInt(18000) + 6000;
 		for (int i = 0; i < this.buyingItems.length; i++)
 			buyingItems[i] = ItemStack.EMPTY;
 	}
@@ -155,7 +157,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			this.buyingItems[i] = new ItemStack(e.item, this.getRNG().nextInt(e.maxAmount));
 		}
 	}
-	
+
 	protected abstract List<EquipmentChance> getPossibleTrades();
 
 	@Override
@@ -212,11 +214,9 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			Ref.NETWORK.sendToAllTracking(new MessageSyncCap(MessageSyncCap.Mode.MOB_DEFENDING, defending.getMode() + (defending.get() ? 8 : 0), this.getEntityId()), this);
 
 			if (!this.isNoDespawnRequired() && this.world.getClosestPlayerToEntity(this, 25) == null && !this.isTargetLocked()) {
-				if (this.timeToDespawn <= 0) {
+				if (this.timeToDespawn <= 0)
 					this.setDead();
-				} else {
-					this.timeToDespawn--;
-				}
+				else this.timeToDespawn--;
 			}
 
 			if (--this.favorTimer <= 0) {
@@ -224,6 +224,16 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 					this.createFavor();
 				else this.setFavor(null);
 				this.favorTimer = this.getRNG().nextInt(18000) + 6000;
+			}
+
+			if (--this.buyingTimer <= 0) {
+				for (int i = 0; i < this.buyingItems.length; i++)
+					if (this.buyingItems[i] == null) {
+						EquipmentChance e = WeightedRandom.getRandomItem(this.getRNG(), this.getPossibleTrades());
+						this.buyingItems[i] = new ItemStack(e.item, e.maxAmount);
+						break;
+					}
+				this.buyingTimer = this.getRNG().nextInt(18000) + 6000;
 			}
 		}
 	}
@@ -474,6 +484,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		compound.setString("Skin", this.getSkin());
 		compound.setBoolean("Male", this.getIsMale());
 		compound.setInteger("TimeToDespawn", this.timeToDespawn);
+		compound.setInteger("BuyingTimer", this.buyingTimer);
 		compound.setInteger("FavorTimer", this.favorTimer);
 		compound.setTag("Favor", this.getFavor() == null ? new NBTTagCompound() : this.getFavor().writeToNBT());
 		if (this.hasCustomMessage())
@@ -493,6 +504,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			this.setIsMale(compound.getBoolean("Male"));
 		if (compound.hasKey("TimeToDespawn"))
 			this.timeToDespawn = compound.getInteger("TimeToDespawn");
+		if (compound.hasKey("BuyingTimer"))
+			this.buyingTimer = compound.getInteger("BuyingTimer");
 		if (compound.hasKey("FavorTimer"))
 			this.favorTimer = compound.getInteger("FavorTimer");
 		if (compound.hasKey("Favor")) {
@@ -1279,7 +1292,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		public Item getItem() {
 			return this.item;
 		}
-		
+
 		public int getMaxAmount() {
 			return this.maxAmount;
 		}
