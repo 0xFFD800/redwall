@@ -127,7 +127,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	private EntityAIAttackRangedNPC rangedAi = new EntityAIAttackRangedNPC(this, 1.0D, 20, 24.0F);
 	private NBTTagCompound prevFavorTag = new NBTTagCompound();
 	private Favor prevFavor = null;
-	private ItemStack[] buyingItems;
+	private ItemStack[] buyingItems = new ItemStack[6];
 
 	private boolean is_trading = false;
 	private EntityPlayer customer;
@@ -145,10 +145,11 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.setSize(0.6F, 1.8F);
 		this.experienceValue = 8;
 		this.favorTimer = this.getRNG().nextInt(18000) + 6000;
+		for (int i = 0; i < this.buyingItems.length; i++)
+			buyingItems[i] = ItemStack.EMPTY;
 	}
 
 	private void initializeTrades() {
-		this.buyingItems = new ItemStack[6];
 		for (int i = 0; i < this.buyingItems.length; i++) {
 			EquipmentChance e = WeightedRandom.getRandomItem(this.getRNG(), this.getPossibleTrades());
 			this.buyingItems[i] = new ItemStack(e.item, this.getRNG().nextInt(e.maxAmount));
