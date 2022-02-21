@@ -925,6 +925,8 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			f = 5.0F;
 		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.brewing_guosim))
 			f = 5.0F;
+		else if (stack.getItem() == Item.getItemFromBlock(BlockHandler.plate))
+			f = 0.05F;
 		else if (stack.getItem() == Items.ARROW)
 			f = 0.1F;
 		else if (stack.getItem() == Items.STRING)

@@ -5,6 +5,7 @@ import com.bob.redwall.tileentity.TileEntityBrewingGuosim;
 import com.bob.redwall.tileentity.TileEntityBrewingRedwall;
 import com.bob.redwall.tileentity.TileEntityCookingGeneric;
 import com.bob.redwall.tileentity.TileEntityDrinkVessel;
+import com.bob.redwall.tileentity.TileEntityPlate;
 import com.bob.redwall.tileentity.TileEntitySmeltery;
 import com.bob.redwall.tileentity.TileEntitySmithingGeneric;
 import com.bob.redwall.tileentity.TileEntitySmithingRedwall;
@@ -23,5 +24,6 @@ public class TileEntityHandler {
 		GameRegistry.registerTileEntity(TileEntityBrewingRedwall.class, new ResourceLocation(Ref.MODID, "brewing_redwall"));
 		GameRegistry.registerTileEntity(TileEntityBrewingGuosim.class, new ResourceLocation(Ref.MODID, "brewing_guosim"));
 		GameRegistry.registerTileEntity(TileEntityDrinkVessel.class, new ResourceLocation(Ref.MODID, "drink_vessel"));
+		GameRegistry.registerTileEntity(TileEntityPlate.class, new ResourceLocation(Ref.MODID, "plate"));
 	}
 }

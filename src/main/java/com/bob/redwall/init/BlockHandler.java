@@ -7,6 +7,7 @@ import com.bob.redwall.blocks.BlockWeaponRackHorizontal;
 import com.bob.redwall.blocks.BlockWeaponRackVertical;
 import com.bob.redwall.blocks.ModBlock;
 import com.bob.redwall.blocks.decor.BlockDrinkVessel;
+import com.bob.redwall.blocks.decor.BlockPlate;
 import com.bob.redwall.blocks.multiuse.BlockHiddenDoor;
 import com.bob.redwall.blocks.multiuse.BlockModBrick;
 import com.bob.redwall.blocks.multiuse.BlockModDoor;
@@ -443,6 +444,8 @@ public class BlockHandler {
 	public static Block mug;
 	public static Block bottle;
 	public static Block bowl;
+	public static Block plate;
+	public static ItemBlock ib_plate;
 
 	public static void init() {
 		basalt = new ModBlock(Material.ROCK, "basalt", CreativeTabHandler.BLOCKS, 2.0F, 15.0F);
@@ -844,6 +847,8 @@ public class BlockHandler {
 		mug = new BlockDrinkVessel(Material.CIRCUITS, "mug", new ResourceLocation(Ref.MODID, "mug_drink"), new ResourceLocation(Ref.MODID, "mug_empty"));
 		bottle = new BlockDrinkVessel(Material.CIRCUITS, "bottle", new ResourceLocation(Ref.MODID, "bottle_drink"), new ResourceLocation("bottle"));
 		bowl = new BlockDrinkVessel(Material.CIRCUITS, "bowl", new ResourceLocation(Ref.MODID, "bowl_drink"), new ResourceLocation("bowl"));
+		plate = new BlockPlate(Material.CIRCUITS, "plate", CreativeTabHandler.BLOCKS);
+		ib_plate = (ItemBlock) new ItemModBlock(plate, plate.getRegistryName());
 	}
 
 	public static void register(RegistryEvent.Register<Block> event) {
@@ -1069,6 +1074,7 @@ public class BlockHandler {
 		registerBlock(event, mug);
 		registerBlock(event, bottle);
 		registerBlock(event, bowl);
+		registerBlock(event, plate);
 	}
 
 	public static void registerItemBlocks(RegistryEvent.Register<Item> event) {
@@ -1233,6 +1239,8 @@ public class BlockHandler {
 		registerItemBlock(event, ib_smithing_redwall);
 		registerItemBlock(event, ib_brewing_redwall);
 		registerItemBlock(event, ib_brewing_guosim);
+		
+		registerItemBlock(event, ib_plate);
 	}
 
 	public static void registerRenders() {
@@ -1452,6 +1460,7 @@ public class BlockHandler {
 		registerRender(mug);
 		registerRender(bottle);
 		registerRender(bowl);
+		registerRender(plate);
 	}
 
 	public static void registerBlock(RegistryEvent.Register<Block> event, Block block) {
