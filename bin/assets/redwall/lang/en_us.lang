@@ -14,6 +14,9 @@ tile.aspen_log.name=Aspen Wood
 tile.willow_log.name=Willow Wood
 tile.apple_log.name=Apple Wood
 tile.plum_log.name=Plum Wood
+tile.pear_log.name=Pear Wood
+tile.quince_log.name=Quince Wood
+tile.chestnut_log.name=Chestnut Wood
 
 tile.maple_leaves.name=Maple Leaves
 tile.elm_leaves.name=Elm Leaves
@@ -29,6 +32,9 @@ tile.aspen_leaves.name=Aspen Leaves
 tile.willow_leaves.name=Willow Leaves
 tile.apple_leaves.name=Apple Leaves
 tile.plum_leaves.name=Plum Leaves
+tile.pear_leaves.name=Pear Leaves
+tile.quince_leaves.name=Quince Leaves
+tile.chestnut_leaves.name=Chestnut Leaves
 
 tile.maple_planks.name=Maple Planks
 tile.elm_planks.name=Elm Planks
@@ -44,6 +50,9 @@ tile.aspen_planks.name=Aspen Planks
 tile.willow_planks.name=Willow Planks
 tile.apple_planks.name=Apple Planks
 tile.plum_planks.name=Plum Planks
+tile.pear_planks.name=Pear Planks
+tile.quince_planks.name=Quince Planks
+tile.chestnut_planks.name=Chestnut Planks
 
 tile.maple_stairs.name=Maple Stairs
 tile.elm_stairs.name=Elm Stairs
@@ -59,6 +68,9 @@ tile.aspen_stairs.name=Aspen Stairs
 tile.willow_stairs.name=Willow Stairs
 tile.apple_stairs.name=Apple Stairs
 tile.plum_stairs.name=Plum Stairs
+tile.pear_stairs.name=Pear Stairs
+tile.quince_stairs.name=Quince Stairs
+tile.chestnut_stairs.name=Chestnut Stairs
 
 tile.maple_slab.name=Maple Slab
 tile.elm_slab.name=Elm Slab
@@ -74,6 +86,9 @@ tile.aspen_slab.name=Aspen Slab
 tile.willow_slab.name=Willow Slab
 tile.apple_slab.name=Apple Slab
 tile.plum_slab.name=Plum Slab
+tile.pear_slab.name=Pear Slab
+tile.quince_slab.name=Quince Slab
+tile.chestnut_slab.name=Chestnut Slab
 
 tile.maple_sapling.name=Maple Sapling
 tile.elm_sapling.name=Elm Sapling
@@ -89,6 +104,9 @@ tile.aspen_sapling.name=Aspen Sapling
 tile.willow_sapling.name=Willow Sapling
 tile.apple_sapling.name=Apple Sapling
 tile.plum_sapling.name=Plum Sapling
+tile.pear_sapling.name=Pear Sapling
+tile.quince_sapling.name=Quince Sapling
+tile.chestnut_sapling.name=Chestnut Sapling
 
 tile.maple_fence.name=Maple Fence
 tile.elm_fence.name=Elm Fence
@@ -104,6 +122,9 @@ tile.aspen_fence.name=Aspen Fence
 tile.willow_fence.name=Willow Fence
 tile.apple_fence.name=Apple Fence
 tile.plum_fence.name=Plum Fence
+tile.pear_fence.name=Pear Fence
+tile.quince_fence.name=Quince Fence
+tile.chestnut_fence.name=Chestnut Fence
 
 tile.maple_fence_gate.name=Maple Fence Gate
 tile.elm_fence_gate.name=Elm Fence Gate
@@ -119,6 +140,9 @@ tile.aspen_fence_gate.name=Aspen Fence Gate
 tile.willow_fence_gate.name=Willow Fence Gate
 tile.apple_fence_gate.name=Apple Fence Gate
 tile.plum_fence_gate.name=Plum Fence Gate
+tile.pear_fence_gate.name=Pear Fence Gate
+tile.quince_fence_gate.name=Quince Fence Gate
+tile.chestnut_fence_gate.name=Chestnut Fence Gate
 
 tile.southsward_brick.default.name=Southsward Brick
 tile.southsward_brick.mossy.name=Mossy Southsward Brick
@@ -185,6 +209,9 @@ item.aspen_door.name=Aspen Door
 item.willow_door.name=Willow Door
 item.apple_door.name=Apple Door
 item.plum_door.name=Plum Door
+item.pear_door.name=Pear Door
+item.quince_door.name=Quince Door
+item.chestnut_door.name=Chestnut Door
 item.southsward_hidden_door.name=Southsward Brick Hidden Door
 
 item.sword_mtw.name=Sword of Martin the Warrior
@@ -205,6 +232,10 @@ item.wildberry_seeds.name=Wildberry Seeds
 
 item.plum.name=Plum
 item.damson.name=Damson Plum
+item.pear.name=Pear
+item.quince.name=Quince
+item.chestnut.name=Chestnut
+item.roast_chestnut.name=Chestnut
 item.grapes.name=Grapes
 
 item.corn.name=Corn

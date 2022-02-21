@@ -1,0 +1,8 @@
+{
+    "parent": "block/outer_stairs",
+    "textures": {
+        "bottom": "redwall:blocks/planks_quince",
+        "top": "redwall:blocks/planks_quince",
+        "side": "redwall:blocks/planks_quince"
+    }
+}

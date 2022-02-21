@@ -79,6 +79,10 @@ public class ItemHandler {
 
 	public static Item plum;
 	public static Item damson;
+	public static Item pear;
+	public static Item quince;
+	public static Item chestnut;
+	public static Item roast_chestnut;
 
 	public static Item strawberry_seeds;
 	public static Item blueberry_seeds;

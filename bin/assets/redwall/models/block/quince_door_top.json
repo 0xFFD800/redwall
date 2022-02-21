@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top",
+    "textures": {
+        "bottom": "redwall:blocks/door_quince_lower",
+        "top": "redwall:blocks/door_quince_upper"
+    }
+}

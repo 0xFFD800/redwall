@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom",
+    "textures": {
+        "bottom": "redwall:blocks/door_pear_lower",
+        "top": "redwall:blocks/door_pear_upper"
+    }
+}

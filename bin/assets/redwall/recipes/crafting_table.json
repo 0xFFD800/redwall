@@ -47,6 +47,15 @@
       },
       {
         "item": "redwall:plum_planks"
+      }},
+      {
+        "item": "redwall:pear_planks"
+      }},
+      {
+        "item": "redwall:quince_planks"
+      }},
+      {
+        "item": "redwall:chestnut_planks"
       }
     ]
   },
