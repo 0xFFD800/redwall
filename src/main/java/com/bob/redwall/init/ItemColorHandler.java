@@ -21,7 +21,7 @@ public class ItemColorHandler {
 			public int colorMultiplier(ItemStack stack, int tintIndex) {
                 return tintIndex == 0 ? ColorizerFoliage.getFoliageColorBasic() : -1;
             }
-        }, new Item[] { Item.getItemFromBlock(BlockHandler.apple_leaves), Item.getItemFromBlock(BlockHandler.plum_leaves), Item.getItemFromBlock(BlockHandler.wheatgrass), Item.getItemFromBlock(BlockHandler.shortgrass) });
+        }, new Item[] { Item.getItemFromBlock(BlockHandler.apple_leaves), Item.getItemFromBlock(BlockHandler.plum_leaves), Item.getItemFromBlock(BlockHandler.pear_leaves), Item.getItemFromBlock(BlockHandler.quince_leaves), Item.getItemFromBlock(BlockHandler.chestnut_leaves), Item.getItemFromBlock(BlockHandler.wheatgrass), Item.getItemFromBlock(BlockHandler.shortgrass) });
 		ItemColorHandler.registerItemColorHandler(new IItemColor() {
             @Override
 			public int colorMultiplier(ItemStack stack, int tintIndex) {

@@ -26,7 +26,7 @@ public class BlockColorHandler {
             public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
                 return tintIndex == 0 ? (worldIn != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(worldIn, pos) : ColorizerFoliage.getFoliageColorBasic()) : -1;
             }
-        }, new Block[] {BlockHandler.apple_leaves, BlockHandler.plum_leaves});
+        }, new Block[] {BlockHandler.apple_leaves, BlockHandler.plum_leaves, BlockHandler.pear_leaves, BlockHandler.quince_leaves, BlockHandler.chestnut_leaves});
 		BlockColorHandler.registerBlockColorHandler(new IBlockColor() {
             @Override
             public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {

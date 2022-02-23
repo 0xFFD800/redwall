@@ -108,6 +108,9 @@ public class CraftingHandler {
 		GameRegistry.addSmelting(BlockHandler.plum_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(BlockHandler.willow_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(BlockHandler.yew_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.pear_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.quince_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
+		GameRegistry.addSmelting(BlockHandler.chestnut_log, new ItemStack(Items.COAL, 1, 1), 0.15F);
 		GameRegistry.addSmelting(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
 		GameRegistry.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
 
@@ -586,6 +589,7 @@ public class CraftingHandler {
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.grayling_cooked), new Object[] { ItemHandler.grayling });
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.perch_cooked), new Object[] { ItemHandler.perch });
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.trout_cooked), new Object[] { ItemHandler.trout });
+			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.roast_chestnut), new Object[] { ItemHandler.chestnut });
 
 			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
 				@Override

@@ -66,6 +66,9 @@ public class ItemHandler {
 	public static Item willow_door;
 	public static Item apple_door;
 	public static Item plum_door;
+	public static Item pear_door;
+	public static Item quince_door;
+	public static Item chestnut_door;
 	public static Item southsward_hidden_door;
 
 	public static Item weapon_rack;
@@ -82,7 +85,7 @@ public class ItemHandler {
 	public static Item pear;
 	public static Item quince;
 	public static Item chestnut;
-	public static Item roast_chestnut;
+	public static Item roast_chestnut; //Have res for these, need code
 
 	public static Item strawberry_seeds;
 	public static Item blueberry_seeds;
@@ -245,8 +248,11 @@ public class ItemHandler {
 		aspen_door = new ItemModDoor("aspen_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.aspen_door);
 		willow_door = new ItemModDoor("willow_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.willow_door);
 		apple_door = new ItemModDoor("apple_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.apple_door);
-		southsward_hidden_door = new ItemHiddenDoor("southsward_hidden_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.southsward_hidden_door);
 		plum_door = new ItemModDoor("plum_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.plum_door);
+		pear_door = new ItemModDoor("pear_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.pear_door);
+		quince_door = new ItemModDoor("quince_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.quince_door);
+		chestnut_door = new ItemModDoor("chestnut_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.chestnut_door);
+		southsward_hidden_door = new ItemHiddenDoor("southsward_hidden_door", CreativeTabHandler.BLOCKS, 1, BlockHandler.southsward_hidden_door);
 
 		((BlockModDoor) BlockHandler.maple_door).setItem(ItemHandler.maple_door);
 		((BlockModDoor) BlockHandler.elm_door).setItem(ItemHandler.elm_door);
@@ -262,6 +268,9 @@ public class ItemHandler {
 		((BlockModDoor) BlockHandler.willow_door).setItem(ItemHandler.willow_door);
 		((BlockModDoor) BlockHandler.apple_door).setItem(ItemHandler.apple_door);
 		((BlockModDoor) BlockHandler.plum_door).setItem(ItemHandler.plum_door);
+		((BlockModDoor) BlockHandler.pear_door).setItem(ItemHandler.pear_door);
+		((BlockModDoor) BlockHandler.quince_door).setItem(ItemHandler.quince_door);
+		((BlockModDoor) BlockHandler.chestnut_door).setItem(ItemHandler.chestnut_door);
 		((BlockHiddenDoor) BlockHandler.southsward_hidden_door).setItem(ItemHandler.southsward_hidden_door);
 
 		weapon_rack = new ItemWeaponRack("weapon_rack", CreativeTabHandler.BLOCKS, 1);
@@ -275,6 +284,10 @@ public class ItemHandler {
 
 		plum = new ItemModFood("plum", CreativeTabHandler.FOOD, 5, 0.3F, 2, 5, 3, 10);
 		damson = new ItemModFood("damson", CreativeTabHandler.FOOD, 4, 0.3F, 2, 4, 2, 8);
+		pear = new ItemModFood("pear", CreativeTabHandler.FOOD, 5, 0.3F, 2, 5, 3, 12);
+		quince = new ItemModFood("quince", CreativeTabHandler.FOOD, 1, 0.3F, 1, 1, 1, 2);
+		chestnut = new ItemModFood("chestnut", CreativeTabHandler.FOOD, 2, 0.45F, 6, 3, 1, 1);
+		roast_chestnut = new ItemModFood("roast_chestnut", CreativeTabHandler.FOOD, 6, 0.45F, 12, 6, 2, 2);
 
 		strawberry_seeds = new ItemModSeeds("strawberry_seeds", CreativeTabHandler.FOOD, BlockHandler.strawberry_bush, Blocks.FARMLAND);
 		blueberry_seeds = new ItemModSeeds("blueberry_seeds", CreativeTabHandler.FOOD, BlockHandler.blueberry_bush, Blocks.FARMLAND);
@@ -440,6 +453,9 @@ public class ItemHandler {
 		registerItem(event, willow_door);
 		registerItem(event, apple_door);
 		registerItem(event, plum_door);
+		registerItem(event, pear_door);
+		registerItem(event, quince_door);
+		registerItem(event, chestnut_door);
 		registerItem(event, southsward_hidden_door);
 
 		registerItem(event, weapon_rack);
@@ -453,6 +469,10 @@ public class ItemHandler {
 
 		registerItem(event, plum);
 		registerItem(event, damson);
+		registerItem(event, pear);
+		registerItem(event, quince);
+		registerItem(event, chestnut);
+		registerItem(event, roast_chestnut);
 
 		registerItem(event, strawberry_seeds);
 		registerItem(event, blueberry_seeds);
@@ -618,6 +638,9 @@ public class ItemHandler {
 		registerRender(willow_door);
 		registerRender(apple_door);
 		registerRender(plum_door);
+		registerRender(pear_door);
+		registerRender(quince_door);
+		registerRender(chestnut_door);
 		registerRender(southsward_hidden_door);
 
 		registerRender(weapon_rack);
@@ -631,6 +654,10 @@ public class ItemHandler {
 
 		registerRender(plum);
 		registerRender(damson);
+		registerRender(pear);
+		registerRender(quince);
+		registerRender(chestnut);
+		registerRender(roast_chestnut);
 
 		registerRender(strawberry_seeds);
 		registerRender(blueberry_seeds);

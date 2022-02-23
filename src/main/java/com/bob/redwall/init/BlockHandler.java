@@ -39,13 +39,16 @@ import com.bob.redwall.blocks.plants.saplings.BlockAppleSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockAshSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockAspenSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockBeechSapling;
+import com.bob.redwall.blocks.plants.saplings.BlockChestnutSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockElmSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockFirSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockHornbeamSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockLarchSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockMapleSapling;
+import com.bob.redwall.blocks.plants.saplings.BlockPearSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockPineSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockPlumSapling;
+import com.bob.redwall.blocks.plants.saplings.BlockQuinceSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockWillowSapling;
 import com.bob.redwall.blocks.plants.saplings.BlockYewSapling;
 import com.bob.redwall.blocks.plants.treeleaves.BlockFruitTreeLeaves;
@@ -146,6 +149,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_log;
 	public static Block plum_log;
 	public static ItemBlock ib_plum_log;
+	public static Block pear_log;
+	public static ItemBlock ib_pear_log;
+	public static Block quince_log;
+	public static ItemBlock ib_quince_log;
+	public static Block chestnut_log;
+	public static ItemBlock ib_chestnut_log;
 
 	public static Block maple_leaves;
 	public static ItemBlock ib_maple_leaves;
@@ -175,6 +184,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_leaves;
 	public static Block plum_leaves;
 	public static ItemBlock ib_plum_leaves;
+	public static Block pear_leaves;
+	public static ItemBlock ib_pear_leaves;
+	public static Block quince_leaves;
+	public static ItemBlock ib_quince_leaves;
+	public static Block chestnut_leaves;
+	public static ItemBlock ib_chestnut_leaves;
 
 	public static Block maple_planks;
 	public static ItemBlock ib_maple_planks;
@@ -204,6 +219,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_planks;
 	public static Block plum_planks;
 	public static ItemBlock ib_plum_planks;
+	public static Block pear_planks;
+	public static ItemBlock ib_pear_planks;
+	public static Block quince_planks;
+	public static ItemBlock ib_quince_planks;
+	public static Block chestnut_planks;
+	public static ItemBlock ib_chestnut_planks;
 
 	public static Block maple_sapling;
 	public static ItemBlock ib_maple_sapling;
@@ -233,6 +254,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_sapling;
 	public static Block plum_sapling;
 	public static ItemBlock ib_plum_sapling;
+	public static Block pear_sapling;
+	public static ItemBlock ib_pear_sapling;
+	public static Block quince_sapling;
+	public static ItemBlock ib_quince_sapling;
+	public static Block chestnut_sapling;
+	public static ItemBlock ib_chestnut_sapling;
 
 	public static Block maple_door;
 	public static Block elm_door;
@@ -248,6 +275,9 @@ public class BlockHandler {
 	public static Block willow_door;
 	public static Block apple_door;
 	public static Block plum_door;
+	public static Block pear_door;
+	public static Block quince_door;
+	public static Block chestnut_door;
 
 	public static Block maple_stairs;
 	public static ItemBlock ib_maple_stairs;
@@ -277,6 +307,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_stairs;
 	public static Block plum_stairs;
 	public static ItemBlock ib_plum_stairs;
+	public static Block pear_stairs;
+	public static ItemBlock ib_pear_stairs;
+	public static Block quince_stairs;
+	public static ItemBlock ib_quince_stairs;
+	public static Block chestnut_stairs;
+	public static ItemBlock ib_chestnut_stairs;
 
 	public static Block maple_slab;
 	public static Block double_maple_slab;
@@ -320,6 +356,15 @@ public class BlockHandler {
 	public static Block plum_slab;
 	public static Block double_plum_slab;
 	public static ItemBlock ib_plum_slab;
+	public static Block pear_slab;
+	public static Block double_pear_slab;
+	public static ItemBlock ib_pear_slab;
+	public static Block quince_slab;
+	public static Block double_quince_slab;
+	public static ItemBlock ib_quince_slab;
+	public static Block chestnut_slab;
+	public static Block double_chestnut_slab;
+	public static ItemBlock ib_chestnut_slab;
 
 	public static Block maple_fence;
 	public static ItemBlock ib_maple_fence;
@@ -349,6 +394,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_fence;
 	public static Block plum_fence;
 	public static ItemBlock ib_plum_fence;
+	public static Block pear_fence;
+	public static ItemBlock ib_pear_fence;
+	public static Block quince_fence;
+	public static ItemBlock ib_quince_fence;
+	public static Block chestnut_fence;
+	public static ItemBlock ib_chestnut_fence;
 
 	public static Block maple_fence_gate;
 	public static ItemBlock ib_maple_fence_gate;
@@ -378,6 +429,12 @@ public class BlockHandler {
 	public static ItemBlock ib_apple_fence_gate;
 	public static Block plum_fence_gate;
 	public static ItemBlock ib_plum_fence_gate;
+	public static Block pear_fence_gate;
+	public static ItemBlock ib_pear_fence_gate;
+	public static Block quince_fence_gate;
+	public static ItemBlock ib_quince_fence_gate;
+	public static Block chestnut_fence_gate;
+	public static ItemBlock ib_chestnut_fence_gate;
 
 	public static Block southsward_brick;
 	public static ItemBlock ib_southsward_brick;
@@ -513,6 +570,12 @@ public class BlockHandler {
 		ib_apple_log = (ItemBlock) new ItemModBlock(apple_log, apple_log.getRegistryName());
 		plum_log = new BlockModLog("plum_log", CreativeTabHandler.BLOCKS);
 		ib_plum_log = (ItemBlock) new ItemModBlock(plum_log, plum_log.getRegistryName());
+		pear_log = new BlockModLog("pear_log", CreativeTabHandler.BLOCKS);
+		ib_pear_log = (ItemBlock) new ItemModBlock(pear_log, pear_log.getRegistryName());
+		quince_log = new BlockModLog("quince_log", CreativeTabHandler.BLOCKS);
+		ib_quince_log = (ItemBlock) new ItemModBlock(quince_log, quince_log.getRegistryName());
+		chestnut_log = new BlockModLog("chestnut_log", CreativeTabHandler.BLOCKS);
+		ib_chestnut_log = (ItemBlock) new ItemModBlock(chestnut_log, chestnut_log.getRegistryName());
 
 		maple_leaves = new BlockModLeaves("maple_leaves", CreativeTabHandler.BLOCKS, new ResourceLocation(Ref.MODID, "maple_sapling"));
 		ib_maple_leaves = (ItemBlock) new ItemModBlock(maple_leaves, maple_leaves.getRegistryName());
@@ -542,6 +605,12 @@ public class BlockHandler {
 		ib_apple_leaves = (ItemBlock) new ItemModBlock(apple_leaves, apple_leaves.getRegistryName());
 		plum_leaves = new BlockPlumLeaves("plum_leaves", CreativeTabHandler.BLOCKS, new ResourceLocation(Ref.MODID, "plum"), new ResourceLocation(Ref.MODID, "damson"), new ResourceLocation(Ref.MODID, "plum_sapling"));
 		ib_plum_leaves = (ItemBlock) new ItemModBlock(plum_leaves, plum_leaves.getRegistryName());
+		pear_leaves = new BlockFruitTreeLeaves("pear_leaves", CreativeTabHandler.BLOCKS, new ResourceLocation(Ref.MODID, "pear"), new ResourceLocation(Ref.MODID, "pear_sapling"));
+		ib_pear_leaves = (ItemBlock) new ItemModBlock(pear_leaves, pear_leaves.getRegistryName());
+		quince_leaves = new BlockFruitTreeLeaves("quince_leaves", CreativeTabHandler.BLOCKS, new ResourceLocation(Ref.MODID, "quince"), new ResourceLocation(Ref.MODID, "quince_sapling"));
+		ib_quince_leaves = (ItemBlock) new ItemModBlock(quince_leaves, quince_leaves.getRegistryName());
+		chestnut_leaves = new BlockFruitTreeLeaves("chestnut_leaves", CreativeTabHandler.BLOCKS, new ResourceLocation(Ref.MODID, "chestnut"), new ResourceLocation(Ref.MODID, "chestnut_sapling"));
+		ib_chestnut_leaves = (ItemBlock) new ItemModBlock(chestnut_leaves, chestnut_leaves.getRegistryName());
 
 		maple_planks = new ModBlock(Material.WOOD, "maple_planks", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_maple_planks = (ItemBlock) new ItemModBlock(maple_planks, maple_planks.getRegistryName());
@@ -571,6 +640,12 @@ public class BlockHandler {
 		ib_apple_planks = (ItemBlock) new ItemModBlock(apple_planks, apple_planks.getRegistryName());
 		plum_planks = new ModBlock(Material.WOOD, "plum_planks", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_plum_planks = (ItemBlock) new ItemModBlock(plum_planks, plum_planks.getRegistryName());
+		pear_planks = new ModBlock(Material.WOOD, "pear_planks", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_pear_planks = (ItemBlock) new ItemModBlock(pear_planks, pear_planks.getRegistryName());
+		quince_planks = new ModBlock(Material.WOOD, "quince_planks", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_quince_planks = (ItemBlock) new ItemModBlock(quince_planks, quince_planks.getRegistryName());
+		chestnut_planks = new ModBlock(Material.WOOD, "chestnut_planks", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_chestnut_planks = (ItemBlock) new ItemModBlock(chestnut_planks, chestnut_planks.getRegistryName());
 
 		maple_sapling = new BlockMapleSapling("maple_sapling", CreativeTabHandler.BLOCKS);
 		ib_maple_sapling = (ItemBlock) new ItemModBlock(maple_sapling, maple_sapling.getRegistryName());
@@ -600,6 +675,12 @@ public class BlockHandler {
 		ib_apple_sapling = (ItemBlock) new ItemModBlock(apple_sapling, apple_sapling.getRegistryName());
 		plum_sapling = new BlockPlumSapling("plum_sapling", CreativeTabHandler.BLOCKS);
 		ib_plum_sapling = (ItemBlock) new ItemModBlock(plum_sapling, plum_sapling.getRegistryName());
+		pear_sapling = new BlockPearSapling("pear_sapling", CreativeTabHandler.BLOCKS);
+		ib_pear_sapling = (ItemBlock) new ItemModBlock(pear_sapling, pear_sapling.getRegistryName());
+		quince_sapling = new BlockQuinceSapling("quince_sapling", CreativeTabHandler.BLOCKS);
+		ib_quince_sapling = (ItemBlock) new ItemModBlock(quince_sapling, quince_sapling.getRegistryName());
+		chestnut_sapling = new BlockChestnutSapling("chestnut_sapling", CreativeTabHandler.BLOCKS);
+		ib_chestnut_sapling = (ItemBlock) new ItemModBlock(chestnut_sapling, chestnut_sapling.getRegistryName());
 
 		maple_door = new BlockModDoor(Material.WOOD, "maple_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.maple_door);
 		elm_door = new BlockModDoor(Material.WOOD, "elm_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.elm_door);
@@ -615,6 +696,9 @@ public class BlockHandler {
 		willow_door = new BlockModDoor(Material.WOOD, "willow_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.willow_door);
 		apple_door = new BlockModDoor(Material.WOOD, "apple_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.apple_door);
 		plum_door = new BlockModDoor(Material.WOOD, "plum_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.plum_door);
+		pear_door = new BlockModDoor(Material.WOOD, "pear_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.pear_door);
+		quince_door = new BlockModDoor(Material.WOOD, "quince_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.quince_door);
+		chestnut_door = new BlockModDoor(Material.WOOD, "chestnut_door", null, 2.0F, 5.0F, 0, "axe", ItemHandler.chestnut_door);
 
 		maple_stairs = new BlockModStairs(BlockHandler.maple_planks.getDefaultState(), "maple_stairs", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_maple_stairs = (ItemBlock) new ItemModBlock(maple_stairs, maple_stairs.getRegistryName());
@@ -644,6 +728,12 @@ public class BlockHandler {
 		ib_apple_stairs = (ItemBlock) new ItemModBlock(apple_stairs, apple_stairs.getRegistryName());
 		plum_stairs = new BlockModStairs(BlockHandler.plum_planks.getDefaultState(), "plum_stairs", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_plum_stairs = (ItemBlock) new ItemModBlock(plum_stairs, plum_stairs.getRegistryName());
+		pear_stairs = new BlockModStairs(BlockHandler.pear_planks.getDefaultState(), "pear_stairs", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_pear_stairs = (ItemBlock) new ItemModBlock(pear_stairs, pear_stairs.getRegistryName());
+		quince_stairs = new BlockModStairs(BlockHandler.quince_planks.getDefaultState(), "quince_stairs", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_quince_stairs = (ItemBlock) new ItemModBlock(quince_stairs, quince_stairs.getRegistryName());
+		chestnut_stairs = new BlockModStairs(BlockHandler.chestnut_planks.getDefaultState(), "chestnut_stairs", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_chestnut_stairs = (ItemBlock) new ItemModBlock(chestnut_stairs, chestnut_stairs.getRegistryName());
 
 		maple_slab = new BlockModSlab(Material.WOOD, "maple_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		double_maple_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_maple_slab", null, 2.0F, 5.0F, 0, "axe");
@@ -687,6 +777,15 @@ public class BlockHandler {
 		plum_slab = new BlockModSlab(Material.WOOD, "plum_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		double_plum_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_plum_slab", null, 2.0F, 5.0F, 0, "axe");
 		ib_plum_slab = (ItemBlock) new ItemModSlab(plum_slab, (BlockModSlab) plum_slab, (BlockModSlab) double_plum_slab, plum_slab.getRegistryName());
+		pear_slab = new BlockModSlab(Material.WOOD, "pear_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		double_pear_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_pear_slab", null, 2.0F, 5.0F, 0, "axe");
+		ib_pear_slab = (ItemBlock) new ItemModSlab(pear_slab, (BlockModSlab) pear_slab, (BlockModSlab) double_pear_slab, pear_slab.getRegistryName());
+		quince_slab = new BlockModSlab(Material.WOOD, "quince_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		double_quince_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_quince_slab", null, 2.0F, 5.0F, 0, "axe");
+		ib_quince_slab = (ItemBlock) new ItemModSlab(quince_slab, (BlockModSlab) quince_slab, (BlockModSlab) double_quince_slab, quince_slab.getRegistryName());
+		chestnut_slab = new BlockModSlab(Material.WOOD, "chestnut_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		double_chestnut_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_chestnut_slab", null, 2.0F, 5.0F, 0, "axe");
+		ib_chestnut_slab = (ItemBlock) new ItemModSlab(chestnut_slab, (BlockModSlab) chestnut_slab, (BlockModSlab) double_chestnut_slab, chestnut_slab.getRegistryName());
 
 		maple_fence = new BlockModFence(Material.WOOD, "maple_fence", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_maple_fence = (ItemBlock) new ItemModBlock(maple_fence, maple_fence.getRegistryName());
@@ -716,6 +815,12 @@ public class BlockHandler {
 		ib_apple_fence = (ItemBlock) new ItemModBlock(apple_fence, apple_fence.getRegistryName());
 		plum_fence = new BlockModFence(Material.WOOD, "plum_fence", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_plum_fence = (ItemBlock) new ItemModBlock(plum_fence, plum_fence.getRegistryName());
+		pear_fence = new BlockModFence(Material.WOOD, "pear_fence", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_pear_fence = (ItemBlock) new ItemModBlock(pear_fence, pear_fence.getRegistryName());
+		quince_fence = new BlockModFence(Material.WOOD, "quince_fence", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_quince_fence = (ItemBlock) new ItemModBlock(quince_fence, quince_fence.getRegistryName());
+		chestnut_fence = new BlockModFence(Material.WOOD, "chestnut_fence", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_chestnut_fence = (ItemBlock) new ItemModBlock(chestnut_fence, chestnut_fence.getRegistryName());
 
 		maple_fence_gate = new BlockModFenceGate(Material.WOOD, "maple_fence_gate", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_maple_fence_gate = (ItemBlock) new ItemModBlock(maple_fence_gate, maple_fence_gate.getRegistryName());
@@ -745,6 +850,12 @@ public class BlockHandler {
 		ib_apple_fence_gate = (ItemBlock) new ItemModBlock(apple_fence_gate, apple_fence_gate.getRegistryName());
 		plum_fence_gate = new BlockModFenceGate(Material.WOOD, "plum_fence_gate", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_plum_fence_gate = (ItemBlock) new ItemModBlock(plum_fence_gate, plum_fence_gate.getRegistryName());
+		pear_fence_gate = new BlockModFenceGate(Material.WOOD, "pear_fence_gate", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_pear_fence_gate = (ItemBlock) new ItemModBlock(pear_fence_gate, pear_fence_gate.getRegistryName());
+		quince_fence_gate = new BlockModFenceGate(Material.WOOD, "quince_fence_gate", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_quince_fence_gate = (ItemBlock) new ItemModBlock(quince_fence_gate, quince_fence_gate.getRegistryName());
+		chestnut_fence_gate = new BlockModFenceGate(Material.WOOD, "chestnut_fence_gate", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
+		ib_chestnut_fence_gate = (ItemBlock) new ItemModBlock(chestnut_fence_gate, chestnut_fence_gate.getRegistryName());
 
 		southsward_brick = new BlockModBrick("southsward_brick", CreativeTabHandler.BLOCKS, 2.5F, 15.0F, 0, "pickaxe");
 		ib_southsward_brick = (ItemBlock) (new ItemMultiTexture(BlockHandler.southsward_brick, BlockHandler.southsward_brick, new ItemMultiTexture.Mapper() {
@@ -896,6 +1007,9 @@ public class BlockHandler {
 		registerBlock(event, willow_log);
 		registerBlock(event, apple_log);
 		registerBlock(event, plum_log);
+		registerBlock(event, pear_log);
+		registerBlock(event, quince_log);
+		registerBlock(event, chestnut_log);
 
 		registerBlock(event, maple_leaves);
 		registerBlock(event, elm_leaves);
@@ -913,6 +1027,12 @@ public class BlockHandler {
 		ModelLoader.setCustomStateMapper(apple_leaves, (new StateMap.Builder()).withName(null).ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
 		registerBlock(event, plum_leaves);
 		ModelLoader.setCustomStateMapper(plum_leaves, (new StateMap.Builder()).withName(null).ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
+		registerBlock(event, pear_leaves);
+		ModelLoader.setCustomStateMapper(pear_leaves, (new StateMap.Builder()).withName(null).ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
+		registerBlock(event, quince_leaves);
+		ModelLoader.setCustomStateMapper(quince_leaves, (new StateMap.Builder()).withName(null).ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
+		registerBlock(event, chestnut_leaves);
+		ModelLoader.setCustomStateMapper(chestnut_leaves, (new StateMap.Builder()).withName(null).ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
 
 		registerBlock(event, maple_planks);
 		registerBlock(event, elm_planks);
@@ -928,6 +1048,9 @@ public class BlockHandler {
 		registerBlock(event, willow_planks);
 		registerBlock(event, apple_planks);
 		registerBlock(event, plum_planks);
+		registerBlock(event, pear_planks);
+		registerBlock(event, quince_planks);
+		registerBlock(event, chestnut_planks);
 
 		registerBlock(event, maple_sapling);
 		registerBlock(event, elm_sapling);
@@ -943,6 +1066,9 @@ public class BlockHandler {
 		registerBlock(event, willow_sapling);
 		registerBlock(event, apple_sapling);
 		registerBlock(event, plum_sapling);
+		registerBlock(event, pear_sapling);
+		registerBlock(event, quince_sapling);
+		registerBlock(event, chestnut_sapling);
 
 		registerBlock(event, maple_door);
 		registerBlock(event, elm_door);
@@ -958,6 +1084,9 @@ public class BlockHandler {
 		registerBlock(event, willow_door);
 		registerBlock(event, apple_door);
 		registerBlock(event, plum_door);
+		registerBlock(event, pear_door);
+		registerBlock(event, quince_door);
+		registerBlock(event, chestnut_door);
 
 		registerBlock(event, maple_stairs);
 		registerBlock(event, elm_stairs);
@@ -973,6 +1102,9 @@ public class BlockHandler {
 		registerBlock(event, willow_stairs);
 		registerBlock(event, apple_stairs);
 		registerBlock(event, plum_stairs);
+		registerBlock(event, pear_stairs);
+		registerBlock(event, quince_stairs);
+		registerBlock(event, chestnut_stairs);
 
 		registerBlock(event, maple_slab);
 		registerBlock(event, double_maple_slab);
@@ -1002,6 +1134,12 @@ public class BlockHandler {
 		registerBlock(event, double_apple_slab);
 		registerBlock(event, plum_slab);
 		registerBlock(event, double_plum_slab);
+		registerBlock(event, pear_slab);
+		registerBlock(event, double_pear_slab);
+		registerBlock(event, quince_slab);
+		registerBlock(event, double_quince_slab);
+		registerBlock(event, chestnut_slab);
+		registerBlock(event, double_chestnut_slab);
 
 		registerBlock(event, maple_fence);
 		registerBlock(event, elm_fence);
@@ -1017,6 +1155,9 @@ public class BlockHandler {
 		registerBlock(event, willow_fence);
 		registerBlock(event, apple_fence);
 		registerBlock(event, plum_fence);
+		registerBlock(event, pear_fence);
+		registerBlock(event, quince_fence);
+		registerBlock(event, chestnut_fence);
 
 		registerBlock(event, maple_fence_gate);
 		registerBlock(event, elm_fence_gate);
@@ -1032,6 +1173,9 @@ public class BlockHandler {
 		registerBlock(event, willow_fence_gate);
 		registerBlock(event, apple_fence_gate);
 		registerBlock(event, plum_fence_gate);
+		registerBlock(event, pear_fence_gate);
+		registerBlock(event, quince_fence_gate);
+		registerBlock(event, chestnut_fence_gate);
 
 		registerBlock(event, southsward_brick);
 		registerBlock(event, southsward_pillar);
@@ -1103,6 +1247,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_log);
 		registerItemBlock(event, ib_apple_log);
 		registerItemBlock(event, ib_plum_log);
+		registerItemBlock(event, ib_pear_log);
+		registerItemBlock(event, ib_quince_log);
+		registerItemBlock(event, ib_chestnut_log);
 
 		registerItemBlock(event, ib_maple_leaves);
 		registerItemBlock(event, ib_elm_leaves);
@@ -1118,6 +1265,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_leaves);
 		registerItemBlock(event, ib_apple_leaves);
 		registerItemBlock(event, ib_plum_leaves);
+		registerItemBlock(event, ib_pear_leaves);
+		registerItemBlock(event, ib_quince_leaves);
+		registerItemBlock(event, ib_chestnut_leaves);
 
 		registerItemBlock(event, ib_maple_planks);
 		registerItemBlock(event, ib_elm_planks);
@@ -1133,6 +1283,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_planks);
 		registerItemBlock(event, ib_apple_planks);
 		registerItemBlock(event, ib_plum_planks);
+		registerItemBlock(event, ib_pear_planks);
+		registerItemBlock(event, ib_quince_planks);
+		registerItemBlock(event, ib_chestnut_planks);
 
 		registerItemBlock(event, ib_maple_sapling);
 		registerItemBlock(event, ib_elm_sapling);
@@ -1148,6 +1301,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_sapling);
 		registerItemBlock(event, ib_apple_sapling);
 		registerItemBlock(event, ib_plum_sapling);
+		registerItemBlock(event, ib_pear_sapling);
+		registerItemBlock(event, ib_quince_sapling);
+		registerItemBlock(event, ib_chestnut_sapling);
 
 		registerItemBlock(event, ib_maple_stairs);
 		registerItemBlock(event, ib_elm_stairs);
@@ -1163,6 +1319,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_stairs);
 		registerItemBlock(event, ib_apple_stairs);
 		registerItemBlock(event, ib_plum_stairs);
+		registerItemBlock(event, ib_pear_stairs);
+		registerItemBlock(event, ib_quince_stairs);
+		registerItemBlock(event, ib_chestnut_stairs);
 
 		registerItemBlock(event, ib_maple_slab);
 		registerItemBlock(event, ib_elm_slab);
@@ -1178,6 +1337,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_slab);
 		registerItemBlock(event, ib_apple_slab);
 		registerItemBlock(event, ib_plum_slab);
+		registerItemBlock(event, ib_pear_slab);
+		registerItemBlock(event, ib_quince_slab);
+		registerItemBlock(event, ib_chestnut_slab);
 
 		registerItemBlock(event, ib_maple_fence);
 		registerItemBlock(event, ib_elm_fence);
@@ -1193,6 +1355,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_fence);
 		registerItemBlock(event, ib_apple_fence);
 		registerItemBlock(event, ib_plum_fence);
+		registerItemBlock(event, ib_pear_fence);
+		registerItemBlock(event, ib_quince_fence);
+		registerItemBlock(event, ib_chestnut_fence);
 
 		registerItemBlock(event, ib_maple_fence_gate);
 		registerItemBlock(event, ib_elm_fence_gate);
@@ -1208,6 +1373,9 @@ public class BlockHandler {
 		registerItemBlock(event, ib_willow_fence_gate);
 		registerItemBlock(event, ib_apple_fence_gate);
 		registerItemBlock(event, ib_plum_fence_gate);
+		registerItemBlock(event, ib_pear_fence_gate);
+		registerItemBlock(event, ib_quince_fence_gate);
+		registerItemBlock(event, ib_chestnut_fence_gate);
 
 		registerItemBlock(event, ib_southsward_brick);
 		registerItemBlock(event, ib_southsward_pillar);
@@ -1288,6 +1456,9 @@ public class BlockHandler {
 		registerRender(willow_log);
 		registerRender(apple_log);
 		registerRender(plum_log);
+		registerRender(pear_log);
+		registerRender(quince_log);
+		registerRender(chestnut_log);
 
 		registerRender(maple_leaves);
 		registerRender(elm_leaves);
@@ -1303,6 +1474,9 @@ public class BlockHandler {
 		registerRender(willow_leaves);
 		registerRender(apple_leaves);
 		registerRender(plum_leaves);
+		registerRender(pear_leaves);
+		registerRender(quince_leaves);
+		registerRender(chestnut_leaves);
 
 		registerRender(maple_planks);
 		registerRender(elm_planks);
@@ -1318,6 +1492,9 @@ public class BlockHandler {
 		registerRender(willow_planks);
 		registerRender(apple_planks);
 		registerRender(plum_planks);
+		registerRender(pear_planks);
+		registerRender(quince_planks);
+		registerRender(chestnut_planks);
 
 		registerRender(maple_sapling);
 		registerRender(elm_sapling);
@@ -1333,6 +1510,9 @@ public class BlockHandler {
 		registerRender(willow_sapling);
 		registerRender(apple_sapling);
 		registerRender(plum_sapling);
+		registerRender(pear_sapling);
+		registerRender(quince_sapling);
+		registerRender(chestnut_sapling);
 
 		registerRender(maple_stairs);
 		registerRender(elm_stairs);
@@ -1348,6 +1528,9 @@ public class BlockHandler {
 		registerRender(willow_stairs);
 		registerRender(apple_stairs);
 		registerRender(plum_stairs);
+		registerRender(pear_stairs);
+		registerRender(quince_stairs);
+		registerRender(chestnut_stairs);
 
 		registerRender(maple_slab);
 		registerRender(elm_slab);
@@ -1363,6 +1546,9 @@ public class BlockHandler {
 		registerRender(willow_slab);
 		registerRender(apple_slab);
 		registerRender(plum_slab);
+		registerRender(pear_slab);
+		registerRender(quince_slab);
+		registerRender(chestnut_slab);
 
 		registerRender(double_maple_slab);
 		registerRender(double_elm_slab);
@@ -1378,6 +1564,9 @@ public class BlockHandler {
 		registerRender(double_willow_slab);
 		registerRender(double_apple_slab);
 		registerRender(double_plum_slab);
+		registerRender(double_pear_slab);
+		registerRender(double_quince_slab);
+		registerRender(double_chestnut_slab);
 
 		registerRender(maple_fence);
 		registerRender(elm_fence);
@@ -1393,6 +1582,9 @@ public class BlockHandler {
 		registerRender(willow_fence);
 		registerRender(apple_fence);
 		registerRender(plum_fence);
+		registerRender(pear_fence);
+		registerRender(quince_fence);
+		registerRender(chestnut_fence);
 
 		registerRender(maple_fence_gate);
 		registerRender(elm_fence_gate);
@@ -1408,6 +1600,9 @@ public class BlockHandler {
 		registerRender(willow_fence_gate);
 		registerRender(apple_fence_gate);
 		registerRender(plum_fence_gate);
+		registerRender(pear_fence_gate);
+		registerRender(quince_fence_gate);
+		registerRender(chestnut_fence_gate);
 
 		registerRender(southsward_brick, 0, new ResourceLocation(Ref.MODID, "southsward_brick"));
 		registerRender(southsward_brick, 1, new ResourceLocation(Ref.MODID, "item/southsward_brick_mossy"));
