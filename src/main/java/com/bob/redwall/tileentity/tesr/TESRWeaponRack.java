@@ -53,11 +53,11 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         	if(isVertical) {
         		if(stack.getItem() instanceof ItemPike) {
         			this.renderItemVertical(stack, eastwest, 4.0F, false, false, false);
-        		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() instanceof ItemMace || stack.getItem() instanceof ItemBattleAxe || stack.getItem() instanceof ItemScythe) {
+        		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() instanceof ItemMace || stack.getItem() instanceof ItemBattleAxe) {
         			this.renderItemVertical(stack, eastwest, 2.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe || stack.getItem() instanceof ItemTool || stack.getItem() instanceof ItemHoe) {
         			this.renderItemVertical(stack, eastwest, 1.0F, false, false, false);
-        		} else if(stack.getItem() instanceof ItemCustomSword) {
+        		} else if(stack.getItem() instanceof ItemCustomSword || stack.getItem() instanceof ItemScythe) {
         			this.renderItemVertical(stack, eastwest, 2.0F, true, false, false);
         		} else if(stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemModBow) {
         			this.renderItemVertical(stack, eastwest, 2.0F, false, true, false);
