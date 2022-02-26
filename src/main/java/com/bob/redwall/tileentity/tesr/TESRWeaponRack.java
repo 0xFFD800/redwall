@@ -3,6 +3,7 @@ package com.bob.redwall.tileentity.tesr;
 import com.bob.redwall.blocks.BlockWeaponRackVertical;
 import com.bob.redwall.init.BlockHandler;
 import com.bob.redwall.init.ItemHandler;
+import com.bob.redwall.items.tools.ItemScythe;
 import com.bob.redwall.items.weapons.melee.ItemBattleAxe;
 import com.bob.redwall.items.weapons.melee.ItemHalberd;
 import com.bob.redwall.items.weapons.melee.ItemLance;
@@ -52,7 +53,7 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         	if(isVertical) {
         		if(stack.getItem() instanceof ItemPike) {
         			this.renderItemVertical(stack, eastwest, 4.0F, false, false, false);
-        		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() instanceof ItemMace || stack.getItem() instanceof ItemBattleAxe) {
+        		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() instanceof ItemMace || stack.getItem() instanceof ItemBattleAxe || stack.getItem() instanceof ItemScythe) {
         			this.renderItemVertical(stack, eastwest, 2.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe || stack.getItem() instanceof ItemTool || stack.getItem() instanceof ItemHoe) {
         			this.renderItemVertical(stack, eastwest, 1.0F, false, false, false);
@@ -68,7 +69,7 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         			this.renderItemHorizontal(stack, facing, 4.0F, false, false, false);
         		} else if((stack.getItem() instanceof ItemMace && stack.getItem() != ItemHandler.guosim_paddle) || stack.getItem() instanceof ItemBattleAxe || stack.getItem() instanceof ItemCustomSword) {
         			this.renderItemHorizontal(stack, facing, 2.0F, false, false, false);
-        		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() == ItemHandler.guosim_paddle) {
+        		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() == ItemHandler.guosim_paddle || stack.getItem() instanceof ItemScythe) {
         			this.renderItemHorizontal(stack, facing, 2.0F, true, false, false);
         		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe || stack.getItem() instanceof ItemTool || stack.getItem() instanceof ItemHoe) {
         			this.renderItemHorizontal(stack, facing, 1.0F, false, false, false);
