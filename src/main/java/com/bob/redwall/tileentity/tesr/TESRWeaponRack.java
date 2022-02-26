@@ -1,6 +1,7 @@
 package com.bob.redwall.tileentity.tesr;
 
 import com.bob.redwall.blocks.BlockWeaponRackVertical;
+import com.bob.redwall.init.BlockHandler;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.weapons.melee.ItemBattleAxe;
 import com.bob.redwall.items.weapons.melee.ItemHalberd;
@@ -29,6 +30,8 @@ import net.minecraft.util.EnumFacing;
 public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRack> {
 	@Override
     public void render(TileEntityWeaponRack te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+		if (te.getWorld().getBlockState(te.getPos()).getBlock() != BlockHandler.weapon_rack_horizontal && te.getWorld().getBlockState(te.getPos()).getBlock() != BlockHandler.weapon_rack_vertical)
+			return;
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 
