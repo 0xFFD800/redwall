@@ -21,7 +21,9 @@ import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumFacing;
 
 public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRack> {
@@ -49,7 +51,7 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         			this.renderItemVertical(stack, eastwest, 4.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() instanceof ItemMace || stack.getItem() instanceof ItemBattleAxe) {
         			this.renderItemVertical(stack, eastwest, 2.0F, false, false, false);
-        		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe) {
+        		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe || stack.getItem() instanceof ItemTool || stack.getItem() instanceof ItemHoe) {
         			this.renderItemVertical(stack, eastwest, 1.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemCustomSword) {
         			this.renderItemVertical(stack, eastwest, 2.0F, true, false, false);
@@ -65,7 +67,7 @@ public class TESRWeaponRack extends TileEntitySpecialRenderer<TileEntityWeaponRa
         			this.renderItemHorizontal(stack, facing, 2.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemSpear || stack.getItem() instanceof ItemLance || stack.getItem() instanceof ItemHalberd || stack.getItem() == ItemHandler.guosim_paddle) {
         			this.renderItemHorizontal(stack, facing, 2.0F, true, false, false);
-        		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe) {
+        		} else if(stack.getItem() instanceof ItemDagger || stack.getItem() instanceof ItemThrowingAxe || stack.getItem() instanceof ItemTool || stack.getItem() instanceof ItemHoe) {
         			this.renderItemHorizontal(stack, facing, 1.0F, false, false, false);
         		} else if(stack.getItem() instanceof ItemBow || stack.getItem() instanceof ItemModBow) {
         			this.renderItemHorizontal(stack, facing, 2.0F, false, true, false);

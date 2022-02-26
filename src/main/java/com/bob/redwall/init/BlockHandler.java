@@ -112,7 +112,7 @@ public class BlockHandler {
 	public static Block rice;
 	public static Block beans;
 	public static Block yams;
-	
+
 	public static Block grape_vine_trellis;
 	public static ItemBlock ib_grape_vine_trellis;
 
@@ -497,7 +497,7 @@ public class BlockHandler {
 	public static ItemBlock ib_brewing_redwall;
 	public static Block brewing_guosim;
 	public static ItemBlock ib_brewing_guosim;
-	
+
 	public static Block mug;
 	public static Block bottle;
 	public static Block bowl;
@@ -521,7 +521,7 @@ public class BlockHandler {
 		peas = new BlockPeas("peas");
 		beans = new BlockBeans("beans");
 		yams = new BlockYams("yams");
-		
+
 		grape_vine_trellis = new BlockGrapeVineTrellis("grape_vine_trellis", Material.WOOD, CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_grape_vine_trellis = (ItemBlock) new ItemModBlock(grape_vine_trellis, grape_vine_trellis.getRegistryName());
 
@@ -901,7 +901,7 @@ public class BlockHandler {
 		redwall_slab = new BlockModSlab(Material.WOOD, "redwall_slab", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		double_redwall_slab = new BlockModSlab.BlockModDoubleSlab(Material.WOOD, "double_redwall_slab", null, 2.0F, 5.0F, 0, "axe");
 		ib_redwall_slab = (ItemBlock) new ItemModSlab(redwall_slab, (BlockModSlab) redwall_slab, (BlockModSlab) double_redwall_slab, redwall_slab.getRegistryName());
-		
+
 		kotir_brick = new BlockModBrick("kotir_brick", CreativeTabHandler.BLOCKS, 2.5F, 15.0F, 0, "pickaxe");
 		ib_kotir_brick = (ItemBlock) (new ItemMultiTexture(BlockHandler.kotir_brick, BlockHandler.kotir_brick, new ItemMultiTexture.Mapper() {
 			@Override
@@ -954,7 +954,7 @@ public class BlockHandler {
 		ib_brewing_redwall = (ItemBlock) new ItemModBlock(brewing_redwall, brewing_redwall.getRegistryName());
 		brewing_guosim = new BlockBrewingGuosim(Material.ROCK, "brewing_guosim", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_brewing_guosim = (ItemBlock) new ItemModBlock(brewing_guosim, brewing_guosim.getRegistryName());
-		
+
 		mug = new BlockDrinkVessel(Material.CIRCUITS, "mug", new ResourceLocation(Ref.MODID, "mug_drink"), new ResourceLocation(Ref.MODID, "mug_empty"));
 		bottle = new BlockDrinkVessel(Material.CIRCUITS, "bottle", new ResourceLocation(Ref.MODID, "bottle_drink"), new ResourceLocation("bottle"));
 		bowl = new BlockDrinkVessel(Material.CIRCUITS, "bowl", new ResourceLocation(Ref.MODID, "bowl_drink"), new ResourceLocation("bowl"));
@@ -1214,7 +1214,7 @@ public class BlockHandler {
 		registerBlock(event, smithing_redwall);
 		registerBlock(event, brewing_redwall);
 		registerBlock(event, brewing_guosim);
-		
+
 		registerBlock(event, mug);
 		registerBlock(event, bottle);
 		registerBlock(event, bowl);
@@ -1407,7 +1407,7 @@ public class BlockHandler {
 		registerItemBlock(event, ib_smithing_redwall);
 		registerItemBlock(event, ib_brewing_redwall);
 		registerItemBlock(event, ib_brewing_guosim);
-		
+
 		registerItemBlock(event, ib_plate);
 	}
 
