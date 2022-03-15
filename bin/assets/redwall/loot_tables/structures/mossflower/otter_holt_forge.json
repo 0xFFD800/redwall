@@ -1,0 +1,147 @@
+{
+    "pools": [
+        {
+          "rolls": {
+            "max": 4,
+            "min": 2
+          },
+          "name": "metal",
+          "entries": [
+            {
+              "type": "item",
+              "entryName": "iron",
+              "name": "minecraft:iron_ingot",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "bronze",
+              "name": "redwall:bronze_ingot",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "copper",
+              "name": "redwall:copper_ingot",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "sticks",
+              "name": "minecraft:stick",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 5,
+                    "max": 10
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "tin",
+              "name": "redwall:tin_ingot",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "gold",
+              "name": "minecraft:gold_ingot",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 1
+                  }
+                }
+              ],
+              "weight": 5
+            }
+          ]
+        },
+        {
+          "rolls": {
+              "max": 3,
+              "min": 1
+            },
+          "name": "weapons",
+          "entries": [
+            {
+              "type": "item",
+              "entryName": "spear",
+              "name": "redwall:iron_spear",
+              "weight": 7
+            },
+            {
+              "type": "item",
+              "entryName": "axe",
+              "name": "minecraft:iron_axe",
+              "weight": 7
+            },
+            {
+              "type": "item",
+              "entryName": "tomahawk",
+              "name": "redwall:iron_throwing_axe",
+              "weight": 7
+            },
+            {
+              "type": "item",
+              "entryName": "club",
+              "name": "redwall:iron_mace",
+              "weight": 7
+            },
+            {
+              "type": "item",
+              "entryName": "dagger",
+              "name": "redwall:iron_dagger",
+              "weight": 10
+            },
+            {
+              "type": "empty",
+              "entryName": "nothing",
+              "weight": 69
+            }
+          ]
+        }
+    ]
+}
