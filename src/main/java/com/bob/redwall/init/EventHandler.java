@@ -163,9 +163,8 @@ public class EventHandler {
 					player.closeScreen();
 					player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
 				}
-			} else
-				if (player.openContainer instanceof ContainerPlayer)
-					player.closeScreen();
+			} else if (player.openContainer instanceof ContainerPlayer)
+				player.closeScreen();
 		}
 
 		if (keyBindings[1].isPressed()) {
@@ -176,9 +175,8 @@ public class EventHandler {
 					player.closeScreen();
 					player.getCapability(AgilityProvider.AGILITY_CAP, null).setInit();
 				}
-			} else
-				if (player.openContainer instanceof ContainerPlayer)
-					player.closeScreen();
+			} else if (player.openContainer instanceof ContainerPlayer)
+				player.closeScreen();
 		}
 
 		if (keyBindings[2].isPressed()) {
@@ -188,9 +186,8 @@ public class EventHandler {
 					player.closeScreen();
 					player.getCapability(FactionCapProvider.FACTION_CAP, null).setInit();
 				}
-			} else
-				if (player.openContainer instanceof ContainerPlayer)
-					player.closeScreen();
+			} else if (player.openContainer instanceof ContainerPlayer)
+				player.closeScreen();
 		}
 	}
 
@@ -349,16 +346,15 @@ public class EventHandler {
 			if (event.player.ticksExisted % Faction.LOYALTY_CHANGE_TIMER == 0) {
 				for (Faction f : Faction.getAllFactions()) {
 					float points = event.player.getCapability(FactionCapProvider.FACTION_CAP, null).get(f, FacStatType.LOYALTY);
-					if (f.isVermin())
-						event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
-					else if (f.isPeaceful())
-						event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
+					if (RedwallUtils.getFacStatLevel(event.player, f, FacStatType.LOYALTY) > 0)
+						if (f.isVermin())
+							event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points - 1, true);
+						else if (f.isPeaceful())
+							event.player.getCapability(FactionCapProvider.FACTION_CAP, null).set(f, FacStatType.LOYALTY, points + 1, true);
 				}
 			}
 
-			event.player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().forEach((u1) -> {
-				u1.update();
-			});
+			event.player.getCapability(FactionCapProvider.FACTION_CAP, null).getFavors().forEach((u1) -> u1.update());
 		} else if (event.phase == TickEvent.Phase.START && event.player.world.isRemote) {
 			IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
 			if (defending.get() && !event.player.isSneaking())
@@ -373,16 +369,16 @@ public class EventHandler {
 			event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), armorPoints, 0));
 		if (event.getSource() instanceof EntityDamageSource && ((EntityDamageSource) event.getSource()).getImmediateSource() instanceof EntityLivingBase)
 			EquipmentModifierUtils.doDefense(event.getEntityLiving(), (EntityLivingBase) ((EntityDamageSource) event.getSource()).getImmediateSource());
-		
+
 		if (event.getEntityLiving() instanceof EntityPlayer && (event.getEntityLiving().getHeldItemMainhand().getItem() instanceof ItemBow || event.getEntityLiving().getHeldItemMainhand().getItem() instanceof ItemModBow) && event.getEntityLiving().isHandActive()) {
-            ItemStack arrow = RedwallUtils.findAmmo((EntityPlayer) event.getEntityLiving());
-            ItemArrow itemarrow = (ItemArrow) arrow.getItem();
-            EntityArrow entityarrow = itemarrow.createArrow(event.getEntity().world, arrow, event.getEntityLiving());
-            entityarrow.shoot(event.getEntityLiving(), event.getEntityLiving().rotationPitch, event.getEntityLiving().rotationYaw, 0.0F, 0, 1.0F);
-            event.getEntityLiving().getHeldItemMainhand().damageItem(1, event.getEntityLiving());
-            event.getEntity().world.spawnEntity(entityarrow);
-            if (!((EntityPlayer)event.getEntity()).isCreative())
-            	arrow.shrink(1);
+			ItemStack arrow = RedwallUtils.findAmmo((EntityPlayer) event.getEntityLiving());
+			ItemArrow itemarrow = (ItemArrow) arrow.getItem();
+			EntityArrow entityarrow = itemarrow.createArrow(event.getEntity().world, arrow, event.getEntityLiving());
+			entityarrow.shoot(event.getEntityLiving(), event.getEntityLiving().rotationPitch, event.getEntityLiving().rotationYaw, 0.0F, 0, 1.0F);
+			event.getEntityLiving().getHeldItemMainhand().damageItem(1, event.getEntityLiving());
+			event.getEntity().world.spawnEntity(entityarrow);
+			if (!((EntityPlayer) event.getEntity()).isCreative())
+				arrow.shrink(1);
 			event.getEntityLiving().resetActiveHand();
 		}
 	}
@@ -501,9 +497,8 @@ public class EventHandler {
 			for (Faction f : Faction.getAllFactions()) {
 				if (facCap.get(f, FacStatType.LOYALTY) > facCap.get(factionGreatestLoyalty, FacStatType.LOYALTY))
 					factionGreatestLoyalty = f;
-				if (fac == f) {
+				if (fac == f)
 					facCap.set(fac, FacStatType.LOYALTY, facCap.get(fac, FacStatType.LOYALTY) - 100.0F, true);
-				}
 
 				if (f.getFactionStatus(fac) == FactionStatus.ALLIED)
 					facCap.set(f, FacStatType.LOYALTY, facCap.get(f, FacStatType.LOYALTY) - 100.0F, true);
@@ -622,8 +617,7 @@ public class EventHandler {
 
 			if (player.world.isRaining())
 				fog_density = f + (player.world.getRainStrength((float) Minecraft.getMinecraft().getRenderPartialTicks()) - 0.2F) * 0.05F;
-			else
-				fog_density = f;
+			else fog_density = f;
 		}
 	}
 }

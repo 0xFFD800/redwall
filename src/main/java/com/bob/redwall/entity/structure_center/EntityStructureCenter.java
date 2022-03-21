@@ -71,7 +71,8 @@ public abstract class EntityStructureCenter extends EntityLivingBase {
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (source instanceof EntityDamageSource && ((EntityDamageSource) source).getTrueSource() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) ((EntityDamageSource) source).getTrueSource();
-			if (player.getCapability(FactionCapProvider.FACTION_CAP, null).getPlayerContacted(this.getFaction()) && player.getCapability(FactionCapProvider.FACTION_CAP, null).get(this.getFaction(), FacStatType.LOYALTY) >= 0) return false;
+			if (player.getCapability(FactionCapProvider.FACTION_CAP, null).getPlayerContacted(this.getFaction()) && player.getCapability(FactionCapProvider.FACTION_CAP, null).get(this.getFaction(), FacStatType.LOYALTY) >= 0)
+				return false;
 		}
 
 		boolean b = super.attackEntityFrom(source, amount);

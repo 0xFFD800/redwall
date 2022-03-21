@@ -292,9 +292,8 @@ public class RedwallUtils {
 
 						if (isWeapon && ((ModCustomWeapon) weapon.getItem()).getFaction() != null && attacker instanceof EntityPlayer) {
 							float fightSkill = attacker.getCapability(FactionCapProvider.FACTION_CAP, null).get(((ModCustomWeapon) weapon.getItem()).getFaction(), FacStatType.FIGHT);
-							if (fightSkill > 0) {
+							if (fightSkill > 0)
 								f *= ((float) RedwallUtils.getFacStatLevel((EntityPlayer) attacker, ((ModCustomWeapon) weapon.getItem()).getFaction(), FacStatType.FIGHT) / 4.0F) + 1.0F;
-							}
 						}
 
 						switch (attacking.getMode()) {
