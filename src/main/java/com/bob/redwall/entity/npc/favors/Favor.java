@@ -8,8 +8,6 @@ import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
-import com.bob.redwall.init.ItemHandler;
-import com.bob.redwall.init.SpeechHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -17,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.WeightedRandom;
 import net.minecraftforge.common.util.Constants;
 
 public class Favor {
@@ -228,17 +227,15 @@ public class Favor {
 		this.timeLimit = c.getLong("TimeLimit");
 	}
 
-	private static final Item[] metals = new Item[] { Items.IRON_INGOT, ItemHandler.bronze_ingot, ItemHandler.copper_ingot, ItemHandler.tin_ingot };
-
-	public static Favor createFavorCollectMetals(EntityPlayer player, EntityAbstractNPC giver, int typesL, int typesH, int numL, int numH, long timeLimitLow, long timeLimitHigh) {
+	public static Favor createFavorCollectItems(List<EntityAbstractNPC.EquipmentChance> items, List<String> stories, EntityPlayer player, EntityAbstractNPC giver, int typesL, int typesH, int numL, int numH, long timeLimitLow, long timeLimitHigh) {
 		int types = giver.getRNG().nextInt(typesH - typesL) + typesL;
 		IFavorCondition[] conditions = new IFavorCondition[types];
 		List<Item> usedItems = new ArrayList<>();
 
 		for (int i = 0; i < types; i++) {
-			Item item = metals[giver.getRNG().nextInt(metals.length)];
+			Item item = WeightedRandom.getRandomItem(giver.getRNG(), items).getItem();
 			while (usedItems.contains(item))
-				item = metals[giver.getRNG().nextInt(metals.length)];
+				item = WeightedRandom.getRandomItem(giver.getRNG(), items).getItem();
 			usedItems.add(item);
 
 			int num = giver.getRNG().nextInt(numH - numL) + numL;
@@ -264,8 +261,6 @@ public class Favor {
 		List<IFavorReward> f = new ArrayList<>();
 		for (IFavorReward ifc : failure)
 			f.add(ifc);
-
-		List<String> stories = giver.getFaction().isVermin() ? SpeechHandler.COLLECT_METALS_EVIL : SpeechHandler.COLLECT_METALS_GOOD;
 
 		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
 	}
