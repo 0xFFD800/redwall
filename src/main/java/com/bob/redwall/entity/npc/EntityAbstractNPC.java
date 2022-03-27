@@ -669,6 +669,23 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		return entitytippedarrow;
 	}
 
+	@Override
+	protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource source) {
+		super.dropLoot(wasRecentlyHit, lootingModifier, source);
+		if (this.getHeldItemMainhand().getItem() instanceof ItemBow || this.getHeldItemMainhand().getItem() instanceof ItemModBow) {
+			Item item = this.getHeldItemMainhand().getItem() instanceof ItemModBow ? ((ItemModBow) this.getHeldItemMainhand().getItem()).getDropArrow() : Items.ARROW;
+			int i = this.rand.nextInt(3);
+
+			if (lootingModifier > 0) {
+				i += this.rand.nextInt(lootingModifier + 1);
+			}
+
+			for (int j = 0; j < i; ++j) {
+				this.dropItem(item, 1);
+			}
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
 	public boolean isChargingBow() {
 		return ((Boolean) this.dataManager.get(CHARGING_BOW)).booleanValue();

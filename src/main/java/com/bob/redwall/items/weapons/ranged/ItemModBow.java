@@ -85,6 +85,18 @@ public class ItemModBow extends ModItem {
     public boolean isArrow(ItemStack stack) {
         return ammoClass.isAssignableFrom(stack.getItem().getClass());
     }
+    
+    /**
+     * What item should an NPC carrying this bow drop?
+     * @return the dropped arrow item
+     */
+    public Item getDropArrow() {
+    	for (ResourceLocation r : Item.REGISTRY.getKeys())
+    		if (ammoClass.isAssignableFrom(Item.REGISTRY.getObject(r).getClass()))
+    			return Item.REGISTRY.getObject(r);
+    	//This shouldn't happen, but just in case...
+    	return Items.ARROW;
+    }
 
     /**
      * Called when the player stops using an Item (stops holding the right mouse button).

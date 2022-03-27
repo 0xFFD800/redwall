@@ -144,7 +144,7 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 				arrComponents.add(new WeightedComponent(new WorldGenKotirTurretInhabited(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenKotirTurretInhabited.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenKotirTurretInhabited.getSize().getY(), chunkZ * 16 + WorldGenKotirTurretInhabited.getSize().getZ() })), 10));
 				arrComponents.add(new WeightedComponent(new WorldGenOtterHolt(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenOtterHolt.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenOtterHolt.getSize().getY(), chunkZ * 16 + WorldGenOtterHolt.getSize().getZ() })), 4));
 			} else if (RedwallUtils.isInBulrushBower(biomeIn, chunkX, chunkZ)) {
-				arrComponents.add(new WeightedComponent(new WorldGenGuosimCamp(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGuosimCamp.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGuosimCamp.getSize().getY(), chunkZ * 16 + WorldGenGuosimCamp.getSize().getZ() })), 10));
+				arrComponents.add(new WeightedComponent(new WorldGenGuosimCamp(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGuosimCamp.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGuosimCamp.getSize().getY(), chunkZ * 16 + WorldGenGuosimCamp.getSize().getZ() })), 40));
 				arrComponents.add(new WeightedComponent(new WorldGenGuosimCookingTent(new StructureBoundingBox(new int[] { chunkX * 16, worldIn.getHeight(chunkX * 16, chunkZ * 16), chunkZ * 16, chunkX * 16 + WorldGenGuosimCookingTent.getSize().getX(), worldIn.getHeight(chunkX * 16, chunkZ * 16) + WorldGenGuosimCookingTent.getSize().getY(), chunkZ * 16 + WorldGenGuosimCookingTent.getSize().getZ() })), 4));
 			}
 
@@ -186,5 +186,8 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 		MapGenStructureIO.registerStructureComponent(WorldGenKotirTurretInhabited.class, "MoKI");
 		MapGenStructureIO.registerStructureComponent(WorldGenKotirFortAbandoned.class, "MoKF");
 		MapGenStructureIO.registerStructureComponent(WorldGenOtterHolt.class, "MoOH");
+
+		MapGenStructureIO.registerStructureComponent(WorldGenGuosimCamp.class, "GuCA");
+		MapGenStructureIO.registerStructureComponent(WorldGenGuosimCookingTent.class, "GuCT");
 	}
 }
