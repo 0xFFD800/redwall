@@ -13,6 +13,7 @@ import com.bob.redwall.init.SpeechHandler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -28,6 +29,12 @@ public class EntityShrewGuosim extends EntityAbstractNPC {
 	
 	public EntityShrewGuosim(World worldIn, boolean male) {
 		super(worldIn, male);
+	}
+
+	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
 	}
     
 	@Override
