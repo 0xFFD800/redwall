@@ -1,0 +1,238 @@
+{
+    "pools": [
+        {
+          "rolls": {
+            "max": 20,
+            "min": 10
+          },
+          "name": "food",
+          "entries": [
+            {
+              "type": "item",
+              "entryName": "wheat",
+              "name": "minecraft:wheat",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 5,
+                    "max": 10
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "corn",
+              "name": "redwall:corn",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "plum",
+              "name": "redwall:plum",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 5
+            },
+            {
+              "type": "item",
+              "entryName": "apple",
+              "name": "minecraft:apple",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 5
+            },
+            {
+              "type": "item",
+              "entryName": "pear",
+              "name": "redwall:pear",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 5
+            },
+            {
+              "type": "item",
+              "entryName": "strawberry",
+              "name": "redwall:strawberry",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 5
+            },
+            {
+              "type": "item",
+              "entryName": "raspberry",
+              "name": "redwall:raspberry",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 5
+            },
+            {
+              "type": "item",
+              "entryName": "blueberry",
+              "name": "redwall:blueberry",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 5
+            },
+            {
+              "type": "item",
+              "entryName": "potatoes",
+              "name": "minecraft:potato",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 5,
+                    "max": 10
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "turnips",
+              "name": "redwall:turnip",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 3,
+                    "max": 5
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "carrots",
+              "name": "minecraft:carrot",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "rice",
+              "name": "redwall:rice",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 10,
+                    "max": 20
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "reeds",
+              "name": "redwall:water_reeds",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "dried_reeds",
+              "name": "redwall:water_reeds_dried",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 2
+                  }
+                }
+              ],
+              "weight": 20
+            },
+            {
+              "type": "item",
+              "entryName": "mug",
+              "name": "redwall:mug_empty",
+              "functions": [
+                {
+                  "function": "set_count",
+                  "count":  {
+                    "min": 1,
+                    "max": 1
+                  }
+                }
+              ],
+              "weight": 20
+            }
+          ]
+        }
+    ]
+}
