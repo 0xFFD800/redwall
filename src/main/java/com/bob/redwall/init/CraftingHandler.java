@@ -376,6 +376,16 @@ public class CraftingHandler {
 		public List<LeveledRecipe> getRecipeList() {
 			return this.recipes;
 		}
+		
+		/**
+		 * @return The level required to craft the item if possible; -1 otherwise
+		 */
+		public int getLevelToCraft(Item item) {
+			for (LeveledRecipe recipe : this.getRecipeList())
+				if (recipe.recipe.getRecipeOutput().getItem() == item)
+					return recipe.reqLevel;
+			return -1;
+		}
 	}
 
 	public static class SmithingRedwall extends SmithingGeneric {

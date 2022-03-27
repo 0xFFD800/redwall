@@ -62,8 +62,8 @@ public class SlotSmithingGeneric extends Slot {
 			stack.onCrafting(this.player.world, this.player, this.amountCrafted);
 			net.minecraftforge.fml.common.FMLCommonHandler.instance().firePlayerCraftingEvent(this.player, stack, craftMatrix);
 			IFactionCap cap = this.player.getCapability(FactionCapProvider.FACTION_CAP, null);
-			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.LOYALTY, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.LOYALTY) + 5.0F, true);
-			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH) + 5.0F, true);
+			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.LOYALTY, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.LOYALTY) + 20.0F * CraftingHandler.SmithingGeneric.getInstance().getLevelToCraft(stack.getItem()), true);
+			cap.set(Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH) + 20.0F * CraftingHandler.SmithingGeneric.getInstance().getLevelToCraft(stack.getItem()), true);
 			RedwallUtils.applyEquipmentModifiers(this.player, stack, cap.get(Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH));
 		}
 
