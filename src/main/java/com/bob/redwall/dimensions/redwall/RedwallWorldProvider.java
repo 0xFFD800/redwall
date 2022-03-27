@@ -32,7 +32,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
 
 public class RedwallWorldProvider extends WorldProvider {
-	public static final BlockPos REDWALL_SPAWN_POINT = new BlockPos(49998, 70, 30000);
+	public static final BlockPos REDWALL_SPAWN_POINT = new BlockPos(53616, 70, 37856);
 	public static final long REDWALL_SEED = 1L;
 	public static final float REDWALL_DAY_LENGTH = 72000.0F;
 	public static final int REDWALL_BIOME_SIZE = 2; //2 results in a 1:1 ratio between pixels and chunks. That seems pretty reasonable.
