@@ -63,7 +63,7 @@ public class EntityHandler {
         
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "woodlander_hearth"), EntityWoodlanderHearth.class, Ref.MODID + ":woodlander_hearth", id++, Ref.MODID, 64, 3, true);
         EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "mossflower_vermin_campfire"), EntityMossflowerVerminCampfire.class, Ref.MODID + ":mossflower_vermin_campfire", id++, Ref.MODID, 64, 3, true);
-        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "guosim_campfire"), EntityMossflowerVerminCampfire.class, Ref.MODID + ":guosim_campfire", id++, Ref.MODID, 64, 3, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(Ref.MODID, "guosim_campfire"), EntityGuosimCampfire.class, Ref.MODID + ":guosim_campfire", id++, Ref.MODID, 64, 3, true);
 	}
 	
 	@SideOnly(Side.CLIENT)
