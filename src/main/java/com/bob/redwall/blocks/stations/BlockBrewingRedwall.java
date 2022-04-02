@@ -58,16 +58,14 @@ public class BlockBrewingRedwall extends ModBlock implements ITileEntityProvider
 		// Only execute on the server
 		if (!world.isRemote) {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntityBrewingRedwall)) {
+			if (!(te instanceof TileEntityBrewingRedwall))
 				return false;
-			}
 			player.openGui(Ref.MODID, GuiHandler.GUI_BREWING_REDWALL_ID, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		} else {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntityBrewingRedwall)) {
+			if (!(te instanceof TileEntityBrewingRedwall))
 				return false;
-			}
 			// If it's on client we want to send a message to the server instead.
 			Ref.NETWORK.sendToServer(new MessageUIInteractServer(Mode.OPEN_GUI_CONTAINER, GuiHandler.GUI_BREWING_REDWALL_ID, pos.getX(), pos.getY(), pos.getZ()));
 			return true;
@@ -113,7 +111,8 @@ public class BlockBrewingRedwall extends ModBlock implements ITileEntityProvider
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntityBrewingRedwall tileentity = (TileEntityBrewingRedwall) world.getTileEntity(pos);
 
-		if (tileentity.getBrewingFinished()) InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.brewStack);
+		if (tileentity.getBrewingFinished())
+			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.brewStack);
 		InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileentity);
 		world.updateComparatorOutputLevel(pos, this);
 

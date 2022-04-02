@@ -11,42 +11,40 @@ import net.minecraft.util.EnumFacing;
 public class BlockModPillar extends BlockRotatedPillar {
 	public BlockModPillar(String name, CreativeTabs tab, float hardness, float resistance, int harvest, String tool) {
 		super(Material.ROCK);
-        this.setRegistryName(name);
-        this.setUnlocalizedName(name);
-        this.setCreativeTab(tab);
-        this.setHardness(hardness);
-        this.setResistance(resistance);
+		this.setRegistryName(name);
+		this.setUnlocalizedName(name);
+		this.setCreativeTab(tab);
+		this.setHardness(hardness);
+		this.setResistance(resistance);
 		this.setHarvestLevel(tool, harvest);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.X));
 	}
-	
+
 	protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {AXIS});
-    }
-	
-    public IBlockState getStateFromMeta(int meta) {
-    	EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Y;
-        int i = meta & 12;
+		return new BlockStateContainer(this, new IProperty[] { AXIS });
+	}
 
-        if (i == 4) {
-            enumfacing$axis = EnumFacing.Axis.X;
-        } else if (i == 8) {
-            enumfacing$axis = EnumFacing.Axis.Z;
-        }
+	public IBlockState getStateFromMeta(int meta) {
+		EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Y;
+		int i = meta & 12;
 
-        return this.getDefaultState().withProperty(AXIS, enumfacing$axis);
-    }
+		if (i == 4)
+			enumfacing$axis = EnumFacing.Axis.X;
+		else if (i == 8)
+			enumfacing$axis = EnumFacing.Axis.Z;
 
-    public int getMetaFromState(IBlockState state) {
-        int i = 0;
-        EnumFacing.Axis enumfacing$axis = (EnumFacing.Axis)state.getValue(AXIS);
+		return this.getDefaultState().withProperty(AXIS, enumfacing$axis);
+	}
 
-        if (enumfacing$axis == EnumFacing.Axis.X) {
-            i |= 4;
-        } else if (enumfacing$axis == EnumFacing.Axis.Z) {
-            i |= 8;
-        }
+	public int getMetaFromState(IBlockState state) {
+		int i = 0;
+		EnumFacing.Axis enumfacing$axis = (EnumFacing.Axis) state.getValue(AXIS);
 
-        return i;
-    }
+		if (enumfacing$axis == EnumFacing.Axis.X)
+			i |= 4;
+		else if (enumfacing$axis == EnumFacing.Axis.Z)
+			i |= 8;
+
+		return i;
+	}
 }

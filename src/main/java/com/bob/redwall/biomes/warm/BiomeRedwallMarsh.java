@@ -18,78 +18,78 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BiomeRedwallMarsh extends Biome {
 	protected static final IBlockState WATER_LILY = Blocks.WATERLILY.getDefaultState();
 
-    public BiomeRedwallMarsh(Biome.BiomeProperties properties) {
-        super(properties);
-        
-        this.decorator.treesPerChunk = 2;
-        this.decorator.flowersPerChunk = 1;
-        this.decorator.reedsPerChunk = 10;
-        this.decorator.clayPerChunk = 1;
-        this.decorator.sandPatchesPerChunk = 0;
-        this.decorator.grassPerChunk = 20;
+	public BiomeRedwallMarsh(Biome.BiomeProperties properties) {
+		super(properties);
 
-        this.spawnableCreatureList.clear();
-        this.spawnableMonsterList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-    }
+		this.decorator.treesPerChunk = 2;
+		this.decorator.flowersPerChunk = 1;
+		this.decorator.reedsPerChunk = 10;
+		this.decorator.clayPerChunk = 1;
+		this.decorator.sandPatchesPerChunk = 0;
+		this.decorator.grassPerChunk = 20;
 
-    @Override
-    public float getSpawningChance() {
-        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
-    }
+		this.spawnableCreatureList.clear();
+		this.spawnableMonsterList.clear();
+		this.spawnableCaveCreatureList.clear();
+		this.spawnableWaterCreatureList.clear();
+	}
 
-    @Override
-    public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
-        return BlockFlower.EnumFlowerType.BLUE_ORCHID;
-    }
+	@Override
+	public float getSpawningChance() {
+		return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+	}
 
-    @Override
-    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
-        double d0 = GRASS_COLOR_NOISE.getValue((double)x * 0.25D, (double)z * 0.25D);
+	@Override
+	public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
+		return BlockFlower.EnumFlowerType.BLUE_ORCHID;
+	}
 
-        if (d0 > 0.0D) {
-            int i = x & 15;
-            int j = z & 15;
+	@Override
+	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
+		double d0 = GRASS_COLOR_NOISE.getValue((double) x * 0.25D, (double) z * 0.25D);
 
-            for (int k = 255; k >= 0; --k) {
-                if (chunkPrimerIn.getBlockState(j, k, i).getMaterial() != Material.AIR) {
-                    if (k == 62 && chunkPrimerIn.getBlockState(j, k, i).getBlock() != Blocks.WATER) {
-                        chunkPrimerIn.setBlockState(j, k, i, WATER);
-                    }
+		if (d0 > 0.0D) {
+			int i = x & 15;
+			int j = z & 15;
 
-                    break;
-                }
-            }
-        }
+			for (int k = 255; k >= 0; --k) {
+				if (chunkPrimerIn.getBlockState(j, k, i).getMaterial() != Material.AIR) {
+					if (k == 62 && chunkPrimerIn.getBlockState(j, k, i).getBlock() != Blocks.WATER)
+						chunkPrimerIn.setBlockState(j, k, i, WATER);
 
-        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
-    }
+					break;
+				}
+			}
+		}
 
-    @Override
-    public void decorate(World worldIn, Random rand, BlockPos pos) {
-        for (int i1 = 0; i1 < this.decorator.clayPerChunk; ++i1) {
-	    	rand.nextInt(16);
-	        rand.nextInt(16);
-        }
-        super.decorate(worldIn, rand, pos);
-    }
+		this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getGrassColorAtPos(BlockPos pos) {
-        double d0 = GRASS_COLOR_NOISE.getValue((double)pos.getX() * 0.0225D, (double)pos.getZ() * 0.0225D);
-        return d0 < -0.1D ? 5011004 : 6975545;
-    }
+	@Override
+	public void decorate(World worldIn, Random rand, BlockPos pos) {
+		for (int i1 = 0; i1 < this.decorator.clayPerChunk; ++i1) {
+			rand.nextInt(16);
+			rand.nextInt(16);
+		}
+		
+		super.decorate(worldIn, rand, pos);
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getFoliageColorAtPos(BlockPos pos) {
-        return 6975545;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getGrassColorAtPos(BlockPos pos) {
+		double d0 = GRASS_COLOR_NOISE.getValue((double) pos.getX() * 0.0225D, (double) pos.getZ() * 0.0225D);
+		return d0 < -0.1D ? 5011004 : 6975545;
+	}
 
-    @Override
-    public void addDefaultFlowers() {
-        addFlower(Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(), BlockFlower.EnumFlowerType.BLUE_ORCHID), 10);
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getFoliageColorAtPos(BlockPos pos) {
+		return 6975545;
+	}
+
+	@Override
+	public void addDefaultFlowers() {
+		addFlower(Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(), BlockFlower.EnumFlowerType.BLUE_ORCHID), 10);
+	}
 }

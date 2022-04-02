@@ -7,24 +7,24 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeStoneBeach;
 
 public class BiomeRedwallStoneBeach extends BiomeStoneBeach {
-    public BiomeRedwallStoneBeach(Biome.BiomeProperties properties) {
-        super(properties);
-        
-        this.topBlock = Blocks.STONE.getDefaultState();
-        this.fillerBlock = Blocks.STONE.getDefaultState();
-        this.decorator.treesPerChunk = -999;
-        this.decorator.deadBushPerChunk = 0;
-        this.decorator.reedsPerChunk = 0;
-        this.decorator.cactiPerChunk = 0;
+	public BiomeRedwallStoneBeach(Biome.BiomeProperties properties) {
+		super(properties);
 
-        this.spawnableCreatureList.clear();
-        this.spawnableMonsterList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-    }
+		this.topBlock = Blocks.STONE.getDefaultState();
+		this.fillerBlock = Blocks.STONE.getDefaultState();
+		this.decorator.treesPerChunk = -999;
+		this.decorator.deadBushPerChunk = 0;
+		this.decorator.reedsPerChunk = 0;
+		this.decorator.cactiPerChunk = 0;
 
-    @Override
-    public float getSpawningChance() {
-        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
-    }
+		this.spawnableCreatureList.clear();
+		this.spawnableMonsterList.clear();
+		this.spawnableCaveCreatureList.clear();
+		this.spawnableWaterCreatureList.clear();
+	}
+
+	@Override
+	public float getSpawningChance() {
+		return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+	}
 }

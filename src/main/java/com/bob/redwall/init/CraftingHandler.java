@@ -114,11 +114,10 @@ public class CraftingHandler {
 		GameRegistry.addSmelting(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
 		GameRegistry.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
 
-		for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
-			if (itemfishfood$fishtype.canCook()) {
+		for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values())
+			if (itemfishfood$fishtype.canCook())
 				GameRegistry.addSmelting(new ItemStack(Items.FISH, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
-			}
-		}
+
 		GameRegistry.addSmelting(ItemHandler.trout, new ItemStack(ItemHandler.trout_cooked), 0.35F);
 		GameRegistry.addSmelting(ItemHandler.perch, new ItemStack(ItemHandler.perch_cooked), 0.35F);
 		GameRegistry.addSmelting(ItemHandler.bass, new ItemStack(ItemHandler.bass_cooked), 0.35F);
@@ -247,23 +246,17 @@ public class CraftingHandler {
 			this.addRecipe(4, new ItemStack(Items.GOLDEN_BOOTS), new Object[] { "# #", "# #", '#', Items.GOLD_INGOT });
 
 			/*
-			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new NBTTagCompound(); 
-			 * //display.setString("Name", String.valueOf(new Random().nextDouble())); 
-			 * NBTTagList lore = new NBTTagList();
+			 * NBTTagCompound nbt = new NBTTagCompound(); NBTTagCompound display = new
+			 * NBTTagCompound(); //display.setString("Name", String.valueOf(new
+			 * Random().nextDouble())); NBTTagList lore = new NBTTagList();
 			 * lore.appendTag(new NBTTagString(I18n.format("key.canLock", new Object[0])));
-			 * display.setTag("Lore", lore); 
-			 * nbt.setTag("display", display); 
-			 * ItemStack itemstack = new ItemStack(ItemHandler.key, 1, 0);
-			 * itemstack.setTagCompound(nbt); 
-			 * this.addRecipe(itemstack.copy(), new Object[] {" # ", "# #", " # ", '#', ItemHandler.heated_iron_ingot});
+			 * display.setTag("Lore", lore); nbt.setTag("display", display); ItemStack
+			 * itemstack = new ItemStack(ItemHandler.key, 1, 0);
+			 * itemstack.setTagCompound(nbt); this.addRecipe(itemstack.copy(), new Object[]
+			 * {" # ", "# #", " # ", '#', ItemHandler.heated_iron_ingot});
 			 */
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ShapedRecipes addRecipe(int reqLevel, ItemStack stack, Object... recipeComponents) {
@@ -295,13 +288,12 @@ public class CraftingHandler {
 				Character character = (Character) recipeComponents[i];
 				ItemStack itemstack = ItemStack.EMPTY;
 
-				if (recipeComponents[i + 1] instanceof Item) {
+				if (recipeComponents[i + 1] instanceof Item)
 					itemstack = new ItemStack((Item) recipeComponents[i + 1]);
-				} else if (recipeComponents[i + 1] instanceof Block) {
+				else if (recipeComponents[i + 1] instanceof Block)
 					itemstack = new ItemStack((Block) recipeComponents[i + 1], 1, 32767);
-				} else if (recipeComponents[i + 1] instanceof ItemStack) {
+				else if (recipeComponents[i + 1] instanceof ItemStack)
 					itemstack = (ItemStack) recipeComponents[i + 1];
-				}
 
 				map.put(character, itemstack);
 			}
@@ -311,11 +303,9 @@ public class CraftingHandler {
 			for (int l = 0; l < j * k; ++l) {
 				char c0 = s.charAt(l);
 
-				if (map.containsKey(Character.valueOf(c0))) {
+				if (map.containsKey(Character.valueOf(c0)))
 					aitemstack.add(l, Ingredient.fromStacks(((ItemStack) map.get(Character.valueOf(c0))).copy()));
-				} else {
-					aitemstack.add(l, Ingredient.EMPTY);
-				}
+				else aitemstack.add(l, Ingredient.EMPTY);
 			}
 
 			ShapedRecipes shapedrecipes = new ShapedRecipes("", j, k, aitemstack, stack);
@@ -332,9 +322,8 @@ public class CraftingHandler {
 				} else if (object instanceof Item) {
 					list.add(Ingredient.fromStacks(new ItemStack((Item) object)));
 				} else {
-					if (!(object instanceof Block)) {
+					if (!(object instanceof Block))
 						throw new IllegalArgumentException("Invalid shapeless recipe: unknown type " + object.getClass().getName() + "!");
-					}
 
 					list.add(Ingredient.fromStacks(new ItemStack((Block) object)));
 				}
@@ -348,21 +337,17 @@ public class CraftingHandler {
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH) >= irecipe.reqLevel) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GENERIC, FactionCap.FacStatType.SMITH) >= irecipe.reqLevel)
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
 
 		public NonNullList<ItemStack> getRemainingItems(InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn)) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn))
 					return irecipe.recipe.getRemainingItems(craftMatrix);
-				}
-			}
 
 			NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(craftMatrix.getSizeInventory(), ItemStack.EMPTY);
 
@@ -376,7 +361,7 @@ public class CraftingHandler {
 		public List<LeveledRecipe> getRecipeList() {
 			return this.recipes;
 		}
-		
+
 		/**
 		 * @return The level required to craft the item if possible; -1 otherwise
 		 */
@@ -406,20 +391,13 @@ public class CraftingHandler {
 
 			this.addRecipe(0, new ItemStack(BlockHandler.brewing_redwall), new Object[] { "VVV", "###", "VVV", '#', Items.IRON_INGOT, 'V', Items.STICK });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.REDWALL, FactionCap.FacStatType.SMITH) >= irecipe.reqLevel) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.REDWALL, FactionCap.FacStatType.SMITH) >= irecipe.reqLevel)
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
@@ -497,13 +475,12 @@ public class CraftingHandler {
 				Character character = (Character) recipeComponents[i];
 				ItemStack itemstack = ItemStack.EMPTY;
 
-				if (recipeComponents[i + 1] instanceof Item) {
+				if (recipeComponents[i + 1] instanceof Item)
 					itemstack = new ItemStack((Item) recipeComponents[i + 1]);
-				} else if (recipeComponents[i + 1] instanceof Block) {
+				else if (recipeComponents[i + 1] instanceof Block)
 					itemstack = new ItemStack((Block) recipeComponents[i + 1], 1, 32767);
-				} else if (recipeComponents[i + 1] instanceof ItemStack) {
+				else if (recipeComponents[i + 1] instanceof ItemStack)
 					itemstack = (ItemStack) recipeComponents[i + 1];
-				}
 
 				map.put(character, itemstack);
 			}
@@ -513,11 +490,9 @@ public class CraftingHandler {
 			for (int l = 0; l < j * k; ++l) {
 				char c0 = s.charAt(l);
 
-				if (map.containsKey(Character.valueOf(c0))) {
+				if (map.containsKey(Character.valueOf(c0)))
 					aitemstack.add(l, Ingredient.fromStacks(((ItemStack) map.get(Character.valueOf(c0))).copy()));
-				} else {
-					aitemstack.add(l, Ingredient.EMPTY);
-				}
+				else aitemstack.add(l, Ingredient.EMPTY);
 			}
 
 			ShapedRecipes shapedrecipes = new ShapedRecipes("", j, k, aitemstack, stack);
@@ -534,9 +509,8 @@ public class CraftingHandler {
 				} else if (object instanceof Item) {
 					list.add(Ingredient.fromStacks(new ItemStack((Item) object)));
 				} else {
-					if (!(object instanceof Block)) {
+					if (!(object instanceof Block))
 						throw new IllegalArgumentException("Invalid shapeless recipe: unknown type " + object.getClass().getName() + "!");
-					}
 
 					list.add(Ingredient.fromStacks(new ItemStack((Block) object)));
 				}
@@ -550,27 +524,22 @@ public class CraftingHandler {
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (IRecipe irecipe : this.recipes) {
-				if (irecipe.matches(craftMatrix, worldIn)) {
+			for (IRecipe irecipe : this.recipes)
+				if (irecipe.matches(craftMatrix, worldIn))
 					return irecipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
 
 		public NonNullList<ItemStack> getRemainingItems(InventoryCrafting craftMatrix, World worldIn) {
-			for (IRecipe irecipe : this.recipes) {
-				if (irecipe.matches(craftMatrix, worldIn)) {
+			for (IRecipe irecipe : this.recipes)
+				if (irecipe.matches(craftMatrix, worldIn))
 					return irecipe.getRemainingItems(craftMatrix);
-				}
-			}
 
 			NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(craftMatrix.getSizeInventory(), ItemStack.EMPTY);
 
-			for (int i = 0; i < nonnulllist.size(); ++i) {
+			for (int i = 0; i < nonnulllist.size(); ++i)
 				nonnulllist.set(i, craftMatrix.getStackInSlot(i));
-			}
 
 			return nonnulllist;
 		}
@@ -601,12 +570,7 @@ public class CraftingHandler {
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.trout_cooked), new Object[] { ItemHandler.trout });
 			this.addShapelessRecipe(0, true, new ItemStack(ItemHandler.roast_chestnut), new Object[] { ItemHandler.chestnut });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ShapedRecipes addRecipe(int reqLevel, boolean shouldCook, ItemStack stack, Object... recipeComponents) {
@@ -638,13 +602,12 @@ public class CraftingHandler {
 				Character character = (Character) recipeComponents[i];
 				ItemStack itemstack = ItemStack.EMPTY;
 
-				if (recipeComponents[i + 1] instanceof Item) {
+				if (recipeComponents[i + 1] instanceof Item)
 					itemstack = new ItemStack((Item) recipeComponents[i + 1]);
-				} else if (recipeComponents[i + 1] instanceof Block) {
+				else if (recipeComponents[i + 1] instanceof Block)
 					itemstack = new ItemStack((Block) recipeComponents[i + 1], 1, 32767);
-				} else if (recipeComponents[i + 1] instanceof ItemStack) {
+				else if (recipeComponents[i + 1] instanceof ItemStack)
 					itemstack = (ItemStack) recipeComponents[i + 1];
-				}
 
 				map.put(character, itemstack);
 			}
@@ -654,11 +617,9 @@ public class CraftingHandler {
 			for (int l = 0; l < j * k; ++l) {
 				char c0 = s.charAt(l);
 
-				if (map.containsKey(Character.valueOf(c0))) {
+				if (map.containsKey(Character.valueOf(c0)))
 					aitemstack.add(l, Ingredient.fromStacks(((ItemStack) map.get(Character.valueOf(c0))).copy()));
-				} else {
-					aitemstack.add(l, Ingredient.EMPTY);
-				}
+				else aitemstack.add(l, Ingredient.EMPTY);
 			}
 
 			ShapedRecipes shapedrecipes = new ShapedRecipes("", j, k, aitemstack, stack);
@@ -693,37 +654,30 @@ public class CraftingHandler {
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GENERIC, FactionCap.FacStatType.COOK) >= irecipe.reqLevel) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GENERIC, FactionCap.FacStatType.COOK) >= irecipe.reqLevel)
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
 
 		public LeveledRecipe findRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GENERIC, FactionCap.FacStatType.COOK) >= irecipe.reqLevel) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GENERIC, FactionCap.FacStatType.COOK) >= irecipe.reqLevel)
 					return irecipe;
-				}
-			}
 
 			return null;
 		}
 
 		public NonNullList<ItemStack> getRemainingItems(InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn)) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn))
 					return irecipe.recipe.getRemainingItems(craftMatrix);
-				}
-			}
 
 			NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(craftMatrix.getSizeInventory(), ItemStack.EMPTY);
 
-			for (int i = 0; i < nonnulllist.size(); ++i) {
+			for (int i = 0; i < nonnulllist.size(); ++i)
 				nonnulllist.set(i, craftMatrix.getStackInSlot(i));
-			}
 
 			return nonnulllist;
 		}
@@ -763,20 +717,13 @@ public class CraftingHandler {
 			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.STRAWBERRY_FIZZ), new Object[] { "#X#", "XXX", "VCV", '#', ItemHandler.strawberry, 'X', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BEETROOT_PORT), new Object[] { "###", "VCV", '#', Items.BEETROOT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.REDWALL, FactionCap.FacStatType.BREW) >= irecipe.reqLevel) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.REDWALL, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
@@ -799,12 +746,7 @@ public class CraftingHandler {
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
@@ -841,20 +783,13 @@ public class CraftingHandler {
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.SHREWBEER), new Object[] { " X#", "VCV", 'X', Items.BREAD, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GUOSIM, FactionCap.FacStatType.BREW) >= irecipe.reqLevel) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GUOSIM, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
@@ -877,20 +812,13 @@ public class CraftingHandler {
 			this.addRecipe(1, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.WATERPORTER), new Object[] { "#X#", "VCV", 'X', ItemHandler.grapes, '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(2, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.GULLYPLUG_PUNCH), new Object[] { "#X#", "VCV", 'X', ItemHandler.raspberry, '#', Items.REEDS, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.OTTERS_GREEN_ISLE, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.OTTERS_MOSSFLOWER, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.OTTERS_GREEN_ISLE, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.OTTERS_MOSSFLOWER, FactionCap.FacStatType.BREW) >= irecipe.reqLevel))
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
@@ -916,20 +844,13 @@ public class CraftingHandler {
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.APPLE_CIDER), new Object[] { " X ", " # ", "VCV", 'X', Items.APPLE, '#', Items.SUGAR, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 			this.addRecipe(3, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.MOUNTAIN_ALE), new Object[] { "###", "VCV", '#', Items.WHEAT, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.SALAMANDASTRON, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.SALAMANDASTRON, FactionCap.FacStatType.BREW) >= irecipe.reqLevel))
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}
@@ -949,20 +870,13 @@ public class CraftingHandler {
 
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
-			Collections.sort(this.recipes, new Comparator<LeveledRecipe>() {
-				@Override
-				public int compare(LeveledRecipe p_compare_1_, LeveledRecipe p_compare_2_) {
-					return p_compare_1_.recipe instanceof ShapelessRecipes && p_compare_2_.recipe instanceof ShapedRecipes ? 1 : (p_compare_2_.recipe instanceof ShapelessRecipes && p_compare_1_.recipe instanceof ShapedRecipes ? -1 : p_compare_1_.reqLevel > p_compare_2_.reqLevel ? 1 : p_compare_1_.reqLevel < p_compare_2_.reqLevel ? -1 : 0);
-				}
-			});
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
 
 		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
-			for (LeveledRecipe irecipe : this.recipes) {
-				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.VERMIN_MOSSFLOWER, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.VERMIN_NORTHLANDS, FactionCap.FacStatType.BREW) >= irecipe.reqLevel)) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && (RedwallUtils.getFacStatLevel(player, Faction.FacList.VERMIN_MOSSFLOWER, FactionCap.FacStatType.BREW) >= irecipe.reqLevel || RedwallUtils.getFacStatLevel(player, Faction.FacList.VERMIN_NORTHLANDS, FactionCap.FacStatType.BREW) >= irecipe.reqLevel))
 					return irecipe.recipe.getCraftingResult(craftMatrix);
-				}
-			}
 
 			return ItemStack.EMPTY;
 		}

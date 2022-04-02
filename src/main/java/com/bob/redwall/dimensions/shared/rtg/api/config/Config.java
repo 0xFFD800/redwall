@@ -14,157 +14,105 @@ import com.bob.redwall.dimensions.shared.rtg.api.config.property.ConfigPropertyS
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.FMLLog;
 
-
 public abstract class Config {
+	protected ArrayList<ConfigProperty> properties = new ArrayList<ConfigProperty>();
+	private Configuration config;
 
-    protected ArrayList<ConfigProperty> properties = new ArrayList<ConfigProperty>();
-    private Configuration config;
+	public ArrayList<ConfigProperty> getProperties() {
+		return this.properties;
+	}
 
-    public ArrayList<ConfigProperty> getProperties() {
+	protected void addProp(ConfigProperty property) {
+		for (ConfigProperty prop : this.properties) {
+			if (prop.name.contentEquals(property.name)) {
+				removeProp(property.name);
+				break;
+			}
+		}
 
-        return this.properties;
-    }
+		this.properties.add(property);
+	}
 
-    protected void addProp(ConfigProperty property) {
+	protected void removeProp(String name) {
+		for (int i = 0; i < this.properties.size(); i++) {
+			if (this.properties.get(i).name.contentEquals(name)) {
+				this.properties.remove(i);
+				return;
+			}
+		}
+	}
 
-        for (ConfigProperty prop : this.properties) {
+	public boolean hasProperty(ConfigProperty prop) {
+		for (int i = 0; i < this.properties.size(); i++)
+			if (this.properties.get(i).category.contentEquals(prop.category) && this.properties.get(i).name.contentEquals(prop.name))
+				return true;
 
-            if (prop.name.contentEquals(property.name)) {
-                removeProp(property.name);
-                break;
-            }
-        }
+		return false;
+	}
 
-        this.properties.add(property);
-    }
+	public ConfigPropertyBoolean addProperty(ConfigPropertyBoolean property) {
+		this.addProp(property);
+		return property;
+	}
 
-    protected void removeProp(String name) {
+	public ConfigPropertyFloat addProperty(ConfigPropertyFloat property) {
+		this.addProp(property);
+		return property;
+	}
 
-        for (int i = 0; i < this.properties.size(); i++) {
+	public ConfigPropertyInt addProperty(ConfigPropertyInt property) {
+		this.addProp(property);
+		return property;
+	}
 
-            if (this.properties.get(i).name.contentEquals(name)) {
-                this.properties.remove(i);
-                return;
-            }
-        }
-    }
+	public ConfigPropertyString addProperty(ConfigPropertyString property) {
+		this.addProp(property);
+		return property;
+	}
 
-    public boolean hasProperty(ConfigProperty prop) {
-        for (int i = 0; i < this.properties.size(); i++) {
-            if (this.properties.get(i).category.contentEquals(prop.category) && this.properties.get(i).name.contentEquals(prop.name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public ConfigPropertyBoolean addProperty(ConfigPropertyBoolean property) {
-        this.addProp(property);
-        return property;
-    }
-
-    public ConfigPropertyFloat addProperty(ConfigPropertyFloat property) {
-        this.addProp(property);
-        return property;
-    }
-
-    public ConfigPropertyInt addProperty(ConfigPropertyInt property) {
-        this.addProp(property);
-        return property;
-    }
-
-    public ConfigPropertyString addProperty(ConfigPropertyString property) {
-        this.addProp(property);
-        return property;
-    }
-
-    @SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	public void load(String configFile) {
 
-        config = new Configuration(new File(configFile));
+		config = new Configuration(new File(configFile));
 
-        try {
-            config.load();
+		try {
+			config.load();
+			ArrayList<ConfigProperty> properties = this.getProperties();
 
-            ArrayList<ConfigProperty> properties = this.getProperties();
+			for (ConfigProperty prop : properties) {
+				switch (prop.type) {
+				case INTEGER:
+					ConfigPropertyInt propInt = (ConfigPropertyInt) prop;
+					propInt.set(config.getInt(propInt.name, propInt.category, propInt.valueInt, propInt.minValueInt, propInt.maxValueInt, prop.description));
+					break;
+				case FLOAT:
+					ConfigPropertyFloat propFloat = (ConfigPropertyFloat) prop;
+					propFloat.set(config.getFloat(propFloat.name, propFloat.category, propFloat.valueFloat, propFloat.minValueFloat, propFloat.maxValueFloat, propFloat.description));
+					break;
+				case BOOLEAN:
+					ConfigPropertyBoolean propBool = (ConfigPropertyBoolean) prop;
+					propBool.set(config.getBoolean(propBool.name, propBool.category, propBool.valueBoolean, propBool.description));
+					break;
 
-            for (ConfigProperty prop : properties) {
+				case STRING:
+					ConfigPropertyString propString = (ConfigPropertyString) prop;
+					propString.set(config.getString(propString.name, propString.category, propString.valueString, propString.description));
+					break;
+				default:
+					throw new RuntimeException("ConfigProperty type not supported.");
+				}
+			}
 
-                switch (prop.type) {
+		} catch (Exception e) {
+			FMLLog.log(Level.ERROR, "[RTG-ERROR] RTG had a problem loading config: %s", configFile);
+		} finally {
+			if (config.hasChanged()) {
+				config.save();
+			}
+		}
+	}
 
-                    case INTEGER:
-
-                        ConfigPropertyInt propInt = (ConfigPropertyInt) prop;
-
-                        propInt.set(config.getInt(
-                            propInt.name,
-                            propInt.category,
-                            propInt.valueInt,
-                            propInt.minValueInt,
-                            propInt.maxValueInt,
-                            prop.description
-                        ));
-
-                        break;
-
-                    case FLOAT:
-
-                        ConfigPropertyFloat propFloat = (ConfigPropertyFloat) prop;
-
-                        propFloat.set(config.getFloat(
-                            propFloat.name,
-                            propFloat.category,
-                            propFloat.valueFloat,
-                            propFloat.minValueFloat,
-                            propFloat.maxValueFloat,
-                            propFloat.description
-                        ));
-
-                        break;
-
-                    case BOOLEAN:
-
-                        ConfigPropertyBoolean propBool = (ConfigPropertyBoolean) prop;
-
-                        propBool.set(config.getBoolean(
-                            propBool.name,
-                            propBool.category,
-                            propBool.valueBoolean,
-                            propBool.description
-                        ));
-
-                        break;
-
-                    case STRING:
-
-                        ConfigPropertyString propString = (ConfigPropertyString) prop;
-
-                        propString.set(config.getString(
-                            propString.name,
-                            propString.category,
-                            propString.valueString,
-                            propString.description
-                        ));
-
-                        break;
-
-                    default:
-                        throw new RuntimeException("ConfigProperty type not supported.");
-                }
-            }
-
-        }
-        catch (Exception e) {
-            FMLLog.log(Level.ERROR, "[RTG-ERROR] RTG had a problem loading config: %s", configFile);
-        }
-        finally {
-            if (config.hasChanged()) {
-                config.save();
-            }
-        }
-    }
-
-    public Configuration getConfig() {
-        return config;
-    }
+	public Configuration getConfig() {
+		return config;
+	}
 }

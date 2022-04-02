@@ -98,7 +98,8 @@ public class RedwallUtils {
 	public static final ResourceLocation REDWALL_INGAME = new ResourceLocation(Ref.MODID, "textures/gui/ingame.png");
 
 	public static EnumSeasons getSeason(IBlockAccess world) {
-		if (!(world instanceof World)) return EnumSeasons.SUMMER;
+		if (!(world instanceof World))
+			return EnumSeasons.SUMMER;
 		return ((World) world).getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason() != null ? ((World) world).getCapability(SeasonCapProvider.SEASON_CAP, null).getSeason() : EnumSeasons.SUMMER;
 	}
 
@@ -116,7 +117,8 @@ public class RedwallUtils {
 
 	public static int getModdedBiomeFoliageColorBirch(IBlockAccess worldIn, BlockPos pos) {
 		int original = ColorizerFoliage.getFoliageColorBirch();
-		if (worldIn == null || pos == null) return original;
+		if (worldIn == null || pos == null)
+			return original;
 		net.minecraftforge.event.terraingen.BiomeEvent.GetFoliageColor event = new net.minecraftforge.event.terraingen.BiomeEvent.GetFoliageColor(worldIn.getBiome(pos), original);
 		net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
 		return event.getNewColor();
@@ -125,9 +127,8 @@ public class RedwallUtils {
 	public static void updateSnowBlock(World worldIn, BlockPos pos, IBlockState state, Random rand) {
 		Biome biome = worldIn.getBiome(pos);
 		float f = biome.getTemperature(pos) > 0.8F ? biome.getTemperature(pos) : biome.getTemperature(pos) * RedwallUtils.getSeason(worldIn).getTemperatureMultiplier();
-		if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11 || f > 0.15F) {
+		if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11 || f > 0.15F)
 			worldIn.setBlockToAir(pos);
-		}
 	}
 
 	/**
@@ -170,8 +171,10 @@ public class RedwallUtils {
 		f *= 50F;
 		i -= ((int) f - 10);
 
-		if (i > 50) i = 50;
-		if (i < 0) i = 0;
+		if (i > 50)
+			i = 50;
+		if (i < 0)
+			i = 0;
 		return 50 - i;
 	}
 
@@ -192,14 +195,14 @@ public class RedwallUtils {
 			entity.motionY /= 2.0D;
 			entity.motionY += (double) strength;
 
-			if (entity.motionY > 0.4D) {
+			if (entity.motionY > 0.4D)
 				entity.motionY = 0.4D;
-			}
 		}
 	}
 
 	public static void doPlayerAttack(EntityPlayer player, Entity targetEntity) {
-		if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity)) return;
+		if (!net.minecraftforge.common.ForgeHooks.onPlayerAttackTarget(player, targetEntity))
+			return;
 		RedwallUtils.doAttack(player, targetEntity);
 	}
 
@@ -228,7 +231,8 @@ public class RedwallUtils {
 				boolean isBludgeon = isWeapon && ((ModCustomWeapon) weapon.getItem()).isBludgeon(weapon, attacker);
 				boolean isSweep = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isSweep(weapon, attacker);
 				boolean isStab = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isStab(weapon, attacker);
-				if (!isBludgeon && !isSweep && !isStab) isBludgeon = true;
+				if (!isBludgeon && !isSweep && !isStab)
+					isBludgeon = true;
 
 				boolean doCriticalNonStab = attacker.fallDistance > 0.0F && !attacker.onGround && !attacker.isOnLadder() && !attacker.isInWater() && !attacker.isPotionActive(MobEffects.BLINDNESS) && !attacker.isRiding() && targetEntity instanceof EntityLivingBase;
 				doCriticalNonStab = doCriticalNonStab && !attacker.isSprinting();
@@ -272,7 +276,8 @@ public class RedwallUtils {
 								}
 								if (targetEntity instanceof EntityLivingBase) {
 									EntityLivingBase living = ((EntityLivingBase) targetEntity);
-									if (attacking.getMode() == 2) attacking.setMode(0);
+									if (attacking.getMode() == 2)
+										attacking.setMode(0);
 									IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 									if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && ((defending.getMode() == 0 && attacking.getMode() == 1) || (defending.getMode() == 1 && attacking.getMode() == 0)) && RedwallUtils.canEntityBlockDamage(living, source)) {
 										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
@@ -397,11 +402,10 @@ public class RedwallUtils {
 
 						if (didDamage) {
 							if (targetEntity instanceof EntityLivingBase) {
-								if (knockback > 0.0F) {
+								if (knockback > 0.0F)
 									RedwallUtils.doEntityKnockbackTrue(((EntityLivingBase) targetEntity), attacker, knockback, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
-								} else {
+								else
 									((EntityLivingBase) targetEntity).knockBack(attacker, 0.5F, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
-								}
 
 								if (stun > 0.0F) {
 									((EntityLivingBase) targetEntity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) (stun * 10.0F), 128, false, false));
@@ -431,44 +435,45 @@ public class RedwallUtils {
 
 								if (doCriticalNonStab || doCriticalStabSweep2) {
 									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, attacker.getSoundCategory(), 1.0F, 1.0F);
-									if (attacker instanceof EntityPlayer) ((EntityPlayer) attacker).onCriticalHit(targetEntity);
+									if (attacker instanceof EntityPlayer)
+										((EntityPlayer) attacker).onCriticalHit(targetEntity);
 								} else {
-									if (isWeapon) {
+									if (isWeapon)
 										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, attacker.getSoundCategory(), 1.0F, 1.0F);
-									} else {
+									else
 										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, attacker.getSoundCategory(), 1.0F, 1.0F);
-									}
 								}
 
 								attacker.setLastAttackedEntity(targetEntity);
 
-								if (targetEntity instanceof EntityLivingBase) {
+								if (targetEntity instanceof EntityLivingBase)
 									EquipmentModifierUtils.doAttack(attacker, (EntityLivingBase) targetEntity);
-								}
 
 								Entity entity = targetEntity;
 
 								if (targetEntity instanceof MultiPartEntityPart) {
 									IEntityMultiPart ientitymultipart = ((MultiPartEntityPart) targetEntity).parent;
 
-									if (ientitymultipart instanceof EntityLivingBase) {
+									if (ientitymultipart instanceof EntityLivingBase)
 										entity = (EntityLivingBase) ientitymultipart;
-									}
 								}
 
 								if (!weapon.isEmpty() && entity instanceof EntityLivingBase) {
 									ItemStack beforeHitCopy = weapon.copy();
-									if (attacker instanceof EntityPlayer) weapon.hitEntity((EntityLivingBase) entity, (EntityPlayer) attacker);
+									if (attacker instanceof EntityPlayer)
+										weapon.hitEntity((EntityLivingBase) entity, (EntityPlayer) attacker);
 
 									if (weapon.isEmpty()) {
 										attacker.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-										if (attacker instanceof EntityPlayer) net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((EntityPlayer) attacker, beforeHitCopy, EnumHand.MAIN_HAND);
+										if (attacker instanceof EntityPlayer)
+											net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem((EntityPlayer) attacker, beforeHitCopy, EnumHand.MAIN_HAND);
 									}
 								}
 
 								if (targetEntity instanceof EntityLivingBase) {
 									float f4 = health - ((EntityLivingBase) targetEntity).getHealth();
-									if (attacker instanceof EntityPlayer) ((EntityPlayer) attacker).addStat(StatList.DAMAGE_DEALT, Math.round(f4 * 10.0F));
+									if (attacker instanceof EntityPlayer)
+										((EntityPlayer) attacker).addStat(StatList.DAMAGE_DEALT, Math.round(f4 * 10.0F));
 
 									if (attacker.world instanceof WorldServer && f4 > 2.0F) {
 										int k = (int) ((double) f4 * 0.5D);
@@ -476,7 +481,8 @@ public class RedwallUtils {
 									}
 								}
 
-								if (attacker instanceof EntityPlayer) ((EntityPlayer) attacker).addExhaustion(0.1F);
+								if (attacker instanceof EntityPlayer)
+									((EntityPlayer) attacker).addExhaustion(0.1F);
 							}
 						} else {
 							attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, attacker.getSoundCategory(), 1.0F, 1.0F);
@@ -500,22 +506,38 @@ public class RedwallUtils {
 			if (item instanceof ItemRedwallArmor) {
 				armor_weight += ((ItemRedwallArmor) item).getArmorWeight();
 			} else {
-				if (item == Items.IRON_HELMET) armor_weight += 0.2F;
-				else if (item == Items.IRON_CHESTPLATE) armor_weight += 0.4F;
-				else if (item == Items.IRON_LEGGINGS) armor_weight += 0.3F;
-				else if (item == Items.IRON_BOOTS) armor_weight += 0.1F;
-				else if (item == Items.CHAINMAIL_HELMET) armor_weight += 0.1F;
-				else if (item == Items.CHAINMAIL_CHESTPLATE) armor_weight += 0.2F;
-				else if (item == Items.CHAINMAIL_LEGGINGS) armor_weight += 0.2F;
-				else if (item == Items.CHAINMAIL_BOOTS) armor_weight += 0.1F;
-				else if (item == Items.GOLDEN_HELMET) armor_weight += 0.5F;
-				else if (item == Items.GOLDEN_CHESTPLATE) armor_weight += 0.8F;
-				else if (item == Items.GOLDEN_LEGGINGS) armor_weight += 0.7F;
-				else if (item == Items.GOLDEN_BOOTS) armor_weight += 0.4F;
-				else if (item == Items.LEATHER_HELMET) armor_weight += 0.05F;
-				else if (item == Items.LEATHER_CHESTPLATE) armor_weight += 0.1F;
-				else if (item == Items.LEATHER_LEGGINGS) armor_weight += 0.1F;
-				else if (item == Items.LEATHER_BOOTS) armor_weight += 0.05F;
+				if (item == Items.IRON_HELMET)
+					armor_weight += 0.2F;
+				else if (item == Items.IRON_CHESTPLATE)
+					armor_weight += 0.4F;
+				else if (item == Items.IRON_LEGGINGS)
+					armor_weight += 0.3F;
+				else if (item == Items.IRON_BOOTS)
+					armor_weight += 0.1F;
+				else if (item == Items.CHAINMAIL_HELMET)
+					armor_weight += 0.1F;
+				else if (item == Items.CHAINMAIL_CHESTPLATE)
+					armor_weight += 0.2F;
+				else if (item == Items.CHAINMAIL_LEGGINGS)
+					armor_weight += 0.2F;
+				else if (item == Items.CHAINMAIL_BOOTS)
+					armor_weight += 0.1F;
+				else if (item == Items.GOLDEN_HELMET)
+					armor_weight += 0.5F;
+				else if (item == Items.GOLDEN_CHESTPLATE)
+					armor_weight += 0.8F;
+				else if (item == Items.GOLDEN_LEGGINGS)
+					armor_weight += 0.7F;
+				else if (item == Items.GOLDEN_BOOTS)
+					armor_weight += 0.4F;
+				else if (item == Items.LEATHER_HELMET)
+					armor_weight += 0.05F;
+				else if (item == Items.LEATHER_CHESTPLATE)
+					armor_weight += 0.1F;
+				else if (item == Items.LEATHER_LEGGINGS)
+					armor_weight += 0.1F;
+				else if (item == Items.LEATHER_BOOTS)
+					armor_weight += 0.05F;
 			}
 		}
 		return -armor_weight * 2;
@@ -531,12 +553,18 @@ public class RedwallUtils {
 		if (entity.onGround) {
 			IBlockState stateOn = entity.world.getBlockState(entity.getPosition().down());
 			Material m = stateOn.getMaterial();
-			if (m == Material.GRASS && stateOn.getBlock() != Blocks.GRASS_PATH) mod += 0.05F;
-			else if (m == Material.GROUND) mod += 0.1F;
-			else if (m == Material.LEAVES) mod += 0.25F;
-			else if (m == Material.SAND) mod += 0.15F;
-			else if (m == Material.SNOW || m == Material.CRAFTED_SNOW) mod += 0.15F;
-			else if (m == Material.CLAY) mod += 0.2F;
+			if (m == Material.GRASS && stateOn.getBlock() != Blocks.GRASS_PATH)
+				mod += 0.05F;
+			else if (m == Material.GROUND)
+				mod += 0.1F;
+			else if (m == Material.LEAVES)
+				mod += 0.25F;
+			else if (m == Material.SAND)
+				mod += 0.15F;
+			else if (m == Material.SNOW || m == Material.CRAFTED_SNOW)
+				mod += 0.15F;
+			else if (m == Material.CLAY)
+				mod += 0.2F;
 		}
 
 		return -mod;
@@ -564,7 +592,8 @@ public class RedwallUtils {
 				int i = player.getRNG().nextInt(possibilities.size());
 				Entry<Integer, EquipmentModifier> finalMod = possibilities.get(i);
 				possibilities.remove(i);
-				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+				if (!stack.hasTagCompound())
+					stack.setTagCompound(new NBTTagCompound());
 				NBTTagList list = new NBTTagList();
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setInteger("id", EquipmentModifier.getModifierID(finalMod.getValue()));
@@ -607,7 +636,8 @@ public class RedwallUtils {
 				int i = player.getRNG().nextInt(possibilities.size());
 				Entry<Integer, FoodModifier> finalMod = possibilities.get(i);
 				possibilities.remove(i);
-				if (!stack.hasTagCompound()) stack.setTagCompound(new NBTTagCompound());
+				if (!stack.hasTagCompound())
+					stack.setTagCompound(new NBTTagCompound());
 				NBTTagList list = new NBTTagList();
 				NBTTagCompound nbt = new NBTTagCompound();
 				nbt.setInteger("id", FoodModifier.getModifierID(finalMod.getValue()));
@@ -637,9 +667,8 @@ public class RedwallUtils {
 			double calcdist = var2;
 			Vec3d pos = player.getPositionEyes(0);
 			var2 = calcdist;
-			if (returnMOP != null) {
+			if (returnMOP != null)
 				calcdist = returnMOP.hitVec.distanceTo(pos);
-			}
 
 			Vec3d lookvec = player.getLook(0);
 
@@ -672,11 +701,10 @@ public class RedwallUtils {
 				}
 			}
 
-			if (pointedEntity != null && (d < calcdist || returnMOP == null)) {
+			if (pointedEntity != null && (d < calcdist || returnMOP == null))
 				returnMOP = new RayTraceResult(pointedEntity);
-			} else if (d < calcdist) {
+			else if (d < calcdist)
 				returnMOP = player.world.rayTraceBlocks(pos, lookvec);
-			}
 		}
 		return returnMOP;
 	}
@@ -690,9 +718,8 @@ public class RedwallUtils {
 				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(entity.posX, entity.posY, entity.posZ)).normalize();
 				vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
 
-				if (vec3d2.dotProduct(vec3d1) < 0.0D) {
+				if (vec3d2.dotProduct(vec3d1) < 0.0D)
 					return true;
-				}
 			}
 		}
 
@@ -707,11 +734,10 @@ public class RedwallUtils {
 		EnumHandSide enumhandside = RedwallUtils.getMainHand(entityIn);
 		ModelRenderer modelrenderer = RedwallUtils.getArmForSide(model, enumhandside);
 
-		if (flag) {
+		if (flag)
 			model.bipedHead.rotateAngleX = -((float) Math.PI / 4F);
-		} else {
+		else
 			model.bipedHead.rotateAngleX = headPitch * 0.017453292F;
-		}
 
 		model.bipedBody.rotateAngleY = 0.0F;
 		model.bipedRightArm.rotationPointZ = 0.0F;
@@ -726,9 +752,8 @@ public class RedwallUtils {
 			f = f * f * f;
 		}
 
-		if (f < 1.0F) {
+		if (f < 1.0F)
 			f = 1.0F;
-		}
 
 		model.bipedRightArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / f;
 		model.bipedLeftArm.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / f;
@@ -783,13 +808,14 @@ public class RedwallUtils {
 
 		if (model.swingProgress > 0.0F || (entityIn instanceof EntityPlayer && (1.0F - ((EntityPlayer) entityIn).getCooledAttackStrength(Minecraft.getMinecraft().getRenderPartialTicks())) > 0.0F) || (entityIn instanceof EntityAbstractNPC && ((EntityAbstractNPC) entityIn).getCooldown() > 0)) {
 			float f1 = model.swingProgress;
-			if (entityIn instanceof EntityPlayer) f1 = 1.0F - ((EntityPlayer) entityIn).getCooledAttackStrength(Minecraft.getMinecraft().getRenderPartialTicks());
-			else if (entityIn instanceof EntityAbstractNPC) f1 = 1.0F - (((float) ((EntityAbstractNPC) entityIn).getCooldown()) / ((float) ((EntityAbstractNPC) entityIn).getSwingCooldown()));
+			if (entityIn instanceof EntityPlayer)
+				f1 = 1.0F - ((EntityPlayer) entityIn).getCooledAttackStrength(Minecraft.getMinecraft().getRenderPartialTicks());
+			else if (entityIn instanceof EntityAbstractNPC)
+				f1 = 1.0F - (((float) ((EntityAbstractNPC) entityIn).getCooldown()) / ((float) ((EntityAbstractNPC) entityIn).getSwingCooldown()));
 			model.bipedBody.rotateAngleY = MathHelper.sin(MathHelper.sqrt(f1) * ((float) Math.PI * 2F)) * 0.2F;
 
-			if (enumhandside == EnumHandSide.LEFT) {
+			if (enumhandside == EnumHandSide.LEFT)
 				model.bipedBody.rotateAngleY *= -1.0F;
-			}
 
 			model.bipedRightArm.rotationPointZ = MathHelper.sin(model.bipedBody.rotateAngleY) * 5.0F;
 			model.bipedRightArm.rotationPointX = -MathHelper.cos(model.bipedBody.rotateAngleY) * 5.0F;
@@ -802,9 +828,14 @@ public class RedwallUtils {
 			f1 = f1 * f1;
 			f1 = f1 * f1;
 			f1 = 1.0F - f1;
-			if (entityIn instanceof EntityPlayer) f1 = 1.0F - ((EntityPlayer) entityIn).getCooledAttackStrength(Minecraft.getMinecraft().getRenderPartialTicks());
-			else if (entityIn instanceof EntityAbstractNPC) f1 = 1.0F - (((float) ((EntityAbstractNPC) entityIn).getCooldown()) / ((float) ((EntityAbstractNPC) entityIn).getSwingCooldown()));
+			
+			if (entityIn instanceof EntityPlayer)
+				f1 = 1.0F - ((EntityPlayer) entityIn).getCooledAttackStrength(Minecraft.getMinecraft().getRenderPartialTicks());
+			else if (entityIn instanceof EntityAbstractNPC)
+				f1 = 1.0F - (((float) ((EntityAbstractNPC) entityIn).getCooldown()) / ((float) ((EntityAbstractNPC) entityIn).getSwingCooldown()));
+			
 			IAttacking attacking = entityIn instanceof EntityLivingBase ? ((EntityLivingBase) entityIn).getCapability(AttackingProvider.ATTACKING_CAP, null) : null;
+			
 			if (attacking == null) {
 				float f2 = MathHelper.sin(f1 * (float) Math.PI);
 				float f3 = MathHelper.sin(model.swingProgress * (float) Math.PI) * -(model.bipedHead.rotateAngleX - 0.7F) * 0.75F;
@@ -819,7 +850,8 @@ public class RedwallUtils {
 				boolean isBludgeon = isWeapon && ((ModCustomWeapon) weapon.getItem()).isBludgeon(weapon, entitylivingbase);
 				boolean isSweep = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isSweep(weapon, entitylivingbase);
 				boolean isStab = isWeapon && !isBludgeon && ((ModCustomWeapon) weapon.getItem()).isStab(weapon, entitylivingbase);
-				if (!isBludgeon && !isSweep && !isStab) isBludgeon = true;
+				if (!isBludgeon && !isSweep && !isStab)
+					isBludgeon = true;
 
 				if ((isSweep || isBludgeon) && attacking.getMode() == 0) {
 					// Vertical Sweep
@@ -990,10 +1022,12 @@ public class RedwallUtils {
 		float amountToLevelDown = Math.signum(amount) * 40.0F * (float) Math.pow(((float) RedwallUtils.getFacStatLevelRaw(player, fac, type) - 1.0F), 2) - 20.0F;
 
 		if (amount > amountToLevelUp) {
-			if (player instanceof EntityPlayerMP) Ref.NETWORK.sendTo(new MessageUIInteractServer(MessageUIInteractServer.Mode.SEND_LEVEL_TOAST, type.getId(), "facstats.toast.title1", "facstats.toast.subtitle1", fac.getID()), (EntityPlayerMP) player);
+			if (player instanceof EntityPlayerMP)
+				Ref.NETWORK.sendTo(new MessageUIInteractServer(MessageUIInteractServer.Mode.SEND_LEVEL_TOAST, type.getId(), "facstats.toast.title1", "facstats.toast.subtitle1", fac.getID()), (EntityPlayerMP) player);
 			cap.set(fac, type, Math.signum(amount) * 40.0F * (float) Math.pow(((float) RedwallUtils.getFacStatLevelRaw(player, fac, type) + 1.0F), 2), false);
 		} else if (amount < amountToLevelDown) {
-			if (player instanceof EntityPlayerMP) Ref.NETWORK.sendTo(new MessageUIInteractServer(MessageUIInteractServer.Mode.SEND_LEVEL_TOAST, type.getId(), "facstats.toast.title2", "facstats.toast.subtitle2", fac.getID()), (EntityPlayerMP) player);
+			if (player instanceof EntityPlayerMP)
+				Ref.NETWORK.sendTo(new MessageUIInteractServer(MessageUIInteractServer.Mode.SEND_LEVEL_TOAST, type.getId(), "facstats.toast.title2", "facstats.toast.subtitle2", fac.getID()), (EntityPlayerMP) player);
 			cap.set(fac, type, Math.signum(amount) * 40.0F * (float) Math.pow(((float) RedwallUtils.getFacStatLevelRaw(player, fac, type) - 1.0F), 2), false);
 		}
 	}
@@ -1007,13 +1041,12 @@ public class RedwallUtils {
 	 *         multiplies the answer by 0.75.
 	 */
 	public static float getReach(EntityLivingBase entity) {
-		if (entity instanceof EntityAbstractNPC || entity instanceof EntityPlayer) {
+		if (entity instanceof EntityAbstractNPC || entity instanceof EntityPlayer)
 			return (float) entity.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() * (entity instanceof EntityPlayer ? 1 : 0.75F);
-		} else if (entity.getHeldItemMainhand().getItem() instanceof ModCustomWeapon) {
+		else if (entity.getHeldItemMainhand().getItem() instanceof ModCustomWeapon)
 			return 3.375F + (((ModCustomWeapon) entity.getHeldItemMainhand().getItem()).getReach() * 0.75F);
-		} else {
+		else
 			return 3.375F;
-		}
 	}
 
 	public static boolean isInMossflower(Biome b, int cx, int cz) {
@@ -1027,7 +1060,8 @@ public class RedwallUtils {
 	@Nullable
 	public static EntityStructureCenter getStructureAtPos(Vec3d pos) {
 		for (EntityStructureCenter s : EntityStructureCenter.ACTIVE_STRUCTURES)
-			if (s.getAOE().contains(pos)) return s;
+			if (s.getAOE().contains(pos))
+				return s;
 
 		return null;
 	}
@@ -1036,40 +1070,41 @@ public class RedwallUtils {
 	public static EntityStructureCenter getStructureAtPos(BlockPos pos) {
 		return RedwallUtils.getStructureAtPos(new Vec3d(pos.getX(), pos.getY(), pos.getZ()));
 	}
-	
+
 	@Nullable
 	public static Entity getEntityByUUID(World world, UUID uuid) {
 		for (Entity entity : world.getLoadedEntityList())
 			if (entity.getUniqueID().equals(uuid))
 				return entity;
+		
 		return null;
 	}
 
 	public static ItemStack findAmmo(EntityPlayer player) {
 		if (player.getHeldItemMainhand().getItem() instanceof ItemModBow)
-	        if (((ItemModBow)player.getHeldItemMainhand().getItem()).isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
-	            return player.getHeldItem(EnumHand.OFF_HAND);
-	        } else if (((ItemModBow)player.getHeldItemMainhand().getItem()).isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
-	            return player.getHeldItem(EnumHand.MAIN_HAND);
-	        } else {
-	            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-	                ItemStack itemstack = player.inventory.getStackInSlot(i);
-	                if (((ItemModBow)player.getHeldItemMainhand().getItem()).isArrow(itemstack)) 
-	                    return itemstack;
-	            }
-	        }
+			if (((ItemModBow) player.getHeldItemMainhand().getItem()).isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
+				return player.getHeldItem(EnumHand.OFF_HAND);
+			} else if (((ItemModBow) player.getHeldItemMainhand().getItem()).isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
+				return player.getHeldItem(EnumHand.MAIN_HAND);
+			} else {
+				for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+					ItemStack itemstack = player.inventory.getStackInSlot(i);
+					if (((ItemModBow) player.getHeldItemMainhand().getItem()).isArrow(itemstack))
+						return itemstack;
+				}
+			}
 		else if (player.getHeldItemMainhand().getItem() instanceof ItemBow)
-	        if (player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemArrow) {
-	            return player.getHeldItem(EnumHand.OFF_HAND);
-	        } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemArrow) {
-	            return player.getHeldItem(EnumHand.MAIN_HAND);
-	        } else {
-	            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-	                ItemStack itemstack = player.inventory.getStackInSlot(i);
-	                if (itemstack.getItem() instanceof ItemArrow) 
-	                    return itemstack;
-	            }
-	        }
-        return ItemStack.EMPTY;
-    }
+			if (player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemArrow) {
+				return player.getHeldItem(EnumHand.OFF_HAND);
+			} else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemArrow) {
+				return player.getHeldItem(EnumHand.MAIN_HAND);
+			} else {
+				for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
+					ItemStack itemstack = player.inventory.getStackInSlot(i);
+					if (itemstack.getItem() instanceof ItemArrow)
+						return itemstack;
+				}
+			}
+		return ItemStack.EMPTY;
+	}
 }

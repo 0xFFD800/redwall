@@ -65,7 +65,8 @@ public class MessageUIInteract implements IMessage {
 					if (message.modeId == Mode.NPC_TALK.id) {
 						EntityAbstractNPC npc = (EntityAbstractNPC) world.getEntityByID(message.value);
 						npc.talk(Minecraft.getMinecraft().player);
-					} else if (message.modeId == Mode.OPEN_GUI.id) player.openGui(Ref.MODID, message.value, world, (int) message.posX, (int) message.posY, (int) message.posZ);
+					} else if (message.modeId == Mode.OPEN_GUI.id)
+						player.openGui(Ref.MODID, message.value, world, (int) message.posX, (int) message.posY, (int) message.posZ);
 				}
 			});
 			return null;

@@ -34,16 +34,16 @@ public class CommandFactions extends CommandBase {
 		VALID_ARGS.add("cookSkill");
 		VALID_ARGS.add("scoffSkill");
 	}
-	
+
 	@Override
 	public String getName() {
 		return "factions";
 	}
-	
+
 	@Override
 	public int getRequiredPermissionLevel() {
-        return 2;
-    }
+		return 2;
+	}
 
 	@Override
 	public String getUsage(ICommandSender sender) {
@@ -52,25 +52,24 @@ public class CommandFactions extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length >= 4 && args[0].length() > 0) {
-            EntityPlayer entityplayer = getPlayer(server, sender, args[0]);
+		if (args.length >= 4 && args[0].length() > 0) {
+			EntityPlayer entityplayer = getPlayer(server, sender, args[0]);
 			Faction fac = Faction.getFactionByID(args[1]);
 			IFactionCap cap = entityplayer.getCapability(FactionCapProvider.FACTION_CAP, null);
-			if(fac != null) {
-				if(args[2].equals("contact")) {
-					if(args[3].equals("true")) {
+			if (fac != null) {
+				if (args[2].equals("contact")) {
+					if (args[3].equals("true"))
 						fac.playerContactFaction(entityplayer);
-					} else if(args[3].equals("false")) {
+					else if (args[3].equals("false"))
 						fac.playerLeave(entityplayer);
-					} else if(args[3].equals("get")) {
+					else if (args[3].equals("get"))
 						sender.sendMessage(new TextComponentString(I18n.format("commands.factions.getContact", entityplayer.getName(), fac.getID(), cap.getPlayerContacted(fac))));
-					} else {
-			            throw new WrongUsageException("commands.factions.usage", new Object[0]);
-					}
-				} else if(args[2].equals("stats") && args.length >= 5) {
-					if(VALID_ARGS.contains(args[3])) {
+					else
+						throw new WrongUsageException("commands.factions.usage", new Object[0]);
+				} else if (args[2].equals("stats") && args.length >= 5) {
+					if (VALID_ARGS.contains(args[3])) {
 						FactionCap.FacStatType type = FactionCap.FacStatType.LOYALTY;
-						switch(args[3]) {
+						switch (args[3]) {
 						case "fightSkill":
 							type = FactionCap.FacStatType.FIGHT;
 							break;
@@ -93,8 +92,8 @@ public class CommandFactions extends CommandBase {
 						default:
 							break;
 						}
-						
-						switch(args[4]) {
+
+						switch (args[4]) {
 						case "set":
 							cap.set(fac, type, Float.valueOf(args[5]), true);
 							break;
@@ -111,27 +110,28 @@ public class CommandFactions extends CommandBase {
 							cap.set(fac, type, 0, true);
 							break;
 						default:
-				            throw new WrongUsageException("commands.factions.usage", new Object[0]);
+							throw new WrongUsageException("commands.factions.usage", new Object[0]);
 						}
 					} else {
-			            throw new WrongUsageException("commands.factions.usage", new Object[0]);
+						throw new WrongUsageException("commands.factions.usage", new Object[0]);
 					}
 				} else {
-		            throw new WrongUsageException("commands.factions.usage", new Object[0]);
+					throw new WrongUsageException("commands.factions.usage", new Object[0]);
 				}
-				
-				if(entityplayer instanceof EntityPlayerMP) RedwallUtils.updatePlayerFactionStats((EntityPlayerMP)entityplayer);
-	            sender.sendMessage(new TextComponentString(I18n.format("commands.factions.used", entityplayer.getName())));
+
+				if (entityplayer instanceof EntityPlayerMP)
+					RedwallUtils.updatePlayerFactionStats((EntityPlayerMP) entityplayer);
+				sender.sendMessage(new TextComponentString(I18n.format("commands.factions.used", entityplayer.getName())));
 			} else {
-	            throw new WrongUsageException("commands.factions.usage", new Object[0]);
+				throw new WrongUsageException("commands.factions.usage", new Object[0]);
 			}
 		} else {
-            throw new WrongUsageException("commands.factions.usage", new Object[0]);
-        }
+			throw new WrongUsageException("commands.factions.usage", new Object[0]);
+		}
 	}
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return Collections.<String>emptyList();
-    }
+		return Collections.<String>emptyList();
+	}
 }

@@ -35,9 +35,8 @@ public class SlotSmithingGeneric extends Slot {
 
 	@Override
 	public ItemStack decrStackSize(int amount) {
-		if (this.getHasStack()) {
+		if (this.getHasStack())
 			this.amountCrafted += Math.min(amount, this.getStack().getCount());
-		}
 
 		return super.decrStackSize(amount);
 	}
@@ -72,7 +71,8 @@ public class SlotSmithingGeneric extends Slot {
 
 	@Override
 	public boolean canTakeStack(EntityPlayer player) {
-		if (this.te.getSmithingFinished()) return true;
+		if (this.te.getSmithingFinished())
+			return true;
 		if (this.te.getFuel() > 0 && this.te.getSmithingTime() == -1) {
 			this.te.setSmithingTime(TileEntitySmithingGeneric.SMITHING_TIME);
 			this.te.smithStack = this.getStack();

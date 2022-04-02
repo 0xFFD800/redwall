@@ -6,21 +6,21 @@ import net.minecraft.world.biome.Biome;
 
 public class BiomeRedwallOcean extends Biome {
 	public BiomeRedwallOcean(Biome.BiomeProperties properties) {
-        super(properties);
-        
-        this.spawnableCreatureList.clear();
-        this.spawnableMonsterList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-    }
+		super(properties);
 
-    @Override
-    public float getSpawningChance() {
-        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
-    }
+		this.spawnableCreatureList.clear();
+		this.spawnableMonsterList.clear();
+		this.spawnableCaveCreatureList.clear();
+		this.spawnableWaterCreatureList.clear();
+	}
 
 	@Override
-    public Biome.TempCategory getTempCategory() {
-        return Biome.TempCategory.OCEAN;
-    }
+	public float getSpawningChance() {
+		return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+	}
+
+	@Override
+	public Biome.TempCategory getTempCategory() {
+		return Biome.TempCategory.OCEAN;
+	}
 }

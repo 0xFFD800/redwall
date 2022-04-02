@@ -35,16 +35,16 @@ public class CommandSeason extends CommandBase {
 		VALID_ARGS.add("winter");
 		VALID_ARGS.add("winter_late");
 	}
-	
+
 	@Override
 	public String getName() {
 		return "season";
 	}
-	
+
 	@Override
 	public int getRequiredPermissionLevel() {
-        return 2;
-    }
+		return 2;
+	}
 
 	@Override
 	public String getUsage(ICommandSender sender) {
@@ -53,49 +53,48 @@ public class CommandSeason extends CommandBase {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-		if(args.length >= 1 && args[0].length() > 0) {
-			if(VALID_ARGS.contains(args[0])) {
+		if (args.length >= 1 && args[0].length() > 0) {
+			if (VALID_ARGS.contains(args[0])) {
 				EnumSeasons season = EnumSeasons.SPRING;
-				if(args[0].equals("spring_early")) {
-                	season = EnumSeasons.EARLY_SPRING;
-                } else if(args[0].equals("spring")) {
-                	season = EnumSeasons.SPRING;
-                } else if(args[0].equals("spring_late")) {
-                	season = EnumSeasons.LATE_SPRING;
-                } else if(args[0].equals("summer_early")) {
-                	season = EnumSeasons.EARLY_SUMMER;
-                } else if(args[0].equals("summer")) {
-                	season = EnumSeasons.SUMMER;
-                } else if(args[0].equals("summer_late")) {
-                	season = EnumSeasons.LATE_SUMMER;
-                } else if(args[0].equals("autumn_early")) {
-                	season = EnumSeasons.EARLY_FALL;
-                } else if(args[0].equals("autumn")) {
-                	season = EnumSeasons.FALL;
-                } else if(args[0].equals("autumn_late")) {
-                	season = EnumSeasons.LATE_FALL;
-                } else if(args[0].equals("winter_early")) {
-                	season = EnumSeasons.EARLY_WINTER;
-                } else if(args[0].equals("winter")) {
-                	season = EnumSeasons.WINTER;
-                } else if(args[0].equals("winter_late")) {
-                	season = EnumSeasons.LATE_WINTER;
-                }
-                
-                for(WorldServer world : server.worlds) {
-                	RedwallUtils.updateSeason(world, season);
-                }
-                sender.sendMessage(new TextComponentString(I18n.format("commands.season.used", new Object[] {season.toString()})));
+				if (args[0].equals("spring_early"))
+					season = EnumSeasons.EARLY_SPRING;
+				else if (args[0].equals("spring"))
+					season = EnumSeasons.SPRING;
+				else if (args[0].equals("spring_late"))
+					season = EnumSeasons.LATE_SPRING;
+				else if (args[0].equals("summer_early"))
+					season = EnumSeasons.EARLY_SUMMER;
+				else if (args[0].equals("summer"))
+					season = EnumSeasons.SUMMER;
+				else if (args[0].equals("summer_late"))
+					season = EnumSeasons.LATE_SUMMER;
+				else if (args[0].equals("autumn_early"))
+					season = EnumSeasons.EARLY_FALL;
+				else if (args[0].equals("autumn"))
+					season = EnumSeasons.FALL;
+				else if (args[0].equals("autumn_late"))
+					season = EnumSeasons.LATE_FALL;
+				else if (args[0].equals("winter_early"))
+					season = EnumSeasons.EARLY_WINTER;
+				else if (args[0].equals("winter"))
+					season = EnumSeasons.WINTER;
+				else if (args[0].equals("winter_late"))
+					season = EnumSeasons.LATE_WINTER;
+
+				for (WorldServer world : server.worlds)
+					RedwallUtils.updateSeason(world, season);
+				
+				sender.sendMessage(new TextComponentString(I18n.format("commands.season.used", new Object[] { season.toString() })));
 			} else {
-	            throw new WrongUsageException("commands.season.usage", new Object[0]);
+				throw new WrongUsageException("commands.season.usage", new Object[0]);
 			}
 		} else {
-            throw new WrongUsageException("commands.season.usage", new Object[0]);
-        }
+			throw new WrongUsageException("commands.season.usage", new Object[0]);
+		}
 	}
 
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return args.length == 1 ? VALID_ARGS : Collections.<String>emptyList();
-    }
+		return args.length == 1 ? VALID_ARGS : Collections.<String>emptyList();
+	}
 }

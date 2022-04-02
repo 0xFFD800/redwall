@@ -1,6 +1,5 @@
 package com.bob.redwall.dimensions.shared.rtg.api.event;
 
-
 import com.bob.redwall.dimensions.shared.rtg.api.world.IRTGWorld;
 
 import net.minecraft.block.state.IBlockState;
@@ -8,114 +7,97 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class SurfaceEvent extends Event {
 
-    public SurfaceEvent() {
-        super();
-    }
+	public SurfaceEvent() {
+		super();
+	}
 
-    public static class HardcodedBlock extends SurfaceEvent {
+	public static class HardcodedBlock extends SurfaceEvent {
+		private IRTGWorld rtgWorld;
+		private int chunkX;
+		private int chunkZ;
+		private int worldX;
+		private int worldY;
+		private int worldZ;
+		private IBlockState block;
 
-        private IRTGWorld rtgWorld;
-        private int chunkX;
-        private int chunkZ;
-        private int worldX;
-        private int worldY;
-        private int worldZ;
-        private IBlockState block;
+		public HardcodedBlock(IRTGWorld rtgWorld, int worldX, int worldZ, int chunkX, int chunkZ, int worldY, IBlockState defaultBlock) {
+			super();
 
-        public HardcodedBlock(IRTGWorld rtgWorld, int worldX, int worldZ, int chunkX, int chunkZ, int worldY, IBlockState defaultBlock) {
+			this.rtgWorld = rtgWorld;
+			this.chunkX = chunkX;
+			this.chunkZ = chunkZ;
+			this.worldX = worldX;
+			this.worldY = worldY;
+			this.worldZ = worldZ;
+			this.block = defaultBlock;
+		}
 
-            super();
+		public IRTGWorld getRTGWorld() {
+			return rtgWorld;
+		}
 
-            this.rtgWorld = rtgWorld;
-            this.chunkX = chunkX;
-            this.chunkZ = chunkZ;
-            this.worldX = worldX;
-            this.worldY = worldY;
-            this.worldZ = worldZ;
-            this.block = defaultBlock;
-        }
+		public int getChunkX() {
+			return chunkX;
+		}
 
-        public IRTGWorld getRTGWorld() {
+		public int getChunkZ() {
+			return chunkZ;
+		}
 
-            return rtgWorld;
-        }
+		public int getWorldX() {
+			return worldX;
+		}
 
-        public int getChunkX() {
+		public int getWorldY() {
+			return worldY;
+		}
 
-            return chunkX;
-        }
+		public int getWorldZ() {
+			return worldZ;
+		}
 
-        public int getChunkZ() {
+		public IBlockState getBlock() {
+			return block;
+		}
 
-            return chunkZ;
-        }
+		public void setBlock(IBlockState block) {
+			this.block = block;
+		}
+	}
 
-        public int getWorldX() {
+	public static class BoulderBlock extends SurfaceEvent {
+		private int worldX;
+		private int worldY;
+		private int worldZ;
+		private IBlockState block;
 
-            return worldX;
-        }
+		public BoulderBlock(int worldX, int worldY, int worldZ, IBlockState defaultBlock) {
+			super();
 
-        public int getWorldY() {
+			this.worldX = worldX;
+			this.worldY = worldY;
+			this.worldZ = worldZ;
+			this.block = defaultBlock;
+		}
 
-            return worldY;
-        }
+		public int getWorldX() {
+			return worldX;
+		}
 
-        public int getWorldZ() {
+		public int getWorldY() {
+			return worldY;
+		}
 
-            return worldZ;
-        }
+		public int getWorldZ() {
+			return worldZ;
+		}
 
-        public IBlockState getBlock() {
+		public IBlockState getBlock() {
+			return block;
+		}
 
-            return block;
-        }
-
-        public void setBlock(IBlockState block) {
-
-            this.block = block;
-        }
-    }
-
-    public static class BoulderBlock extends SurfaceEvent {
-
-        private int worldX;
-        private int worldY;
-        private int worldZ;
-        private IBlockState block;
-
-        public BoulderBlock(int worldX, int worldY, int worldZ, IBlockState defaultBlock) {
-
-            super();
-
-            this.worldX = worldX;
-            this.worldY = worldY;
-            this.worldZ = worldZ;
-            this.block = defaultBlock;
-        }
-
-        public int getWorldX() {
-
-            return worldX;
-        }
-
-        public int getWorldY() {
-
-            return worldY;
-        }
-
-        public int getWorldZ() {
-
-            return worldZ;
-        }
-
-        public IBlockState getBlock() {
-
-            return block;
-        }
-
-        public void setBlock(IBlockState block) {
-
-            this.block = block;
-        }
-    }
+		public void setBlock(IBlockState block) {
+			this.block = block;
+		}
+	}
 }

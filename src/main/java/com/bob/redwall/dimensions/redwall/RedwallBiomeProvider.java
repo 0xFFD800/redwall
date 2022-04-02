@@ -28,287 +28,290 @@ import net.minecraft.world.gen.layer.IntCache;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class RedwallBiomeProvider extends BiomeProvider implements IBiomeProviderRTG {
-    /*private static int[] incidences = new int[100];
-    private static int references = 0;*/
-    /** A GenLayer containing the indices into Biome.biomeList[] */
-    private GenLayer genBiomes;
-    private GenLayer biomeIndexLayer;
-    private List<Biome> biomesToSpawnIn;
-    private RTGWorld rtgWorld;
-    //private OpenSimplexNoise simplex;
-    //private SimplexCellularNoise simplexCell;
-    //private SpacedCellNoise river;
-    private float[] borderNoise;
-    private RealisticBiomePatcher biomePatcher;
-    /*private double riverValleyLevel = 140.0 / 450.0;//60.0/450.0;
-    private float riverSeparation = 975;
-    private float largeBendSize = 140;
-    private float smallBendSize = 30;*/
+	/*
+	 * private static int[] incidences = new int[100]; private static int references
+	 * = 0;
+	 */
+	/** A GenLayer containing the indices into Biome.biomeList[] */
+	private GenLayer genBiomes;
+	private GenLayer biomeIndexLayer;
+	private List<Biome> biomesToSpawnIn;
+	private RTGWorld rtgWorld;
+	// private OpenSimplexNoise simplex;
+	// private SimplexCellularNoise simplexCell;
+	// private SpacedCellNoise river;
+	private float[] borderNoise;
+	private RealisticBiomePatcher biomePatcher;
+	/*
+	 * private double riverValleyLevel = 140.0 / 450.0;//60.0/450.0; private float
+	 * riverSeparation = 975; private float largeBendSize = 140; private float
+	 * smallBendSize = 30;
+	 */
 
-    public RedwallBiomeProvider(World world, WorldType worldType) {
-        super(world.getWorldInfo());
+	public RedwallBiomeProvider(World world, WorldType worldType) {
+		super(world.getWorldInfo());
 
-        this.rtgWorld = new RTGWorld(world);
-        this.biomesToSpawnIn = new ArrayList<>();
-        this.biomesToSpawnIn.add(Biomes.PLAINS);
-        this.borderNoise = new float[256];
-        this.biomePatcher = new RealisticBiomePatcher();
-        /*this.riverSeparation /= RTGAPI.config().RIVER_FREQUENCY_MULTIPLIER.get();
-        this.riverValleyLevel *= RTGAPI.config().riverSizeMultiplier();
-        this.largeBendSize *= RTGAPI.config().RIVER_BENDINESS_MULTIPLIER.get();
-        this.smallBendSize *= RTGAPI.config().RIVER_BENDINESS_MULTIPLIER.get();*/
+		this.rtgWorld = new RTGWorld(world);
+		this.biomesToSpawnIn = new ArrayList<>();
+		this.biomesToSpawnIn.add(Biomes.PLAINS);
+		this.borderNoise = new float[256];
+		this.biomePatcher = new RealisticBiomePatcher();
+		/*
+		 * this.riverSeparation /= RTGAPI.config().RIVER_FREQUENCY_MULTIPLIER.get();
+		 * this.riverValleyLevel *= RTGAPI.config().riverSizeMultiplier();
+		 * this.largeBendSize *= RTGAPI.config().RIVER_BENDINESS_MULTIPLIER.get();
+		 * this.smallBendSize *= RTGAPI.config().RIVER_BENDINESS_MULTIPLIER.get();
+		 */
 
-        long seed = RedwallWorldProvider.REDWALL_SEED;
+		long seed = RedwallWorldProvider.REDWALL_SEED;
 
-        //if (!DimensionManagerRTG.isValidDimension(world.provider.getDimension())) throw new RuntimeException();
+		// if (!DimensionManagerRTG.isValidDimension(world.provider.getDimension()))
+		// throw new RuntimeException();
 
-        //simplex = new OpenSimplexNoise(seed);
-        //simplexCell = new SimplexCellularNoise(seed);
-        //river = new SpacedCellNoise(seed);
-        GenLayer[] agenlayer = initializeAllBiomeGenerators(seed, worldType, ChunkGeneratorSettings.Factory.jsonToFactory("").build());
-        this.genBiomes = agenlayer[0];
-        this.biomeIndexLayer = agenlayer[1];
-    }
-	
+		// simplex = new OpenSimplexNoise(seed);
+		// simplexCell = new SimplexCellularNoise(seed);
+		// river = new SpacedCellNoise(seed);
+		GenLayer[] agenlayer = initializeAllBiomeGenerators(seed, worldType, ChunkGeneratorSettings.Factory.jsonToFactory("").build());
+		this.genBiomes = agenlayer[0];
+		this.biomeIndexLayer = agenlayer[1];
+	}
+
 	public static GenLayer[] initializeAllBiomeGenerators(long seed, WorldType p_180781_2_, ChunkGeneratorSettings p_180781_3_) {
-        GenLayer mainLayer = new GenLayerFromImage(seed, null, RedwallWorldProvider.IMAGE);
-		for (int k = 0; k < RedwallWorldProvider.REDWALL_BIOME_SIZE; ++k) mainLayer = new GenLayerZoom((long)(1000 + k), mainLayer);
-        GenLayer zoomedLayer = new GenLayerVoronoiZoom(10L, mainLayer);
+		GenLayer mainLayer = new GenLayerFromImage(seed, null, RedwallWorldProvider.IMAGE);
+		for (int k = 0; k < RedwallWorldProvider.REDWALL_BIOME_SIZE; ++k)
+			mainLayer = new GenLayerZoom((long) (1000 + k), mainLayer);
+		GenLayer zoomedLayer = new GenLayerVoronoiZoom(10L, mainLayer);
 
-        zoomedLayer.initWorldGenSeed(seed);
+		zoomedLayer.initWorldGenSeed(seed);
 
-        return new GenLayer[] {mainLayer, zoomedLayer};
-    }
+		return new GenLayer[] { mainLayer, zoomedLayer };
+	}
 
-    @Override
-    public int[] getBiomesGens(int x, int z, int par3, int par4) {
-        int[] d = new int[par3 * par4];
+	@Override
+	public int[] getBiomesGens(int x, int z, int par3, int par4) {
+		int[] d = new int[par3 * par4];
 
-        for (int i = 0; i < par3; i++) {
-            for (int j = 0; j < par4; j++) {
-                d[i * par3 + j] = Biome.getIdForBiome(getBiomeGenAt(x + i, z + j));
-            }
-        }
-        return d;
-    }
+		for (int i = 0; i < par3; i++)
+			for (int j = 0; j < par4; j++)
+				d[i * par3 + j] = Biome.getIdForBiome(getBiomeGenAt(x + i, z + j));
+		return d;
+	}
 
-    @Override
-    public float getRiverStrength(int x, int z) {
-        /*//New river curve function. No longer creates worldwide curve correlations along cardinal axes.
-        SimplexOctave.Disk jitter = new SimplexOctave.Disk();
-        simplex.riverJitter().evaluateNoise((float) x / 240.0, (float) z / 240.0, jitter);
-        double pX = x + jitter.deltax() * largeBendSize;
-        double pZ = z + jitter.deltay() * largeBendSize;
+	@Override
+	public float getRiverStrength(int x, int z) {
+		/*
+		 * //New river curve function. No longer creates worldwide curve correlations
+		 * along cardinal axes. SimplexOctave.Disk jitter = new SimplexOctave.Disk();
+		 * simplex.riverJitter().evaluateNoise((float) x / 240.0, (float) z / 240.0,
+		 * jitter); double pX = x + jitter.deltax() * largeBendSize; double pZ = z +
+		 * jitter.deltay() * largeBendSize;
+		 * 
+		 * simplex.octave(2).evaluateNoise((float) x / 80.0, (float) z / 80.0, jitter);
+		 * pX += jitter.deltax() * smallBendSize; pZ += jitter.deltay() * smallBendSize;
+		 * 
+		 * double xRiver = pX / riverSeparation; double zRiver = pZ / riverSeparation;
+		 * 
+		 * //New cellular noise. //double[] results = cell.river().eval(xRiver,zRiver );
+		 * //return (float) cellBorder(results, riverValleyLevel, 1.0); float
+		 * riverFactor = (float)river.octave(0).eval(xRiver, zRiver).interiorValue(); //
+		 * the output is a curved function of relative distance from the center, so
+		 * adjust to make it flatter riverFactor = Bayesian.adjustment(riverFactor,
+		 * .5f); if (riverFactor>riverValleyLevel) return 0; // no river effect return
+		 * (float)(riverFactor/riverValleyLevel) -1f;
+		 */
 
-        simplex.octave(2).evaluateNoise((float) x / 80.0, (float) z / 80.0, jitter);
-        pX += jitter.deltax() * smallBendSize;
-        pZ += jitter.deltay() * smallBendSize;
+		return 0; // Rivers are handled by the image map
+	}
 
-        double xRiver = pX / riverSeparation;
-        double zRiver = pZ / riverSeparation;
+	/**
+	 * @see IBiomeProviderRTG
+	 */
+	@Override
+	public Biome getBiomeGenAt(int x, int z) {
+		return this.getBiome(new BlockPos(x, 0, z));
+	}
 
-        //New cellular noise.
-        //double[] results = cell.river().eval(xRiver,zRiver );
-        //return (float) cellBorder(results, riverValleyLevel, 1.0);
-        float riverFactor = (float)river.octave(0).eval(xRiver, zRiver).interiorValue();
-        // the output is a curved function of relative distance from the center, so adjust to make it flatter
-        riverFactor = Bayesian.adjustment(riverFactor, .5f);
-        if (riverFactor>riverValleyLevel) return 0; // no river effect
-        return (float)(riverFactor/riverValleyLevel) -1f;*/
-    	
-    	return 0; //Rivers are handled by the image map
-    }
+	/**
+	 * @see IBiomeProviderRTG
+	 */
+	@Override
+	public RealisticBiomeBase getBiomeDataAt(int par1, int par2) {
+		/*
+		 * long coords = ChunkCoordIntPair.chunkXZ2Int(par1, par2); if
+		 * (biomeDataMap.containsKey(coords)) { return biomeDataMap.get(coords); }
+		 */
+		RealisticBiomeBase output;
 
-    /**
-     * @see IBiomeProviderRTG
-     */
-    @Override
-    public Biome getBiomeGenAt(int x, int z) {
-        return this.getBiome(new BlockPos(x, 0, z));
-    }
+		output = RealisticBiomeBase.getBiome(Biome.getIdForBiome(this.getBiomeGenAt(par1, par2)));
+		if (output == null)
+			output = biomePatcher.getPatchedRealisticBiome("No biome " + par1 + " " + par2);
 
-    /**
-     * @see IBiomeProviderRTG
-     */
-    @Override
-    public RealisticBiomeBase getBiomeDataAt(int par1, int par2) {
-        /*long coords = ChunkCoordIntPair.chunkXZ2Int(par1, par2);
-        if (biomeDataMap.containsKey(coords)) {
-            return biomeDataMap.get(coords);
-        }*/
-        RealisticBiomeBase output;
+		/*
+		 * if (biomeDataMap.size() > 4096) { biomeDataMap.clear(); }
+		 * 
+		 * biomeDataMap.put(coords, output);
+		 */
 
-        output = RealisticBiomeBase.getBiome(Biome.getIdForBiome(this.getBiomeGenAt(par1, par2)));
-        if (output == null) output = biomePatcher.getPatchedRealisticBiome("No biome " + par1 + " " + par2);
+		return output;
+	}
 
-        /*if (biomeDataMap.size() > 4096) {
-            biomeDataMap.clear();
-        }
+	/**
+	 * @see IBiomeProviderRTG
+	 */
+	@Override
+	public boolean isBorderlessAt(int x, int z) {
 
-        biomeDataMap.put(coords, output);*/
+		int bx, bz;
+		for (bx = -2; bx <= 2; bx++)
+			for (bz = -2; bz <= 2; bz++)
+				borderNoise[Biome.getIdForBiome(getBiomeDataAt(x + bx * 16, z + bz * 16).baseBiome)] += 0.04f;
 
-        return output;
-    }
+		bz = 0;
+		for (bx = 0; bx < 256; bx++) {
+			if (borderNoise[bx] > 0.98f)
+				bz = 1;
+			borderNoise[bx] = 0;
+		}
+		return bz == 1;
+	}
 
-    /**
-     * @see IBiomeProviderRTG
-     */
-    @Override
-    public boolean isBorderlessAt(int x, int z) {
+	public boolean diff(float sample1, float sample2, float base) {
+		return (sample1 < base && sample2 > base) || (sample1 > base && sample2 < base);
+	}
 
-        int bx, bz;
-        for (bx = -2; bx <= 2; bx++) {
-            for (bz = -2; bz <= 2; bz++) {
-                borderNoise[Biome.getIdForBiome(getBiomeDataAt(x + bx * 16, z + bz * 16).baseBiome)] += 0.04f;
-            }
-        }
+	public float[] getRainfall(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5) {
+		IntCache.resetIntCache();
 
-        bz = 0;
-        for (bx = 0; bx < 256; bx++) {
-            if (borderNoise[bx] > 0.98f) bz = 1;
-            borderNoise[bx] = 0;
-        }
-        return bz == 1;
-    }
+		if (par1ArrayOfFloat == null || par1ArrayOfFloat.length < par4 * par5) {
+			par1ArrayOfFloat = new float[par4 * par5];
+		}
 
-    public boolean diff(float sample1, float sample2, float base) {
-        return (sample1 < base && sample2 > base) || (sample1 > base && sample2 < base);
-    }
+		int[] aint = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
 
-    public float[] getRainfall(float[] par1ArrayOfFloat, int par2, int par3, int par4, int par5) {
-        IntCache.resetIntCache();
+		for (int i1 = 0; i1 < par4 * par5; ++i1) {
+			float f = 0;
+			int biome = aint[i1];
 
-        if (par1ArrayOfFloat == null || par1ArrayOfFloat.length < par4 * par5) {
-            par1ArrayOfFloat = new float[par4 * par5];
-        }
+			try {
+				if (biome > 255)
+					throw new RuntimeException(biomeIndexLayer.toString());
+				f = RealisticBiomeBase.getBiome(biome).baseBiome.getRainfall() / 65536.0F;
+			} catch (Exception e) {
+				if (biome > 255)
+					throw new RuntimeException(biomeIndexLayer.toString());
+				if (RealisticBiomeBase.getBiome(biome) == null)
+					f = biomePatcher.getPatchedRealisticBiome("Problem with biome " + biome + " from " + e.getMessage()).baseBiome.getRainfall() / 65536.0F;
+			}
+			if (f > 1.0F)
+				f = 1.0F;
+			par1ArrayOfFloat[i1] = f;
+		}
+		return par1ArrayOfFloat;
+	}
 
-        int[] aint = this.biomeIndexLayer.getInts(par2, par3, par4, par5);
+	@Override
+	@Nonnull
+	public List<Biome> getBiomesToSpawnIn() {
+		return this.biomesToSpawnIn;
+	}
 
-        for (int i1 = 0; i1 < par4 * par5; ++i1) {
-            float f = 0;
-            int biome = aint[i1];
+	@Override
+	public float getTemperatureAtHeight(float p_76939_1_, int p_76939_2_) {
+		return p_76939_1_;
+	}
 
-            try {
-                if (biome > 255) throw new RuntimeException(biomeIndexLayer.toString());
-                f = RealisticBiomeBase.getBiome(biome).baseBiome.getRainfall() / 65536.0F;
-            }
-            catch (Exception e) {
-                if (biome > 255) throw new RuntimeException(biomeIndexLayer.toString());
-                if (RealisticBiomeBase.getBiome(biome) == null) {
-                    f = biomePatcher.getPatchedRealisticBiome("Problem with biome " + biome + " from " +
-                        e.getMessage()).baseBiome.getRainfall() / 65536.0F;
-                }
-            }
-            if (f > 1.0F) f = 1.0F;
-            par1ArrayOfFloat[i1] = f;
-        }
-        return par1ArrayOfFloat;
-    }
+	@Override
+	public Biome[] getBiomesForGeneration(Biome[] biomes, int x, int z, int width, int height) {
 
-    @Override
-    @Nonnull
-    public List<Biome> getBiomesToSpawnIn() {
-        return this.biomesToSpawnIn;
-    }
+		IntCache.resetIntCache();
 
-    @Override
-    public float getTemperatureAtHeight(float p_76939_1_, int p_76939_2_) {
-        return p_76939_1_;
-    }
+		if (biomes == null || biomes.length < width * height)
+			biomes = new Biome[width * height];
 
-    @Override
-    public Biome[] getBiomesForGeneration(Biome[] biomes, int x, int z, int width, int height) {
+		int[] aint = this.genBiomes.getInts(x, z, width, height);
 
-        IntCache.resetIntCache();
+		for (int i1 = 0; i1 < width * height; ++i1) {
+			biomes[i1] = Biome.getBiomeForId(aint[i1]);
 
-        if (biomes == null || biomes.length < width * height) {
-            biomes = new Biome[width * height];
-        }
+			if (biomes[i1] == null)
+				biomes[i1] = biomePatcher.getPatchedBaseBiome("BPRTG.getBiomesForGeneration() could not find biome " + aint[i1]);
+		}
+		return biomes;
+	}
 
-        int[] aint = this.genBiomes.getInts(x, z, width, height);
+	@Override
+	public Biome[] getBiomes(@Nullable Biome[] listToReuse, int x, int z, int width, int length, boolean cacheFlag) {
+		IntCache.resetIntCache();
 
-        for (int i1 = 0; i1 < width * height; ++i1) {
-            biomes[i1] = Biome.getBiomeForId(aint[i1]);
+		if (listToReuse == null || listToReuse.length < width * length)
+			listToReuse = new Biome[width * length];
 
-            if (biomes[i1] == null) {
-                biomes[i1] = biomePatcher.getPatchedBaseBiome(
-                    "BPRTG.getBiomesForGeneration() could not find biome " + aint[i1]);
-            }
-        }
-        return biomes;
-    }
-    
-    @Override
-    public Biome[] getBiomes(@Nullable Biome[] listToReuse, int x, int z, int width, int length, boolean cacheFlag) {
-        IntCache.resetIntCache();
+		if (cacheFlag && width == 16 && length == 16 && (x & 15) == 0 && (z & 15) == 0) {
+			Biome[] abiome = ((BiomeCache) ReflectionHelper.getPrivateValue(BiomeProvider.class, this, "biomeCache", "field_76942_f")).getCachedBiomes(x, z);
+			System.arraycopy(abiome, 0, listToReuse, 0, width * length);
+			return listToReuse;
+		} else {
+			int[] aint = this.biomeIndexLayer.getInts(x, z, width, length);
 
-        if (listToReuse == null || listToReuse.length < width * length) {
-            listToReuse = new Biome[width * length];
-        }
+			for (int i = 0; i < width * length; ++i)
+				listToReuse[i] = Biome.getBiome(aint[i], Biomes.DEFAULT);
 
-        if (cacheFlag && width == 16 && length == 16 && (x & 15) == 0 && (z & 15) == 0) {
-            Biome[] abiome = ((BiomeCache)ReflectionHelper.getPrivateValue(BiomeProvider.class, this, "biomeCache", "field_76942_f")).getCachedBiomes(x, z);
-            System.arraycopy(abiome, 0, listToReuse, 0, width * length);
-            return listToReuse;
-        } else {
-            int[] aint = this.biomeIndexLayer.getInts(x, z, width, length);
+			return listToReuse;
+		}
+	}
 
-            for (int i = 0; i < width * length; ++i) {
-                listToReuse[i] = Biome.getBiome(aint[i], Biomes.DEFAULT);
-            }
+	@Override
+	public boolean areBiomesViable(int x, int z, int radius, @Nonnull List<Biome> allowed) {
+		float centerNoise = getNoiseAt(x, z);
+		if (centerNoise < 62)
+			return false;
 
-            return listToReuse;
-        }
-    }
+		float lowestNoise = centerNoise;
+		float highestNoise = centerNoise;
+		for (int i = -2; i <= 2; i++) {
+			for (int j = -2; j <= 2; j++) {
+				if (i != 0 && j != 0) {
+					float n = getNoiseAt(x + i * 16, z + j * 16);
+					if (n < lowestNoise)
+						lowestNoise = n;
+					if (n > highestNoise)
+						highestNoise = n;
+				}
+			}
+		}
+		return highestNoise - lowestNoise < 22;
+	}
 
-    @Override
-    public boolean areBiomesViable(int x, int z, int radius, @Nonnull List<Biome> allowed) {
-        float centerNoise = getNoiseAt(x, z);
-        if (centerNoise < 62) return false;
+	public float getNoiseAt(int x, int y) {
+		float river = getRiverStrength(x, y) + 1f;
+		if (river < 0.5f)
+			return 59f;
+		return getBiomeDataAt(x, y).rNoise(this.rtgWorld, x, y, 1f, river);
+	}
 
-        float lowestNoise = centerNoise;
-        float highestNoise = centerNoise;
-        for (int i = -2; i <= 2; i++) {
-            for (int j = -2; j <= 2; j++) {
-                if (i != 0 && j != 0) {
-                    float n = getNoiseAt(x + i * 16, z + j * 16);
-                    if (n < lowestNoise)  lowestNoise = n;
-                    if (n > highestNoise) highestNoise = n;
-                }
-            }
-        }
-        return highestNoise - lowestNoise < 22;
-    }
+	@Override
+	public BlockPos findBiomePosition(int x, int z, int range, @Nonnull List<Biome> biomes, @Nonnull Random random) {
+		IntCache.resetIntCache();
+		int i = x - range >> 2;
+		int j = z - range >> 2;
+		int k = x + range >> 2;
+		int l = z + range >> 2;
+		int i1 = k - i + 1;
+		int j1 = l - j + 1;
+		int[] aint = this.genBiomes.getInts(i, j, i1, j1);
+		BlockPos blockpos = null;
+		int k1 = 0;
 
-    public float getNoiseAt(int x, int y) {
-        float river = getRiverStrength(x, y) + 1f;
-        if (river < 0.5f) return 59f;
-        return getBiomeDataAt(x, y).rNoise(this.rtgWorld, x, y, 1f, river);
-    }
+		for (int l1 = 0; l1 < i1 * j1; ++l1) {
+			int i2 = i + l1 % i1 << 2;
+			int j2 = j + l1 / i1 << 2;
+			Biome biome = Biome.getBiome(aint[l1]);
 
-    @Override
-    public BlockPos findBiomePosition(int x, int z, int range, @Nonnull List<Biome> biomes, @Nonnull Random random) {
-        IntCache.resetIntCache();
-        int i = x - range >> 2;
-        int j = z - range >> 2;
-        int k = x + range >> 2;
-        int l = z + range >> 2;
-        int i1 = k - i + 1;
-        int j1 = l - j + 1;
-        int[] aint = this.genBiomes.getInts(i, j, i1, j1);
-        BlockPos blockpos = null;
-        int k1 = 0;
-
-        for (int l1 = 0; l1 < i1 * j1; ++l1) {
-            int i2 = i + l1 % i1 << 2;
-            int j2 = j + l1 / i1 << 2;
-            Biome biome = Biome.getBiome(aint[l1]);
-
-            if (biomes.contains(biome) && (blockpos == null || random.nextInt(k1 + 1) == 0)) {
-                blockpos = new BlockPos(i2, 0, j2);
-                ++k1;
-            }
-        }
-        return blockpos;
-    }
+			if (biomes.contains(biome) && (blockpos == null || random.nextInt(k1 + 1) == 0)) {
+				blockpos = new BlockPos(i2, 0, j2);
+				++k1;
+			}
+		}
+		return blockpos;
+	}
 }

@@ -63,16 +63,14 @@ public class BlockSmeltery extends ModBlock implements ITileEntityProvider {
 		// Only execute on the server
 		if (!world.isRemote) {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntitySmeltery)) {
+			if (!(te instanceof TileEntitySmeltery))
 				return false;
-			}
 			player.openGui(Ref.MODID, GuiHandler.GUI_SMELTERY_ID, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		} else {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntitySmeltery)) {
+			if (!(te instanceof TileEntitySmeltery))
 				return false;
-			}
 			// If it's on client we want to send a message to the server instead.
 			Ref.NETWORK.sendToServer(new MessageUIInteractServer(Mode.OPEN_GUI_CONTAINER, GuiHandler.GUI_SMELTERY_ID, pos.getX(), pos.getY(), pos.getZ()));
 			return true;
@@ -141,7 +139,8 @@ public class BlockSmeltery extends ModBlock implements ITileEntityProvider {
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntitySmeltery tileentity = (TileEntitySmeltery) world.getTileEntity(pos);
 
-		if (tileentity.getSmeltingFinished()) InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.smeltStack);
+		if (tileentity.getSmeltingFinished())
+			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.smeltStack);
 		InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileentity);
 		world.updateComparatorOutputLevel(pos, this);
 

@@ -17,9 +17,8 @@ public class BiomeRedwallMountains extends Biome {
 	public BiomeRedwallMountains(BiomeRedwallMountains.Type p_i46710_1_, Biome.BiomeProperties properties) {
 		super(properties);
 
-		if (p_i46710_1_ == BiomeRedwallMountains.Type.EXTRA_TREES) {
+		if (p_i46710_1_ == BiomeRedwallMountains.Type.EXTRA_TREES)
 			this.decorator.treesPerChunk = 3;
-		}
 
 		this.type = p_i46710_1_;
 
@@ -27,24 +26,26 @@ public class BiomeRedwallMountains extends Biome {
 		this.spawnableMonsterList.clear();
 		this.spawnableCaveCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();
-		// this.spawnableCreatureList.add(new SpawnListEntry(EntityBird.class, 1, 1, 1));
+		// this.spawnableCreatureList.add(new SpawnListEntry(EntityBird.class, 1, 1,
+		// 1));
 	}
 
-    @Override
-    public float getSpawningChance() {
-        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
-    }
+	@Override
+	public float getSpawningChance() {
+		return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+	}
 
-    @Override
+	@Override
 	public void decorate(World worldIn, Random rand, BlockPos pos) {
 		super.decorate(worldIn, rand, pos);
 		net.minecraftforge.common.MinecraftForge.ORE_GEN_BUS.post(new net.minecraftforge.event.terraingen.OreGenEvent.Pre(worldIn, rand, pos));
 		WorldGenerator emeralds = new EmeraldGenerator();
-		if (net.minecraftforge.event.terraingen.TerrainGen.generateOre(worldIn, rand, emeralds, pos, net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.EMERALD)) emeralds.generate(worldIn, rand, pos);
+		if (net.minecraftforge.event.terraingen.TerrainGen.generateOre(worldIn, rand, emeralds, pos, net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable.EventType.EMERALD))
+			emeralds.generate(worldIn, rand, pos);
 		net.minecraftforge.common.MinecraftForge.ORE_GEN_BUS.post(new net.minecraftforge.event.terraingen.OreGenEvent.Post(worldIn, rand, pos));
 	}
 
-    @Override
+	@Override
 	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
 		this.topBlock = Blocks.GRASS.getDefaultState();
 		this.fillerBlock = Blocks.DIRT.getDefaultState();
@@ -72,9 +73,8 @@ public class BiomeRedwallMountains extends Biome {
 				BlockPos blockpos = pos.add(rand.nextInt(16), rand.nextInt(28) + 4, rand.nextInt(16));
 
 				net.minecraft.block.state.IBlockState state = worldIn.getBlockState(blockpos);
-				if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, net.minecraft.block.state.pattern.BlockMatcher.forBlock(Blocks.STONE))) {
+				if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, net.minecraft.block.state.pattern.BlockMatcher.forBlock(Blocks.STONE)))
 					worldIn.setBlockState(blockpos, Blocks.EMERALD_ORE.getDefaultState(), 2);
-				}
 			}
 			return true;
 		}

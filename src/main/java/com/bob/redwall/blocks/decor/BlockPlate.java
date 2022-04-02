@@ -39,16 +39,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockPlate extends ModBlock implements ITileEntityProvider {
 	protected static final AxisAlignedBB STANDING_AABB = new AxisAlignedBB(0.1D, 0.0D, 0.1D, 0.9D, 0.2D, 0.9D);
-	
+
 	public BlockPlate(Material mat, String name, CreativeTabs tab) {
 		super(mat, name, tab, 0, 0);
-        this.initModel();
+		this.initModel();
 	}
 
-    @SideOnly(Side.CLIENT)
-    public void initModel() {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlate.class, new TESRPlate());
-    }
+	@SideOnly(Side.CLIENT)
+	public void initModel() {
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPlate.class, new TESRPlate());
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
@@ -65,50 +65,50 @@ public class BlockPlate extends ModBlock implements ITileEntityProvider {
 		return false;
 	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
+	@SideOnly(Side.CLIENT)
+	@Override
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
+	}
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing heldItem, float side, float hitX, float hitY) {
 		TileEntity te = world.getTileEntity(pos);
 		if (!(te instanceof TileEntityPlate))
 			return false;
-		
-		TileEntityPlate ted = (TileEntityPlate)te;
 
-        if (player instanceof EntityPlayerMP)
-            CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP)player, new ItemStack(this));
+		TileEntityPlate ted = (TileEntityPlate) te;
 
-        if (!world.isRemote) {
-        	if (ted.getStack() != ItemStack.EMPTY) {
-        		if (player.isSneaking()) {
-        			player.addItemStackToInventory(ted.getStack());
-            		ted.setStack(ItemStack.EMPTY);
-        		} else if (player.getHeldItem(hand).getItem() instanceof ItemFood && ItemStack.areItemsEqual(player.getHeldItem(hand), ted.getStack())) {
-        			ted.growStack(1);
-        			player.getHeldItem(hand).shrink(1);
-        			if (player.getHeldItem(hand).isEmpty())
-        				player.setHeldItem(hand, ItemStack.EMPTY);
-        		} else if (player.canEat(false) && ted.getStack().getItem() instanceof ItemFood) {
-	        		((ItemFood)ted.getStack().getItem()).onItemUseFinish(ted.getStack(), world, player);
-        			ted.growStack(-1);
-        		}
-        	} else {
-        		if (player.getHeldItem(hand).getItem() instanceof ItemFood) {
-        			ted.setStack(new ItemStack(player.getHeldItem(hand).getItem(), 1, player.getHeldItem(hand).getItemDamage()));
-        			player.getHeldItem(hand).shrink(1);
-        			if (player.getHeldItem(hand).isEmpty())
-        				player.setHeldItem(hand, ItemStack.EMPTY);
-        		}
-        	}
-        }
+		if (player instanceof EntityPlayerMP)
+			CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, new ItemStack(this));
 
-        if (player != null)
-            player.addStat(StatList.getObjectUseStats(Item.getItemFromBlock(this)));
-        
+		if (!world.isRemote) {
+			if (ted.getStack() != ItemStack.EMPTY) {
+				if (player.isSneaking()) {
+					player.addItemStackToInventory(ted.getStack());
+					ted.setStack(ItemStack.EMPTY);
+				} else if (player.getHeldItem(hand).getItem() instanceof ItemFood && ItemStack.areItemsEqual(player.getHeldItem(hand), ted.getStack())) {
+					ted.growStack(1);
+					player.getHeldItem(hand).shrink(1);
+					if (player.getHeldItem(hand).isEmpty())
+						player.setHeldItem(hand, ItemStack.EMPTY);
+				} else if (player.canEat(false) && ted.getStack().getItem() instanceof ItemFood) {
+					((ItemFood) ted.getStack().getItem()).onItemUseFinish(ted.getStack(), world, player);
+					ted.growStack(-1);
+				}
+			} else {
+				if (player.getHeldItem(hand).getItem() instanceof ItemFood) {
+					ted.setStack(new ItemStack(player.getHeldItem(hand).getItem(), 1, player.getHeldItem(hand).getItemDamage()));
+					player.getHeldItem(hand).shrink(1);
+					if (player.getHeldItem(hand).isEmpty())
+						player.setHeldItem(hand, ItemStack.EMPTY);
+				}
+			}
+		}
+
+		if (player != null)
+			player.addStat(StatList.getObjectUseStats(Item.getItemFromBlock(this)));
+
 		return true;
 	}
 
@@ -117,55 +117,55 @@ public class BlockPlate extends ModBlock implements ITileEntityProvider {
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return true;
 	}
-	
+
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		super.getDrops(drops, world, pos, state, fortune);
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityPlate)
-			drops.add(((TileEntityPlate)te).getStack());
+			drops.add(((TileEntityPlate) te).getStack());
 	}
-	
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
-        return NULL_AABB;
-    }
-	
+		return NULL_AABB;
+	}
+
 	@Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return STANDING_AABB;
-    }
-	
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+		return STANDING_AABB;
+	}
+
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
-        return this.canBePlacedOn(worldIn, pos.down());
-    }
-	
+		return this.canBePlacedOn(worldIn, pos.down());
+	}
+
 	@Override
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        if (!this.canBePlacedOn(worldIn, pos.down())) {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockToAir(pos);
-        }
-    }
+		if (!this.canBePlacedOn(worldIn, pos.down())) {
+			this.dropBlockAsItem(worldIn, pos, state, 0);
+			worldIn.setBlockToAir(pos);
+		}
+	}
 
-    private boolean canBePlacedOn(World worldIn, BlockPos pos) {
-        return worldIn.getBlockState(pos).isSideSolid(worldIn, pos, EnumFacing.UP) || worldIn.getBlockState(pos).getBlock() instanceof BlockFence;
-    }
-    
-    @Override
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-        if (worldIn.getTileEntity(pos) instanceof TileEntityDrinkVessel && (entityIn instanceof EntityLivingBase || entityIn instanceof EntityArrow)) {
-        	TileEntityPlate te = (TileEntityPlate)worldIn.getTileEntity(pos);
-            if(te.getStack() != ItemStack.EMPTY)
-	            for(int i = 0; i < 30; i++)
-	            	worldIn.spawnParticle(EnumParticleTypes.ITEM_CRACK, pos.getX() + RANDOM.nextFloat(), pos.getY() + RANDOM.nextFloat(), pos.getZ() + RANDOM.nextFloat(), (RANDOM.nextFloat() - 0.5F) * 10, (RANDOM.nextFloat() - 0.5F) * 10 + 5, (RANDOM.nextFloat() - 0.5F) * 10, Item.getIdFromItem(te.getStack().getItem()));
-            
-            if(!worldIn.isRemote) {
-                this.dropBlockAsItem(worldIn, pos, state, 0);
-                worldIn.setBlockToAir(pos);
-	            worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ARMORSTAND_BREAK, SoundCategory.BLOCKS, 1.0F, RANDOM.nextFloat(), false);
-            }
-        }
-    }
+	private boolean canBePlacedOn(World worldIn, BlockPos pos) {
+		return worldIn.getBlockState(pos).isSideSolid(worldIn, pos, EnumFacing.UP) || worldIn.getBlockState(pos).getBlock() instanceof BlockFence;
+	}
+
+	@Override
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		if (worldIn.getTileEntity(pos) instanceof TileEntityDrinkVessel && (entityIn instanceof EntityLivingBase || entityIn instanceof EntityArrow)) {
+			TileEntityPlate te = (TileEntityPlate) worldIn.getTileEntity(pos);
+			if (te.getStack() != ItemStack.EMPTY)
+				for (int i = 0; i < 30; i++)
+					worldIn.spawnParticle(EnumParticleTypes.ITEM_CRACK, pos.getX() + RANDOM.nextFloat(), pos.getY() + RANDOM.nextFloat(), pos.getZ() + RANDOM.nextFloat(), (RANDOM.nextFloat() - 0.5F) * 10, (RANDOM.nextFloat() - 0.5F) * 10 + 5, (RANDOM.nextFloat() - 0.5F) * 10, Item.getIdFromItem(te.getStack().getItem()));
+
+			if (!worldIn.isRemote) {
+				this.dropBlockAsItem(worldIn, pos, state, 0);
+				worldIn.setBlockToAir(pos);
+				worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ARMORSTAND_BREAK, SoundCategory.BLOCKS, 1.0F, RANDOM.nextFloat(), false);
+			}
+		}
+	}
 }

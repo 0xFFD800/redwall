@@ -46,18 +46,16 @@ public class BlockPearSapling extends BlockBush implements IGrowable {
         if (!worldIn.isRemote) {
             super.updateTick(worldIn, pos, state, rand);
 
-            if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0) {
+            if (worldIn.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(7) == 0)
                 this.grow(worldIn, pos, state, rand);
-            }
         }
     }
 
     public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (((Integer)state.getValue(STAGE)).intValue() == 0) {
+        if (((Integer)state.getValue(STAGE)).intValue() == 0)
             worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
-        } else {
+        else
             this.generateTree(worldIn, pos, state, rand);
-        }
     }
 
     public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {

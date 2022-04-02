@@ -45,7 +45,7 @@ public class Favor {
 	public EntityPlayer getPlayer() {
 		return this.player;
 	}
-	
+
 	public void setPlayer(EntityPlayer player) {
 		this.player = player;
 	}

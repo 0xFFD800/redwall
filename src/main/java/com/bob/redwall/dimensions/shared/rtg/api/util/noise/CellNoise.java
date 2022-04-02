@@ -1,7 +1,9 @@
 package com.bob.redwall.dimensions.shared.rtg.api.util.noise;
 
 public interface CellNoise {
-    public float noise(double x, double z,double depth) ;
-    public CellOctave octave(int index);
-    public CellOctave river();
+	public float noise(double x, double z, double depth);
+
+	public CellOctave octave(int index);
+
+	public CellOctave river();
 }

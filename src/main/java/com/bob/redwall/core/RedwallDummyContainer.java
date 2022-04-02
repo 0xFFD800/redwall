@@ -23,7 +23,8 @@ public class RedwallDummyContainer extends DummyModContainer {
 		ModMetadata meta = new ModMetadata();
 		meta.modId = "redwallcore";
 		meta.name = "The Redwall Mod (Core)";
-		meta.version = "@VERSION@"; // String.format("%d.%d.%d.%d", majorVersion, minorVersion, revisionVersion, buildVersion);
+		meta.version = "@VERSION@"; // String.format("%d.%d.%d.%d", majorVersion, minorVersion, revisionVersion,
+									// buildVersion);
 		meta.credits = "Emperor_Luke_II--Programming";
 		meta.authorList = Arrays.asList("Emperor_Luke_II");
 		meta.description = "";

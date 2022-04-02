@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockModLeaves extends BlockLeaves {
 	private String saplingID;
-	
+
 	public BlockModLeaves(String name, CreativeTabs tab, ResourceLocation sapling) {
 		super();
 		this.setRegistryName(name);
@@ -35,29 +35,27 @@ public class BlockModLeaves extends BlockLeaves {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, Boolean.valueOf(true)).withProperty(DECAYABLE, Boolean.valueOf(true)));
 		this.saplingID = sapling.toString();
 	}
-	
+
 	@Override
 	protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[] {CHECK_DECAY, DECAYABLE, ReflectionHelper.getPrivateValue(BlockLeaves.class, this, "WINTER")});
-    }
-	
+		return new BlockStateContainer(this, new IProperty[] { CHECK_DECAY, DECAYABLE, ReflectionHelper.getPrivateValue(BlockLeaves.class, this, "WINTER") });
+	}
+
 	public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
-    }
+		return this.getDefaultState().withProperty(DECAYABLE, Boolean.valueOf((meta & 4) == 0)).withProperty(CHECK_DECAY, Boolean.valueOf((meta & 8) > 0));
+	}
 
-    public int getMetaFromState(IBlockState state) {
-        int i = 0;
+	public int getMetaFromState(IBlockState state) {
+		int i = 0;
 
-        if (!((Boolean)state.getValue(DECAYABLE)).booleanValue()) {
-            i |= 4;
-        }
+		if (!((Boolean) state.getValue(DECAYABLE)).booleanValue())
+			i |= 4;
 
-        if (((Boolean)state.getValue(CHECK_DECAY)).booleanValue()) {
-            i |= 8;
-        }
+		if (((Boolean) state.getValue(CHECK_DECAY)).booleanValue())
+			i |= 8;
 
-        return i;
-    }
+		return i;
+	}
 
 	@Override
 	public List<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune) {
@@ -70,48 +68,54 @@ public class BlockModLeaves extends BlockLeaves {
 	public EnumType getWoodType(int meta) {
 		return null;
 	}
-	
+
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) { //Change this in all these classes
-        return Item.getItemFromBlock(Block.getBlockFromName(this.saplingID));
-    }
-	
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) { // Change this in all these classes
+		return Item.getItemFromBlock(Block.getBlockFromName(this.saplingID));
+	}
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
+		return false;
+	}
 
 	@Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
-    }
-	
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.CUTOUT_MIPPED;
+	}
+
 	@Override
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        AxisAlignedBB axisalignedbb = blockState.getBoundingBox(blockAccess, pos);
+	@SideOnly(Side.CLIENT)
+	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		AxisAlignedBB axisalignedbb = blockState.getBoundingBox(blockAccess, pos);
 
-        switch (side) {
-            case DOWN:
-                if (axisalignedbb.minY > 0.0D) return true;
-                break;
-            case UP:
-                if (axisalignedbb.maxY < 1.0D) return true;
-                break;
-            case NORTH:
-                if (axisalignedbb.minZ > 0.0D) return true; 
-                break;
-            case SOUTH: 
-            	if (axisalignedbb.minZ > 0.0D) return true;
-                break;
-            case WEST:
-                if (axisalignedbb.minX > 0.0D) return true;
-                break;
-            case EAST:
-                if (axisalignedbb.maxX < 1.0D) return true;
-        }
+		switch (side) {
+		case DOWN:
+			if (axisalignedbb.minY > 0.0D)
+				return true;
+			break;
+		case UP:
+			if (axisalignedbb.maxY < 1.0D)
+				return true;
+			break;
+		case NORTH:
+			if (axisalignedbb.minZ > 0.0D)
+				return true;
+			break;
+		case SOUTH:
+			if (axisalignedbb.minZ > 0.0D)
+				return true;
+			break;
+		case WEST:
+			if (axisalignedbb.minX > 0.0D)
+				return true;
+			break;
+		case EAST:
+			if (axisalignedbb.maxX < 1.0D)
+				return true;
+		}
 
-        return !blockAccess.getBlockState(pos.offset(side)).doesSideBlockRendering(blockAccess, pos.offset(side), side.getOpposite());
-    }
+		return !blockAccess.getBlockState(pos.offset(side)).doesSideBlockRendering(blockAccess, pos.offset(side), side.getOpposite());
+	}
 }

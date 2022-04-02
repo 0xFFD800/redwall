@@ -9,11 +9,11 @@ public abstract class EquipmentModifierNegative extends EquipmentModifier {
 
 	@Override
 	public boolean isNegative() {
-    	return true;
-    }
-    
+		return true;
+	}
+
 	@Override
-    public int getQuality(int level) {
-		return -((111 - this.getRarity(level).getWeight())/2);
-    }
+	public int getQuality(int level) {
+		return -((111 - this.getRarity(level).getWeight()) / 2);
+	}
 }

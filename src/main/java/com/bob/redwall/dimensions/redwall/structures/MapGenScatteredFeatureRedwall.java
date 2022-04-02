@@ -68,14 +68,12 @@ public class MapGenScatteredFeatureRedwall extends MapGenScatteredFeature {
 	protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
 		int i = chunkX;
 		int j = chunkZ;
-
-		if (chunkX < 0) {
+		
+		if (chunkX < 0)
 			chunkX -= this.maxDistanceBetweenScatteredFeatures - 1;
-		}
 
-		if (chunkZ < 0) {
+		if (chunkZ < 0)
 			chunkZ -= this.maxDistanceBetweenScatteredFeatures - 1;
-		}
 
 		int k = chunkX / this.maxDistanceBetweenScatteredFeatures;
 		int l = chunkZ / this.maxDistanceBetweenScatteredFeatures;

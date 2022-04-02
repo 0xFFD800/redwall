@@ -28,13 +28,13 @@ public class BiomeRedwallPlains extends Biome {
 		this.spawnableCaveCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();
 
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityShrewGuosim.class, 4, 5, 8));
+		this.spawnableCreatureList.add(new SpawnListEntry(EntityShrewGuosim.class, 4, 5, 8));
 	}
 
-    @Override
-    public float getSpawningChance() {
-        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
-    }
+	@Override
+	public float getSpawningChance() {
+		return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN;
+	}
 
 	@Override
 	public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
@@ -75,12 +75,13 @@ public class BiomeRedwallPlains extends Biome {
 			this.decorator.grassPerChunk = 10;
 			DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
 
-			if (net.minecraftforge.event.terraingen.TerrainGen.decorate(worldIn, rand, pos, net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.GRASS)) for (int i = 0; i < 7; ++i) {
-				int j = rand.nextInt(16) + 8;
-				int k = rand.nextInt(16) + 8;
-				int l = rand.nextInt(worldIn.getHeight(pos.add(j, 0, k)).getY() + 32);
-				DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
-			}
+			if (net.minecraftforge.event.terraingen.TerrainGen.decorate(worldIn, rand, pos, net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.GRASS))
+				for (int i = 0; i < 7; ++i) {
+					int j = rand.nextInt(16) + 8;
+					int k = rand.nextInt(16) + 8;
+					int l = rand.nextInt(worldIn.getHeight(pos.add(j, 0, k)).getY() + 32);
+					DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
+				}
 		}
 
 		if (this.sunflowers && net.minecraftforge.event.terraingen.TerrainGen.decorate(worldIn, rand, pos, net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.FLOWERS)) {

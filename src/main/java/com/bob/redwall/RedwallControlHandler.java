@@ -35,9 +35,11 @@ public class RedwallControlHandler {
 			ItemStack itemstack = player.getHeldItemMainhand();
 
 			RayTraceResult result = RedwallUtils.raytrace(player, reach);
-			if (result == null) return false;
+			if (result == null)
+				return false;
 			if (result.typeOfHit != RayTraceResult.Type.BLOCK) {
-				if (itemstack.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty()) return true;
+				if (itemstack.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty())
+					return true;
 
 				attackCap.set(true);
 				attackCap.setMode(0);
@@ -51,9 +53,11 @@ public class RedwallControlHandler {
 			ItemStack itemstack = player.getHeldItemMainhand();
 			RayTraceResult result = RedwallUtils.raytrace(player, reach);
 
-			if (result == null) return false;
+			if (result == null)
+				return false;
 			if (result.typeOfHit != RayTraceResult.Type.BLOCK) {
-				if (itemstack.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty()) return true;
+				if (itemstack.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty())
+					return true;
 
 				player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(true);
 				player.getCapability(AttackingProvider.ATTACKING_CAP, null).setMode(1);
@@ -67,9 +71,11 @@ public class RedwallControlHandler {
 			ItemStack itemstack = player.getHeldItemMainhand();
 			RayTraceResult result = RedwallUtils.raytrace(player, reach);
 
-			if (result == null) return false;
+			if (result == null)
+				return false;
 			if (result.typeOfHit != RayTraceResult.Type.BLOCK) {
-				if (itemstack.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty()) return true;
+				if (itemstack.getItem() instanceof ModCustomWeapon && ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty())
+					return true;
 
 				player.getCapability(AttackingProvider.ATTACKING_CAP, null).set(true);
 				player.getCapability(AttackingProvider.ATTACKING_CAP, null).setMode(2);
@@ -87,7 +93,8 @@ public class RedwallControlHandler {
 	public static boolean handleDefenseStart(int mode) {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.player;
-		if (player == null) return false;
+		if (player == null)
+			return false;
 		float reach = (float) player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
 
 		switch (mode) {
@@ -95,18 +102,15 @@ public class RedwallControlHandler {
 			ItemStack itemstack = player.getHeldItemMainhand();
 
 			RayTraceResult result = RedwallUtils.raytrace(player, reach);
-			if (result == null) return false;
+			if (result == null)
+				return false;
 			if (result.typeOfHit != RayTraceResult.Type.BLOCK && itemstack.getItem() instanceof ModCustomWeapon) {
-				if (player.getCooledAttackStrength(mc.getRenderPartialTicks()) != 1.0F) {
+				if (player.getCooledAttackStrength(mc.getRenderPartialTicks()) != 1.0F)
 					return true;
-				}
 
-				if (itemstack != null) {
-					boolean cancel = ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty();
-					if (cancel) {
+				if (itemstack != null)
+					if (((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty())
 						return true;
-					}
-				}
 
 				player.getCapability(DefendingProvider.DEFENDING_CAP, null).set(true);
 				player.getCapability(DefendingProvider.DEFENDING_CAP, null).setMode(0);
@@ -118,18 +122,15 @@ public class RedwallControlHandler {
 			ItemStack itemstack = player.getHeldItemMainhand();
 			RayTraceResult result = RedwallUtils.raytrace(player, reach);
 
-			if (result == null) return false;
+			if (result == null)
+				return false;
 			if (result.typeOfHit != RayTraceResult.Type.BLOCK && itemstack.getItem() instanceof ModCustomWeapon) {
-				if (player.getCooledAttackStrength(mc.getRenderPartialTicks()) != 1.0F) {
+				if (player.getCooledAttackStrength(mc.getRenderPartialTicks()) != 1.0F)
 					return true;
-				}
 
-				if (itemstack != null) {
-					boolean cancel = ((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty();
-					if (cancel) {
+				if (itemstack != null)
+					if (((ModCustomWeapon) itemstack.getItem()).isTwoHanded(itemstack, player) && !player.getHeldItemOffhand().isEmpty())
 						return true;
-					}
-				}
 
 				player.getCapability(DefendingProvider.DEFENDING_CAP, null).set(true);
 				player.getCapability(DefendingProvider.DEFENDING_CAP, null).setMode(1);
@@ -155,7 +156,8 @@ public class RedwallControlHandler {
 	public static boolean handleDefenseEnd(int mode) {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.player;
-		if (player == null) return false;
+		if (player == null)
+			return false;
 		if (mode == 1 || mode == 0) {
 			boolean returnb = player.getCapability(DefendingProvider.DEFENDING_CAP, null).get();
 			player.getCapability(DefendingProvider.DEFENDING_CAP, null).set(false);

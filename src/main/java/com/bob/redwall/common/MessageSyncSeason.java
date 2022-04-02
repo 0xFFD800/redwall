@@ -24,14 +24,14 @@ public class MessageSyncSeason implements IMessage {
 	private static int i = 0;
 	private Mode mode;
 	private String season;
-	
-	public MessageSyncSeason() { }
-	
+
+	public MessageSyncSeason() {}
+
 	public MessageSyncSeason(Mode mode, String season) {
 		this.mode = mode;
 		this.season = season;
-    }
-	
+	}
+
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		this.season = ByteBufUtils.readUTF8String(buf);
@@ -46,46 +46,45 @@ public class MessageSyncSeason implements IMessage {
 		@Override
 		public IMessage onMessage(final MessageSyncSeason message, MessageContext ctx) {
 			Minecraft.getMinecraft().addScheduledTask(new Runnable() {
-                @Override
-                public void run() {
-                	if(message.mode == Mode.SEASON) {
-	                	WorldClient world = Minecraft.getMinecraft().world;
-	                	ISeasonCap cap = world.getCapability(SeasonCapProvider.SEASON_CAP, null);
-	                	cap.setSeason(EnumSeasons.valueOf(message.season));
-	                	Long2ObjectMap<Chunk> chunkMapping = ReflectionHelper.getPrivateValue(ChunkProviderClient.class, world.getChunkProvider(), "chunkMapping", "field_73236_b");
-	                	for(Entry<Long, Chunk> entry : chunkMapping.entrySet()) {
-	                		Chunk chunk = entry.getValue();
-	                		for(int i = 0; i < 255; i += 16) {
-	                    		BlockPos pos = chunk.getPos().getBlock(0, 0 + i, 0);
-	                    		world.markAndNotifyBlock(pos, chunk, Blocks.AIR.getDefaultState(), chunk.getBlockState(pos), 11);
-	                		}
-	                	}
-                	}
-                }
-            });
-		    return null; // no response message
+				@Override
+				public void run() {
+					if (message.mode == Mode.SEASON) {
+						WorldClient world = Minecraft.getMinecraft().world;
+						ISeasonCap cap = world.getCapability(SeasonCapProvider.SEASON_CAP, null);
+						cap.setSeason(EnumSeasons.valueOf(message.season));
+						Long2ObjectMap<Chunk> chunkMapping = ReflectionHelper.getPrivateValue(ChunkProviderClient.class, world.getChunkProvider(), "chunkMapping", "field_73236_b");
+						for (Entry<Long, Chunk> entry : chunkMapping.entrySet()) {
+							Chunk chunk = entry.getValue();
+							for (int i = 0; i < 255; i += 16) {
+								BlockPos pos = chunk.getPos().getBlock(0, 0 + i, 0);
+								world.markAndNotifyBlock(pos, chunk, Blocks.AIR.getDefaultState(), chunk.getBlockState(pos), 11);
+							}
+						}
+					}
+				}
+			});
+			return null; // no response message
 		}
 	}
-	
+
 	public static enum Mode {
 		SEASON(i++);
-		
+
 		private final int id;
+
 		private Mode(int id) {
 			this.id = id;
 		}
-		
+
 		public int getId() {
 			return this.id;
 		}
 
 		public static Mode getById(int id) {
-			for(int a = 0; a < Mode.values().length; a++) {
-				if(Mode.values()[a].id == id) {
+			for (int a = 0; a < Mode.values().length; a++)
+				if (Mode.values()[a].id == id)
 					return Mode.values()[a];
-				}
-			}
-			
+
 			return null;
 		}
 	}

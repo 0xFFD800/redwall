@@ -58,16 +58,14 @@ public class BlockSmithingGeneric extends ModBlock implements ITileEntityProvide
 		// Only execute on the server
 		if (!world.isRemote) {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntitySmithingGeneric)) {
+			if (!(te instanceof TileEntitySmithingGeneric))
 				return false;
-			}
 			player.openGui(Ref.MODID, GuiHandler.GUI_SMITHING_GENERIC_ID, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		} else {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntitySmithingGeneric)) {
+			if (!(te instanceof TileEntitySmithingGeneric))
 				return false;
-			}
 			// If it's on client we want to send a message to the server instead.
 			Ref.NETWORK.sendToServer(new MessageUIInteractServer(Mode.OPEN_GUI_CONTAINER, GuiHandler.GUI_SMITHING_GENERIC_ID, pos.getX(), pos.getY(), pos.getZ()));
 			return true;
@@ -113,7 +111,8 @@ public class BlockSmithingGeneric extends ModBlock implements ITileEntityProvide
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntitySmithingGeneric tileentity = (TileEntitySmithingGeneric) world.getTileEntity(pos);
 
-		if (tileentity.getSmithingFinished()) InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.smithStack);
+		if (tileentity.getSmithingFinished())
+			InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), tileentity.smithStack);
 		InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileentity);
 		world.updateComparatorOutputLevel(pos, this);
 

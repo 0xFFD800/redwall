@@ -79,11 +79,9 @@ public class WorldGenKotirTurretInhabited extends StructureComponent {
 
 		template.addBlocksToWorldChunk(world, blockpos.down(i5), placementsettings);
 
-		for (int j = 0; j < position.getXSize(); j++) {
-			for (int k = 0; k < position.getZSize(); k++) {
+		for (int j = 0; j < position.getXSize(); j++)
+			for (int k = 0; k < position.getZSize(); k++)
 				world.setBlockState(blockpos.down(i5 + 1).south(k).east(j), Blocks.GRASS.getDefaultState());
-			}
-		}
 
 		for (int j = 0; j < rand.nextInt(6) + 1; j++) {
 			boolean m = rand.nextBoolean();

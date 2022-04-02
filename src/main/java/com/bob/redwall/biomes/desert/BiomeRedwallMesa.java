@@ -39,6 +39,7 @@ public class BiomeRedwallMesa extends Biome {
 		this.topBlock = RED_SAND;
 		this.fillerBlock = STAINED_HARDENED_CLAY;
 		this.decorator.treesPerChunk = -999;
+
 		if (!(type == Type.BARE_RED_DESERT)) {
 			this.decorator.deadBushPerChunk = 20;
 			this.decorator.reedsPerChunk = 3;
@@ -50,22 +51,22 @@ public class BiomeRedwallMesa extends Biome {
 			this.decorator.cactiPerChunk = -999;
 			this.decorator.flowersPerChunk = -999;
 		}
+
 		this.spawnableCreatureList.clear();
 		this.spawnableMonsterList.clear();
 		this.spawnableCaveCreatureList.clear();
 		this.spawnableWaterCreatureList.clear();
 	}
 
-    @Override
-    public float getSpawningChance() {
-        return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN / 2.0F;
-    }
+	@Override
+	public float getSpawningChance() {
+		return RedwallWorldProvider.NPC_SPAWN_CHANCE_WORLDGEN / 2.0F;
+	}
 
 	@Override
 	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
-		if (this.clayBands == null || this.worldSeed != RedwallWorldProvider.REDWALL_SEED) {
+		if (this.clayBands == null || this.worldSeed != RedwallWorldProvider.REDWALL_SEED)
 			this.generateBands(worldIn.getSeed());
-		}
 
 		if (this.pillarNoise == null || this.pillarRoofNoise == null || this.worldSeed != worldIn.getSeed()) {
 			Random random = new Random(this.worldSeed);
@@ -88,9 +89,8 @@ public class BiomeRedwallMesa extends Biome {
 		int i1 = 0;
 
 		for (int j1 = 255; j1 >= 0; --j1) {
-			if (chunkPrimerIn.getBlockState(l1, j1, k1).getMaterial() == Material.AIR && j1 < (int) d4) {
+			if (chunkPrimerIn.getBlockState(l1, j1, k1).getMaterial() == Material.AIR && j1 < (int) d4)
 				chunkPrimerIn.setBlockState(l1, j1, k1, STONE);
-			}
 
 			if (j1 <= rand.nextInt(5)) {
 				chunkPrimerIn.setBlockState(l1, j1, k1, BEDROCK);
@@ -111,9 +111,8 @@ public class BiomeRedwallMesa extends Biome {
 							iblockstate3 = this.fillerBlock;
 						}
 
-						if (j1 < i2 && (iblockstate == null || iblockstate.getMaterial() == Material.AIR)) {
+						if (j1 < i2 && (iblockstate == null || iblockstate.getMaterial() == Material.AIR))
 							iblockstate = WATER;
-						}
 
 						l = k + Math.max(0, j1 - i2);
 
@@ -121,15 +120,11 @@ public class BiomeRedwallMesa extends Biome {
 							if (j1 > i2 + 3 + k) {
 								IBlockState iblockstate2;
 
-								if (j1 >= 64 && j1 <= 127) {
-									if (flag) {
+								if (j1 >= 64 && j1 <= 127)
+									if (flag)
 										iblockstate2 = HARDENED_CLAY;
-									} else {
-										iblockstate2 = this.getBand(x, j1, z);
-									}
-								} else {
-									iblockstate2 = ORANGE_STAINED_HARDENED_CLAY;
-								}
+									else iblockstate2 = this.getBand(x, j1, z);
+								else iblockstate2 = ORANGE_STAINED_HARDENED_CLAY;
 
 								chunkPrimerIn.setBlockState(l1, j1, k1, iblockstate2);
 							} else {
@@ -139,18 +134,15 @@ public class BiomeRedwallMesa extends Biome {
 						} else {
 							chunkPrimerIn.setBlockState(l1, j1, k1, iblockstate3);
 
-							if (iblockstate3.getBlock() == Blocks.STAINED_HARDENED_CLAY) {
+							if (iblockstate3.getBlock() == Blocks.STAINED_HARDENED_CLAY)
 								chunkPrimerIn.setBlockState(l1, j1, k1, ORANGE_STAINED_HARDENED_CLAY);
-							}
 						}
 					} else if (l > 0) {
 						--l;
 
-						if (flag1) {
+						if (flag1)
 							chunkPrimerIn.setBlockState(l1, j1, k1, ORANGE_STAINED_HARDENED_CLAY);
-						} else {
-							chunkPrimerIn.setBlockState(l1, j1, k1, this.getBand(x, j1, z));
-						}
+						else chunkPrimerIn.setBlockState(l1, j1, k1, this.getBand(x, j1, z));
 					}
 
 					++i1;
@@ -168,9 +160,8 @@ public class BiomeRedwallMesa extends Biome {
 		for (int l1 = 0; l1 < 64; ++l1) {
 			l1 += random.nextInt(5) + 1;
 
-			if (l1 < 64) {
+			if (l1 < 64)
 				this.clayBands[l1] = ORANGE_STAINED_HARDENED_CLAY;
-			}
 		}
 
 		int i2 = random.nextInt(4) + 2;
@@ -179,9 +170,8 @@ public class BiomeRedwallMesa extends Biome {
 			int j = random.nextInt(3) + 1;
 			int k = random.nextInt(64);
 
-			for (int l = 0; k + l < 64 && l < j; ++l) {
+			for (int l = 0; k + l < 64 && l < j; ++l)
 				this.clayBands[k + l] = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
-			}
 		}
 
 		int j2 = random.nextInt(4) + 2;
@@ -190,9 +180,8 @@ public class BiomeRedwallMesa extends Biome {
 			int i3 = random.nextInt(3) + 2;
 			int l3 = random.nextInt(64);
 
-			for (int i1 = 0; l3 + i1 < 64 && i1 < i3; ++i1) {
+			for (int i1 = 0; l3 + i1 < 64 && i1 < i3; ++i1)
 				this.clayBands[l3 + i1] = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.BROWN);
-			}
 		}
 
 		int l2 = random.nextInt(4) + 2;
@@ -201,9 +190,8 @@ public class BiomeRedwallMesa extends Biome {
 			int i4 = random.nextInt(3) + 1;
 			int k4 = random.nextInt(64);
 
-			for (int j1 = 0; k4 + j1 < 64 && j1 < i4; ++j1) {
+			for (int j1 = 0; k4 + j1 < 64 && j1 < i4; ++j1)
 				this.clayBands[k4 + j1] = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.RED);
-			}
 		}
 
 		int k3 = random.nextInt(3) + 3;
@@ -215,13 +203,11 @@ public class BiomeRedwallMesa extends Biome {
 			for (int k1 = 0; j4 + k1 < 64 && k1 < 1; ++k1) {
 				this.clayBands[j4 + k1] = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
 
-				if (j4 + k1 > 1 && random.nextBoolean()) {
+				if (j4 + k1 > 1 && random.nextBoolean())
 					this.clayBands[j4 + k1 - 1] = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.SILVER);
-				}
 
-				if (j4 + k1 < 63 && random.nextBoolean()) {
+				if (j4 + k1 < 63 && random.nextBoolean())
 					this.clayBands[j4 + k1 + 1] = STAINED_HARDENED_CLAY.withProperty(BlockColored.COLOR, EnumDyeColor.SILVER);
-				}
 			}
 		}
 	}
