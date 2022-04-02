@@ -100,10 +100,10 @@ public class BlockModSlab extends ModBlock {
 	public int getMetaFromState(IBlockState state) {
 		int i = 0;
 
-		if (this.isDouble())
+		if (this.isDouble()) {
 			if (((Boolean) state.getValue(SEAMLESS)).booleanValue())
 				i |= 8;
-		else if (state.getValue(HALF) == BlockModSlab.EnumBlockHalf.TOP)
+		} else if (state.getValue(HALF) == BlockModSlab.EnumBlockHalf.TOP)
 			i |= 8;
 
 		return i;

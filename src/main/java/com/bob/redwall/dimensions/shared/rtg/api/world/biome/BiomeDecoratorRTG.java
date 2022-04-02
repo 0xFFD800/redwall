@@ -109,49 +109,38 @@ public class BiomeDecoratorRTG {
 		biomeDecorator.lapisGen = new WorldGenMinable(Blocks.LAPIS_ORE.getDefaultState(), 3);
 
 		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(worldIn, random, pos));
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.dirtGen, pos, OreGenEvent.GenerateMinable.EventType.DIRT)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.dirtGen, pos, OreGenEvent.GenerateMinable.EventType.DIRT))
 			this.genStandardOre1(worldIn, random, 10, biomeDecorator.dirtGen, 0, 256);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.gravelGen, pos, OreGenEvent.GenerateMinable.EventType.GRAVEL)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.gravelGen, pos, OreGenEvent.GenerateMinable.EventType.GRAVEL))
 			this.genStandardOre1(worldIn, random, 8, biomeDecorator.gravelGen, 0, 256);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.dioriteGen, pos, OreGenEvent.GenerateMinable.EventType.DIORITE)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.dioriteGen, pos, OreGenEvent.GenerateMinable.EventType.DIORITE))
 			this.genStandardOre1(worldIn, random, 10, biomeDecorator.dioriteGen, 0, 80);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.graniteGen, pos, OreGenEvent.GenerateMinable.EventType.GRANITE)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.graniteGen, pos, OreGenEvent.GenerateMinable.EventType.GRANITE))
 			this.genStandardOre1(worldIn, random, 10, biomeDecorator.graniteGen, 0, 80);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.andesiteGen, pos, OreGenEvent.GenerateMinable.EventType.ANDESITE)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.andesiteGen, pos, OreGenEvent.GenerateMinable.EventType.ANDESITE))
 			this.genStandardOre1(worldIn, random, 10, biomeDecorator.andesiteGen, 0, 80);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.coalGen, pos, OreGenEvent.GenerateMinable.EventType.COAL)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.coalGen, pos, OreGenEvent.GenerateMinable.EventType.COAL))
 			this.genStandardOre1(worldIn, random, 20, biomeDecorator.coalGen, 0, 128);
-		}
 		/*
 		 * if (TerrainGen.generateOre(worldIn, random, leadGen, pos,
 		 * OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
 		 * this.genStandardOre1(worldIn, random, 17, leadGen, 0, 128); }
 		 */
-		if (TerrainGen.generateOre(worldIn, random, tinGen, pos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+		if (TerrainGen.generateOre(worldIn, random, tinGen, pos, OreGenEvent.GenerateMinable.EventType.CUSTOM))
 			this.genStandardOre1(worldIn, random, 6, tinGen, 0, 128);
-		}
-		if (TerrainGen.generateOre(worldIn, random, copperGen, pos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+		if (TerrainGen.generateOre(worldIn, random, copperGen, pos, OreGenEvent.GenerateMinable.EventType.CUSTOM))
 			this.genStandardOre1(worldIn, random, 15, copperGen, 0, 128);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.ironGen, pos, OreGenEvent.GenerateMinable.EventType.IRON)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.ironGen, pos, OreGenEvent.GenerateMinable.EventType.IRON))
 			this.genStandardOre1(worldIn, random, 10, biomeDecorator.ironGen, 0, 64);
-		}
 		/*
 		 * if (TerrainGen.generateOre(worldIn, random, silverGen, pos,
 		 * OreGenEvent.GenerateMinable.EventType.COAL)) { this.genStandardOre1(worldIn,
 		 * random, 4, silverGen, 0, 48); }
 		 */
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.goldGen, pos, OreGenEvent.GenerateMinable.EventType.GOLD)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.goldGen, pos, OreGenEvent.GenerateMinable.EventType.GOLD))
 			this.genStandardOre1(worldIn, random, 2, biomeDecorator.goldGen, 0, 32);
-		}
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.diamondGen, pos, OreGenEvent.GenerateMinable.EventType.DIAMOND)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.diamondGen, pos, OreGenEvent.GenerateMinable.EventType.DIAMOND))
 			this.genStandardOre1(worldIn, random, 1, biomeDecorator.diamondGen, 0, 16);
-		}
 		/*
 		 * if (TerrainGen.generateOre(worldIn, random, rubyGen, pos,
 		 * OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
@@ -169,15 +158,12 @@ public class BiomeDecoratorRTG {
 		 * OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
 		 * this.genStandardOre1(worldIn, random, 2, turquoiseGen, 0, 16); }
 		 */
-		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.lapisGen, pos, OreGenEvent.GenerateMinable.EventType.LAPIS)) {
+		if (TerrainGen.generateOre(worldIn, random, biomeDecorator.lapisGen, pos, OreGenEvent.GenerateMinable.EventType.LAPIS))
 			this.genStandardOre2(worldIn, random, 1, biomeDecorator.lapisGen, 16, 16);
-		}
-		if (rbb.generatesEmeralds()) {
+		if (rbb.generatesEmeralds())
 			this.genEmeraldOre(worldIn, random, pos);
-		}
-		if (rbb.getExtraGoldGenCount() > 0) {
+		if (rbb.getExtraGoldGenCount() > 0)
 			this.genStandardOre1(worldIn, random, rbb.getExtraGoldGenCount(), biomeDecorator.goldGen, rbb.getExtraGoldGenMinHeight(), rbb.getExtraGoldGenMaxHeight());
-		}
 		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(worldIn, random, pos));
 
 		// Logger.debug("Finished generating ores in %s (%d %d)",
@@ -190,11 +176,9 @@ public class BiomeDecoratorRTG {
 			minHeight = maxHeight;
 			maxHeight = i;
 		} else if (maxHeight == minHeight) {
-			if (minHeight < 255) {
+			if (minHeight < 255)
 				++maxHeight;
-			} else {
-				--minHeight;
-			}
+			else--minHeight;
 		}
 
 		for (int j = 0; j < blockCount; ++j) {
@@ -215,7 +199,8 @@ public class BiomeDecoratorRTG {
 	 */
 	public void genEmeraldOre(World worldIn, Random rand, BlockPos pos) {
 		WorldGenerator emeralds = new EmeraldGenerator();
-		if (TerrainGen.generateOre(worldIn, rand, emeralds, pos, OreGenEvent.GenerateMinable.EventType.EMERALD)) emeralds.generate(worldIn, rand, pos);
+		if (TerrainGen.generateOre(worldIn, rand, emeralds, pos, OreGenEvent.GenerateMinable.EventType.EMERALD))
+			emeralds.generate(worldIn, rand, pos);
 	}
 
 	/**
@@ -228,7 +213,8 @@ public class BiomeDecoratorRTG {
 			int j1 = rand.nextInt(16);
 			int k1 = rand.nextInt(64);
 			int l1 = rand.nextInt(16);
-			if (TerrainGen.generateOre(worldIn, rand, generator, pos.add(j1, k1, l1), OreGenEvent.GenerateMinable.EventType.SILVERFISH)) generator.generate(worldIn, rand, pos.add(j1, k1, l1));
+			if (TerrainGen.generateOre(worldIn, rand, generator, pos.add(j1, k1, l1), OreGenEvent.GenerateMinable.EventType.SILVERFISH))
+				generator.generate(worldIn, rand, pos.add(j1, k1, l1));
 		}
 	}
 
@@ -245,9 +231,8 @@ public class BiomeDecoratorRTG {
 				BlockPos blockpos = pos.add(rand.nextInt(16), rand.nextInt(28) + 4, rand.nextInt(16));
 
 				IBlockState state = worldIn.getBlockState(blockpos);
-				if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, BlockMatcher.forBlock(Blocks.STONE))) {
+				if (state.getBlock().isReplaceableOreGen(state, worldIn, blockpos, BlockMatcher.forBlock(Blocks.STONE)))
 					worldIn.setBlockState(blockpos, Blocks.EMERALD_ORE.getDefaultState(), 2);
-				}
 			}
 			return true;
 		}
@@ -259,9 +244,8 @@ public class BiomeDecoratorRTG {
 	 * decorate() method.
 	 */
 	public void rDecorateSeedBiome(World world, Random rand, int worldX, int worldZ, OpenSimplexNoise simplex, CellNoise cell, float strength, float river) {
-		if (strength > 0.3f) {
+		if (strength > 0.3f)
 			this.biome.decorate(world, rand, new BlockPos(worldX, 0, worldZ));
-		}
 	}
 
 	public void rPopulatePreDecorate(IChunkGenerator ichunkgenerator, World worldObj, Random rand, int chunkX, int chunkZ, boolean villageBuilding) {
@@ -273,17 +257,13 @@ public class BiomeDecoratorRTG {
 
 		// Underground water lakes.
 		if (rtgConfig.ENABLE_WATER_UNDERGROUND_LAKES.get()) {
-
 			if (gen && (rtgConfig.WATER_UNDERGROUND_LAKE_CHANCE.get() > 0) && (rbb.waterUndergroundLakeChance() > 0)) {
-
 				int i2 = worldX + rand.nextInt(16);// + 8;
 				int l4 = RandomUtil.getRandomInt(rand, 1, 50);
 				int i8 = worldZ + rand.nextInt(16);// + 8;
 
-				if (rand.nextInt(rtgConfig.WATER_UNDERGROUND_LAKE_CHANCE.get()) == 0 && rand.nextInt(rbb.waterUndergroundLakeChance()) == 0) {
-
+				if (rand.nextInt(rtgConfig.WATER_UNDERGROUND_LAKE_CHANCE.get()) == 0 && rand.nextInt(rbb.waterUndergroundLakeChance()) == 0)
 					(new WorldGenLakes(Blocks.WATER)).generate(worldObj, rand, new BlockPos(new BlockPos(i2, l4, i8)));
-				}
 			}
 		}
 
@@ -296,12 +276,9 @@ public class BiomeDecoratorRTG {
 				int l4 = worldObj.getHeight(new BlockPos(i2, 0, i8)).getY();
 
 				// Surface lakes.
-				if (rand.nextInt(rtgConfig.WATER_SURFACE_LAKE_CHANCE.get()) == 0 && rand.nextInt(rbb.waterSurfaceLakeChance()) == 0) {
-
-					if (l4 > 63) {
+				if (rand.nextInt(rtgConfig.WATER_SURFACE_LAKE_CHANCE.get()) == 0 && rand.nextInt(rbb.waterSurfaceLakeChance()) == 0)
+					if (l4 > 63)
 						(new WorldGenPond(Blocks.WATER.getDefaultState(), Blocks.CLAY.getDefaultState(), Blocks.GRAVEL.getDefaultState())).generate(worldObj, rand, new BlockPos(i2, l4, i8));
-					}
-				}
 			}
 		}
 
@@ -309,27 +286,20 @@ public class BiomeDecoratorRTG {
 
 		// Underground lava lakes.
 		if (rtgConfig.ENABLE_LAVA_UNDERGROUND_LAKES.get()) {
-
 			if (gen && (rtgConfig.LAVA_UNDERGROUND_LAKE_CHANCE.get() > 0) && (rbb.lavaUndergroundLakeChance() > 0)) {
-
 				int i2 = worldX + rand.nextInt(16);// + 8;
 				int l4 = RandomUtil.getRandomInt(rand, 1, 50);
 				int i8 = worldZ + rand.nextInt(16);// + 8;
 
-				if (rand.nextInt(rtgConfig.LAVA_UNDERGROUND_LAKE_CHANCE.get()) == 0 && rand.nextInt(rbb.lavaUndergroundLakeChance()) == 0) {
-
+				if (rand.nextInt(rtgConfig.LAVA_UNDERGROUND_LAKE_CHANCE.get()) == 0 && rand.nextInt(rbb.lavaUndergroundLakeChance()) == 0)
 					(new WorldGenLakes(Blocks.LAVA)).generate(worldObj, rand, new BlockPos(i2, l4, i8));
-				}
 			}
 		}
 
 		if (rtgConfig.GENERATE_DUNGEONS.get()) {
 			gen = TerrainGen.populate(ichunkgenerator, worldObj, rand, chunkX, chunkZ, villageBuilding, PopulateChunkEvent.Populate.EventType.DUNGEON);
-
 			if (gen) {
-
 				for (int k1 = 0; k1 < rtgConfig.DUNGEON_FREQUENCY.get(); k1++) {
-
 					int j5 = worldX + rand.nextInt(16);// + 8;
 					int k8 = rand.nextInt(128);
 					int j11 = worldZ + rand.nextInt(16);// + 8;
@@ -342,9 +312,8 @@ public class BiomeDecoratorRTG {
 
 	public void rPopulatePostDecorate(World worldObj, Random rand, int chunkX, int chunkZ, boolean flag) {
 		// Are flowing liquid modifications enabled?
-		if (!rtgConfig.ENABLE_FLOWING_LIQUID_MODIFICATIONS.get()) {
+		if (!rtgConfig.ENABLE_FLOWING_LIQUID_MODIFICATIONS.get())
 			return;
-		}
 
 		int worldX = chunkX * 16;
 		int worldZ = chunkZ * 16;

@@ -26,216 +26,218 @@ import net.minecraft.world.chunk.ChunkPrimer;
  * Created by WhichOnesPink on 06/02/2017.
  */
 public interface IRealisticBiome {
+	IRealisticBiome[] arrRealisticBiomes = new IRealisticBiome[256];
 
-    IRealisticBiome[] arrRealisticBiomes = new IRealisticBiome[256];
+	Biome baseBiome();
 
-    Biome baseBiome();
-    Biome riverBiome();
-    Biome beachBiome();
+	Biome riverBiome();
 
-    BiomeDecoratorRTG rDecorator();
+	Biome beachBiome();
 
-    BiomeConfig getConfig();
-    void initConfig();
-    boolean hasConfig();
-    TerrainBase initTerrain();
-    TerrainBase terrain();
-    SurfaceBase initSurface();
-    SurfaceBase surface();
-    SurfaceBase surfaceGeneric();
-    void initDecos();
-    ArrayList<DecoBase> getDecos();
-    ArrayList<TreeRTG> getTrees();
+	BiomeDecoratorRTG rDecorator();
 
-    default boolean generatesEmeralds() {
-        return false;
-    }
+	BiomeConfig getConfig();
 
-    default boolean generatesSilverfish() {
-        return false;
-    }
+	void initConfig();
 
-    default int waterUndergroundLakeChance() {
-        return 1; // Lower equals more frequent.
-    }
+	boolean hasConfig();
 
-    default int lavaUndergroundLakeChance() {
-        return 1; // Lower equals more frequent.
-    }
+	TerrainBase initTerrain();
 
-    default int waterSurfaceLakeChance() {
-        return 10; // Lower equals more frequent.
-    }
+	TerrainBase terrain();
 
-    default int lavaSurfaceLakeChance() {
-        return 0; // Lower equals more frequent.
-    }
+	SurfaceBase initSurface();
 
-    default void rReplace(ChunkPrimer primer, int i, int j, int x, int y, int depth, IRTGWorld rtgWorld, float[] noise, float river, Biome[] base) {
+	SurfaceBase surface();
 
-        float riverRegion = !this.getConfig().ALLOW_RIVERS.get() ? 0f : river;
+	SurfaceBase surfaceGeneric();
 
-        if (rtgConfig.ENABLE_RTG_BIOME_SURFACES.get() && this.getConfig().USE_RTG_SURFACES.get()) {
+	void initDecos();
 
-            this.surface().paintTerrain(primer, i, j, x, y, depth, rtgWorld, noise, riverRegion, base);
-        }
-        else {
+	ArrayList<DecoBase> getDecos();
 
-            this.surfaceGeneric().paintTerrain(primer, i, j, x, y, depth, rtgWorld, noise, riverRegion, base);
-        }
-    }
+	ArrayList<TreeRTG> getTrees();
 
-    default float lakePressure(IRTGWorld rtgWorld, int x, int y, float border, float lakeInterval, float largeBendSize, float mediumBendSize, float smallBendSize) {
-        if (!this.getConfig().ALLOW_SCENIC_LAKES.get()) return 1f;
-        SimplexOctave.Disk jitter = new SimplexOctave.Disk();
-        rtgWorld.simplex().riverJitter().evaluateNoise((float)x / 240.0, (float)y / 240.0, jitter);
-        double pX = x + jitter.deltax() * largeBendSize;
-        double pY = y + jitter.deltay() * largeBendSize;
-        rtgWorld.simplex().mountain().evaluateNoise((float)x / 80.0, (float)y / 80.0, jitter);
-        pX += jitter.deltax() * mediumBendSize;
-        pY += jitter.deltay() * mediumBendSize;
-        rtgWorld.simplex().octave(4).evaluateNoise((float)x / 30.0, (float)y / 30.0, jitter);
-        pX += jitter.deltax() * smallBendSize;
-        pY += jitter.deltay() * smallBendSize;
-        //double results =simplexCell.river().noise(pX / lakeInterval, pY / lakeInterval,1.0);
-        VoronoiResult lakeResults = rtgWorld.cell().river().eval((float)pX/ lakeInterval, (float)pY/ lakeInterval);
-        float results = 1f-(float)(lakeResults.interiorValue());
-        if (results >1.01) throw new RuntimeException("" + lakeResults.shortestDistance+ " , "+lakeResults.nextDistance);
-        if (results<-.01) throw new RuntimeException("" + lakeResults.shortestDistance+ " , "+lakeResults.nextDistance);
-        //return simplexCell.river().noise((float)x/ lakeInterval, (float)y/ lakeInterval,1.0);
-        return results;
-    }
+	default boolean generatesEmeralds() {
+		return false;
+	}
 
-    /**
-     * Returns the number of extra blocks of gold ore to generate in this biome.
-     * Defaults to 0, but can be overridden by sub-classed biomes.
-     * Currently only used by vanilla Mesa biome variants.
-     */
-    default int getExtraGoldGenCount() {
-        return 0;
-    }
+	default boolean generatesSilverfish() {
+		return false;
+	}
 
-    /**
-     * Returns the minimum Y value at which extra gold ore can generate.
-     * Defaults to 32 (BiomeMesa), but can be overridden by sub-classed biomes.
-     * Currently only used by vanilla Mesa biome variants.
-     *
-     * @see net.minecraft.world.biome.BiomeMesa
-     */
-    default int getExtraGoldGenMinHeight() {
-        return 32;
-    }
+	default int waterUndergroundLakeChance() {
+		return 1; // Lower equals more frequent.
+	}
 
-    /**
-     * Returns the maximum Y value at which extra gold ore can generate.
-     * Defaults to 80 (BiomeMesa), but can be overridden by sub-classed biomes.
-     *
-     * @see net.minecraft.world.biome.BiomeMesa
-     */
-    default int getExtraGoldGenMaxHeight() {
-        return 80;
-    }
+	default int lavaUndergroundLakeChance() {
+		return 1; // Lower equals more frequent.
+	}
 
-    String modSlug();
+	default int waterSurfaceLakeChance() {
+		return 10; // Lower equals more frequent.
+	}
 
-    default String biomeSlug() {
-        return BiomeConfig.formatSlug(this.baseBiome().getBiomeName());
-    }
+	default int lavaSurfaceLakeChance() {
+		return 0; // Lower equals more frequent.
+	}
 
-    /**
-     * Adds a deco object to the list of biome decos.
-     * The 'allowed' parameter allows us to pass biome config booleans dynamically when configuring the decos in the biome.
-     */
-    default void addDeco(DecoBase deco, boolean allowed) {
+	default void rReplace(ChunkPrimer primer, int i, int j, int x, int y, int depth, IRTGWorld rtgWorld, float[] noise, float river, Biome[] base) {
 
-        if (allowed) {
+		float riverRegion = !this.getConfig().ALLOW_RIVERS.get() ? 0f : river;
 
-            ArrayList<DecoBase> decos = this.getDecos();
+		if (rtgConfig.ENABLE_RTG_BIOME_SURFACES.get() && this.getConfig().USE_RTG_SURFACES.get())
+			this.surface().paintTerrain(primer, i, j, x, y, depth, rtgWorld, noise, riverRegion, base);
+		else this.surfaceGeneric().paintTerrain(primer, i, j, x, y, depth, rtgWorld, noise, riverRegion, base);
+	}
 
-            if (!deco.properlyDefined()) throw new RuntimeException(deco.toString());
+	default float lakePressure(IRTGWorld rtgWorld, int x, int y, float border, float lakeInterval, float largeBendSize, float mediumBendSize, float smallBendSize) {
+		if (!this.getConfig().ALLOW_SCENIC_LAKES.get())
+			return 1f;
+		SimplexOctave.Disk jitter = new SimplexOctave.Disk();
+		rtgWorld.simplex().riverJitter().evaluateNoise((float) x / 240.0, (float) y / 240.0, jitter);
+		double pX = x + jitter.deltax() * largeBendSize;
+		double pY = y + jitter.deltay() * largeBendSize;
+		rtgWorld.simplex().mountain().evaluateNoise((float) x / 80.0, (float) y / 80.0, jitter);
+		pX += jitter.deltax() * mediumBendSize;
+		pY += jitter.deltay() * mediumBendSize;
+		rtgWorld.simplex().octave(4).evaluateNoise((float) x / 30.0, (float) y / 30.0, jitter);
+		pX += jitter.deltax() * smallBendSize;
+		pY += jitter.deltay() * smallBendSize;
+		// double results =simplexCell.river().noise(pX / lakeInterval, pY /
+		// lakeInterval,1.0);
+		VoronoiResult lakeResults = rtgWorld.cell().river().eval((float) pX / lakeInterval, (float) pY / lakeInterval);
+		float results = 1f - (float) (lakeResults.interiorValue());
+		if (results > 1.01)
+			throw new RuntimeException("" + lakeResults.shortestDistance + " , " + lakeResults.nextDistance);
+		if (results < -.01)
+			throw new RuntimeException("" + lakeResults.shortestDistance + " , " + lakeResults.nextDistance);
+		// return simplexCell.river().noise((float)x/ lakeInterval, (float)y/
+		// lakeInterval,1.0);
+		return results;
+	}
 
-            if (deco instanceof DecoBaseBiomeDecorations) {
+	/**
+	 * Returns the number of extra blocks of gold ore to generate in this biome.
+	 * Defaults to 0, but can be overridden by sub-classed biomes. Currently only
+	 * used by vanilla Mesa biome variants.
+	 */
+	default int getExtraGoldGenCount() {
+		return 0;
+	}
 
-                for (int i = 0; i < decos.size(); i++) {
+	/**
+	 * Returns the minimum Y value at which extra gold ore can generate. Defaults to
+	 * 32 (BiomeMesa), but can be overridden by sub-classed biomes. Currently only
+	 * used by vanilla Mesa biome variants.
+	 *
+	 * @see net.minecraft.world.biome.BiomeMesa
+	 */
+	default int getExtraGoldGenMinHeight() {
+		return 32;
+	}
 
-                    if (decos.get(i) instanceof DecoBaseBiomeDecorations) {
+	/**
+	 * Returns the maximum Y value at which extra gold ore can generate. Defaults to
+	 * 80 (BiomeMesa), but can be overridden by sub-classed biomes.
+	 *
+	 * @see net.minecraft.world.biome.BiomeMesa
+	 */
+	default int getExtraGoldGenMaxHeight() {
+		return 80;
+	}
 
-                        decos.remove(i);
-                        break;
-                    }
-                }
-            }
+	String modSlug();
 
-            decos.add(deco);
-        }
-    }
+	default String biomeSlug() {
+		return BiomeConfig.formatSlug(this.baseBiome().getBiomeName());
+	}
 
-    /**
-     * Convenience method for addDeco() where 'allowed' is assumed to be true.
-     */
-    default void addDeco(DecoBase deco) {
-        if (!deco.properlyDefined()) throw new RuntimeException(deco.toString());
-        this.addDeco(deco, true);
-    }
+	/**
+	 * Adds a deco object to the list of biome decos. The 'allowed' parameter allows
+	 * us to pass biome config booleans dynamically when configuring the decos in
+	 * the biome.
+	 */
+	default void addDeco(DecoBase deco, boolean allowed) {
+		if (allowed) {
+			ArrayList<DecoBase> decos = this.getDecos();
 
-    default void addDecoCollection(DecoCollectionBase decoCollection) {
+			if (!deco.properlyDefined())
+				throw new RuntimeException(deco.toString());
 
-        // Don't add the desert river deco collection if the user has disabled it.
-        if (decoCollection instanceof DecoCollectionDesertRiver) {
-            if (!rtgConfig.ENABLE_LUSH_RIVER_BANK_DECORATIONS_IN_HOT_BIOMES.get()) {
-                return;
-            }
-        }
+			if (deco instanceof DecoBaseBiomeDecorations) {
+				for (int i = 0; i < decos.size(); i++) {
+					if (decos.get(i) instanceof DecoBaseBiomeDecorations) {
+						decos.remove(i);
+						break;
+					}
+				}
+			}
 
-        // Add this collection's decos to master deco list.
-        if (decoCollection.decos.size() > 0) {
-            for (int i = 0; i < decoCollection.decos.size(); i++) {
-                this.addDeco(decoCollection.decos.get(i));
-            }
-        }
+			decos.add(deco);
+		}
+	}
 
-        // If there are any tree decos in this collection, then add the individual TreeRTG objects to master tree list.
-        if (decoCollection.rtgTrees.size() > 0) {
-            for (int i = 0; i < decoCollection.rtgTrees.size(); i++) {
-                this.addTree(decoCollection.rtgTrees.get(i));
-            }
-        }
-    }
+	/**
+	 * Convenience method for addDeco() where 'allowed' is assumed to be true.
+	 */
+	default void addDeco(DecoBase deco) {
+		if (!deco.properlyDefined())
+			throw new RuntimeException(deco.toString());
+		this.addDeco(deco, true);
+	}
 
-    /**
-     * Adds a tree to the list of RTG trees associated with this biome.
-     * The 'allowed' parameter allows us to pass biome config booleans dynamically when configuring the trees in the biome.
-     */
-    default void addTree(TreeRTG tree, boolean allowed) {
+	default void addDecoCollection(DecoCollectionBase decoCollection) {
+		// Don't add the desert river deco collection if the user has disabled it.
+		if (decoCollection instanceof DecoCollectionDesertRiver)
+			if (!rtgConfig.ENABLE_LUSH_RIVER_BANK_DECORATIONS_IN_HOT_BIOMES.get())
+				return;
 
-        if (allowed) {
+		// Add this collection's decos to master deco list.
+		if (decoCollection.decos.size() > 0)
+			for (int i = 0; i < decoCollection.decos.size(); i++)
+				this.addDeco(decoCollection.decos.get(i));
 
-            // Set the sapling data for this tree before we add it to the list.
-            tree.setSaplingBlock(SaplingUtil.getSaplingFromLeaves(tree.getLeavesBlock()));
+		// If there are any tree decos in this collection, then add the individual
+		// TreeRTG objects to master tree list.
+		if (decoCollection.rtgTrees.size() > 0)
+			for (int i = 0; i < decoCollection.rtgTrees.size(); i++)
+				this.addTree(decoCollection.rtgTrees.get(i));
+	}
 
-            /*
-             * Make sure all leaves delay their decay to prevent insta-despawning of leaves (e.g. Swamp Willow)
-             * The try/catch is a safeguard against trees that use leaves which aren't an instance of BlockLeaves.
-             */
-            try {
-                IBlockState leaves = tree.getLeavesBlock().withProperty(BlockLeaves.CHECK_DECAY, false);
-                tree.setLeavesBlock(leaves);
-            }
-            catch (Exception e) {
-                // Do nothing.
-            }
+	/**
+	 * Adds a tree to the list of RTG trees associated with this biome. The
+	 * 'allowed' parameter allows us to pass biome config booleans dynamically when
+	 * configuring the trees in the biome.
+	 */
+	default void addTree(TreeRTG tree, boolean allowed) {
+		if (allowed) {
+			// Set the sapling data for this tree before we add it to the list.
+			tree.setSaplingBlock(SaplingUtil.getSaplingFromLeaves(tree.getLeavesBlock()));
 
-            this.getTrees().add(tree);
-        }
-    }
+			/*
+			 * Make sure all leaves delay their decay to prevent insta-despawning of leaves
+			 * (e.g. Swamp Willow) The try/catch is a safeguard against trees that use
+			 * leaves which aren't an instance of BlockLeaves.
+			 */
+			try {
+				IBlockState leaves = tree.getLeavesBlock().withProperty(BlockLeaves.CHECK_DECAY, false);
+				tree.setLeavesBlock(leaves);
+			} catch (Exception e) {
+				// Do nothing.
+			}
 
-    /**
-     * Convenience method for addTree() where 'allowed' is assumed to be true.
-     */
-    default void addTree(TreeRTG tree) {
-        this.addTree(tree, true);
-    }
-    
+			this.getTrees().add(tree);
+		}
+	}
+
+	/**
+	 * Convenience method for addTree() where 'allowed' is assumed to be true.
+	 */
+	default void addTree(TreeRTG tree) {
+		this.addTree(tree, true);
+	}
+
 	default boolean noWaterBelowSeaLevel() {
 		return false;
 	}
@@ -243,7 +245,7 @@ public interface IRealisticBiome {
 	default boolean canHaveVolcanos() {
 		return false;
 	}
-	
+
 	default boolean isOcean() {
 		return false;
 	}
