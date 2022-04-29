@@ -239,6 +239,9 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 					}
 				this.buyingTimer = this.getRNG().nextInt(18000) + 6000;
 			}
+			
+			if (this.getAttackTarget() != null && !this.getAttackTarget().isDead && !this.getTalkingActive() && this.getRNG().nextInt(200) == 0)
+				this.talk(EnumOpinion.HOSTILE);
 		}
 	}
 
@@ -247,7 +250,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		if ((this.getHeldItemMainhand().getItem() instanceof ItemBow || this.getHeldItemMainhand().getItem() instanceof ItemModBow) && this.isHandActive()) {
 			this.rangedAi.resetAttackTimer();
 			this.resetActiveHand();
-			if (this.getAttackTarget() != null)
+			if (this.getAttackTarget() != null && !this.getAttackTarget().isDead)
 				this.attackEntityWithRangedAttack(this.getAttackTarget(), 0);
 		}
 		return super.attackEntityFrom(source, amount);
@@ -265,11 +268,12 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 
 	public void talk(EntityPlayer player) {
 		if (!this.world.isRemote) {
-			if (player instanceof EntityPlayerMP) {
+			if (player instanceof EntityPlayerMP)
 				Ref.NETWORK.sendTo(new MessageUIInteract(Mode.NPC_TALK, this.getEntityId()), (EntityPlayerMP) player);
-			}
+
 			if (!this.getFaction().playerHasContact(player))
 				this.getFaction().playerContactFaction(player);
+
 			this.setTimeSinceLastTalk(0);
 		} else {
 			List<String> speechbank = this.getSpeechbank(this.getOpinionOfPlayer(Minecraft.getMinecraft().player));
@@ -277,6 +281,22 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 			Ref.NETWORK.sendToServer(new MessageUIInteractServer(MessageUIInteractServer.Mode.NPC_TALK, this.getEntityId(), string));
 			this.setTimeSinceLastTalk(0);
 		}
+	}
+
+	public void talk(EnumOpinion opinion) {
+		List<String> speechbank = this.getSpeechbank(opinion);
+		String string = String.format(speechbank.get(this.getRNG().nextInt(speechbank.size())), Minecraft.getMinecraft().player.getDisplayName().getUnformattedText());
+		if (!this.world.isRemote) {
+			if (!this.getTalkingActive()) {
+				if (this.hasCustomMessage())
+					this.setTalking(new TextComponentString(this.getCustomMessage()));
+				else this.setTalking(new TextComponentString(string));
+
+				this.setTalkingActive(true);
+			}
+		} else
+			Ref.NETWORK.sendToServer(new MessageUIInteractServer(MessageUIInteractServer.Mode.NPC_TALK, this.getEntityId(), string));
+		this.setTimeSinceLastTalk(0);
 	}
 
 	public void updateCombatTasks() {
