@@ -404,8 +404,7 @@ public class RedwallUtils {
 							if (targetEntity instanceof EntityLivingBase) {
 								if (knockback > 0.0F)
 									RedwallUtils.doEntityKnockbackTrue(((EntityLivingBase) targetEntity), attacker, knockback, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
-								else
-									((EntityLivingBase) targetEntity).knockBack(attacker, 0.5F, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
+								else((EntityLivingBase) targetEntity).knockBack(attacker, 0.5F, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
 
 								if (stun > 0.0F) {
 									((EntityLivingBase) targetEntity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, (int) (stun * 10.0F), 128, false, false));
@@ -440,8 +439,7 @@ public class RedwallUtils {
 								} else {
 									if (isWeapon)
 										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, attacker.getSoundCategory(), 1.0F, 1.0F);
-									else
-										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, attacker.getSoundCategory(), 1.0F, 1.0F);
+									else attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_WEAK, attacker.getSoundCategory(), 1.0F, 1.0F);
 								}
 
 								attacker.setLastAttackedEntity(targetEntity);
@@ -546,9 +544,8 @@ public class RedwallUtils {
 	public static float getTerrainSpeedModifier(EntityLivingBase entity) {
 		float mod = 0.0F;
 		IBlockState stateIn = entity.world.getBlockState(entity.getPosition());
-		if (stateIn.getMaterial() == Material.PLANTS || stateIn.getMaterial() == Material.VINE || stateIn.getMaterial() == Material.SNOW) {
+		if (stateIn.getMaterial() == Material.PLANTS || stateIn.getMaterial() == Material.VINE || stateIn.getMaterial() == Material.SNOW)
 			mod += 0.25F;
-		}
 
 		if (entity.onGround) {
 			IBlockState stateOn = entity.world.getBlockState(entity.getPosition().down());
@@ -736,8 +733,7 @@ public class RedwallUtils {
 
 		if (flag)
 			model.bipedHead.rotateAngleX = -((float) Math.PI / 4F);
-		else
-			model.bipedHead.rotateAngleX = headPitch * 0.017453292F;
+		else model.bipedHead.rotateAngleX = headPitch * 0.017453292F;
 
 		model.bipedBody.rotateAngleY = 0.0F;
 		model.bipedRightArm.rotationPointZ = 0.0F;
@@ -828,14 +824,14 @@ public class RedwallUtils {
 			f1 = f1 * f1;
 			f1 = f1 * f1;
 			f1 = 1.0F - f1;
-			
+
 			if (entityIn instanceof EntityPlayer)
 				f1 = 1.0F - ((EntityPlayer) entityIn).getCooledAttackStrength(Minecraft.getMinecraft().getRenderPartialTicks());
 			else if (entityIn instanceof EntityAbstractNPC)
 				f1 = 1.0F - (((float) ((EntityAbstractNPC) entityIn).getCooldown()) / ((float) ((EntityAbstractNPC) entityIn).getSwingCooldown()));
-			
+
 			IAttacking attacking = entityIn instanceof EntityLivingBase ? ((EntityLivingBase) entityIn).getCapability(AttackingProvider.ATTACKING_CAP, null) : null;
-			
+
 			if (attacking == null) {
 				float f2 = MathHelper.sin(f1 * (float) Math.PI);
 				float f3 = MathHelper.sin(model.swingProgress * (float) Math.PI) * -(model.bipedHead.rotateAngleX - 0.7F) * 0.75F;
@@ -1045,8 +1041,7 @@ public class RedwallUtils {
 			return (float) entity.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() * (entity instanceof EntityPlayer ? 1 : 0.75F);
 		else if (entity.getHeldItemMainhand().getItem() instanceof ModCustomWeapon)
 			return 3.375F + (((ModCustomWeapon) entity.getHeldItemMainhand().getItem()).getReach() * 0.75F);
-		else
-			return 3.375F;
+		else return 3.375F;
 	}
 
 	public static boolean isInMossflower(Biome b, int cx, int cz) {
@@ -1076,7 +1071,7 @@ public class RedwallUtils {
 		for (Entity entity : world.getLoadedEntityList())
 			if (entity.getUniqueID().equals(uuid))
 				return entity;
-		
+
 		return null;
 	}
 

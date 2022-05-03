@@ -99,10 +99,12 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	public final Acceptor<ChunkEvent.Load> delayedDecorator = new Acceptor<ChunkEvent.Load>() {
 		@Override
 		public void accept(ChunkEvent.Load event) {
-			if (event.isCanceled()) return;
+			if (event.isCanceled())
+				return;
 			ChunkPos pos = event.getChunk().getPos();
 
-			if (!toCheck.contains(pos)) return;
+			if (!toCheck.contains(pos))
+				return;
 			toCheck.remove(pos);
 			for (Direction forPopulation : directions) {
 				decorateIfOtherwiseSurrounded(event.getWorld().getChunkProvider(), pos, forPopulation);
@@ -137,7 +139,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 		setWeightings();
 
 		// check for bogus world
-		if (worldObj == null) throw new RuntimeException("Attempt to create chunk provider without a world");
+		if (worldObj == null)
+			throw new RuntimeException("Attempt to create chunk provider without a world");
 	}
 
 	private void setWeightings() {
@@ -155,7 +158,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 						// float distance = (float)Math.sqrt(distanceSquared);
 						float distance = (float) Math.pow(distanceSquared, .7);
 						float weight = 1f - distance / limit;
-						if (weight < 0) weight = 0;
+						if (weight < 0)
+							weight = 0;
 						weightings[mapX * sampleArraySize + mapZ][i * 16 + j] = weight;
 					}
 				}
@@ -176,7 +180,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	@Override
 	public Chunk generateChunk(final int cx, final int cz) {
 		final ChunkPos pos = new ChunkPos(cx, cz);
-		if (inGeneration.containsKey(pos)) return inGeneration.get(pos);
+		if (inGeneration.containsKey(pos))
+			return inGeneration.get(pos);
 		// if (availableChunks.size() > 1000) throw new RuntimeException();
 		if (chunkMade.contains(pos)) {
 			Chunk available;
@@ -293,7 +298,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 				for (int k = 0; k < 256; k++) {
 					if (k > h) {
-						if (k < RedwallWorldProvider.SEA_LEVEL) primer.setBlockState(i, k, j, Blocks.WATER.getDefaultState());
+						if (k < RedwallWorldProvider.SEA_LEVEL)
+							primer.setBlockState(i, k, j, Blocks.WATER.getDefaultState());
 						else primer.setBlockState(i, k, j, Blocks.AIR.getDefaultState());
 					} else {
 						/*
@@ -322,7 +328,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	private void replaceBlocksForBiome(int cx, int cz, ChunkPrimer primer, IRealisticBiome[] biome2, Biome[] base, float[] n) {
 		ChunkGeneratorEvent.ReplaceBiomeBlocks event = new ChunkGeneratorEvent.ReplaceBiomeBlocks(this, cx, cz, primer, this.worldObj);
 		MinecraftForge.EVENT_BUS.post(event);
-		if (event.getResult() == Event.Result.DENY) return;
+		if (event.getResult() == Event.Result.DENY)
+			return;
 
 		int i, j, depth;
 		float river;
@@ -371,7 +378,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	@Override
 	public void populate(int x, int z) {
 		// check if this is the master provider
-		if (this.fakeGenerator) return;
+		if (this.fakeGenerator)
+			return;
 		// if (this.alreadyDecorated.contains(new PlaneLocation.Invariant(chunkX,
 		// chunkZ))) return;
 		if (this.neighborsDone(x, z)) {
@@ -391,7 +399,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 		ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
 		// Logger.info("trying to decorate: " + chunkPos.toString());
-		if (alreadyDecorated.contains(chunkPos)) return;
+		if (alreadyDecorated.contains(chunkPos))
+			return;
 
 		if (populating) {
 			// this has been created by another decoration; put in to-do pile
@@ -399,7 +408,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 			return;
 		}
 
-		if (populatingProvider != null) throw new RuntimeException(toString() + " " + populatingProvider.toString());
+		if (populatingProvider != null)
+			throw new RuntimeException(toString() + " " + populatingProvider.toString());
 
 		if (inGeneration.containsKey(chunkPos)) {
 			addToDecorationList(chunkPos);
@@ -490,7 +500,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 		for (int bn = 0; bn < 256; bn++) {
 			if (borderNoise[bn] > 0f) {
-				if (borderNoise[bn] >= 1f) borderNoise[bn] = 1f;
+				if (borderNoise[bn] >= 1f)
+					borderNoise[bn] = 1f;
 
 				realisticBiome = RealisticBiomeBase.getBiome(bn);
 
@@ -539,7 +550,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 						this.worldObj.setBlockState(icePos, Blocks.ICE.getDefaultState(), 2);
 					}
 
-					if (this.worldObj.canSnowAt(snowPos, true)) this.worldObj.setBlockState(snowPos, Blocks.SNOW_LAYER.getDefaultState(), 2);
+					if (this.worldObj.canSnowAt(snowPos, true))
+						this.worldObj.setBlockState(snowPos, Blocks.SNOW_LAYER.getDefaultState(), 2);
 				}
 			}
 		}
@@ -557,9 +569,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 		// if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
 		Set<ChunkPos> toProcess = doableLocations(limit);
 		toProcess.forEach(this::removeFromDecorationList);
-		for (ChunkPos location : toProcess) {
+		for (ChunkPos location : toProcess)
 			doPopulate(location.x, location.z);
-		}
 	}
 
 	private Set<ChunkPos> doableLocations(int limit) {
@@ -567,10 +578,13 @@ public class ChunkProviderRTG implements IChunkGenerator {
 		int found = 0;
 		synchronized (this.toDecorate) {
 			for (ChunkPos pos : this.toDecorate) {
-				if (!this.neighborsDone(pos.x, pos.z)) continue;
-				if (this.inGeneration.containsKey(pos)) continue;
+				if (!this.neighborsDone(pos.x, pos.z))
+					continue;
+				if (this.inGeneration.containsKey(pos))
+					continue;
 				toProcess.add(pos);
-				if (++found == limit) return toProcess;
+				if (++found == limit)
+					return toProcess;
 			}
 		}
 		return toProcess;
@@ -624,15 +638,16 @@ public class ChunkProviderRTG implements IChunkGenerator {
 		ChunkPos probe = new ChunkPos(pos.x + fromNewChunk.xOffset, pos.z + fromNewChunk.zOffset);
 
 		// check to see if already decorated; shouldn't be but just in case
-		if (this.alreadyDecorated.contains(probe)) return;
+		if (this.alreadyDecorated.contains(probe))
+			return;
 		// if an in-process chunk; we'll get a populate call later;
 		// if (this.inGeneration.containsKey(probe)) return;
 
 		for (Direction checked : directions) {
-			if (checked == compass.opposite(fromNewChunk)) continue; // that's the new chunk
-			if (!chunkExists(true, probe.x + checked.xOffset, probe.z + checked.zOffset)) return;// that
-																									// one's
-																									// missing
+			if (checked == compass.opposite(fromNewChunk))
+				continue; // that's the new chunk
+			if (!chunkExists(true, probe.x + checked.xOffset, probe.z + checked.zOffset))
+				return; // that one's missing
 		}
 		// passed all checks
 		addToDecorationList(probe);
@@ -642,11 +657,15 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	private boolean chunkExists(boolean checkNeighbours, int cx, int cz) {
 		// if (chunkExists(cx,cz)) return true;
 		ChunkPos location = new ChunkPos(cx, cz);
-		if (inGeneration.containsKey(location)) return true;
-		if (toCheck.contains(location)) return true;
-		if (this.chunkMade.contains(location)) return true;
+		if (inGeneration.containsKey(location))
+			return true;
+		if (toCheck.contains(location))
+			return true;
+		if (this.chunkMade.contains(location))
+			return true;
 		// if (world.chunkExists(cx, cz)) return true;
-		if (chunkLoader().chunkExists(worldObj, cx, cz)) return true;
+		if (chunkLoader().chunkExists(worldObj, cx, cz))
+			return true;
 		// if (this.everGenerated.contains(location)) throw new
 		// RuntimeException("somehow lost "+location.toString());
 		return false;
@@ -685,14 +704,14 @@ public class ChunkProviderRTG implements IChunkGenerator {
 
 	private void clearToDecorateList() {
 		// if (WorldTypeRedwall.chunkProvider != this) return; TODO fix this
-		if (populating) return;// in process, do later;
+		if (populating)
+			return;// in process, do later;
 		// we have to make a copy of the set to work on or we'll get errors
 		Set<ChunkPos> toProcess = doableLocations(0);
 		while (toProcess.size() > 0) {
 			toProcess.forEach(this::removeFromDecorationList);
-			for (ChunkPos location : toProcess) {
+			for (ChunkPos location : toProcess)
 				doPopulate(location.x, location.z);
-			}
 			// and loop because the decorating might have created other chunks to decorate;
 			toProcess = doableLocations(0);
 		}
