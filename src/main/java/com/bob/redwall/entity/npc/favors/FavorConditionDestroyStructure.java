@@ -2,6 +2,7 @@ package com.bob.redwall.entity.npc.favors;
 
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
+import com.bob.redwall.factions.Faction;
 import com.bob.redwall.factions.Faction.FactionStatus;
 
 import net.minecraft.client.resources.I18n;
@@ -9,12 +10,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class FavorConditionDestroyStructure implements IFavorCondition {
-	private EntityStructureCenter center;
+	private int chunkX;
+	private int chunkZ;
+	private Faction faction;
 	private Favor favor;
 	private boolean complete;
 
-	public FavorConditionDestroyStructure(EntityStructureCenter center) {
-		this.center = center;
+	public FavorConditionDestroyStructure(int cx, int cz, Faction fac) {
+		this.chunkX = cx;
+		this.chunkZ = cz;
+		this.faction = fac;
 		this.complete = false;
 	}
 
@@ -31,7 +36,7 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 
 	@Override
 	public void destroyStructure(EntityStructureCenter center) {
-		if (center.equals(this.center))
+		if (Math.abs(center.getPosition().getX() - (chunkX * 16)) < 32 && (Math.abs(center.getPosition().getZ() - (chunkZ * 16)) < 32))
 			this.complete = true;
 		this.favor.update();
 	}
@@ -56,7 +61,9 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 		NBTTagCompound compound = new NBTTagCompound();
 
 		compound.setString("Type", "DestroyStructure");
-		compound.setInteger("StructureID", this.center != null ? this.center.getEntityId() : -1);
+		compound.setInteger("ChunkX", this.chunkX);
+		compound.setInteger("ChunkZ", this.chunkZ);
+		compound.setString("Faction", this.faction.getID());
 		compound.setBoolean("Complete", this.complete);
 
 		return compound;
@@ -67,12 +74,14 @@ public class FavorConditionDestroyStructure implements IFavorCondition {
 		if (!c.getString("Type").equals("DestroyStructure"))
 			throw new IllegalStateException("Created a DestroyStructure favor condition without a DestroyStructure tag!");
 
-		this.center = (EntityStructureCenter) this.favor.getPlayer().getEntityWorld().getEntityByID(c.getInteger("StructureID"));
+		this.chunkX = c.getInteger("ChunkX");
+		this.chunkZ = c.getInteger("ChunkZ");
+		this.faction = Faction.getFactionByID(c.getString("Faction"));
 		this.complete = c.getBoolean("Complete");
 	}
 
 	@Override
 	public String getText() {
-		return I18n.format("favor.condition.destroystructure", this.center.getFaction(), this.center.getPosition().getX(), this.center.getPosition().getZ());
+		return I18n.format("favor.condition.destroystructure", this.faction.getLocalizedName(), this.chunkX * 16, this.chunkZ * 16);
 	}
 }

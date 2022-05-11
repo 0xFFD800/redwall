@@ -59,7 +59,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 @SuppressWarnings({ "deprecation" })
 public class ChunkProviderRTG implements IChunkGenerator {
 	private static ChunkProviderRTG populatingProvider;
-	private final MapGenScatteredFeature scatteredFeatureGenerator;
+	public final MapGenScatteredFeature scatteredFeatureGenerator;
 	private final int sampleSize = 8;
 	private final int sampleArraySize;
 	private BiomeAnalyzer analyzer = new BiomeAnalyzer();

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
@@ -154,7 +155,7 @@ public class Favor {
 			NBTTagCompound co = (NBTTagCompound) con;
 			switch (co.getString("Type")) {
 			case "DestroyStructure":
-				IFavorCondition ifc = new FavorConditionDestroyStructure(null);
+				IFavorCondition ifc = new FavorConditionDestroyStructure(0, 0, null);
 				ifc.readFromNBT(co);
 				ifc.setFavor(this);
 				this.conditions.add(ifc);
@@ -264,4 +265,29 @@ public class Favor {
 
 		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
 	}
+	
+	/*public static Favor createFavorDestroyStructure(List<String> stories, EntityPlayer player, EntityAbstractNPC giver, int rewardLow, int rewardHigh, long timeLimitLow, long timeLimitHigh) {
+		long timeLimit = giver.getRNG().nextInt((int) (timeLimitHigh - timeLimitLow)) + timeLimitLow;
+
+		WorldTypeRedwall.chunkProvider.scatteredFeatureGenerator.getStructurePosIndex();
+
+		IFavorCondition condition = new FavorConditionDestroyStructure();
+
+		IFavorReward[] success = new IFavorReward[3];
+		success[0] = new FavorRewardItem(Items.GOLD_NUGGET, rewardLow * 2, rewardHigh * 2);
+		success[1] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, rewardLow * 2, rewardHigh * 2);
+		success[2] = new FavorRewardXP(rewardLow / 2, rewardHigh / 2);
+
+		IFavorReward[] failure = new IFavorReward[1];
+		failure[0] = new FavorRewardSkill(giver.getFaction(), FactionCap.FacStatType.LOYALTY, -rewardLow / 2, -rewardHigh / 2);
+
+		List<IFavorCondition> c = new ArrayList<>();
+		c.add(condition);
+		List<IFavorReward> s = new ArrayList<>();
+		for (IFavorReward ifc : success)
+			s.add(ifc);
+		List<IFavorReward> f = new ArrayList<>();
+		for (IFavorReward ifc : failure)
+			f.add(ifc);
+	}*/
 }
