@@ -59,7 +59,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 @SuppressWarnings({ "deprecation" })
 public class ChunkProviderRTG implements IChunkGenerator {
 	private static ChunkProviderRTG populatingProvider;
-	public final MapGenScatteredFeature scatteredFeatureGenerator;
+	private final MapGenScatteredFeature scatteredFeatureGenerator;
 	private final int sampleSize = 8;
 	private final int sampleArraySize;
 	private BiomeAnalyzer analyzer = new BiomeAnalyzer();
@@ -609,8 +609,8 @@ public class ChunkProviderRTG implements IChunkGenerator {
 	}
 
 	@Override
-	public BlockPos getNearestStructurePos(@Nonnull World par1World, @Nonnull String par2Str, @Nonnull BlockPos blockPos, boolean unused) {
-		return !this.mapFeaturesEnabled ? null : par2Str.equals("RedwallSmall") ? this.scatteredFeatureGenerator.getNearestStructurePos(par1World, blockPos, unused) : null;
+	public BlockPos getNearestStructurePos(@Nonnull World par1World, @Nonnull String par2Str, @Nonnull BlockPos blockPos, boolean findUnexplored) {
+		return !this.mapFeaturesEnabled ? null : par2Str.equals("RedwallSmall") ? this.scatteredFeatureGenerator.getNearestStructurePos(par1World, blockPos, findUnexplored) : null;
 	}
 
 	@Override

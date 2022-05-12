@@ -9,6 +9,7 @@ import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
+import com.bob.redwall.factions.Faction;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -17,6 +18,7 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.util.Constants;
 
 public class Favor {
@@ -266,12 +268,18 @@ public class Favor {
 		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
 	}
 	
-	/*public static Favor createFavorDestroyStructure(List<String> stories, EntityPlayer player, EntityAbstractNPC giver, int rewardLow, int rewardHigh, long timeLimitLow, long timeLimitHigh) {
+	public static Favor createFavorDestroyStructure(List<String> stories, EntityPlayer player, EntityAbstractNPC giver, int rewardLow, int rewardHigh, long timeLimitLow, long timeLimitHigh) {
 		long timeLimit = giver.getRNG().nextInt((int) (timeLimitHigh - timeLimitLow)) + timeLimitLow;
 
-		WorldTypeRedwall.chunkProvider.scatteredFeatureGenerator.getStructurePosIndex();
+		BlockPos pos = null;
+		Faction fac = null;
+		do {
+			pos = WorldTypeRedwall.chunkProvider.getNearestStructurePos(giver.world, "RedwallSmall", giver.getPosition(), true);
+			//fac = WorldTypeRedwall.chunkProvider.getStructureFactionAt(pos.getX() / 16, pos.getZ() / 16);
+			//if (fac.getFactionStatus(giver.getFaction()) != FactionStatus.HOSTILE) pos = null;
+		} while (pos == null);
 
-		IFavorCondition condition = new FavorConditionDestroyStructure();
+		IFavorCondition condition = new FavorConditionDestroyStructure(pos.getX() / 16, pos.getZ() / 16, fac);
 
 		IFavorReward[] success = new IFavorReward[3];
 		success[0] = new FavorRewardItem(Items.GOLD_NUGGET, rewardLow * 2, rewardHigh * 2);
@@ -289,5 +297,7 @@ public class Favor {
 		List<IFavorReward> f = new ArrayList<>();
 		for (IFavorReward ifc : failure)
 			f.add(ifc);
-	}*/
+		
+		return new Favor(player, giver, stories.get(giver.getRNG().nextInt(stories.size())), c, s, f, timeLimit);
+	}
 }
