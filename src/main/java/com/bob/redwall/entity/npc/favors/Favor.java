@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
+import com.bob.redwall.dimensions.redwall.structures.MapGenScatteredFeatureRedwall;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
@@ -273,11 +274,22 @@ public class Favor {
 
 		BlockPos pos = null;
 		Faction fac = null;
+		int counter = 1;
+		int xDirection = giver.getRNG().nextInt(2) - 1;
+		int zDirection = giver.getRNG().nextInt(2) - 1;
+		if (xDirection == 0 && zDirection == 0)
+			xDirection = 1;
 		do {
-			pos = WorldTypeRedwall.chunkProvider.getNearestStructurePos(giver.world, "RedwallSmall", giver.getPosition(), true);
-			//fac = WorldTypeRedwall.chunkProvider.getStructureFactionAt(pos.getX() / 16, pos.getZ() / 16);
-			//if (fac.getFactionStatus(giver.getFaction()) != FactionStatus.HOSTILE) pos = null;
-		} while (pos == null);
+			pos = WorldTypeRedwall.chunkProvider.getNearestStructurePos(giver.world, "RedwallSmall", giver.getPosition().add(counter * xDirection * 256, 0, counter * zDirection * 256), true);
+			fac = MapGenScatteredFeatureRedwall.getStructureFactionAt(pos.getX() / 16, pos.getZ() / 16, giver.world);
+			if (fac.getFactionStatus(giver.getFaction()) != Faction.FactionStatus.HOSTILE) {
+				pos = null;
+				counter++;
+			}
+		} while (pos == null && counter < 100);
+		
+		if (pos == null)
+			return null;
 
 		IFavorCondition condition = new FavorConditionDestroyStructure(pos.getX() / 16, pos.getZ() / 16, fac);
 
