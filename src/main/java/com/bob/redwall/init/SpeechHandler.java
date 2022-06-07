@@ -67,6 +67,13 @@ public class SpeechHandler {
 	public static final List<String> NAMES_MOSSFLOWER_OTTER_M = Lists.newArrayList();
 	public static final List<String> NAMES_MOSSFLOWER_OTTER_F = Lists.newArrayList();
 
+	public static final List<String> WOODLANDER_HARE_FRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_HARE_UNFRIENDLY = Lists.newArrayList();
+	public static final List<String> WOODLANDER_HARE_HOSTILE = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_HARE_M = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_HARE_F = Lists.newArrayList();
+	public static final List<String> NAMES_WOODLANDER_HARE_LAST = Lists.newArrayList();
+
 	public static final List<String> MOSSFLOWER_RAT_FRIENDLY = Lists.newArrayList();
 	public static final List<String> MOSSFLOWER_RAT_UNFRIENDLY = Lists.newArrayList();
 	public static final List<String> MOSSFLOWER_RAT_HOSTILE = Lists.newArrayList();
@@ -133,6 +140,13 @@ public class SpeechHandler {
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/mole/hostile.speechbank"), WOODLANDER_MOLE_HOSTILE);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/mole/names_m.speechbank"), NAMES_WOODLANDER_MOLE_M);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/mole/names_f.speechbank"), NAMES_WOODLANDER_MOLE_F);
+
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/hare/friendly.speechbank"), WOODLANDER_HARE_FRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/hare/unfriendly.speechbank"), WOODLANDER_HARE_UNFRIENDLY);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/hare/hostile.speechbank"), WOODLANDER_HARE_HOSTILE);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/hare/names_m.speechbank"), NAMES_WOODLANDER_HARE_M);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/hare/names_f.speechbank"), NAMES_WOODLANDER_HARE_F);
+		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/woodlander/hare/names_last.speechbank"), NAMES_WOODLANDER_HARE_LAST);
 
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/mossflower_otters/otter/friendly.speechbank"), MOSSFLOWER_OTTER_FRIENDLY);
 		initializeSpeechbank(new ResourceLocation(Ref.MODID, path + "/mossflower_otters/otter/unfriendly.speechbank"), MOSSFLOWER_OTTER_UNFRIENDLY);

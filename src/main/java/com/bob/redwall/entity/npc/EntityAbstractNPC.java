@@ -379,8 +379,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		this.dataManager.register(CHARGING_BOW, false);
 		this.dataManager.register(FAVOR, new NBTTagCompound());
 
-		this.setSkin(Ref.MODID + this.getSkinPath() + "1m.png");
-		this.setCustomNameTag(this.getIsMale() ? this.getNamesBankMale().get(this.getRNG().nextInt(this.getNamesBankMale().size())) : this.getNamesBankFemale().get(this.getRNG().nextInt(this.getNamesBankFemale().size())));
+		this.resetSkinNameData();
 	}
 
 	@Override
@@ -1307,7 +1306,7 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 	}
 
 	public static enum EnumNPCType {
-		MOUSE("mouse", "Mouse"), SQUIRREL("squirrel", "Squirrel"), MOLE("mole", "Mole"), RAT("rat", "Rat"), FERRET("rat", "Ferret"), STOAT("rat", "Stoat"), WEASEL("rat", "Weasel"), OTTER("otter", "Otter"), SHREW("shrew", "Shrew");
+		MOUSE("mouse", "Mouse"), SQUIRREL("squirrel", "Squirrel"), MOLE("mole", "Mole"), RAT("rat", "Rat"), FERRET("rat", "Ferret"), STOAT("rat", "Stoat"), WEASEL("rat", "Weasel"), OTTER("otter", "Otter"), SHREW("shrew", "Shrew"), HARE("hare", "Hare");
 
 		public final String armorSlug;
 		public final String name;
