@@ -14,6 +14,7 @@ import com.bob.redwall.init.SpeechHandler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -30,6 +31,14 @@ public class EntityHareWoodlander extends EntityAbstractNPC {
 	public EntityHareWoodlander(World worldIn, boolean male) {
 		super(worldIn, male);
 	}
+
+    @Override
+	protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.32D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+    }
     
 	@Override
     public List<String> getSpeechbank(EnumOpinion opinion) {

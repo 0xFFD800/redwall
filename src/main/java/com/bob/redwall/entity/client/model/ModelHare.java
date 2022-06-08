@@ -119,6 +119,8 @@ public class ModelHare extends ModelBiped {
 
         copyModelAngles(this.bipedHead, this.bipedSnout1);
         copyModelAngles(this.bipedBody, this.bipedBodywear);
+        copyModelAngles(this.bipedHead, this.bipedEarL);
+        copyModelAngles(this.bipedHead, this.bipedEarR);
 
         this.bipedTail1.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 2.0F * limbSwingAmount * 0.5F;
     }
