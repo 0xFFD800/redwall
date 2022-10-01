@@ -26,6 +26,7 @@ import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
+import com.bob.redwall.entity.capabilities.nutrition.Nutrition;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
 import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
@@ -57,6 +58,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
@@ -335,9 +337,8 @@ public class EventHandler {
 			event.player.getCapability(ArmorWeightProvider.ARMOR_WEIGHT_CAP, null).updateTick();
 
 			// Fatal Poison Effect
-			if (event.player.isPotionActive(StatusEffect.POISON) && event.player.ticksExisted % (int) (20.0F / (float) (event.player.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0) {
+			if (event.player.isPotionActive(StatusEffect.POISON) && event.player.ticksExisted % (int) (20.0F / (float) (event.player.getActivePotionEffect(StatusEffect.POISON).getAmplifier() + 1)) == 0)
 				event.player.attackEntityFrom(new DamageSource("poison").setDamageBypassesArmor(), 1.0F);
-			}
 
 			// Nutrition
 			event.player.getCapability(NutritionProvider.NUTRITION_CAP, null).update(event.player);
@@ -359,6 +360,15 @@ public class EventHandler {
 			IDefending defending = event.player.getCapability(DefendingProvider.DEFENDING_CAP, null);
 			if (defending.get() && !event.player.isSneaking())
 				RedwallControlHandler.handleDefenseEnd(defending.getMode());
+			
+			if (event.player.getActivePotionEffect(MobEffects.NAUSEA) != null) {
+				Nutrition.drunkMoveAngle = (float) Nutrition.drunkMove.getValue(event.player.ticksExisted, event.player.moveForward) % 360.0F;
+				event.player.rotationYaw += Math.cos((Math.PI / 180.0) * Nutrition.drunkMoveAngle) * 10.0;
+				event.player.rotationPitch += Math.sin((Math.PI / 180.0) * Nutrition.drunkMoveAngle) * 10.0;
+		        event.player.prevRotationYaw = event.player.rotationYaw;
+		        event.player.prevRotationPitch = event.player.rotationPitch;
+				System.out.println(event.player.rotationYaw);
+			}
 		}
 	}
 
