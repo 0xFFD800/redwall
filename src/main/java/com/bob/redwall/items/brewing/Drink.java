@@ -31,11 +31,11 @@ public class Drink {
 	private float carbs;
 	private float veggies;
 	private float fruits;
-	
+
 	public Drink(ResourceLocation id, int tint, float alcohol) {
 		this(id, tint, alcohol, 0, 0, 0, 0);
 	}
-	
+
 	public Drink(ResourceLocation id, int tint, float alcohol, float prot, float carb, float veg, float frut) {
 		this.id = id;
 		this.tint = tint;
@@ -46,7 +46,7 @@ public class Drink {
 		this.fruits = frut;
 		Drink.BY_ID.put(id, this);
 	}
-	
+
 	public int getTint() {
 		return tint;
 	}
@@ -67,12 +67,12 @@ public class Drink {
 				if (potionId != null && entityLiving.getRNG().nextFloat() < potionEffectProbability) {
 					if (potionId.getPotion().isInstant()) {
 						new PotionEffect(potionId).getPotion().affectEntity(entityLiving, entityLiving, entityLiving, potionId.getAmplifier(), 1.0D);
-	                } else {
-	                	entityLiving.addPotionEffect(new PotionEffect(potionId.getPotion(), (int)((float)potionId.getDuration() * FoodModifierUtils.getEffectDurationMultiplier(entityLiving, stack)), potionId.getAmplifier(), potionId.getIsAmbient(), potionId.doesShowParticles()));
-	                }
+					} else {
+						entityLiving.addPotionEffect(new PotionEffect(potionId.getPotion(), (int) ((float) potionId.getDuration() * FoodModifierUtils.getEffectDurationMultiplier(entityLiving, stack)), potionId.getAmplifier(), potionId.getIsAmbient(), potionId.doesShowParticles()));
+					}
 				}
 			}
-			
+
 			entityLiving.getCapability(NutritionProvider.NUTRITION_CAP, null).addBAC(this.alcohol / 3.75F * FoodModifierUtils.getAlcoholMultiplier(entityLiving, stack));
 			FoodModifierUtils.onConsumed(entityLiving, stack);
 		}
@@ -86,17 +86,17 @@ public class Drink {
 				if (potionId != null && entityLiving.getRNG().nextFloat() < potionEffectProbability) {
 					if (potionId.getPotion().isInstant()) {
 						new PotionEffect(potionId).getPotion().affectEntity(entityLiving, entityLiving, entityLiving, potionId.getAmplifier(), 1.0D);
-	                } else {
-	                	entityLiving.addPotionEffect(new PotionEffect(potionId.getPotion(), (int)((float)potionId.getDuration() * FoodModifierUtils.getEffectDurationMultiplier(entityLiving, ted)), potionId.getAmplifier(), potionId.getIsAmbient(), potionId.doesShowParticles()));
-	                }
+					} else {
+						entityLiving.addPotionEffect(new PotionEffect(potionId.getPotion(), (int) ((float) potionId.getDuration() * FoodModifierUtils.getEffectDurationMultiplier(entityLiving, ted)), potionId.getAmplifier(), potionId.getIsAmbient(), potionId.doesShowParticles()));
+					}
 				}
 			}
-			
+
 			entityLiving.getCapability(NutritionProvider.NUTRITION_CAP, null).addBAC(this.alcohol / 3.75F * FoodModifierUtils.getAlcoholMultiplier(entityLiving, ted));
 			FoodModifierUtils.onConsumed(entityLiving, ted);
 		}
 	}
-	
+
 	public float getAlcohol() {
 		return this.alcohol;
 	}
@@ -120,16 +120,16 @@ public class Drink {
 	public boolean hasStatusEffects() {
 		return !this.ids.isEmpty();
 	}
-	
+
 	public ResourceLocation getID() {
 		return this.id;
 	}
-	
+
 	public static void init() {
 		Ref.LOGGER.info("Registering Drinks...");
 		Ref.LOGGER.info("Using water tint " + Integer.toHexString(DrinkList.WATER.tint));
 	}
-	
+
 	public static class DrinkList {
 		public static final Drink WATER = new Drink(new ResourceLocation(Ref.MODID, "water"), 0x385DC6, 0.0F);
 		public static final Drink OCTOBER_ALE = new Drink(new ResourceLocation(Ref.MODID, "october_ale"), 0x633A1E, 0.1F, 10, 10, 10, 10).addPotionEffect(new PotionEffect(MobEffects.SATURATION, 0, 9), 1.0F);

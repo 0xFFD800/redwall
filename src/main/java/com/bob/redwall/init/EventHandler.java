@@ -363,8 +363,8 @@ public class EventHandler {
 			
 			if (event.player.getActivePotionEffect(MobEffects.NAUSEA) != null) {
 				Nutrition.drunkMoveAngle = (float) Nutrition.drunkMove.getValue(event.player.ticksExisted, event.player.moveForward) % 360.0F;
-				event.player.rotationYaw += Math.cos((Math.PI / 180.0) * Nutrition.drunkMoveAngle) * 10.0;
-				event.player.rotationPitch += Math.sin((Math.PI / 180.0) * Nutrition.drunkMoveAngle) * 10.0;
+				event.player.rotationYaw += Math.cos((Math.PI / 180.0) * Nutrition.drunkMoveAngle) * 3.0;
+				event.player.rotationPitch += Math.sin((Math.PI / 180.0) * Nutrition.drunkMoveAngle) * 3.0;
 		        event.player.prevRotationYaw = event.player.rotationYaw;
 		        event.player.prevRotationPitch = event.player.rotationPitch;
 				System.out.println(event.player.rotationYaw);
