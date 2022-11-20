@@ -5,7 +5,6 @@ import com.bob.redwall.blocks.ModBlock;
 import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.common.MessageUIInteractServer.Mode;
 import com.bob.redwall.init.GuiHandler;
-import com.bob.redwall.tileentity.TileEntityBrewingGuosim;
 import com.bob.redwall.tileentity.TileEntityBrewingVerminMossflower;
 
 import net.minecraft.block.BlockHorizontal;
@@ -41,7 +40,7 @@ public class BlockBrewingVerminMossflower extends ModBlock implements ITileEntit
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityBrewingGuosim();
+		return new TileEntityBrewingVerminMossflower();
 	}
 
 	@Override
@@ -59,13 +58,13 @@ public class BlockBrewingVerminMossflower extends ModBlock implements ITileEntit
 		// Only execute on the server
 		if (!world.isRemote) {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntityBrewingGuosim))
+			if (!(te instanceof TileEntityBrewingVerminMossflower))
 				return false;
 			player.openGui(Ref.MODID, GuiHandler.GUI_BREWING_VERMIN_MOSSFLOWER_ID, world, pos.getX(), pos.getY(), pos.getZ());
 			return true;
 		} else {
 			TileEntity te = world.getTileEntity(pos);
-			if (!(te instanceof TileEntityBrewingGuosim))
+			if (!(te instanceof TileEntityBrewingVerminMossflower))
 				return false;
 			// If it's on client we want to send a message to the server instead.
 			Ref.NETWORK.sendToServer(new MessageUIInteractServer(Mode.OPEN_GUI_CONTAINER, GuiHandler.GUI_BREWING_VERMIN_MOSSFLOWER_ID, pos.getX(), pos.getY(), pos.getZ()));
