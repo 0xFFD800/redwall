@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "redwall:brewing_vermin_mossflower", "y": 270 },
+        "facing=south": { "model": "redwall:brewing_vermin_mossflower", "y": 90 },
+        "facing=west":  { "model": "redwall:brewing_vermin_mossflower", "y": 180 },
+        "facing=east":  { "model": "redwall:brewing_vermin_mossflower" }
+    }
+}

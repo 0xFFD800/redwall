@@ -865,10 +865,13 @@ public class CraftingHandler {
 
 		private BrewingVerminMossflower() {
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.drink_bottle), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.GLASS_BOTTLE });
 
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.mug_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', ItemHandler.mug_empty });
 
 			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.BLACKBERRY_GROG), new Object[] { "###", "VCV", '#', ItemHandler.blackberry, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
+			this.addRecipe(0, ItemDrinkVessel.setDrink(new ItemStack(ItemHandler.bowl_drink), Drink.DrinkList.DAMSON_WINE), new Object[] { "###", "VCV", '#', ItemHandler.damson, 'V', Items.WATER_BUCKET, 'C', Items.BOWL });
 
 			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
 		}
