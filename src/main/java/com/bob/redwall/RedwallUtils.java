@@ -207,6 +207,8 @@ public class RedwallUtils {
 	}
 
 	public static void doAttack(EntityLivingBase attacker, Entity targetEntity) {
+		if (attacker.isDead)
+			return;
 		DamageSource source = attacker instanceof EntityPlayer ? DamageSource.causePlayerDamage((EntityPlayer) attacker) : DamageSource.causeMobDamage(attacker);
 		if (targetEntity.canBeAttackedWithItem()) {
 			if (!targetEntity.hitByEntity(attacker)) {
