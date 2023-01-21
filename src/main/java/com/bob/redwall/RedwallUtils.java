@@ -246,13 +246,8 @@ public class RedwallUtils {
 				if (targetEntity instanceof EntityPlayer && ((EntityPlayer) targetEntity).isSneaking()) {
 					IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
 					IAgility a = ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null);
-					float rr = (attacking.getMode() == 2 && isStab ? 0.5F : 0.3F) + ((float) a.get() / 100.0F);
+					float rr = (attacking.getMode() == 2 && isStab ? 0.5F : 0.3F) + ((float) a.get() / 50.0F);
 					if (((EntityPlayer) targetEntity).getRNG().nextFloat() < rr) {
-						// if(event.getSource() instanceof EntityDamageSourceIndirect &&
-						// ((EntityDamageSourceIndirect)event.getSource()).getImmediateSource()
-						// instanceof EntityArrow)
-						// event.getEntityLiving().setArrowCountInEntity(event.getEntityLiving().getArrowCountInEntity()
-						// - 1);;
 						targetEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1.0F, 1.0F);
 						Vec3d v = source.getDamageLocation();
 						targetEntity.getEntityWorld().spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, v.x, v.y, v.z, 0, 0, 0);
@@ -282,7 +277,7 @@ public class RedwallUtils {
 										attacking.setMode(0);
 									IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 									if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && ((defending.getMode() == 0 && attacking.getMode() == 1) || (defending.getMode() == 1 && attacking.getMode() == 0)) && RedwallUtils.canEntityBlockDamage(living, source)) {
-										attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
+										RedwallUtils.doBlock(attacker, living, f);
 										break label1;
 									}
 								}
@@ -315,7 +310,7 @@ public class RedwallUtils {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
 										IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 										if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && defending.getMode() == 1 && RedwallUtils.canEntityBlockDamage(living, source)) {
-											attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
+											RedwallUtils.doBlock(attacker, living, f);
 											break label1;
 										}
 									}
@@ -341,7 +336,7 @@ public class RedwallUtils {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
 										IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 										if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && defending.getMode() == 0 && RedwallUtils.canEntityBlockDamage(living, source)) {
-											attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
+											RedwallUtils.doBlock(attacker, living, f);
 											break label1;
 										}
 									}
@@ -377,7 +372,7 @@ public class RedwallUtils {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
 										IDefending defending = living.getCapability(DefendingProvider.DEFENDING_CAP, null);
 										if (living.getHeldItemMainhand().getItem() instanceof ModCustomWeapon && defending.get() && defending.getMode() == 0 && RedwallUtils.canEntityBlockDamage(living, source)) {
-											attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
+											RedwallUtils.doBlock(attacker, living, f);
 											break label1;
 										}
 									}
@@ -484,13 +479,20 @@ public class RedwallUtils {
 								if (attacker instanceof EntityPlayer)
 									((EntityPlayer) attacker).addExhaustion(0.1F);
 							}
-						} else {
-							attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, attacker.getSoundCategory(), 1.0F, 1.0F);
-						}
+						} else attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, attacker.getSoundCategory(), 1.0F, 1.0F);
 					}
 				}
 			}
 		}
+	}
+
+	public static void doBlock(EntityLivingBase attacker, EntityLivingBase targetEntity, float damage) {
+		attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.BLOCK_ANVIL_PLACE, attacker.getSoundCategory(), 1.0F, 0.75F);
+		targetEntity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 10, 128, false, false));
+		targetEntity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 10, 128, false, false));
+		if (targetEntity instanceof EntityPlayer)
+			targetEntity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) targetEntity), damage * (0.25F + ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null).get() / 50.0F));
+		else targetEntity.attackEntityFrom(DamageSource.causeMobDamage(targetEntity), damage * 0.25F);
 	}
 
 	public static float doArmorCalc(float damage, float totalArmor, float toughnessAttribute) {
@@ -709,7 +711,7 @@ public class RedwallUtils {
 	}
 
 	public static boolean canEntityBlockDamage(EntityLivingBase entity, DamageSource damageSourceIn) {
-		if (!damageSourceIn.isUnblockable() && entity.isActiveItemStackBlocking()) {
+		if (!damageSourceIn.isUnblockable()) {
 			Vec3d vec3d = damageSourceIn.getDamageLocation();
 
 			if (vec3d != null) {
