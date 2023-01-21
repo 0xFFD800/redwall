@@ -7,10 +7,10 @@ import java.util.UUID;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.dimensions.redwall.WorldTypeRedwall;
 import com.bob.redwall.dimensions.redwall.structures.MapGenScatteredFeatureRedwall;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
-import com.bob.redwall.factions.Faction;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;

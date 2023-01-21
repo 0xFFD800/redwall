@@ -4,8 +4,8 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.projectile.throwing_axe.EntityThrowingAxe;
-import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.collect.Sets;

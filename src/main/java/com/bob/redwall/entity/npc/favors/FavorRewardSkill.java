@@ -1,8 +1,8 @@
 package com.bob.redwall.entity.npc.favors;
 
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
-import com.bob.redwall.factions.Faction;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

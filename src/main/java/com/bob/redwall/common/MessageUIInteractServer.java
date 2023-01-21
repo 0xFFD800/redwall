@@ -4,9 +4,9 @@ import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
-import com.bob.redwall.factions.Faction;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

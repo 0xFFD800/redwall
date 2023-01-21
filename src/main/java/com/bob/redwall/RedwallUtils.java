@@ -25,6 +25,7 @@ import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvide
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
@@ -39,7 +40,6 @@ import com.bob.redwall.entity.capabilities.vitality.IVitality;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
-import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.armor.ItemRedwallArmor;
 import com.bob.redwall.items.weapons.ModCustomWeapon;

@@ -8,7 +8,7 @@ import com.bob.redwall.common.MessageUIInteract;
 import com.bob.redwall.common.MessageUIInteractServer;
 import com.bob.redwall.dimensions.ModDimensions;
 import com.bob.redwall.dimensions.shared.rtg.RTG;
-import com.bob.redwall.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.init.ArmorHandler;
 import com.bob.redwall.init.BlockColorHandler;
 import com.bob.redwall.init.BlockHandler;

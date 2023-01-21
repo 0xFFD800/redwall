@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
-import com.bob.redwall.factions.Faction;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.resources.I18n;

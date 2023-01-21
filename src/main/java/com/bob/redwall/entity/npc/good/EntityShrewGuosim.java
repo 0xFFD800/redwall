@@ -5,10 +5,10 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.npc.favors.Favor;
-import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.SpeechHandler;
 
 import net.minecraft.entity.EntityLivingBase;

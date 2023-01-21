@@ -2,7 +2,7 @@ package com.bob.redwall.items.weapons.ranged;
 
 import javax.annotation.Nullable;
 
-import com.bob.redwall.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.items.ModItem;
 
 import net.minecraft.creativetab.CreativeTabs;

@@ -1,6 +1,6 @@
 package com.bob.redwall.entity.structure_center;
 
-import com.bob.redwall.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;

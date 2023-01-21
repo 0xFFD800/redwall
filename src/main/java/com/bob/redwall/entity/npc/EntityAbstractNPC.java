@@ -25,13 +25,13 @@ import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvide
 import com.bob.redwall.entity.capabilities.booleancap.attacking.IAttacking;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.capabilities.factions.Faction.FactionStatus;
 import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.entity.npc.favors.IFavorCondition;
 import com.bob.redwall.entity.npc.favors.IFavorReward;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
-import com.bob.redwall.factions.Faction;
-import com.bob.redwall.factions.Faction.FactionStatus;
 import com.bob.redwall.init.ArmorHandler;
 import com.bob.redwall.init.BlockHandler;
 import com.bob.redwall.init.GuiHandler;

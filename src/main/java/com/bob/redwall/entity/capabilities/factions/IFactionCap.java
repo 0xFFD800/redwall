@@ -6,7 +6,6 @@ import java.util.Map;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStats;
 import com.bob.redwall.entity.npc.favors.Favor;
-import com.bob.redwall.factions.Faction;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;

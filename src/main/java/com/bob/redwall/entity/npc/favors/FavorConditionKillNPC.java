@@ -1,8 +1,8 @@
 package com.bob.redwall.entity.npc.favors;
 
+import com.bob.redwall.entity.capabilities.factions.Faction.FactionStatus;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
-import com.bob.redwall.factions.Faction.FactionStatus;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;

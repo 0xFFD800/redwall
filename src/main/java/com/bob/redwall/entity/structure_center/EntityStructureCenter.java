@@ -3,13 +3,13 @@ package com.bob.redwall.entity.structure_center;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
+import com.bob.redwall.entity.capabilities.factions.Faction.FactionStatus;
 import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.entity.npc.favors.IFavorCondition;
-import com.bob.redwall.factions.Faction;
-import com.bob.redwall.factions.Faction.FactionStatus;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;

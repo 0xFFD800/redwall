@@ -10,7 +10,6 @@ import com.bob.redwall.Ref;
 import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.entity.npc.favors.IFavorCondition;
 import com.bob.redwall.entity.npc.favors.IFavorReward;
-import com.bob.redwall.factions.Faction;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

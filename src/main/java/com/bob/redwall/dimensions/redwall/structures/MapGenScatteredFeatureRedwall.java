@@ -18,7 +18,7 @@ import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenKotirTur
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenOtterHolt;
 import com.bob.redwall.dimensions.redwall.structures.mossflower.WorldGenSquirrelDrey;
 import com.bob.redwall.dimensions.shared.rtg.api.util.Logger;
-import com.bob.redwall.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.google.common.collect.Sets;
 
 import net.minecraft.util.WeightedRandom;

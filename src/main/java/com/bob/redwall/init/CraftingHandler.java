@@ -7,8 +7,8 @@ import java.util.Map;
 
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.blocks.multiuse.BlockModBrick;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
-import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.brewing.Drink;
 import com.bob.redwall.items.brewing.ItemDrinkVessel;
 import com.google.common.collect.Lists;

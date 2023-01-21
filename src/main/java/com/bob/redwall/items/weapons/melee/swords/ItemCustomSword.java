@@ -1,6 +1,6 @@
 package com.bob.redwall.items.weapons.melee.swords;
 
-import com.bob.redwall.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 
 import net.minecraft.creativetab.CreativeTabs;

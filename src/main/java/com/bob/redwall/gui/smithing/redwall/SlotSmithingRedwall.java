@@ -1,10 +1,10 @@
 package com.bob.redwall.gui.smithing.redwall;
 
 import com.bob.redwall.RedwallUtils;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCap;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
-import com.bob.redwall.factions.Faction;
 import com.bob.redwall.init.CraftingHandler;
 import com.bob.redwall.tileentity.TileEntitySmithingRedwall;
 

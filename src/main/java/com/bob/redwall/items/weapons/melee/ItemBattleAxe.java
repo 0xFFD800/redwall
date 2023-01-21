@@ -2,7 +2,7 @@ package com.bob.redwall.items.weapons.melee;
 
 import java.util.Set;
 
-import com.bob.redwall.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.collect.Sets;
 

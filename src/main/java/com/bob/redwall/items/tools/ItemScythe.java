@@ -8,9 +8,9 @@ import javax.annotation.Nullable;
 
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
+import com.bob.redwall.entity.capabilities.factions.Faction;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
-import com.bob.redwall.factions.Faction;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
 import com.google.common.collect.Lists;
 
