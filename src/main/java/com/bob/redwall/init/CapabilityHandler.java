@@ -31,6 +31,10 @@ import com.bob.redwall.entity.capabilities.season.ISeasonCap;
 import com.bob.redwall.entity.capabilities.season.SeasonCap;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapStorage;
+import com.bob.redwall.entity.capabilities.species.ISpeciesCap;
+import com.bob.redwall.entity.capabilities.species.SpeciesCap;
+import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
+import com.bob.redwall.entity.capabilities.species.SpeciesCapStorage;
 import com.bob.redwall.entity.capabilities.speed.ISpeed;
 import com.bob.redwall.entity.capabilities.speed.Speed;
 import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
@@ -63,6 +67,7 @@ public class CapabilityHandler {
 	public static final ResourceLocation SPEED_CAP = new ResourceLocation(Ref.MODID, "speed");
 	public static final ResourceLocation VITALITY_CAP = new ResourceLocation(Ref.MODID, "vitality");
 	public static final ResourceLocation AGILITY_CAP = new ResourceLocation(Ref.MODID, "agility");
+	public static final ResourceLocation SPECIES_CAP = new ResourceLocation(Ref.MODID, "species");
 
 	@SubscribeEvent
 	public void onAttachToEntity(AttachCapabilitiesEvent<Entity> event) {
@@ -77,6 +82,7 @@ public class CapabilityHandler {
 		// EntityPlayer entityplayer = (EntityPlayer)event.getObject();
 		event.addCapability(FACTION_CAP, new FactionCapProvider());
 		event.addCapability(NUTRITION_CAP, new NutritionProvider());
+		event.addCapability(SPECIES_CAP, new SpeciesCapProvider());
 	}
 
 	@SubscribeEvent
@@ -152,6 +158,13 @@ public class CapabilityHandler {
 			@Override
 			public IAgility call() throws Exception {
 				return new Agility();
+			}
+		});
+
+		CapabilityManager.INSTANCE.register(ISpeciesCap.class, new SpeciesCapStorage(), new Callable<ISpeciesCap>() {
+			@Override
+			public ISpeciesCap call() throws Exception {
+				return new SpeciesCap();
 			}
 		});
 	}

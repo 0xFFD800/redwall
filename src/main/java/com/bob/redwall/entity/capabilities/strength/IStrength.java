@@ -8,5 +8,6 @@ public interface IStrength extends IPlayerStats {
 	public void add(int points);
 	public void update();
 	public int get();
+	public int getActual();
 	public void init(EntityLivingBase player);
 }

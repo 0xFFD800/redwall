@@ -5,4 +5,5 @@ public interface IPlayerStats {
 	public void set(int points);
 	public void add(int points);
 	public int get();
+	public int getActual();
 }

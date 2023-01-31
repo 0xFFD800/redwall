@@ -23,14 +23,15 @@ import com.bob.redwall.entity.capabilities.armor_weight.IArmorWeight;
 import com.bob.redwall.entity.capabilities.booleancap.attacking.AttackingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.DefendingProvider;
 import com.bob.redwall.entity.capabilities.booleancap.defending.IDefending;
-import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.Faction;
+import com.bob.redwall.entity.capabilities.factions.Faction.FactionStatus;
+import com.bob.redwall.entity.capabilities.factions.FactionCap.FacStatType;
 import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
-import com.bob.redwall.entity.capabilities.factions.Faction.FactionStatus;
 import com.bob.redwall.entity.capabilities.nutrition.Nutrition;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
+import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
 import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
@@ -38,7 +39,9 @@ import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.npc.favors.Favor;
 import com.bob.redwall.entity.npc.favors.IFavorCondition;
 import com.bob.redwall.entity.statuseffect.StatusEffect;
+import com.bob.redwall.gui.brewing.ContainerBrewingGuosim;
 import com.bob.redwall.gui.brewing.ContainerBrewingRedwall;
+import com.bob.redwall.gui.brewing.ContainerBrewingVerminMossflower;
 import com.bob.redwall.gui.cooking.ContainerCookingGeneric;
 import com.bob.redwall.gui.smelting.ContainerSmeltery;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
@@ -446,6 +449,10 @@ public class EventHandler {
 			((ContainerCookingGeneric) event.getContainer()).openInventory(event.getEntityPlayer());
 		} else if (event.getContainer() instanceof ContainerBrewingRedwall) {
 			((ContainerBrewingRedwall) event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if (event.getContainer() instanceof ContainerBrewingGuosim) {
+			((ContainerBrewingGuosim) event.getContainer()).openInventory(event.getEntityPlayer());
+		} else if (event.getContainer() instanceof ContainerBrewingVerminMossflower) {
+			((ContainerBrewingVerminMossflower) event.getContainer()).openInventory(event.getEntityPlayer());
 		} else if (event.getContainer() instanceof ContainerSmeltery) {
 			((ContainerSmeltery) event.getContainer()).openInventory(event.getEntityPlayer());
 		}
@@ -539,7 +546,7 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerWakeUpEvent event) {
 		if (event.shouldSetSpawn()) {
-			if (event.getEntityPlayer().shouldHeal())
+			if (event.getEntityPlayer().shouldHeal() && event.getEntityPlayer().getHealth() >= event.getEntityPlayer().getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getHPReqForRegen())
 				event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
 			if (event.getEntity().world.getGameRules().getBoolean("doDaylightCycle") && !event.getEntity().world.isRemote) {
 				long l = (long) (event.getEntity().world.getWorldTime() + RedwallWorldProvider.REDWALL_DAY_LENGTH);

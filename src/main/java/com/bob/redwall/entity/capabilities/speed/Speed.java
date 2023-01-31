@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
+import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -47,10 +48,15 @@ public class Speed implements ISpeed {
 	}
 	
 	@Override
+	public int getActual() {
+		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSpeed();
+	}
+	
+	@Override
 	public void update() {
 		if(this.player != null) {
 			this.removeAttributesModifiersFromEntity(this.player, this.player.getAttributeMap());
-			this.applyAttributesModifiersToEntity(this.player, this.player.getAttributeMap(), this.get() > 20 ? 20 : this.get() < -10 ? -10 : this.get());
+			this.applyAttributesModifiersToEntity(this.player, this.player.getAttributeMap(), this.getActual() > 20 ? 20 : this.getActual() < -10 ? -10 : this.getActual());
 			if(this.player instanceof EntityPlayerMP) Ref.NETWORK.sendTo(new MessageSyncCap(MessageSyncCap.Mode.SPEED, this.get(), this.player.getEntityId()), (EntityPlayerMP)this.player);
 		}
 	}

@@ -2,6 +2,7 @@ package com.bob.redwall.entity.capabilities.agility;
 
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
+import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,6 +35,11 @@ public class Agility implements IAgility {
 	@Override
 	public int get() {
 		return this.player instanceof EntityPlayer && ((EntityPlayer)player).isCreative() ? 0 : this.agility;
+	}
+	
+	@Override
+	public int getActual() {
+		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getAgility();
 	}
 	
 	@Override

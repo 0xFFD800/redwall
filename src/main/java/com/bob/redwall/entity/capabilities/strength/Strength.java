@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
+import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -46,12 +47,17 @@ public class Strength implements IStrength {
 	public int get() {
 		return this.player instanceof EntityPlayer && ((EntityPlayer) player).isCreative() ? 0 : this.strength;
 	}
+	
+	@Override
+	public int getActual() {
+		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getStrength();
+	}
 
 	@Override
 	public void update() {
 		if (this.player != null) {
 			this.removeAttributesModifiersFromEntity(this.player, this.player.getAttributeMap());
-			this.applyAttributesModifiersToEntity(this.player, this.player.getAttributeMap(), this.get() > 30 ? 30 : this.get() < 0 ? 0 : this.get());
+			this.applyAttributesModifiersToEntity(this.player, this.player.getAttributeMap(), this.getActual() > 30 ? 30 : this.getActual() < 0 ? 0 : this.getActual());
 			if (this.player instanceof EntityPlayerMP) Ref.NETWORK.sendTo(new MessageSyncCap(MessageSyncCap.Mode.STRENGTH, this.get(), this.player.getEntityId()), (EntityPlayerMP) this.player);
 		}
 	}

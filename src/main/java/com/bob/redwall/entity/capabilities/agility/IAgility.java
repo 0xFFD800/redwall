@@ -10,6 +10,7 @@ public interface IAgility extends IPlayerStats {
 	public void add(int points);
 	public void update();
 	public int get();
+	public int getActual();
 	public void init(EntityLivingBase player);
 	public void setInit();
 	public boolean isInitialized();
