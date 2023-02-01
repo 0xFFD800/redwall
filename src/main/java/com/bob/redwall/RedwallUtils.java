@@ -229,6 +229,8 @@ public class RedwallUtils {
 				}
 
 				f += f1;
+				if (attacker instanceof EntityPlayer)
+					f *= ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getMeleeDamageMod();
 
 				boolean isWeapon = weapon.getItem() instanceof ModCustomWeapon;
 				boolean isBludgeon = isWeapon && ((ModCustomWeapon) weapon.getItem()).isBludgeon(weapon, attacker);
@@ -252,6 +254,10 @@ public class RedwallUtils {
 						targetEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1.0F, 1.0F);
 						Vec3d v = source.getDamageLocation();
 						targetEntity.getEntityWorld().spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, v.x, v.y, v.z, 0, 0, 0);
+						if (((EntityPlayer) targetEntity).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getDodgeDamage()) {
+							if (targetEntity instanceof EntityPlayer)
+								attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) targetEntity), f * (0.25F + ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null).getActual() / 50.0F));
+						}
 						f = 0;
 					}
 				}
@@ -494,8 +500,8 @@ public class RedwallUtils {
 		targetEntity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 10, 128, false, false));
 		targetEntity.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 10, 128, false, false));
 		if (targetEntity instanceof EntityPlayer)
-			targetEntity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) targetEntity), damage * (0.25F + ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null).getActual() / 50.0F));
-		else targetEntity.attackEntityFrom(DamageSource.causeMobDamage(targetEntity), damage * 0.25F);
+			attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) targetEntity), damage * (0.25F + ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null).getActual() / 50.0F));
+		else attacker.attackEntityFrom(DamageSource.causeMobDamage(targetEntity), damage * 0.25F);
 	}
 
 	public static float doArmorCalc(float damage, float totalArmor, float toughnessAttribute) {
@@ -569,7 +575,8 @@ public class RedwallUtils {
 				mod += 0.15F;
 			else if (m == Material.CLAY)
 				mod += 0.2F;
-		}
+		} else if (entity.isInWater() && entity instanceof EntityPlayer)
+			mod += ((EntityPlayer)entity).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSwimSpeedMod();
 
 		return -mod;
 	}
@@ -1108,5 +1115,11 @@ public class RedwallUtils {
 				}
 			}
 		return ItemStack.EMPTY;
+	}
+
+	public static int getHealthStatModifier(EntityLivingBase player) {
+		if (player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getBeserker())
+			return 0;
+		return ((int) player.getHealth()) <= 5 ? -((6 - ((int) player.getHealth())) * 2) : 0;
 	}
 }

@@ -13,6 +13,12 @@ public class Species {
 	private float hpReqForRegen = 5.0F;
 	private float leafWalkSpeedMod = 0.25F;
 	private float critDamageMod = 1.0F;
+	private float swimSpeedMod = 0.0F;
+	private boolean ignoreScoffSkill = false;
+	private boolean beserker = false;
+	private boolean dodgeDamage = false;
+	private float digSpeedMod = 1.0F;
+	private float meleeDamageMod = 1.0F;
 	
 	public Species(String id, int strength, int speed, int vitality, int agility) {
 		this.id = id;
@@ -70,14 +76,75 @@ public class Species {
 		return this;
 	}
 	
+	public float getSwimSpeedMod() {
+		return this.swimSpeedMod;
+	}
+	
+	private Species setSwimSpeedMod(float mod) {
+		this.swimSpeedMod = mod;
+		return this;
+	}
+	
+	public boolean getIgnoreScoffSkill() {
+		return this.ignoreScoffSkill;
+	}
+	
+	private Species setIgnoreScoffSkill(boolean b) {
+		this.ignoreScoffSkill = b;
+		return this;
+	}
+	
+	public boolean getBeserker() {
+		return this.beserker;
+	}
+	
+	private Species setBeserker(boolean b) {
+		this.beserker = b;
+		return this;
+	}
+	
+	public boolean getDodgeDamage() {
+		return this.dodgeDamage;
+	}
+	
+	private Species setDodgeDamage(boolean b) {
+		this.dodgeDamage = b;
+		return this;
+	}
+	
+	public float getDigSpeedMod() {
+		return this.digSpeedMod;
+	}
+	
+	private Species setDigSpeedMod(float mod) {
+		this.digSpeedMod = mod;
+		return this;
+	}
+	
+	public float getMeleeDamageMod() {
+		return this.meleeDamageMod;
+	}
+	
+	private Species setMeleeDamageMod(float mod) {
+		this.meleeDamageMod = mod;
+		return this;
+	}
+	
 	public static Species getByID(String id) {
 		return BY_ID.get(id);
 	}
 	
 	public static class SpeciesList {
-		public static final Species MOUSE = new Species("mouse", -1, 0, 1, 0).setHPReqForRegen(2.0F);
-		public static final Species SQUIRREL = new Species("squirrel", -1, 0, 0, 1).setLeafWalkSpeedMod(-0.25F);
-		public static final Species SHREW = new Species("shrew", 0, 1, -1, 0).setCritDamageMod(1.25F);
+		public static final Species MOUSE = new Species("mouse", -5, 0, 5, 0).setHPReqForRegen(2.0F);
+		public static final Species SQUIRREL = new Species("squirrel", -5, 0, 0, 5).setLeafWalkSpeedMod(-0.25F);
+		public static final Species SHREW = new Species("shrew", 0, 5, -5, 0).setCritDamageMod(1.25F);
+		public static final Species OTTER = new Species("otter", 0, 0, -5, 1).setSwimSpeedMod(-0.25F);
+		public static final Species HARE = new Species("hare", 0, 5, 0, -5).setIgnoreScoffSkill(true); //unique ability does nothing yet :(
+		public static final Species BADGER = new Species("badger", 5, -5, 0, 0).setBeserker(true);
+		public static final Species HEDGEHOG = new Species("hedgehog", 0, -5, 5, 0).setDodgeDamage(true);
+		public static final Species MOLE = new Species("mole", 5, 0, 0, -5).setDigSpeedMod(1.5F);
+
+		public static final Species RAT = new Species("rat", 5, 0, -5, 0).setMeleeDamageMod(1.1F);
 	}
 	
 	/*

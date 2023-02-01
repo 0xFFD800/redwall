@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
 import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
@@ -49,7 +50,7 @@ public class Speed implements ISpeed {
 	
 	@Override
 	public int getActual() {
-		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSpeed();
+		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSpeed() + RedwallUtils.getHealthStatModifier(this.player);
 	}
 	
 	@Override

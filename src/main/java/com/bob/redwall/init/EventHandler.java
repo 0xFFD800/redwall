@@ -399,7 +399,8 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerEvent.BreakSpeed event) {
 		float mult = EquipmentModifierUtils.getDiggingSpeedMultiplier(event.getEntityLiving(), event.getState().getBlock());
-		event.setNewSpeed(event.getOriginalSpeed() * mult);
+		float mult2 = event.getEntityPlayer().getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getDigSpeedMod();
+		event.setNewSpeed(event.getOriginalSpeed() * mult * mult2);
 		if (RedwallUtils.getStructureAtPos(event.getPos()) != null) {
 			if (!event.getEntity().world.isRemote && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0) && !event.getEntityPlayer().isCreative()) {
 				event.setNewSpeed(0.0F);
