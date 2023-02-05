@@ -50,7 +50,7 @@ public class Speed implements ISpeed {
 	
 	@Override
 	public int getActual() {
-		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSpeed() + RedwallUtils.getHealthStatModifier(this.player);
+		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSpeed() : 0) + RedwallUtils.getHealthStatModifier(this.player);
 	}
 	
 	@Override

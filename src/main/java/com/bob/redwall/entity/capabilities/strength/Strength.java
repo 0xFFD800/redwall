@@ -51,7 +51,7 @@ public class Strength implements IStrength {
 	
 	@Override
 	public int getActual() {
-		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getStrength() + RedwallUtils.getHealthStatModifier(this.player);
+		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getStrength() : 0) + RedwallUtils.getHealthStatModifier(this.player);
 	}
 
 	@Override

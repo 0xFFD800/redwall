@@ -39,7 +39,7 @@ public class Agility implements IAgility {
 	
 	@Override
 	public int getActual() {
-		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getAgility();
+		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getAgility() : 0);
 	}
 	
 	@Override

@@ -57,7 +57,7 @@ public class Vitality implements IVitality {
 	
 	@Override
 	public int getActual() {
-		return this.get() + this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getVitality();
+		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getVitality() : 0);
 	}
 	
 	@Override
