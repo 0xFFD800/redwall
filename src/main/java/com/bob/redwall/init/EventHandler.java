@@ -31,7 +31,6 @@ import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.entity.capabilities.nutrition.Nutrition;
 import com.bob.redwall.entity.capabilities.nutrition.NutritionProvider;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
-import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
 import com.bob.redwall.entity.capabilities.strength.StrengthProvider;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
@@ -399,7 +398,7 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerEvent.BreakSpeed event) {
 		float mult = EquipmentModifierUtils.getDiggingSpeedMultiplier(event.getEntityLiving(), event.getState().getBlock());
-		float mult2 = event.getEntityPlayer().getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getDigSpeedMod();
+		float mult2 = RedwallUtils.getSpecies(event.getEntityPlayer()).getDigSpeedMod();
 		event.setNewSpeed(event.getOriginalSpeed() * mult * mult2);
 		if (RedwallUtils.getStructureAtPos(event.getPos()) != null) {
 			if (!event.getEntity().world.isRemote && (!RedwallUtils.getStructureAtPos(event.getPos()).getFaction().playerHasContact(event.getEntityPlayer()) || event.getEntityPlayer().getCapability(FactionCapProvider.FACTION_CAP, null).get(RedwallUtils.getStructureAtPos(event.getPos()).getFaction(), FacStatType.LOYALTY) >= 0) && !event.getEntityPlayer().isCreative()) {
@@ -547,7 +546,7 @@ public class EventHandler {
 	@SubscribeEvent(priority = EventPriority.NORMAL, receiveCanceled = true)
 	public void onEvent(PlayerWakeUpEvent event) {
 		if (event.shouldSetSpawn()) {
-			if (event.getEntityPlayer().shouldHeal() && event.getEntityPlayer().getHealth() >= event.getEntityPlayer().getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getHPReqForRegen())
+			if (event.getEntityPlayer().shouldHeal() && event.getEntityPlayer().getHealth() >= RedwallUtils.getSpecies(event.getEntityPlayer()).getHPReqForRegen())
 				event.getEntityPlayer().heal(event.getEntityPlayer().getMaxHealth() - event.getEntityPlayer().getHealth());
 			if (event.getEntity().world.getGameRules().getBoolean("doDaylightCycle") && !event.getEntity().world.isRemote) {
 				long l = (long) (event.getEntity().world.getWorldTime() + RedwallWorldProvider.REDWALL_DAY_LENGTH);

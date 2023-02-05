@@ -7,7 +7,6 @@ import java.util.UUID;
 import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
-import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -51,7 +50,7 @@ public class Strength implements IStrength {
 	
 	@Override
 	public int getActual() {
-		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getStrength() : 0) + RedwallUtils.getHealthStatModifier(this.player);
+		return this.get() + RedwallUtils.getSpecies(player).getStrength() + RedwallUtils.getHealthStatModifier(this.player);
 	}
 
 	@Override

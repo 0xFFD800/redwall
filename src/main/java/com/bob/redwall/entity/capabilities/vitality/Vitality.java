@@ -4,9 +4,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
-import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.google.common.collect.Maps;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -57,7 +57,7 @@ public class Vitality implements IVitality {
 	
 	@Override
 	public int getActual() {
-		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getVitality() : 0);
+		return this.get() + RedwallUtils.getSpecies(player).getVitality();
 	}
 	
 	@Override

@@ -32,6 +32,7 @@ import com.bob.redwall.entity.capabilities.factions.FactionCapProvider;
 import com.bob.redwall.entity.capabilities.factions.IFactionCap;
 import com.bob.redwall.entity.capabilities.season.ISeasonCap;
 import com.bob.redwall.entity.capabilities.season.SeasonCapProvider;
+import com.bob.redwall.entity.capabilities.species.Species;
 import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 import com.bob.redwall.entity.capabilities.speed.ISpeed;
 import com.bob.redwall.entity.capabilities.speed.SpeedProvider;
@@ -230,7 +231,7 @@ public class RedwallUtils {
 
 				f += f1;
 				if (attacker instanceof EntityPlayer)
-					f *= ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getMeleeDamageMod();
+					f *= RedwallUtils.getSpecies(attacker).getMeleeDamageMod();
 
 				boolean isWeapon = weapon.getItem() instanceof ModCustomWeapon;
 				boolean isBludgeon = isWeapon && ((ModCustomWeapon) weapon.getItem()).isBludgeon(weapon, attacker);
@@ -254,10 +255,8 @@ public class RedwallUtils {
 						targetEntity.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_NODAMAGE, 1.0F, 1.0F);
 						Vec3d v = source.getDamageLocation();
 						targetEntity.getEntityWorld().spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, v.x, v.y, v.z, 0, 0, 0);
-						if (((EntityPlayer) targetEntity).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getDodgeDamage()) {
-							if (targetEntity instanceof EntityPlayer)
-								attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) targetEntity), f * (0.25F + ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null).getActual() / 50.0F));
-						}
+						if (RedwallUtils.getSpecies((EntityPlayer) targetEntity).getDodgeDamage())
+							attacker.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) targetEntity), f * (0.25F + ((EntityPlayer) targetEntity).getCapability(AgilityProvider.AGILITY_CAP, null).getActual() / 50.0F));
 						f = 0;
 					}
 				}
@@ -276,7 +275,7 @@ public class RedwallUtils {
 								IAttacking attacking = attacker.getCapability(AttackingProvider.ATTACKING_CAP, null);
 								if (doCriticalNonStab && attacking.getMode() == 0) {
 									stun = f / 4.0F;
-									f *= attacker instanceof EntityPlayer ? 1.5F * ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getCritDamageMod() : 1.5F;
+									f *= attacker instanceof EntityPlayer ? 1.5F * RedwallUtils.getSpecies(attacker).getCritDamageMod() : 1.5F;
 								}
 								if (targetEntity instanceof EntityLivingBase) {
 									EntityLivingBase living = ((EntityLivingBase) targetEntity);
@@ -311,7 +310,7 @@ public class RedwallUtils {
 								label1: {
 									if (doCriticalNonStab) {
 										stun = f / 4.0F;
-										f *= attacker instanceof EntityPlayer ? 1.5F * ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getCritDamageMod() : 1.5F;
+										f *= attacker instanceof EntityPlayer ? 1.5F * RedwallUtils.getSpecies(attacker).getCritDamageMod() : 1.5F;
 									}
 									if (targetEntity instanceof EntityLivingBase) {
 										EntityLivingBase living = ((EntityLivingBase) targetEntity);
@@ -334,7 +333,7 @@ public class RedwallUtils {
 							if (isSweep) {
 								if (doCriticalStabSweep2) {
 									aoe = (float) (attacker.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue() / 4.0F);
-									f *= attacker instanceof EntityPlayer ? 1.25F * ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getCritDamageMod() : 1.25F;
+									f *= attacker instanceof EntityPlayer ? 1.25F * RedwallUtils.getSpecies(attacker).getCritDamageMod() : 1.25F;
 									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, attacker.getSoundCategory(), 1.0F, 1.0F);
 								}
 
@@ -360,7 +359,7 @@ public class RedwallUtils {
 							if (isStab) {
 								if (doCriticalStabSweep2) {
 									knockback = 0.5F;
-									f *= attacker instanceof EntityPlayer ? 1.0F * ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getCritDamageMod() : 1.0F;
+									f *= attacker instanceof EntityPlayer ? 1.0F * RedwallUtils.getSpecies(attacker).getCritDamageMod() : 1.0F;
 									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, attacker.getSoundCategory(), 1.0F, 1.0F);
 								} else f /= 1.5F;
 
@@ -394,7 +393,7 @@ public class RedwallUtils {
 							} else {
 								if (doCriticalStabSweep2) {
 									knockback = 0.5F;
-									f *= attacker instanceof EntityPlayer ? 1.0F * ((EntityPlayer)attacker).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getCritDamageMod() : 1.0F;
+									f *= attacker instanceof EntityPlayer ? 1.0F * RedwallUtils.getSpecies(attacker).getCritDamageMod() : 1.0F;
 									attacker.world.playSound((EntityPlayer) null, attacker.posX, attacker.posY, attacker.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK, attacker.getSoundCategory(), 1.0F, 1.0F);
 								} else f /= 1.5F;
 
@@ -568,7 +567,7 @@ public class RedwallUtils {
 			else if (m == Material.GROUND)
 				mod += 0.1F;
 			else if (m == Material.LEAVES)
-				mod += !(entity instanceof EntityPlayer) ? 0.25F : ((EntityPlayer)entity).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getLeafWalkSpeedMod();
+				mod += !(entity instanceof EntityPlayer) ? 0.25F : RedwallUtils.getSpecies(entity).getLeafWalkSpeedMod();
 			else if (m == Material.SAND)
 				mod += 0.15F;
 			else if (m == Material.SNOW || m == Material.CRAFTED_SNOW)
@@ -576,7 +575,7 @@ public class RedwallUtils {
 			else if (m == Material.CLAY)
 				mod += 0.2F;
 		} else if (entity.isInWater() && entity instanceof EntityPlayer)
-			mod += ((EntityPlayer)entity).getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getSwimSpeedMod();
+			mod += RedwallUtils.getSpecies(entity).getSwimSpeedMod();
 
 		return -mod;
 	}
@@ -1118,8 +1117,12 @@ public class RedwallUtils {
 	}
 
 	public static int getHealthStatModifier(EntityLivingBase player) {
-		if (player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getBeserker())
+		if (RedwallUtils.getSpecies(player).getBeserker())
 			return 0;
 		return ((int) player.getHealth()) <= 5 ? -((6 - ((int) player.getHealth())) * 2) : 0;
+	}
+	
+	public static Species getSpecies(EntityLivingBase player) {
+		return !player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? Species.SpeciesList.MOUSE : player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get();
 	}
 }

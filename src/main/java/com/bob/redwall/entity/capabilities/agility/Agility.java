@@ -1,8 +1,8 @@
 package com.bob.redwall.entity.capabilities.agility;
 
+import com.bob.redwall.RedwallUtils;
 import com.bob.redwall.Ref;
 import com.bob.redwall.common.MessageSyncCap;
-import com.bob.redwall.entity.capabilities.species.SpeciesCapProvider;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +39,7 @@ public class Agility implements IAgility {
 	
 	@Override
 	public int getActual() {
-		return this.get() + (this.player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? this.player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get().getAgility() : 0);
+		return this.get() + RedwallUtils.getSpecies(player).getAgility();
 	}
 	
 	@Override

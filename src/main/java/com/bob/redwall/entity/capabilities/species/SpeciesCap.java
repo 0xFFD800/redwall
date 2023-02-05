@@ -1,5 +1,7 @@
 package com.bob.redwall.entity.capabilities.species;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -23,6 +25,7 @@ public class SpeciesCap implements ISpeciesCap {
 		
 	}
 
+	@Nonnull
 	@Override
 	public Species get() {
 		return this.species == null ? Species.SpeciesList.MOUSE : this.species;
@@ -38,7 +41,7 @@ public class SpeciesCap implements ISpeciesCap {
 	@Override
 	public NBTTagCompound writeToNBT() {
 		NBTTagCompound tag = new NBTTagCompound();
-		tag.setString("ID", this.species.getID());
+		tag.setString("ID", this.get().getID());
 		return tag;
 	}
 
