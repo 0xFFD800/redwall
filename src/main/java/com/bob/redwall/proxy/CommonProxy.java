@@ -5,6 +5,7 @@ import com.bob.redwall.Ref;
 import com.bob.redwall.common.commands.CommandFactions;
 import com.bob.redwall.common.commands.CommandPlayerStats;
 import com.bob.redwall.common.commands.CommandSeason;
+import com.bob.redwall.common.commands.CommandSpecies;
 import com.bob.redwall.crafting.cooking.FoodModifier;
 import com.bob.redwall.crafting.smithing.EquipmentModifier;
 import com.bob.redwall.dimensions.redwall.structures.MapGenScatteredFeatureRedwall;
@@ -89,6 +90,7 @@ public class CommonProxy implements IProxy {
 		event.registerServerCommand(new CommandSeason());
 		event.registerServerCommand(new CommandFactions());
 		event.registerServerCommand(new CommandPlayerStats());
+		event.registerServerCommand(new CommandSpecies());
 	}
 
 	@Override

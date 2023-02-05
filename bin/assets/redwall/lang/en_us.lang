@@ -630,6 +630,12 @@ commands.playerstats.add=Added %s to player %s's stat
 commands.playerstats.subtract=Subtracted %s from player %s's stat
 commands.playerstats.get=Player %s's stat is %s
 
+commands.species.usage=/species <player> <species>
+commands.species.failed.noplayer=Failed to set species for player: Player %s does not exist
+commands.species.failed.nospecies=Failed to set species for player: %s is not a valid species
+commands.species.failed.nochange=Player %s species is already %s
+commands.species.used=Player %s species changed to %s
+
 drink.empty=Empty
 drink.water=Water
 drink.october_ale=October Ale

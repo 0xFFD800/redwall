@@ -2,6 +2,7 @@ package com.bob.redwall.entity.capabilities.species;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Species {
 	private final static Map<String, Species> BY_ID = new HashMap<>();
@@ -130,21 +131,30 @@ public class Species {
 		return this;
 	}
 	
+	private Species create() {
+		BY_ID.put(this.id, this);
+		return this;
+	}
+	
 	public static Species getByID(String id) {
 		return BY_ID.get(id);
 	}
 	
+	public static Set<String> getIDs() {
+		return BY_ID.keySet();
+	}
+	
 	public static class SpeciesList {
-		public static final Species MOUSE = new Species("mouse", -5, 0, 5, 0).setHPReqForRegen(2.0F);
-		public static final Species SQUIRREL = new Species("squirrel", -5, 0, 0, 5).setLeafWalkSpeedMod(-0.25F);
-		public static final Species SHREW = new Species("shrew", 0, 5, -5, 0).setCritDamageMod(1.25F);
-		public static final Species OTTER = new Species("otter", 0, 0, -5, 1).setSwimSpeedMod(-0.25F);
-		public static final Species HARE = new Species("hare", 0, 5, 0, -5).setIgnoreScoffSkill(true); //unique ability does nothing yet :(
-		public static final Species BADGER = new Species("badger", 5, -5, 0, 0).setBeserker(true);
-		public static final Species HEDGEHOG = new Species("hedgehog", 0, -5, 5, 0).setDodgeDamage(true);
-		public static final Species MOLE = new Species("mole", 5, 0, 0, -5).setDigSpeedMod(1.5F);
+		public static final Species MOUSE = new Species("mouse", -5, 0, 5, 0).setHPReqForRegen(2.0F).create();
+		public static final Species SQUIRREL = new Species("squirrel", -5, 0, 0, 5).setLeafWalkSpeedMod(-0.25F).create();
+		public static final Species SHREW = new Species("shrew", 0, 5, -5, 0).setCritDamageMod(1.25F).create();
+		public static final Species OTTER = new Species("otter", 0, 0, -5, 1).setSwimSpeedMod(-0.25F).create();
+		public static final Species HARE = new Species("hare", 0, 5, 0, -5).setIgnoreScoffSkill(true).create(); //unique ability does nothing yet :(
+		public static final Species BADGER = new Species("badger", 5, -5, 0, 0).setBeserker(true).create();
+		public static final Species HEDGEHOG = new Species("hedgehog", 0, -5, 5, 0).setDodgeDamage(true).create();
+		public static final Species MOLE = new Species("mole", 5, 0, 0, -5).setDigSpeedMod(1.5F).create();
 
-		public static final Species RAT = new Species("rat", 5, 0, -5, 0).setMeleeDamageMod(1.1F);
+		public static final Species RAT = new Species("rat", 5, 0, -5, 0).setMeleeDamageMod(1.1F).create();
 	}
 	
 	/*
