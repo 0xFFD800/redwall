@@ -25,7 +25,7 @@ public class SpeciesCap implements ISpeciesCap {
 
 	@Override
 	public Species get() {
-		return this.species;
+		return this.species == null ? Species.SpeciesList.MOUSE : this.species;
 	}
 	
 	@Override
