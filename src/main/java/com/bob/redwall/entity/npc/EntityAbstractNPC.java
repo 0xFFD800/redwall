@@ -990,313 +990,313 @@ public abstract class EntityAbstractNPC extends EntityCreature {
 		else if (stack.getItem() == Items.DIAMOND)
 			f = 8.0F;
 		else if (stack.getItem() == Items.FLINT_AND_STEEL)
-			f = 8.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage());
+			f = 8.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage());
 		else if (stack.getItem() == Items.SHIELD)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage());
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage());
 		else if (stack.getItem() == Items.BOAT || stack.getItem() == Items.SPRUCE_BOAT || stack.getItem() == Items.BIRCH_BOAT || stack.getItem() == Items.JUNGLE_BOAT || stack.getItem() == Items.ACACIA_BOAT || stack.getItem() == Items.DARK_OAK_BOAT)
 			f = 1.2F;
 		else if (stack.getItem() == ItemHandler.mug_drink || stack.getItem() == ItemHandler.bowl_drink || stack.getItem() == ItemHandler.drink_bottle)
 			f = (ItemDrinkVessel.getDrink(stack).getCarbs() + ItemDrinkVessel.getDrink(stack).getProtein() + ItemDrinkVessel.getDrink(stack).getFruits() + ItemDrinkVessel.getDrink(stack).getVeggies()) / 40.0F * FoodModifierUtils.getQualityMultiplier(stack) + this.getStackValue(new ItemStack(((ItemDrinkVessel) stack.getItem()).getContainerItem()));
 		else if (stack.getItem() == Items.IRON_SHOVEL)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_PICKAXE)
-			f = 30.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 30.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_AXE)
-			f = 30.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 30.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_HOE)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_scythe)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.BOW)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.WOODEN_SHOVEL)
-			f = 0.1F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 0.1F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.WOODEN_PICKAXE)
-			f = 0.3F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 0.3F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.WOODEN_AXE)
-			f = 0.3F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 0.3F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.WOODEN_HOE)
-			f = 0.2F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 0.2F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.STONE_SHOVEL)
-			f = 0.5F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 0.5F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.STONE_PICKAXE)
-			f = 1.5F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 1.5F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.STONE_AXE)
-			f = 1.5F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 1.5F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.STONE_HOE)
-			f = 1.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 1.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_SHOVEL)
-			f = 5.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 5.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_PICKAXE)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_AXE)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_HOE)
-			f = 7.5F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 7.5F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_scythe)
-			f = 15.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 15.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_spade)
-			f = 5.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 5.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_pickaxe)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_axe)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_hoe)
-			f = 7.5F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 7.5F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_scythe)
-			f = 15.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 15.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.redwall_spade)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.redwall_pickaxe)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.redwall_axe)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.redwall_hoe)
-			f = 24.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 24.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.redwall_scythe)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_longbow)
-			f = 15.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 15.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.rogue_crew_longbow)
-			f = 13.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 13.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_longbow)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.guosim_bow)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_sword)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_broadsword)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_rapier)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_scimitar)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_halberd)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_spear)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_pike)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_mace)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_dagger)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_battleaxe)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.golden_throwing_axe)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.stone_spear)
-			f = 1.2F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 1.2F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.stone_mace)
-			f = 1.2F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 1.2F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.stone_throwing_axe)
-			f = 1.2F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 1.2F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_halberd)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_spear)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_pike)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_mace)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_dagger)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_battleaxe)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.bronze_throwing_axe)
-			f = 10.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 10.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_sword)
-			f = 24.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 24.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_broadsword)
-			f = 24.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 24.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_rapier)
-			f = 24.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 24.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_scimitar)
-			f = 24.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 24.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_halberd)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_spear)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_pike)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_mace)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_dagger)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_battleaxe)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.iron_throwing_axe)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_sword)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_broadsword)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_rapier)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_claymore)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_sabre)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_spear)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_pike)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_lance)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_dagger)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_battleaxe)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.salamandastron_dirk)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_sword)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_hammer)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_pike)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_dagger)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_mace)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.southsward_spear)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.riftgard_sword)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.riftgard_broadsword)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.riftgard_rapier)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.riftgard_dagger)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.riftgard_sabre)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.riftgard_spear)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.northlands_claymore)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.northlands_dirk)
-			f = 32.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 32.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.northlands_sgian_dhu)
-			f = 32.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 32.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.guosim_rapier)
-			f = 36.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 36.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.guosim_paddle)
-			f = 12.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 12.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.rogue_crew_sword)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.rogue_crew_battleaxe)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.rogue_crew_throwing_axe)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.kotir_sword)
-			f = 44.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 44.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.kotir_battleaxe)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.kotir_dagger)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.kotir_halberd)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.kotir_spear)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ItemHandler.kotir_pike)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.LEATHER_HELMET)
-			f = 5.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 5.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.LEATHER_CHESTPLATE)
-			f = 8.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 8.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.LEATHER_LEGGINGS)
-			f = 7.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 7.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.LEATHER_BOOTS)
-			f = 4.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 4.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.CHAINMAIL_HELMET)
-			f = 50.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 50.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.CHAINMAIL_CHESTPLATE)
-			f = 80.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 80.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.CHAINMAIL_LEGGINGS)
-			f = 70.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 70.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.CHAINMAIL_BOOTS)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_HELMET)
-			f = 50.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 50.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_CHESTPLATE)
-			f = 80.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 80.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_LEGGINGS)
-			f = 70.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 70.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.IRON_BOOTS)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_HELMET)
-			f = 25.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 25.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_CHESTPLATE)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_LEGGINGS)
-			f = 35.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 35.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == Items.GOLDEN_BOOTS)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.bronze_helmet)
-			f = 25.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 25.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.bronze_chest)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.bronze_legs)
-			f = 35.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 35.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.bronze_boots)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mail_helmet)
-			f = 25.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 25.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mail_chest)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mail_legs)
-			f = 35.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 35.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mail_boots)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mixed_helmet)
-			f = 25.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 25.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mixed_chest)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mixed_legs)
-			f = 35.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 35.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.golden_mixed_boots)
-			f = 20.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 20.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.iron_mixed_helmet)
-			f = 50.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 50.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.iron_mixed_chest)
-			f = 80.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 80.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.iron_mixed_legs)
-			f = 70.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 70.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.iron_mixed_boots)
-			f = 40.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 40.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.salamandastron_helmet)
-			f = 60.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 60.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.salamandastron_chest)
-			f = 95.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 95.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.salamandastron_legs)
-			f = 82.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 82.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.salamandastron_boots)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.kotir_helmet)
-			f = 60.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 60.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.kotir_chest)
-			f = 95.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 95.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.kotir_legs)
-			f = 82.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 82.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.kotir_boots)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.riftgard_helmet)
-			f = 60.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 60.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.riftgard_chest)
-			f = 95.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 95.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.riftgard_legs)
-			f = 82.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 82.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.riftgard_boots)
-			f = 48.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 48.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.southsward_helmet)
-			f = 55.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 55.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.southsward_chest)
-			f = 87.5F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 87.5F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.southsward_legs)
-			f = 80.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 80.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 		else if (stack.getItem() == ArmorHandler.southsward_boots)
-			f = 46.0F * ((float) stack.getItemDamage() / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
+			f = 46.0F * ((float) (stack.getMaxDamage() - stack.getItemDamage()) / (float) stack.getMaxDamage()) * EquipmentModifierUtils.getQualityMultiplier(stack);
 
 		return f * stack.getCount();
 	}
