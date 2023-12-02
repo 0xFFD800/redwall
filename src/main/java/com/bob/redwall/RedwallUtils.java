@@ -1,9 +1,11 @@
 package com.bob.redwall;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -42,6 +44,7 @@ import com.bob.redwall.entity.capabilities.vitality.IVitality;
 import com.bob.redwall.entity.capabilities.vitality.VitalityProvider;
 import com.bob.redwall.entity.npc.EntityAbstractNPC;
 import com.bob.redwall.entity.structure_center.EntityStructureCenter;
+import com.bob.redwall.init.BlockHandler;
 import com.bob.redwall.init.ItemHandler;
 import com.bob.redwall.items.armor.ItemRedwallArmor;
 import com.bob.redwall.items.weapons.ModCustomWeapon;
@@ -49,6 +52,7 @@ import com.bob.redwall.items.weapons.ranged.ItemModBow;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -1124,5 +1128,28 @@ public class RedwallUtils {
 	
 	public static Species getSpecies(EntityLivingBase player) {
 		return !player.hasCapability(SpeciesCapProvider.SPECIES_CAP, null) ? Species.SpeciesList.MOUSE : player.getCapability(SpeciesCapProvider.SPECIES_CAP, null).get();
+	}
+	
+	public static Set<Block> getPlanksBlocks() {
+		Set<Block> planks = new HashSet<>();
+		planks.add(Blocks.PLANKS);
+		planks.add(BlockHandler.alder_planks);
+		planks.add(BlockHandler.apple_planks);
+		planks.add(BlockHandler.ash_planks);
+		planks.add(BlockHandler.aspen_planks);
+		planks.add(BlockHandler.beech_planks);
+		planks.add(BlockHandler.chestnut_planks);
+		planks.add(BlockHandler.elm_planks);
+		planks.add(BlockHandler.fir_planks);
+		planks.add(BlockHandler.hornbeam_planks);
+		planks.add(BlockHandler.larch_planks);
+		planks.add(BlockHandler.maple_planks);
+		planks.add(BlockHandler.pear_planks);
+		planks.add(BlockHandler.pine_planks);
+		planks.add(BlockHandler.plum_planks);
+		planks.add(BlockHandler.quince_planks);
+		planks.add(BlockHandler.willow_planks);
+		planks.add(BlockHandler.yew_planks);
+		return planks;
 	}
 }

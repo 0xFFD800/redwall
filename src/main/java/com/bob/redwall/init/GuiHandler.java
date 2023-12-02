@@ -20,6 +20,8 @@ import com.bob.redwall.gui.smelting.ContainerSmeltery;
 import com.bob.redwall.gui.smelting.GuiSmeltery;
 import com.bob.redwall.gui.smithing.ContainerSmithingGeneric;
 import com.bob.redwall.gui.smithing.GuiSmithingGeneric;
+import com.bob.redwall.gui.smithing.guosim.ContainerSmithingGuosim;
+import com.bob.redwall.gui.smithing.guosim.GuiSmithingGuosim;
 import com.bob.redwall.gui.smithing.redwall.ContainerSmithingRedwall;
 import com.bob.redwall.gui.smithing.redwall.GuiSmithingRedwall;
 import com.bob.redwall.gui.trading.ContainerTrading;
@@ -30,6 +32,7 @@ import com.bob.redwall.tileentity.TileEntityBrewingVerminMossflower;
 import com.bob.redwall.tileentity.TileEntityCookingGeneric;
 import com.bob.redwall.tileentity.TileEntitySmeltery;
 import com.bob.redwall.tileentity.TileEntitySmithingGeneric;
+import com.bob.redwall.tileentity.TileEntitySmithingGuosim;
 import com.bob.redwall.tileentity.TileEntitySmithingRedwall;
 
 import net.minecraft.client.Minecraft;
@@ -48,6 +51,7 @@ public class GuiHandler implements IGuiHandler {
 	public static final int GUI_SMELTERY_ID = i++;
 	public static final int GUI_COOKING_GENERIC_ID = i++;
 	public static final int GUI_SMITHING_REDWALL_ID = i++;
+	public static final int GUI_SMITHING_GUOSIM_ID = i++;
 	public static final int GUI_BREWING_REDWALL_ID = i++;
 	public static final int GUI_BREWING_GUOSIM_ID = i++;
 	public static final int GUI_BREWING_VERMIN_MOSSFLOWER_ID = i++;
@@ -67,6 +71,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_SMELTERY_ID) return new ContainerSmeltery(player.inventory, world, pos, (TileEntitySmeltery)te);
 		else if(ID == GuiHandler.GUI_COOKING_GENERIC_ID) return new ContainerCookingGeneric(player.inventory, world, pos, (TileEntityCookingGeneric)te);
 		else if(ID == GuiHandler.GUI_SMITHING_REDWALL_ID) return new ContainerSmithingRedwall(player.inventory, world, pos, (TileEntitySmithingRedwall)te);
+		else if(ID == GuiHandler.GUI_SMITHING_GUOSIM_ID) return new ContainerSmithingGuosim(player.inventory, world, pos, (TileEntitySmithingGuosim)te);
 		else if(ID == GuiHandler.GUI_BREWING_REDWALL_ID) return new ContainerBrewingRedwall(player.inventory, world, pos, (TileEntityBrewingRedwall)te);
 		else if(ID == GuiHandler.GUI_BREWING_GUOSIM_ID) return new ContainerBrewingGuosim(player.inventory, world, pos, (TileEntityBrewingGuosim)te);
 		else if(ID == GuiHandler.GUI_BREWING_VERMIN_MOSSFLOWER_ID) return new ContainerBrewingVerminMossflower(player.inventory, world, pos, (TileEntityBrewingVerminMossflower)te);
@@ -89,6 +94,7 @@ public class GuiHandler implements IGuiHandler {
 		else if(ID == GuiHandler.GUI_SMELTERY_ID) return new GuiSmeltery(player.inventory, world, pos, (TileEntitySmeltery)te);
 		else if(ID == GuiHandler.GUI_COOKING_GENERIC_ID) return new GuiCookingGeneric(player.inventory, world, pos, (TileEntityCookingGeneric)te);
 		else if(ID == GuiHandler.GUI_SMITHING_REDWALL_ID) return new GuiSmithingRedwall(player.inventory, world, pos, (TileEntitySmithingRedwall)te);
+		else if(ID == GuiHandler.GUI_SMITHING_GUOSIM_ID) return new GuiSmithingGuosim(player.inventory, world, pos, (TileEntitySmithingGuosim)te);
 		else if(ID == GuiHandler.GUI_BREWING_REDWALL_ID) return new GuiBrewingRedwall(player.inventory, world, pos, (TileEntityBrewingRedwall)te);
 		else if(ID == GuiHandler.GUI_BREWING_GUOSIM_ID) return new GuiBrewingGuosim(player.inventory, world, pos, (TileEntityBrewingGuosim)te);
 		else if(ID == GuiHandler.GUI_BREWING_VERMIN_MOSSFLOWER_ID) return new GuiBrewingVerminMossflower(player.inventory, world, pos, (TileEntityBrewingVerminMossflower)te);

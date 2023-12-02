@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###",
+		"#X#",
+		"###"
+	],
+	"key": {
+		"#": {
+			"item": "minecraft:cobblestone",
+			"data": 0
+		}, 
+		"X": {
+			"item": "minecraft:anvil",
+			"data": 0
+		}
+	},
+	"result": {
+		"item": "redwall:smithing_guosim"
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"parent": "redwall:block/smithing_generic",
+	"textures": {
+		"particle": "minecraft:blocks/cobblestone",
+		"stone": "minecraft:blocks/cobblestone",
+		"front": "redwall:blocks/smithing_guosim"
+	}
+}

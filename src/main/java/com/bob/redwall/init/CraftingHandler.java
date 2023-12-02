@@ -403,6 +403,34 @@ public class CraftingHandler {
 		}
 	}
 
+	public static class SmithingGuosim extends SmithingGeneric {
+		private static final SmithingGuosim INSTANCE = new SmithingGuosim();
+
+		public static SmithingGuosim getInstance() {
+			return INSTANCE;
+		}
+
+		private SmithingGuosim() {
+			this.recipes.add(new LeveledRecipe(new RecipeRepairItem(), 0));
+
+			this.addRecipe(2, new ItemStack(ItemHandler.guosim_rapier), new Object[] { " #", " #", "X ", '#', Items.IRON_INGOT, 'X', Items.STICK });
+			RedwallUtils.getPlanksBlocks().forEach((planks) -> this.addRecipe(1, new ItemStack(ItemHandler.guosim_paddle), new Object[] { "  #", " X ", "X  ", '#', planks, 'X', Items.STICK }));
+			this.addRecipe(0, new ItemStack(ItemHandler.guosim_bow), new Object[] { " !#", "! #", " !#", '!', Items.STICK, '#', Items.STRING });
+			
+			this.addRecipe(0, new ItemStack(BlockHandler.brewing_guosim), new Object[] { "VVV", "###", "VVV", '#', Items.IRON_INGOT, 'V', Items.STICK });
+
+			Collections.sort(this.recipes, (u1, u2) -> u1.recipe instanceof ShapelessRecipes && u2.recipe instanceof ShapedRecipes ? 1 : (u2.recipe instanceof ShapelessRecipes && u1.recipe instanceof ShapedRecipes ? -1 : u1.reqLevel > u2.reqLevel ? 1 : u1.reqLevel < u2.reqLevel ? -1 : 0));
+		}
+
+		public ItemStack findMatchingRecipe(EntityPlayer player, InventoryCrafting craftMatrix, World worldIn) {
+			for (LeveledRecipe irecipe : this.recipes)
+				if (irecipe.recipe.matches(craftMatrix, worldIn) && RedwallUtils.getFacStatLevel(player, Faction.FacList.GUOSIM, FactionCap.FacStatType.SMITH) >= irecipe.reqLevel)
+					return irecipe.recipe.getCraftingResult(craftMatrix);
+
+			return ItemStack.EMPTY;
+		}
+	}
+
 	public static class Smeltery {
 		private static final Smeltery INSTANCE = new Smeltery();
 		private final List<IRecipe> recipes = Lists.<IRecipe>newArrayList();

@@ -61,6 +61,7 @@ import com.bob.redwall.blocks.stations.BlockBrewingVerminMossflower;
 import com.bob.redwall.blocks.stations.BlockCookingGeneric;
 import com.bob.redwall.blocks.stations.BlockSmeltery;
 import com.bob.redwall.blocks.stations.BlockSmithingGeneric;
+import com.bob.redwall.blocks.stations.BlockSmithingGuosim;
 import com.bob.redwall.blocks.stations.BlockSmithingRedwall;
 import com.bob.redwall.items.blocks.ItemModBlock;
 import com.bob.redwall.items.blocks.ItemModSlab;
@@ -494,6 +495,8 @@ public class BlockHandler {
 	public static ItemBlock ib_cooking_generic;
 	public static Block smithing_redwall;
 	public static ItemBlock ib_smithing_redwall;
+	public static Block smithing_guosim;
+	public static ItemBlock ib_smithing_guosim;
 	public static Block brewing_redwall;
 	public static ItemBlock ib_brewing_redwall;
 	public static Block brewing_guosim;
@@ -953,6 +956,8 @@ public class BlockHandler {
 		ib_cooking_generic = (ItemBlock) new ItemModBlock(cooking_generic, cooking_generic.getRegistryName());
 		smithing_redwall = new BlockSmithingRedwall(Material.ROCK, "smithing_redwall", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "pickaxe");
 		ib_smithing_redwall = (ItemBlock) new ItemModBlock(smithing_redwall, smithing_redwall.getRegistryName());
+		smithing_guosim = new BlockSmithingGuosim(Material.ROCK, "smithing_guosim", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "pickaxe");
+		ib_smithing_guosim = (ItemBlock) new ItemModBlock(smithing_guosim, smithing_guosim.getRegistryName());
 		brewing_redwall = new BlockBrewingRedwall(Material.WOOD, "brewing_redwall", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
 		ib_brewing_redwall = (ItemBlock) new ItemModBlock(brewing_redwall, brewing_redwall.getRegistryName());
 		brewing_guosim = new BlockBrewingGuosim(Material.WOOD, "brewing_guosim", CreativeTabHandler.BLOCKS, 2.0F, 5.0F, 0, "axe");
@@ -1217,6 +1222,7 @@ public class BlockHandler {
 		registerBlock(event, smeltery);
 		registerBlock(event, cooking_generic);
 		registerBlock(event, smithing_redwall);
+		registerBlock(event, smithing_guosim);
 		registerBlock(event, brewing_redwall);
 		registerBlock(event, brewing_guosim);
 
@@ -1412,6 +1418,7 @@ public class BlockHandler {
 		registerItemBlock(event, ib_smeltery);
 		registerItemBlock(event, ib_cooking_generic);
 		registerItemBlock(event, ib_smithing_redwall);
+		registerItemBlock(event, ib_smithing_guosim);
 		registerItemBlock(event, ib_brewing_redwall);
 		registerItemBlock(event, ib_brewing_guosim);
 
@@ -1658,6 +1665,7 @@ public class BlockHandler {
 		registerRender(smeltery);
 		registerRender(cooking_generic);
 		registerRender(smithing_redwall);
+		registerRender(smithing_guosim);
 		registerRender(brewing_redwall);
 		registerRender(brewing_guosim);
 
