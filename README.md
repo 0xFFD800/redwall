@@ -1,4 +1,2 @@
-# redwall
-REDWAAAAAAAAAAAAAAAAAAAALLLLL!
-
-This repository holds the Redwall Mod for the game Minecraft, which was created to emulate the universe from Brian Jacques's Redwall book series.
+# The Redwall Mod
+This is the Github repository for The Redwall Mod, a Minecraft mod based off a series of books by Brian Jacques. Functionality if pretty extensive so far, but playability is somewhat limited due to a lack of content and some bugs. 
