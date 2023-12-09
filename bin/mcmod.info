@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "Redwall",
+  "name": "The Redwall Mod",
+  "description": "A Minecraft mod based around the Redwall book series written by Brian Jacques",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "github.com/0xFFD800/redwall/",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Emperor_Luke_II"],
+  "credits": "Emperor_Luke_II (Luke Greene): programming, textures, models, NPC dialogue, structures, etc.\nRealistic Terrain Generation team: Terrain generation overhaul\nOpen Terrain Generation team: Map generation from image",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
